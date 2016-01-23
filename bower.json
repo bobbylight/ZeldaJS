@@ -1,0 +1,20 @@
+{
+  "name": "pacmanjs",
+  "version": "0.1.0",
+  "authors": [
+    "bobbylight <robert.e.futrell@gmail.com>"
+  ],
+  "description": "A Pacman clone written in JavaScript",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "**/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "gtp": "file://D:/dev/htmlgames/gtp/.git#master"
+  }
+}

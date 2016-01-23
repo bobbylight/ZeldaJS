@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "declaration": true,
+        "noImplicitAny": true,
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "outDir": "src/js/",
+        "sourceMap": true
+    },
+    "filesGlob": [
+        "src/app/**/*.ts",
+        "bower_components/gtp/dist-all/gtp-all.d.ts"
+    ],
+    "files": [
+        "src/app/zelda.ts",
+        "src/app/zelda/_BaseState.ts",
+        "src/app/zelda/Actor.ts",
+        "src/app/zelda/Animation.ts",
+        "src/app/zelda/AnimationListener.ts",
+        "src/app/zelda/Constants.ts",
+        "src/app/zelda/Direction.ts",
+        "src/app/zelda/Link.ts",
+        "src/app/zelda/LoadingState",
+        "src/app/zelda/Position.ts",
+        "src/app/zelda/TitleState.ts",
+        "src/app/zelda/ZeldaGame.ts",
+        "bower_components/gtp/dist-all/gtp-all.d.ts"
+    ],
+    "atom": {
+        "rewriteTsconfig": true
+    }
+}
