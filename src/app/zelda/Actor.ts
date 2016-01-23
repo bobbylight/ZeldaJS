@@ -44,9 +44,13 @@ module zelda {
                 game.isWalkable(this, x,                y + hitBox.h - 1);
         }
 
+        abstract paint(ctx: CanvasRenderingContext2D): void;
+
         setLocation(x: number, y: number) {
             this.x = x;
             this.y = y;
         }
+
+        abstract update(): void;
     }
 }

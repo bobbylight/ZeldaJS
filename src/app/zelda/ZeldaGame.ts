@@ -3,13 +3,11 @@ module zelda {
 
     export class ZeldaGame extends gtp.Game {
 
+        map: Map;
         link: Link;
 
         constructor(args?: any) {
             super(args);
-
-            this.link = new Link();
-            this.link.setLocation(100, 100);
         }
 
         drawString(x: number, y: number, text: string|number,
@@ -65,6 +63,13 @@ module zelda {
             // TODO: Implement me
             return true;
             //return this.curScreen.isWalkable(actor, x, y);
+        }
+
+        startNewGame() {
+            this.map = new Map();
+            this.map.setCurrentScreen(0, 0);
+            this.link = new Link();
+            this.link.setLocation(100, 100);
         }
     }
 }

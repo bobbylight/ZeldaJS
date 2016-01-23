@@ -16,6 +16,10 @@ module zelda {
             this._lastSpriteFrameTime = 0;
         }
 
+        protected getGame(): ZeldaGame {
+            return game;
+        }
+
         static get INPUT_REPEAT_MILLIS(): number {
             return 200;
         }
@@ -74,6 +78,10 @@ module zelda {
 
             }
 
+        }
+
+        protected stringWidth(str: string): number {
+            return game.assets.get('font').cellW * str.length;
         }
 
     }
