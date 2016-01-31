@@ -5,4 +5,7 @@ dist
 Thumbs.db
 *.iml
 js
+.DS_Store
+.idea
+typings
 

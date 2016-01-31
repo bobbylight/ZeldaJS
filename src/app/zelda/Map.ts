@@ -20,6 +20,8 @@ module zelda {
 
             this._tileset = new Tileset();
             this._tileset.load('overworld');
+
+            this._curRow = this._curCol = 0;
         }
 
         addRow(row: number) {

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="editorApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Zelda Map Editor</title>
+
+    <link href="css/editor.css" rel="stylesheet">
+
+    <!-- build:js js/app.min.js -->
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="../bower_components/highlightjs/highlight.pack.js"></script>
+
+    <!-- Game files -->
+    <script src='../bower_components/gtp/dist/gtp/GtpBase.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/_GameTimer.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/BrowserUtil.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/Point.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/Rectangle.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/Pool.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/Utils.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/ImageUtils.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/Timer.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/Delay.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/Image.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/ImageAtlas.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/AudioSystem.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/AssetType.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/AssetLoader.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/SpriteSheet.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/BitmapFont.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/InputManager.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/Keys.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/Game.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/Sound.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/State.js'></script>
+    <script src='../bower_components/gtp/dist/gtp/FadeOutInState.js'></script>
+    <script src='../bower_components/gtp/dist/tiled/TiledTileset.js'></script>
+    <script src='../bower_components/gtp/dist/tiled/TiledMap.js'></script>
+    <script src='../bower_components/gtp/dist/tiled/TiledObject.js'></script>
+    <script src='../bower_components/gtp/dist/tiled/TiledLayer.js'></script>
+    <script src="js/zelda.js"></script>
+    <script src='js/zelda/Constants.js'></script>
+    <script src='js/zelda/Direction.js'></script>
+    <script src='js/zelda/_BaseState.js'></script>
+    <script src='js/zelda/LoadingState.js'></script>
+    <script src='js/zelda/TitleState.js'></script>
+    <script src='js/zelda/MainGameState.js'></script>
+    <script src='js/zelda/Screen.js'></script>
+    <script src='js/zelda/Map.js'></script>
+    <script src='js/zelda/Tileset.js'></script>
+    <script src='js/zelda/ZeldaGame.js'></script>
+    <script src='js/zelda/Actor.js'></script>
+    <script src='js/zelda/Animation.js'></script>
+    <script src='js/zelda/AnimationListener.js'></script>
+    <script src='js/zelda/Link.js'></script>
+    <script src='js/zelda/Position.js'></script>
+
+    <!-- Editor-specific files -->
+    <script src="js/zelda/editor/editor.js"></script>
+    <script src="js/zelda/editor/main-controller.js"></script>
+    <script src="js/zelda/editor/code-viewer-directive.js"></script>
+    <script src="js/zelda/editor/map-editor-directive.js"></script>
+    <script src="js/zelda/editor/tile-palette-directive.js"></script>
+    <script src="js/zelda/editor/resource-service.js"></script>
+    <!-- endbuild -->
+
+</head>
+
+<body ng-controller="MainCtrl as vm">
+
+<div ng-show="vm.loading === true">
+    Yo
+</div>
+<div ng-show="vm.loading === false">
+
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#/"><img src="img/crest.png" class="banner-img"> Zelda Map Creator</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#/about">About</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+
+        </div><!-- /.container-fluid -->
+
+    </nav>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-9">
+                <map-editor></map-editor>
+                <code-viewer></code-viewer>
+            </div>
+            <div class="col-md-3">
+                <tile-palette selected-index="vm.getSelectedTileIndex()"></tile-palette>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

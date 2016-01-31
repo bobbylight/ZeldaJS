@@ -1,0 +1,24 @@
+@import url('../../bower_components/bootstrap/dist/css/bootstrap.css');
+@import url('../../bower_components/bootstrap/dist/css/bootstrap-theme.css');
+@import url('../../bower_components/font-awesome/css/font-awesome.css');
+
+html, body {
+    height: 100%;
+}
+.navbar {
+    border-radius: 0; /* Remove 4-pixel radius in bootstrap default */
+}
+.navbar img.banner-img {
+    width: 48px;
+    height: 30px;
+    display: inline;
+}
+
+.screen-canvas {
+    width: 512px;
+    height: 480px;
+}
+.tile-palette-canvas {
+    width: 160px;
+    height: 160px;
+}

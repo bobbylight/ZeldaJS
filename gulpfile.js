@@ -45,6 +45,8 @@
    });
 
    gulp.task('compile-ts', function() {
+        gulp.src([ 'src/app/**/*.html' ])
+            .pipe(gulp.dest('src/js/'));
         var tsResult = gulp.src([ 'src/app/**/*.ts', 'bower_components/gtp/dist-all/gtp-all.d.ts' ])
             .pipe(sourcemaps.init())
             .pipe(tsc(tsconfig));
@@ -54,7 +56,7 @@
             .pipe(gulp.dest('src/js/'));
    });
    gulp.task('tslint', function() {
-    return gulp.src([ 'src/app/**/*.ts' ])
+    return gulp.src([ 'src/app/**/*.ts', '!src/app/typings/**' ])
         .pipe(tslint())
         .pipe(tslint.report('prose'));
    });
@@ -69,7 +71,7 @@
    });
 
    gulp.task('watch', function() {
-      gulp.watch('src/app/**/*.ts', [ 'tslint', 'compile-ts' ]);
+      gulp.watch([ 'src/app/**/*.ts', 'src/app/**/*.html'], [ 'tslint', 'compile-ts' ]);
    });
 
 })();

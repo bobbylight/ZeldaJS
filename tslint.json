@@ -26,7 +26,6 @@
     ],
     "no-arg": true,
     "no-construct": true,
-    "no-constructor-vars": true,
     "no-debugger": true,
     "no-duplicate-key": true,
     "no-duplicate-variable": true,
@@ -44,7 +43,7 @@
     "no-use-before-declare": true,
     "no-var-keyword": false,
     "no-var-requires": true,
-    "object-literal-sort-keys": true,
+    "object-literal-sort-keys": false,
     "one-line": [
       true,
       "check-open-brace",

@@ -15,6 +15,14 @@
     "tests"
   ],
   "dependencies": {
-    "gtp": "file://D:/dev/htmlgames/gtp/.git#master"
+    "angular": "~1.4.9",
+    "angular-bootstrap": "angular-ui-bootstrap-bower#~1.1.0",
+    "bootstrap": "~3.3.6",
+    "gtp": "file:///Users/carrow/dev/htmlgames/gtp/.git#master",
+    "font-awesome": "~4.5.0"
+  },
+  "devDependencies": {
+    "highlightjs": "^9.1.0",
+    "angular-sanitize": "^1.4.9"
   }
 }
