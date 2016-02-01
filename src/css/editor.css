@@ -19,6 +19,6 @@ html, body {
     height: 480px;
 }
 .tile-palette-canvas {
-    width: 160px;
-    height: 160px;
+    width: 320px;
+    height: 320px;
 }

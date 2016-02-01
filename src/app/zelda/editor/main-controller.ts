@@ -30,29 +30,31 @@ module zeldaEditor {
 
             // Resource service needs to run before the map is created
             const vm: MainController = this;
+            vm.loading = true;
             vm.state = {
-                selectedTileIndex: 0
+                selectedTileIndex: 0,
+                screenRow: 0,
+                screenCol: 0
             };
 
-            $scope.$watch('vm.loading', (newVal: boolean, oldVal: boolean) => {
-                console.log('yee-haw: ' + newVal + ', ' + oldVal);
-                vm.name = 'Robert';
-                vm.x = 7;
-                vm.game = game;
-                vm.game.map = new zelda.Map();
+            $scope.$watch(() => { return vm.loading; }, (newVal: boolean, oldVal: boolean) => {
+                if (newVal !== oldVal) {
+                    console.log('DEBUG: watch called: ' + newVal + ', ' + oldVal);
+                    vm.name = 'Robert';
+                    vm.x = 7;
+                    vm.game = game;
+                    vm.game.map = new zelda.Map();
 
-                vm.state.selectedTileIndex = 1;
-                vm.loading = false;
+                    vm.state.selectedTileIndex = 1;
+                    vm.loading = false;
+                }
             });
             resourceService.load(function() {
-                $scope.$apply('vm.loading = false');
+                //vm.loading = false;
+                console.log('DEBUG: resourceService.load() callback called');
+                $scope.$apply('vm.loading = false;');
             });
 
-        }
-
-        getSelectedTileIndex(): any {
-            console.log('Returning: ' + this.state.selectedTileIndex);
-            return this.state.selectedTileIndex;
         }
 
     }

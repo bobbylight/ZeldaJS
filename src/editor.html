@@ -104,13 +104,30 @@
     <div class="container">
 
         <div class="row">
-            <div class="col-md-9">
-                <map-editor></map-editor>
-                <code-viewer></code-viewer>
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Screen ({{vm.state.screenRow}}, {{vm.state.screenCol}})</h3>
+                    </div>
+                    <div class="panel-body">
+                        <map-editor game="vm.game" selected-tile-index="{{vm.state.selectedTileIndex}}"></map-editor>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-3">
-                <tile-palette selected-index="vm.getSelectedTileIndex()"></tile-palette>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Tile Palette</h3>
+                    </div>
+                    <div class="panel-body">
+                        <tile-palette selected-index="vm.state.selectedTileIndex"></tile-palette>
+                    </div>
+                </div>
             </div>
+        </div>
+
+        <div class="row">
+            <code-viewer></code-viewer>
         </div>
 
     </div>

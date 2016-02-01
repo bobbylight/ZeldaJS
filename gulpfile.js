@@ -70,7 +70,7 @@
       runSequence('tslint', 'clean', 'compile-ts', 'usemin', 'cssmin', 'copy-non-minified-files');
    });
 
-   gulp.task('watch', function() {
+   gulp.task('watch', [ 'tslint', 'compile-ts' ], function() {
       gulp.watch([ 'src/app/**/*.ts', 'src/app/**/*.html'], [ 'tslint', 'compile-ts' ]);
    });
 
