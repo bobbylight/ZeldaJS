@@ -47,6 +47,8 @@ module zeldaEditor {
 
                     vm.state.selectedTileIndex = 1;
                     vm.loading = false;
+
+                    vm._installKeyHandlers($scope);
                 }
             });
             resourceService.load(function() {
@@ -55,6 +57,50 @@ module zeldaEditor {
                 $scope.$apply('vm.loading = false;');
             });
 
+        }
+
+        getCurrentScreenCol(): number {
+            return this.game ? this.game.map.currentScreenCol : 0;
+        }
+
+        getCurrentScreenRow(): number {
+            return this.game ? this.game.map.currentScreenRow : 0;
+        }
+
+        private _installKeyHandlers(scope: ng.IScope) {
+
+            scope.$on('keypress:37', () => {
+                console.log('left');
+                const row: number = this.game.map.currentScreenRow;
+                const col: number = this.game.map.currentScreenCol;
+                if (col > 0) {
+                    this.game.map.setCurrentScreen(row, col - 1);
+                }
+            });
+            scope.$on('keypress:38', () => {
+                console.log('up');
+                const row: number = this.game.map.currentScreenRow;
+                const col: number = this.game.map.currentScreenCol;
+                if (row > 0) {
+                    this.game.map.setCurrentScreen(row - 1, col);
+                }
+            });
+            scope.$on('keypress:39', () => {
+                console.log('right');
+                const row: number = this.game.map.currentScreenRow;
+                const col: number = this.game.map.currentScreenCol;
+                if (col < this.game.map.colCount - 1) {
+                    this.game.map.setCurrentScreen(row, col + 1);
+                }
+            });
+            scope.$on('keypress:40', () => {
+                console.log('down');
+                const row: number = this.game.map.currentScreenRow;
+                const col: number = this.game.map.currentScreenCol;
+                if (row < this.game.map.rowCount - 1) {
+                    this.game.map.setCurrentScreen(row + 1, col);
+                }
+            });
         }
 
     }

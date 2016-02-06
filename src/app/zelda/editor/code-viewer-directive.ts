@@ -1,19 +1,36 @@
+module zeldaEditor {
+    'use strict';
+
+    export class CodeViewerController {
+
+        map: zelda.Map;
+        mapJson: string;
+
+        constructor($scope: ng.IScope, $element: JQuery, $attrs: ng.IAttributes) {
+
+            $scope.$watch(() => { return this.map; }, (newValue: zelda.Map) => {
+                console.log('Yee-haw');
+                this.mapJson = hljs.highlight('json', JSON.stringify(newValue)).value;
+            });
+        }
+
+        refresh() {
+            console.log('Refreshing...');
+            this.mapJson = hljs.highlight('json',
+                JSON.stringify({ one: true, two: { name: 'Robert', age: 35 } }, null, 2)).value;
+        }
+
+    }
+}
+
 angular.module('editorDirectives', [])
 
 .directive('codeViewer', [function() {
-
-    function CodeViewerController($scope: any, $element: JQuery, $attrs: ng.IAttributes) {
-
-        this.$onInit = function() {
-            console.log('hi');
-        };
-    }
 
     function preLink(scope: any, element: JQuery, attrs: ng.IAttributes, controller: any) {
 
         scope.$watch('map', (newValue: any, oldValue: any) => {
             if (newValue) {
-                controller.mapJson = hljs.highlight('json', JSON.stringify(controller.map)).value;
                 console.log(controller.mapJson);
             }
         });
@@ -26,7 +43,7 @@ angular.module('editorDirectives', [])
 
     return {
         bindToController: true,
-        controller: CodeViewerController,
+        controller: zeldaEditor.CodeViewerController,
         controllerAs: 'vm',
         link: {
             pre: preLink,

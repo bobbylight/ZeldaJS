@@ -142,19 +142,8 @@ module zelda {
             }
 
             for (let row: number = 0; row < this._tiles.length; row++) {
-
-                for (let col: number = 0; col < this._tiles[row].length; col++) {
-
-                    const tileset: Tileset = this._parent.tileset;
-                    const x: number = col * Constants.TILE_WIDTH;
-                    const y: number = row * Constants.TILE_HEIGHT;
-                    const tile: number = this._tiles[row][col];
-                    tileset.paintTile(ctx, tile, x, y);
-
-                    if (paintWalkability) {
-                        // TODO: Implement me
-                    }
-                }
+                const y: number = row * Constants.TILE_HEIGHT;
+                this.paintRow(ctx, row, y, paintWalkability);
             }
         }
 
@@ -162,6 +151,54 @@ module zelda {
             this._actors.forEach(function(actor: Actor) {
                 actor.paint(ctx);
             });
+        }
+
+        /**
+         * Paints a specific column of this screen.  Used by the tile editor.
+         *
+         * @param {CanvasRenderingContext2D} The rendering context.
+         * @param {number} col The column to paint.
+         * @param {number} y The y-index at which to paint.
+         * @param {boolean} paintWalkability Whether to paint a walkability indicator for each tile.
+         */
+        paintCol(ctx: CanvasRenderingContext2D, col: number, x: number, paintWalkability: boolean = false) {
+
+            const tileset: Tileset = this._parent.tileset;
+
+            for (let row: number = 0; row < this._tiles.length; row++) {
+
+                const y: number = row * Constants.TILE_HEIGHT;
+                const tile: number = this._tiles[row][col];
+                tileset.paintTile(ctx, tile, x,  y);
+
+                if (paintWalkability) {
+                    // TODO: Implement me
+                }
+            }
+        }
+
+        /**
+         * Paints a specific row of this screen.  Used by the tile editor.
+         *
+         * @param {CanvasRenderingContext2D} The rendering context.
+         * @param {number} row The row to paint.
+         * @param {number} y The y-index at which to paint.
+         * @param {boolean} paintWalkability Whether to paint a walkability indicator for each tile.
+         */
+        paintRow(ctx: CanvasRenderingContext2D, row: number, y: number, paintWalkability: boolean = false) {
+
+            const tileset: Tileset = this._parent.tileset;
+
+            for (let col: number = 0; col < this._tiles[row].length; col++) {
+
+                const x: number = col * Constants.TILE_WIDTH;
+                const tile: number = this._tiles[row][col];
+                tileset.paintTile(ctx, tile, x, y);
+
+                if (paintWalkability) {
+                    // TODO: Implement me
+                }
+            }
         }
 
         save() {

@@ -62,6 +62,7 @@
     <script src="js/zelda/editor/editor.js"></script>
     <script src="js/zelda/editor/main-controller.js"></script>
     <script src="js/zelda/editor/code-viewer-directive.js"></script>
+    <script src="js/zelda/editor/keypress-directive.js"></script>
     <script src="js/zelda/editor/map-editor-directive.js"></script>
     <script src="js/zelda/editor/tile-palette-directive.js"></script>
     <script src="js/zelda/editor/resource-service.js"></script>
@@ -69,7 +70,7 @@
 
 </head>
 
-<body ng-controller="MainCtrl as vm">
+<body ng-controller="MainCtrl as vm" key-press-trapper>
 
 <div ng-show="vm.loading === true">
     Yo
@@ -107,7 +108,7 @@
             <div class="col-md-8">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Screen ({{vm.state.screenRow}}, {{vm.state.screenCol}})</h3>
+                        <h3 class="panel-title">Screen ({{vm.getCurrentScreenRow()}}, {{vm.getCurrentScreenCol()}})</h3>
                     </div>
                     <div class="panel-body">
                         <map-editor game="vm.game" selected-tile-index="{{vm.state.selectedTileIndex}}"></map-editor>
@@ -127,7 +128,7 @@
         </div>
 
         <div class="row">
-            <code-viewer></code-viewer>
+            <code-viewer map="vm.game.map"></code-viewer>
         </div>
 
     </div>
