@@ -8,11 +8,14 @@ module zelda {
 
         private _name: string;
         private _tiles: gtp.SpriteSheet;
-        private _rows: number;
-        private _cols: number;
+
+        fromJson(json: TilesetData): Tileset {
+            this.load(json.name);
+            return this;
+        }
 
         get colCount(): number {
-            return this._cols;
+            return this._tiles.colCount;
         }
 
         get imageCount(): number {
@@ -24,7 +27,7 @@ module zelda {
         }
 
         get rowCount(): number {
-            return this._rows;
+            return this._tiles.rowCount;
         }
 
         isDoorway(tile: number): boolean {
@@ -48,5 +51,15 @@ module zelda {
         paintTile(ctx: CanvasRenderingContext2D, tile: number, x: number, y: number) {
             this._tiles.drawByIndex(ctx, x, y, tile);
         }
+
+        toJson(): TilesetData {
+            return {
+                name: this._name
+            };
+        }
+    }
+
+    export interface TilesetData {
+        name: string;
     }
 }

@@ -84,21 +84,21 @@ module zelda {
             return this.anim !== null;
         }
 
-        _isMovingHorizontally(hitBox: gtp.Rectangle): number {
+        private _isMovingHorizontally(hitBox: gtp.Rectangle): number {
             if (hitBox.x < 0) {
                 return -1;
             }
-            if ((hitBox.y + hitBox.h) >= Constants.TILE_WIDTH * Constants.SCREEN_COL_COUNT) {
+            if ((hitBox.x + hitBox.w) >= Constants.TILE_WIDTH * Constants.SCREEN_COL_COUNT) {
                 return 1;
             }
             return 0;
         }
 
-        _isMovingVertically(hitBox: gtp.Rectangle): number {
+        private _isMovingVertically(hitBox: gtp.Rectangle): number {
             if (hitBox.y < 0) {
                 return -1;
             }
-            if ((hitBox.x + hitBox.w) >= Constants.TILE_HEIGHT * Constants.SCREEN_ROW_COUNT) {
+            if ((hitBox.y + hitBox.h) >= Constants.TILE_HEIGHT * Constants.SCREEN_ROW_COUNT) {
                 return 1;
             }
             return 0;
@@ -112,8 +112,8 @@ module zelda {
             const movingHorizontally: number = this._isMovingHorizontally(this.hitBox);
             if (movingHorizontally !== 0) {
                 this.x = tempX;
-                //let mgs = <MainGameScreen>game.state;
-                //mgs.changeScreenHorizontally(movingHorizontally);
+                const mgs: MainGameState = <MainGameState>game.state;
+                mgs.changeScreenHorizontally(movingHorizontally);
             }
             else if (this.isHitBoxWalkable()) {
                 this.x = tempX;
@@ -123,7 +123,7 @@ module zelda {
             // TODO: This isn't right...
             const tileH: number = Constants.TILE_HEIGHT;
             const offset: number = this.y % tileH;
-            console.log(this.x + ', ' + offset);
+            //console.log(this.x + ', ' + offset);
             if (offset !== 0) {
 
                 const AMT: number = 3;
@@ -153,8 +153,8 @@ module zelda {
             const movingVertically: number = this._isMovingVertically(this.hitBox);
             if (movingVertically !== 0) {
                 this.y = tempY;
-                //let mgs = <MainGameScreen>game.state;
-                //mgs.changeScreenVertically(movingVertically);
+                const mgs: MainGameState = <MainGameState>game.state;
+                mgs.changeScreenVertically(movingVertically);
             }
             else if (this.isHitBoxWalkable()) {
                 this.y = tempY;
@@ -164,7 +164,7 @@ module zelda {
             // TODO: This isn't right...
             const tileW: number = Constants.TILE_WIDTH;
             const offset: number = this.x % tileW;
-            console.log(offset);
+            //console.log(offset);
             if (offset !== 0) {
 
                 const AMT: number = 3;

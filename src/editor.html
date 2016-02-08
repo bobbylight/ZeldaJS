@@ -108,10 +108,10 @@
             <div class="col-md-8">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Screen ({{vm.getCurrentScreenRow()}}, {{vm.getCurrentScreenCol()}})</h3>
+                        <h3 class="panel-title">Screen ({{vm.getCurrentScreenRow()}}, {{vm.getCurrentScreenCol()}}) / ({{vm.rowCount}}, {{vm.colCount}})</h3>
                     </div>
                     <div class="panel-body">
-                        <map-editor game="vm.game" selected-tile-index="{{vm.state.selectedTileIndex}}"></map-editor>
+                        <map-editor game="vm.game" selected-tile-index="vm.state.selectedTileIndex"></map-editor>
                     </div>
                 </div>
             </div>

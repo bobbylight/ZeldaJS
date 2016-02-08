@@ -12,6 +12,7 @@ module zeldaEditor {
             game.assets.addSpriteSheet('link', 'res/link.png', 16, 16, 1, 1, true);
             game.assets.addSpriteSheet('overworld', 'res/overworld.png', 16, 16);
             game.assets.addImage('hud', 'res/hudMockup.png');
+            game.assets.addJson('overworldData', 'res/data/overworld.json');
 
             game.assets.onLoad(loadCallback);
         }

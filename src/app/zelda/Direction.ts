@@ -2,13 +2,21 @@ module zelda {
     'use strict';
 
     export enum Direction {
-        DOWN,
-        LEFT,
-        UP,
-        RIGHT
+        DOWN = 1,
+        LEFT = 2,
+        UP = 3,
+        RIGHT = 4
     }
 
     export class DirectionUtil {
+
+        static isHorizontal(dir: Direction): boolean {
+            return dir === Direction.LEFT || dir === Direction.RIGHT;
+        }
+
+        static isVertical(dir: Direction): boolean {
+            return dir === Direction.UP || dir === Direction.DOWN;
+        }
 
         static ordinal(dir: Direction): number {
             switch (dir) {

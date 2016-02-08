@@ -49,6 +49,15 @@ module zelda {
             this._actors = [];
         }
 
+        fromJson(json: ScreenData): Screen {
+            this._tiles = json.tiles;
+            this._actors.length = 0;
+            //json.actors.forEach((actorData: ActorData) => {
+            //    this._actors.push(new Actor().fromJson(actorData));
+            //});
+            return this;
+        }
+
         getTile(row: number, col: number): number {
             return this._tiles[row][col];
         }
@@ -209,6 +218,19 @@ module zelda {
             this._tiles[row][col] = tile;
         }
 
+        toJson(): ScreenData {
+
+            const actorData: ActorData[] = [];
+            this._actors.forEach((actor: Actor) => {
+                actorData.push(actor.toJson());
+            });
+
+            return {
+                tiles: this._tiles,
+                actors: actorData
+            };
+        }
+
         update() {
             this._updateActors();
             this._updateActions();
@@ -242,5 +264,10 @@ module zelda {
                 }
             }
         }
+    }
+
+    export interface ScreenData {
+        tiles: number[][];
+        actors: ActorData[];
     }
 }

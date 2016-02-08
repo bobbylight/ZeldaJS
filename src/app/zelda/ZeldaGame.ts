@@ -67,7 +67,8 @@ module zelda {
 
         startNewGame() {
             this.map = new Map();
-            this.map.setCurrentScreen(0, 0);
+            this.map.fromJson(this.assets.get('overworldData'));
+            this.map.setCurrentScreen(7, 6);
             this.link = new Link();
             this.link.setLocation(100, 100);
         }

@@ -28,7 +28,7 @@ angular.module('editorDirectives')
         controllerAs: 'vm',
         bindToController: {
             game: '=',
-            selectedTileIndex: '@'
+            selectedTileIndex: '='
         },
 
         link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.MapEditorController): void => {

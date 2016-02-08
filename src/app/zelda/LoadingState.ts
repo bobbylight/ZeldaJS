@@ -35,6 +35,7 @@ module zelda {
                     game.assets.addSpriteSheet('link', 'res/link.png', 16, 16, 1, 1, true);
                     game.assets.addSpriteSheet('overworld', 'res/overworld.png', 16, 16);
                     game.assets.addImage('hud', 'res/hudMockup.png');
+                    game.assets.addJson('overworldData', 'res/data/overworld.json');
                     //game.assets.addImage('sprites', 'res/sprite_tiles.png', true);
                     //game.assets.addSpriteSheet('mapTiles', 'res/map_tiles.png', 8,8, 0,0);
                     //game.assets.addSpriteSheet('points', 'res/points.png', 18,9, 0,0);
@@ -56,7 +57,7 @@ module zelda {
                         const skipTitle: string = gtp.Utils.getRequestParam('skipTitle');
                         if (skipTitle !== null) { // Allow empty strings
                             //this.getGame().startNewGame();
-                            game.setState(new gtp.FadeOutInState(this, new MainGameState(),
+                            game.setState(new gtp.FadeOutInState(self, new MainGameState(),
                                 function() {
                                     (<ZeldaGame>game).startNewGame();
                                 }));

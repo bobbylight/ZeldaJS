@@ -20,6 +20,16 @@ module zelda {
 
         abstract collidedWith(other: Actor): boolean;
 
+        fromJson(json: ActorData): Actor {
+            this.dir = json.dir;
+            this.x = json.x;
+            this.y = json.y;
+            this.hitBox = json.hitBox;
+            this.frozen = json.frozen;
+            this.done = json.done;
+            return this;
+        }
+
         intersects(other: Actor): boolean {
             return this.hitBox.intersects(other.hitBox);
         }
@@ -51,6 +61,26 @@ module zelda {
             this.y = y;
         }
 
+        toJson(): ActorData {
+            return {
+                dir: this.dir,
+                x: this.x,
+                y: this.y,
+                hitBox: this.hitBox,
+                frozen: this.frozen,
+                done: this.done
+            };
+        }
+
         abstract update(): void;
+    }
+
+    export interface ActorData {
+        dir: Direction;
+        x: number;
+        y: number;
+        hitBox: gtp.Rectangle;
+        frozen: boolean;
+        done: boolean;
     }
 }

@@ -44,6 +44,8 @@ module zeldaEditor {
                     vm.x = 7;
                     vm.game = game;
                     vm.game.map = new zelda.Map();
+                    vm.game.map.fromJson(vm.game.assets.get('overworldData'));
+                    vm.game.map.setCurrentScreen(7, 6);
 
                     vm.state.selectedTileIndex = 1;
                     vm.loading = false;
@@ -65,6 +67,14 @@ module zeldaEditor {
 
         getCurrentScreenRow(): number {
             return this.game ? this.game.map.currentScreenRow : 0;
+        }
+
+        get colCount(): number {
+            return this.game ? this.game.map.colCount - 1 : 0;
+        }
+
+        get rowCount(): number {
+            return this.game ? this.game.map.rowCount - 1 : 0;
         }
 
         private _installKeyHandlers(scope: ng.IScope) {

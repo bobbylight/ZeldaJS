@@ -3,6 +3,15 @@ module zelda {
 
     const HEADER: string = 'ZeldaMap';
 
+    export interface MapData {
+        header: string;
+        screenData: ScreenData[][];
+        tilesetData: TilesetData;
+        music: string;
+        row: number;
+        col: number;
+    }
+
     export class Map {
 
         private _screens: Screen[][];
@@ -32,7 +41,7 @@ module zelda {
             this.currentScreen.exit();
             // Add a width of the map to prevent '-1' issues
             const colCount: number = this.colCount;
-            this._curCol = (this._curCol + colCount) % colCount;
+            this._curCol = (this._curCol + inc + colCount) % colCount;
             this.currentScreen.enter();
         }
 
@@ -40,7 +49,7 @@ module zelda {
             this.currentScreen.exit();
             // Add a height of the map to prevent '-1' issues
             const rowCount: number = this.rowCount;
-            this._curRow = (this._curRow + rowCount) % rowCount;
+            this._curRow = (this._curRow + inc + rowCount) % rowCount;
             this.currentScreen.enter();
         }
 
@@ -50,6 +59,28 @@ module zelda {
                 colList.push(new Screen(this));
             }
             return colList;
+        }
+
+        fromJson(json: MapData): Map {
+
+            if (HEADER !== json.header) {
+                throw new Error('Invalid map file: bad header: ' + json.header);
+            }
+
+            this._screens.length = 0;
+            json.screenData.forEach((rowOfScreensData: ScreenData[]) => {
+                const screenRow: Screen[] = [];
+                rowOfScreensData.forEach((screenData: ScreenData) => {
+                    screenRow.push(new Screen(this).fromJson(screenData));
+                });
+                this._screens.push(screenRow);
+            });
+
+            this._tileset.fromJson(json.tilesetData);
+            this._music = json.music;
+            this._curRow = json.row;
+            this._curCol = json.col;
+            return this;
         }
 
         get colCount(): number {
@@ -114,6 +145,23 @@ module zelda {
             this._curCol = col;
             this.currentScreen.enter();
             return this.currentScreen;
+        }
+
+        toJson(): MapData {
+
+            const screenRows: ScreenData[][] = [];
+            this._screens.forEach((rowOfScreens: Screen[]) => {
+                screenRows.push(rowOfScreens.map((screen: Screen) => { return screen.toJson(); }));
+            });
+
+            return {
+                header: HEADER,
+                screenData: screenRows,
+                tilesetData: this._tileset.toJson(),
+                music: this._music,
+                row: this._curRow,
+                col: this._curCol
+            };
         }
 
     }
