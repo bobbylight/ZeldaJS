@@ -10,6 +10,10 @@ module zelda {
         _stepTimer: number;
         _adjustToGridCounter: number;
 
+        static FRAME_STILL: number = 0;
+        static FRAME_STEP: number = 1;
+        static FRAME_ACTION: number = 2;
+
         constructor() {
             super();
             this._stepTimer = STEP_TIMER_MAX;
@@ -81,7 +85,7 @@ module zelda {
         }
 
         isAnimationRunning(): boolean {
-            return this.anim !== null;
+            return this.anim != null;
         }
 
         private _isMovingHorizontally(hitBox: gtp.Rectangle): number {
@@ -188,7 +192,7 @@ module zelda {
 
         paint(ctx: CanvasRenderingContext2D) {
 
-            //if (game.paintHitBoxes()) {
+            //if (game.paintHitBoxes) {
             //
             //}
 
@@ -228,8 +232,13 @@ module zelda {
         }
 
         private _swingSword() {
-            // TODO
-            //game.audio.playSound(Sounds.SWORD);
+
+            game.audio.playSound('sword');
+
+            const sword: Sword = new Sword();
+            game.map.currentScreen.addActor(sword);
+            this.frozen = true;
+            this.step = Link.FRAME_ACTION;
         }
 
         private _touchStepTimer() {

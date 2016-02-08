@@ -26,6 +26,7 @@
         "src/app/zelda/Map.ts",
         "src/app/zelda/Position.ts",
         "src/app/zelda/Screen.ts",
+        "src/app/zelda/Sword.ts",
         "src/app/zelda/Tileset.ts",
         "src/app/zelda/TitleState.ts",
         "src/app/zelda/ZeldaGame.ts",

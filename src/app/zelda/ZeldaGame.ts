@@ -65,6 +65,10 @@ module zelda {
             //return this.curScreen.isWalkable(actor, x, y);
         }
 
+        get paintHitBoxes(): boolean {
+            return false;
+        }
+
         startNewGame() {
             this.map = new Map();
             this.map.fromJson(this.assets.get('overworldData'));
