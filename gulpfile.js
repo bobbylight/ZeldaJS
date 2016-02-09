@@ -4,11 +4,12 @@
    var gulp = require('gulp');
    var debug = require('gulp-debug');
    var del = require('del');
+   var merge2 = require('merge2');
    var runSequence = require('run-sequence');
    var usemin = require('gulp-usemin');
    var uglify = require('gulp-uglify');
    var concatCss = require('gulp-concat-css');
-   var cssmin = require('gulp-cssmin');
+   var cssnano = require('gulp-cssnano');
    var rev = require('gulp-rev');
    var tsc = require('gulp-typescript');
    var tsconfig = tsc.createProject('tsconfig.json');
@@ -24,7 +25,7 @@
    });
 
    gulp.task('usemin', function() {
-      return gulp.src([ 'src/index.html' ])
+      return gulp.src([ 'src/index.html', 'src/editor.html' ])
          .pipe(debug({ title: 'File going through usemin: ' }))
          .pipe(usemin({
             css: [ rev ],
@@ -38,10 +39,16 @@
    });
 
    gulp.task('cssmin', function() {
-      gulp.src('src/css/all.css')
-         .pipe(concatCss('all.css'))
-         .pipe(cssmin())
-         .pipe(gulp.dest('dist/css/'));
+      return merge2(
+          gulp.src('src/css/all.css')
+              .pipe(concatCss('all.css'))
+              .pipe(cssnano())
+              .pipe(gulp.dest('dist/css/')),
+          gulp.src('src/css/editor.css')
+              .pipe(concatCss('editor.css'))
+              .pipe(cssnano())
+              .pipe(gulp.dest('dist/css/'))
+      );
    });
 
    gulp.task('compile-ts', function() {
@@ -62,7 +69,7 @@
    });
 
    gulp.task('copy-non-minified-files', function() {
-      return gulp.src([ 'src/**', 'src/.htaccess', '!src/css/**', '!src/js/**', '!src/{app,app/**}', '!src/index.html' ])
+      return gulp.src([ 'src/**', 'src/.htaccess', '!src/css/**', 'src/js/zelda/editor/templates/**', 'src/js/**', '!src/{app,app/**}', '!src/*.html' ])
          .pipe(gulp.dest('dist/'));
    });
 

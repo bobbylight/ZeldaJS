@@ -1,5 +1,5 @@
 angular.module('editorDirectives')
-.directive('keyPressTrapper', ($document: ng.IDocumentService, $rootScope: ng.IRootScopeService) => {
+.directive('keyPressTrapper', [ '$document', '$rootScope', ($document: ng.IDocumentService, $rootScope: ng.IRootScopeService) => {
 
     const PREVENT_DEFUALT_KEYS: number[] = [ 37, 38, 39, 40 ];
 
@@ -22,4 +22,4 @@ angular.module('editorDirectives')
     };
 
 
-});
+}]);
