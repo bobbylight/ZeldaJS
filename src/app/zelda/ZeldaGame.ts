@@ -60,9 +60,7 @@ module zelda {
         }
 
         isWalkable(actor: Actor, x: number, y: number): boolean {
-            // TODO: Implement me
-            return true;
-            //return this.curScreen.isWalkable(actor, x, y);
+            return this.map.currentScreen.isWalkable(actor, x, y);
         }
 
         get paintHitBoxes(): boolean {

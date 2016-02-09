@@ -64,8 +64,8 @@ module zelda {
 
         isWalkable(actor: Actor, x: number, y: number): boolean {
 
-            const row: number = y / 16;
-            const col: number = x / 16;
+            const row: number = Math.floor(y / 16);
+            const col: number = Math.floor(x / 16);
 
             if (row < 0 || row >= Constants.SCREEN_ROW_COUNT ||
                     col < 0 || col >= Constants.SCREEN_COL_COUNT) {
@@ -96,10 +96,10 @@ module zelda {
                         walkabilityStr = (y0 < 16 - x0).toString();
                         break;
                     default:
-                        walkabilityStr = '???';
+                        walkabilityStr = 'false';
                         break;
                 }
-                console.log(walkability + ' (' + row + ', ' + col + ') - ' + x0 + ', ' + y0 + ': ' + walkabilityStr);
+                //console.log('walkability: ' + walkability + ' (' + row + ', ' + col + ') - ' + x0 + ', ' + y0 + ': ' + walkabilityStr);
             }
 
             return walkability === 1 ||

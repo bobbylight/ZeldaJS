@@ -1813,6 +1813,7 @@
   "tilesetData": {
     "name": "overworld"
   },
+  "music": "overworldMusic",
   "row": 6,
   "col": 6
 }

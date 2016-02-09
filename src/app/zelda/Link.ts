@@ -19,6 +19,7 @@ module zelda {
             this._stepTimer = STEP_TIMER_MAX;
             this.hitBox = new gtp.Rectangle();
             this.step = 0;
+            this._adjustToGridCounter = 0;
         }
 
         collidedWith(other: Actor): boolean {
@@ -127,19 +128,21 @@ module zelda {
             // TODO: This isn't right...
             const tileH: number = Constants.TILE_HEIGHT;
             const offset: number = this.y % tileH;
-            //console.log(this.x + ', ' + offset);
+            console.log(this.x + ', ' + offset);
             if (offset !== 0) {
 
                 const AMT: number = 3;
 
                 if (offset <= AMT) {
-                    if (this.isHitBoxWalkable(0, -2) && ++this._adjustToGridCounter === 3) {
+                    if (this.isHitBoxWalkable(0, -1) && ++this._adjustToGridCounter === 1) {
+                        console.log('Adjusting up: ' + offset);
                         this.y -= 1;
                         this._adjustToGridCounter = 0;
                     }
                 }
-                else if (this.isHitBoxWalkable(0, 2) && offset >= tileH - AMT) {
-                    if (++this._adjustToGridCounter === 3) {
+                else if (this.isHitBoxWalkable(0, 1) && offset >= tileH - AMT) {
+                    if (++this._adjustToGridCounter === 1) {
+                        console.log('Adjusting down: ' + offset);
                         this.y += 1;
                         this._adjustToGridCounter = 0;
                     }
@@ -174,13 +177,13 @@ module zelda {
                 const AMT: number = 3;
 
                 if (offset <= AMT) {
-                    if (this.isHitBoxWalkable(-2, 0) && ++this._adjustToGridCounter === 3) {
+                    if (this.isHitBoxWalkable(-1, 0) && ++this._adjustToGridCounter === 1) {
                         this.x -= 1;
                         this._adjustToGridCounter = 0;
                     }
                 }
                 else if (offset >= tileW - AMT) {
-                    if (this.isHitBoxWalkable(2, 0) && ++this._adjustToGridCounter === 3) {
+                    if (this.isHitBoxWalkable(1, 0) && ++this._adjustToGridCounter === 1) {
                         this.x += 1;
                         this._adjustToGridCounter = 0;
                     }

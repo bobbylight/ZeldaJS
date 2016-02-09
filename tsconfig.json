@@ -19,6 +19,7 @@
         "src/app/zelda/Animation.ts",
         "src/app/zelda/AnimationListener.ts",
         "src/app/zelda/Constants.ts",
+        "src/app/zelda/CurtainOpeningState.ts",
         "src/app/zelda/Direction.ts",
         "src/app/zelda/Link.ts",
         "src/app/zelda/LoadingState",

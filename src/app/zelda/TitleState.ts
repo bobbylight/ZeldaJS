@@ -62,10 +62,8 @@ module zelda {
         }
 
         _startGame() {
-            game.setState(new gtp.FadeOutInState(this, new MainGameState(),
-                    function() {
-                        game.startNewGame();
-                    }));
+            game.startNewGame();
+            game.setState(new CurtainOpeningState(new MainGameState()));
         }
 
         update(delta: number) {
