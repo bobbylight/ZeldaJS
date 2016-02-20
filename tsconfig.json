@@ -25,6 +25,7 @@
         "src/app/zelda/LoadingState",
         "src/app/zelda/MainGameState.ts",
         "src/app/zelda/Map.ts",
+        "src/app/zelda/Octorok.ts",
         "src/app/zelda/Position.ts",
         "src/app/zelda/Screen.ts",
         "src/app/zelda/Sword.ts",

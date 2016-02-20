@@ -22,21 +22,22 @@ module zelda {
 
                 this.assetsLoaded = true;
                 const game: gtp.Game = this.game;
-                const self: LoadingState = this;
 
                 // Load assets used by this state first
                 game.assets.addImage('loading', 'res/loadingMessage.png');
-                game.assets.onLoad(function() {
+                game.assets.onLoad(() => {
 
-                    self._loadingImage = game.assets.get('loading');
+                    this._loadingImage = game.assets.get('loading');
 
                     game.assets.addImage('title', 'res/title.png');
                     game.assets.addSpriteSheet('font', 'res/font.png', 9, 7, 0, 0);
                     game.assets.addSpriteSheet('link', 'res/link.png', 16, 16, 1, 1, true);
+                    game.assets.addSpriteSheet('enemies', 'res/enemies.png', 16, 16, 1, 1, true);
                     game.assets.addSpriteSheet('overworld', 'res/overworld.png', 16, 16);
                     game.assets.addImage('hud', 'res/hudMockup.png');
                     game.assets.addJson('overworldData', 'res/data/overworld.json');
                     game.assets.addSound('sword', 'res/sounds/sword.wav');
+                    game.assets.addSound('enemyDie', 'res/sounds/kill.wav');
                     game.assets.addSound('overworldMusic', 'res/sounds/02-overworld.ogg', 5.234);
                     //game.assets.addImage('sprites', 'res/sprite_tiles.png', true);
                     //game.assets.addSpriteSheet('mapTiles', 'res/map_tiles.png', 8,8, 0,0);
@@ -54,15 +55,15 @@ module zelda {
                     //game.assets.addSound(pacman.Sounds.OPENING, 'res/sounds/opening.wav');
                     //game.assets.addSound(pacman.Sounds.SIREN, 'res/sounds/siren.wav');
                     //game.assets.addSound(pacman.Sounds.TOKEN, 'res/sounds/token.wav');
-                    game.assets.onLoad(function() {
+                    game.assets.onLoad(() => {
 
                         const skipTitle: string = gtp.Utils.getRequestParam('skipTitle');
                         if (skipTitle !== null) { // Allow empty strings
-                            self.getGame().startNewGame();
+                            this.getGame().startNewGame();
                             game.setState(new CurtainOpeningState(new MainGameState()));
                         }
                         else {
-                            game.setState(new gtp.FadeOutInState(self, new TitleState()));
+                            game.setState(new gtp.FadeOutInState(this, new TitleState()));
                         }
                     });
 

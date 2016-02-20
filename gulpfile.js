@@ -72,7 +72,6 @@
         // It was tricky here to get the relative paths preserved...
         return gulp.src([ 'src/.htaccess', 'src/img/**', 'src/js/zelda/editor/templates/**', 'src/res/**' ])
             .pipe(gulp.dest(function(file) {
-                console.log('--- ' + file.base.replace(/([\\/])src([\\/])/, '$1dist$2'));
                 return file.base.replace(/([\\/])src([\\/])/, '$1dist$2');
             }));
     });

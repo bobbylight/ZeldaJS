@@ -31,5 +31,9 @@ module zelda {
                     return 3;
             }
         }
+
+        static randomDir(): Direction {
+            return gtp.Utils.randomInt(1, 5);
+        }
     }
 }

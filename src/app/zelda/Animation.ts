@@ -28,7 +28,7 @@ module zelda {
         }
 
         private _fireFrameUpdate() {
-            this._listeners.forEach(function(listener: AnimationListener) {
+            this._listeners.forEach((listener: AnimationListener) => {
                 listener.animationFrameUpdate(this);
             });
         }
@@ -64,7 +64,7 @@ module zelda {
 
         private _setDone() {
             this._done = true;
-            this._listeners.forEach(function(listener: AnimationListener) {
+            this._listeners.forEach((listener: AnimationListener) => {
                 listener.animationCompleted(this);
             });
             this._listeners = [];

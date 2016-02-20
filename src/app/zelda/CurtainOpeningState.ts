@@ -17,9 +17,8 @@ module zelda {
             super();
             this._mainState = mainState;
             this._openAmount = 0;
-            const self: CurtainOpeningState = this;
             this._delay = new gtp.Delay({ millis: 70, loop: true, loopCount: 16,
-                    callback: function() { self._delayCallback.call(self); } });
+                    callback: () => { this._delayCallback.call(this); } });
         }
 
         private _delayCallback() {

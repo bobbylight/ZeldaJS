@@ -124,10 +124,10 @@ module zelda {
             this._music = data.music;
 
             const mapData: any = data.mapData;
-            mapData.forEach(function(rowData: any) {
+            mapData.forEach((rowData: any) => {
 
                 const mapRow: Screen[] = [];
-                rowData.forEach(function(screenData: any) {
+                rowData.forEach((screenData: any) => {
                     const screen: Screen = new Screen(this);
                     screen.load(screenData);
                     mapRow.push(screen);

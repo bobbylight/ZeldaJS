@@ -38,11 +38,11 @@ module zelda {
         }
 
         enter() {
-            //for (let i: number = 0; i < 3; i++) {
-            //    const enemy: Octorok = new Octorok(false);
-            //    this._locateSpawnPoitn(enemy);
-            //    this._actors.push(enemy);
-            //}
+            for (let i: number = 0; i < 3; i++) {
+                const enemy: Octorok = new Octorok(false);
+                this._locateSpawnPoint(enemy);
+                this._actors.push(enemy);
+            }
         }
 
         exit() {
@@ -157,7 +157,7 @@ module zelda {
         }
 
         paintActors(ctx: CanvasRenderingContext2D) {
-            this._actors.forEach(function(actor: Actor) {
+            this._actors.forEach((actor: Actor) => {
                 actor.paint(ctx);
             });
         }
