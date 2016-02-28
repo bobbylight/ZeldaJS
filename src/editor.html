@@ -56,6 +56,7 @@
     <script src='js/zelda/Animation.js'></script>
     <script src='js/zelda/AnimationListener.js'></script>
     <script src='js/zelda/Link.js'></script>
+    <script src='js/zelda/Octorok.js'></script>
     <script src='js/zelda/Position.js'></script>
 
     <!-- Editor-specific files -->
@@ -66,7 +67,6 @@
     <script src="js/zelda/editor/map-editor-directive.js"></script>
     <script src="js/zelda/editor/tile-palette-directive.js"></script>
     <script src="js/zelda/editor/resource-service.js"></script>
-    <script src="js/zelda/editor/column-type-filter.js"></script>
     <!-- endbuild -->
 
 </head>
@@ -109,7 +109,7 @@
             <div class="col-md-8">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Screen ({{vm.getCurrentScreenRow()}}, {{vm.getCurrentScreenCol()}}) / ({{vm.rowCount}}, {{vm.colCount | columnType}})</h3>
+                        <h3 class="panel-title">Screen ({{vm.getCurrentScreenRow()}}, {{vm.getCurrentScreenCol()}}) / ({{vm.rowCount}}, {{vm.colCount}})</h3>
                     </div>
                     <div class="panel-body">
                         <map-editor game="vm.game" selected-tile-index="vm.state.selectedTileIndex"></map-editor>

@@ -7,7 +7,7 @@ angular.module('editorDirectives')
 
         restrict: 'A',
 
-        link: function() {
+        link: () => {
             $document.bind('keydown', (e: JQueryEventObject) => {
 
                 console.log('gotcha - ' + e.which);

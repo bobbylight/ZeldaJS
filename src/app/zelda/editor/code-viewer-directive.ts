@@ -42,7 +42,7 @@ module zeldaEditor {
 
 angular.module('editorDirectives', [])
 
-.directive('codeViewer', [function() {
+.directive('codeViewer', [() => {
 
     function link(scope: any, element: JQuery, attrs: ng.IAttributes, controller: any) {
 

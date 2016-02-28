@@ -53,8 +53,8 @@ module zeldaEditor {
                     vm._installKeyHandlers($scope);
                 }
             });
-            resourceService.load(function() {
-                //vm.loading = false;
+            resourceService.load(() => {
+                //this.loading = false;
                 console.log('DEBUG: resourceService.load() callback called');
                 $scope.$apply('vm.loading = false;');
             });

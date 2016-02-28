@@ -5,9 +5,51 @@ module zelda {
 
         map: Map;
         link: Link;
+        private animations: Animation[];
 
         constructor(args?: any) {
             super(args);
+            this.animations = [];
+        }
+
+        addEnemyDiesAnimation(x: number, y: number) {
+            this.animations.push(this.createEnemyDiesAnimation(x, y));
+        }
+
+        paintAnimations(ctx: CanvasRenderingContext2D) {
+            this.animations.forEach((anim: Animation) => {
+                anim.paint(ctx);
+            });
+        }
+
+        updateAnimations() {
+            if (this.animations.length > 0) {
+                const newAnims: Animation[] = [];
+                this.animations.forEach((anim: Animation) => {
+                    anim.update();
+                    if (!anim.done) {
+                        newAnims.push(anim);
+                    }
+                });
+                this.animations = newAnims;
+            }
+        }
+        createEnemyDiesAnimation(x: number, y: number): Animation {
+            const sheet: gtp.SpriteSheet = <gtp.SpriteSheet>this.assets.get('enemyDies');
+            const anim: Animation = new Animation(x, y);
+            anim.addFrame({ sheet: sheet, index: 0 }, 30);
+            anim.addFrame({ sheet: sheet, index: 1 }, 30);
+            anim.addFrame({ sheet: sheet, index: 2 }, 30);
+            anim.addFrame({ sheet: sheet, index: 3 }, 30);
+            anim.addFrame({ sheet: sheet, index: 16 }, 30);
+            anim.addFrame({ sheet: sheet, index: 17 }, 30);
+            anim.addFrame({ sheet: sheet, index: 18 }, 30);
+            anim.addFrame({ sheet: sheet, index: 19 }, 30);
+            anim.addFrame({ sheet: sheet, index: 0 }, 30);
+            anim.addFrame({ sheet: sheet, index: 1 }, 30);
+            anim.addFrame({ sheet: sheet, index: 2 }, 30);
+            anim.addFrame({ sheet: sheet, index: 3 }, 30);
+            return anim;
         }
 
         drawString(x: number, y: number, text: string|number,

@@ -33,6 +33,7 @@ module zelda {
                     game.assets.addSpriteSheet('font', 'res/font.png', 9, 7, 0, 0);
                     game.assets.addSpriteSheet('link', 'res/link.png', 16, 16, 1, 1, true);
                     game.assets.addSpriteSheet('enemies', 'res/enemies.png', 16, 16, 1, 1, true);
+                    game.assets.addSpriteSheet('enemyDies', 'res/enemyDies.png', 16, 16, 1, 1, true);
                     game.assets.addSpriteSheet('overworld', 'res/overworld.png', 16, 16);
                     game.assets.addImage('hud', 'res/hudMockup.png');
                     game.assets.addJson('overworldData', 'res/data/overworld.json');

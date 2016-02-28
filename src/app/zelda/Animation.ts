@@ -3,6 +3,8 @@ module zelda {
 
     export class Animation {
 
+        private _x: number;
+        private _y: number;
         private _frames: Frame[];
         private _loopingStartFrame: number;
         private _curFrame: number;
@@ -11,12 +13,16 @@ module zelda {
         private _done: boolean;
         private _listeners: AnimationListener[];
 
-        constructor() {
+        constructor(x: number = 0, y: number = 0) {
+            this._x = x;
+            this._y = y;
             this._frames = [];
             this._loopingStartFrame = -1;
             this._totalTime = -1;
+            this._lastTime = 0;
             this._done = false;
             this._listeners = [];
+            this._curFrame = 0;
         }
 
         addFrame(sheetAndIndex: SpriteSheetAndIndex, frameTime: number) {
@@ -49,6 +55,14 @@ module zelda {
             return this.done ? 0 : this._frames[this._curFrame].sheetAndIndex.sheet.cellW;
         }
 
+        get x(): number {
+            return this._x;
+        }
+
+        get y(): number {
+            return this._y;
+        }
+
         get done(): boolean {
             return this._done;
         }
@@ -57,9 +71,9 @@ module zelda {
             return this._loopingStartFrame > -1;
         }
 
-        paint(ctx: CanvasRenderingContext2D, x: number, y: number) {
+        paint(ctx: CanvasRenderingContext2D) {
             const sheetAndIndex: SpriteSheetAndIndex = this._frames[this._curFrame].sheetAndIndex;
-            sheetAndIndex.sheet.drawByIndex(ctx, x, y, sheetAndIndex.index);
+            sheetAndIndex.sheet.drawByIndex(ctx, this._x, this._y, sheetAndIndex.index);
         }
 
         private _setDone() {
@@ -95,6 +109,14 @@ module zelda {
          */
         set loopingFromFrame(frame: number) {
             this._loopingStartFrame = frame;
+        }
+
+        set x(x: number) {
+            this._x = x;
+        }
+
+        set y(y: number) {
+            this._y = y;
         }
 
         update() {

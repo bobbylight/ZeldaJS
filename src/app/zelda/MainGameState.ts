@@ -89,6 +89,8 @@ module zelda {
                 currentScreen.paint(ctx);
                 currentScreen.paintActors(ctx);
                 game.link.paint(ctx);
+
+                game.paintAnimations(ctx);
             }
 
             ctx.restore();
@@ -153,6 +155,7 @@ module zelda {
             // Only update enemies, etc. if Link isn't going down a stairwell
             else if (!game.link.isAnimationRunning()) {
                 game.map.currentScreen.update();
+                game.updateAnimations();
             }
 
             super.update(delta);

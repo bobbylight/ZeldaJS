@@ -200,7 +200,7 @@ module zelda {
             //}
 
             if (this.anim) {
-                this.anim.paint(ctx, this.x, this.y);
+                this.anim.paint(ctx);
             }
             else {
                 const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('link');

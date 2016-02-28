@@ -20,6 +20,10 @@ module zelda {
             this._changeDirTimer = CHANGE_DIR_TIMER_MAX;
         }
 
+        private _changeDirection() {
+            this.dir = DirectionUtil.randomDir();
+        }
+
         collidedWith(other: Actor): boolean {
 
             if (this.takingDamage) {
@@ -30,11 +34,8 @@ module zelda {
                 this.takingDamage = true;
                 this.done = true;
                 game.audio.playSound('enemyDie');
+                game.addEnemyDiesAnimation(this.x, this.y);
             }
-        }
-
-        private _changeDirection() {
-            this.dir = DirectionUtil.randomDir();
         }
 
         get step(): number {
