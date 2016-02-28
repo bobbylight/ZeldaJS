@@ -3,7 +3,7 @@ module zelda {
 
     const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
 
-    export class Octorok extends Enemy {
+    export class Moblin extends Enemy {
 
         private _blue: boolean;
         private _changeDirTimer: number;
@@ -72,7 +72,7 @@ module zelda {
 
             this.possiblyPaintHitBox(ctx);
 
-            const row: number = this.step + (this._blue ? 2 : 0);
+            const row: number = 4 + this.step + (this._blue ? 2 : 0);
             const col: number = DirectionUtil.ordinal(this.dir);
             const index: number = row * 15 + col;
             const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('enemies');

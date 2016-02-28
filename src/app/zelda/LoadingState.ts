@@ -39,6 +39,7 @@ module zelda {
                     game.assets.addJson('overworldData', 'res/data/overworld.json');
                     game.assets.addSound('sword', 'res/sounds/sword.wav');
                     game.assets.addSound('enemyDie', 'res/sounds/kill.wav');
+                    game.assets.addSound('enemyHit', 'res/sounds/LOZ_Hit.wav');
                     game.assets.addSound('overworldMusic', 'res/sounds/02-overworld.ogg', 5.234);
                     //game.assets.addImage('sprites', 'res/sprite_tiles.png', true);
                     //game.assets.addSpriteSheet('mapTiles', 'res/map_tiles.png', 8,8, 0,0);

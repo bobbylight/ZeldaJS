@@ -195,9 +195,7 @@ module zelda {
 
         paint(ctx: CanvasRenderingContext2D) {
 
-            //if (game.paintHitBoxes) {
-            //
-            //}
+            this.possiblyPaintHitBox(ctx);
 
             if (this.anim) {
                 this.anim.paint(ctx);

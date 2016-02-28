@@ -31,7 +31,7 @@ The source code lives in `src/app`.  You can build both the development and
 production (minified) versions of the game by running `gulp`.  The development
 version will be built in `src/js` and the production version in `dist/`.
 
-`index.html` demos the most recent build of the game, while `editor.html` demos the most recent bulid of the map
+`index.html` demos the most recent build of the game, while `editor.html` demos the most recent build of the map
 editor.
 
 ## Roadmap
@@ -40,11 +40,15 @@ editor.
 
 * Map loading
 * Basic resource loading, Link sprite movement
+* Music
 * Moving between screens, smooth screen transitions (though only a couple of screens are implemented on the map)
 * Use of sword (Z key)
+* Basic enemies that can die
 
 ### Coming next (in no particular order):
 
-* Music
-* Octorocks
+* More accurate enemy spawning and taking-damage animations
 * Going into caves animation
+* Link getting hit
+* Expanded map
+* Define enemies for each screen in the editor

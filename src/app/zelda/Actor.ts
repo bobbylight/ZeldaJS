@@ -56,6 +56,14 @@ module zelda {
 
         abstract paint(ctx: CanvasRenderingContext2D): void;
 
+        protected possiblyPaintHitBox(ctx: CanvasRenderingContext2D) {
+            if (game.paintHitBoxes) {
+                ctx.fillStyle = 'pink';
+                const hitBox: gtp.Rectangle = this.hitBox;
+                ctx.fillRect(hitBox.x, hitBox.y, hitBox.w, hitBox.h);
+            }
+        }
+
         setLocation(x: number, y: number) {
             this.x = x;
             this.y = y;

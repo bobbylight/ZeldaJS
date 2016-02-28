@@ -39,10 +39,13 @@ module zelda {
 
         enter() {
             for (let i: number = 0; i < 3; i++) {
-                const enemy: Octorok = new Octorok(false);
+                const enemy: Octorok = new Octorok((i % 2) === 0);
                 this._locateSpawnPoint(enemy);
                 this._actors.push(enemy);
             }
+            const enemy: Moblin = new Moblin();
+            this._locateSpawnPoint(enemy);
+            this._actors.push(enemy);
         }
 
         exit() {

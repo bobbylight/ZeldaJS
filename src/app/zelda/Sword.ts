@@ -44,10 +44,7 @@ module zelda {
 
         paint(ctx: CanvasRenderingContext2D) {
 
-            if (game.paintHitBoxes) {
-                ctx.fillStyle = 'pink';
-                ctx.fillRect(this.hitBox.x, this.hitBox.y, this.hitBox.w, this.hitBox.h);
-            }
+            this.possiblyPaintHitBox(ctx);
 
             if (this.frame >= 0 && this.frame < 14) { // First two frames, we aren't painted
                 const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('link');
