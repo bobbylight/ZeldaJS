@@ -68,6 +68,7 @@
     <script src="js/zelda/editor/keypress-directive.js"></script>
     <script src="js/zelda/editor/map-editor-directive.js"></script>
     <script src="js/zelda/editor/tile-palette-directive.js"></script>
+    <script src="js/zelda/editor/enemy-selector-directive.js"></script>
     <script src="js/zelda/editor/resource-service.js"></script>
     <!-- endbuild -->
 
@@ -125,6 +126,14 @@
                     </div>
                     <div class="panel-body">
                         <tile-palette selected-index="vm.state.selectedTileIndex"></tile-palette>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Enemies</h3>
+                    </div>
+                    <div class="panel-body">
+                        <enemy-selector></enemy-selector>
                     </div>
                 </div>
             </div>
