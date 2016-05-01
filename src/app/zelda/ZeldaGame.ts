@@ -1,3 +1,7 @@
+/**
+ * The main module for the Zelda game.
+ * @preferred
+ */
 module zelda {
     'use strict';
 

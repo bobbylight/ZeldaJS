@@ -3,7 +3,12 @@ module zelda {
 
     const STEP_TIMER_MAX: number = 10;
 
-    export class Link extends Actor {
+    /**
+     * The hero of the game.
+     */
+    export class Link extends Character {
+
+        private _health: number;
 
         anim: Animation;
         step: number;
@@ -23,6 +28,24 @@ module zelda {
         }
 
         collidedWith(other: Actor): boolean {
+
+            if (this.takingDamage) {
+                return;
+            }
+
+            if (other instanceof Enemy) {
+                if (--this._health === 0) {
+                    this.done = true;
+                    game.audio.playSound('enemyDie');
+                    game.addEnemyDiesAnimation(this.x, this.y);
+                }
+                else {
+                    game.audio.playSound('enemyHit');
+                    this.takingDamage = true;
+                    this._slideTick = 30;
+                    this._slidingDir = other.dir;
+                }
+            }
             // TODO: Take damage if it's an enemy
             return false;
         }

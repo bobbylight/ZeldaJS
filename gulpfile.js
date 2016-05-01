@@ -17,11 +17,22 @@
     var tslint = require('gulp-tslint');
     var replace = require('gulp-replace');
     var dateFormat = require('dateformat');
+    var typedoc = require('gulp-typedoc');
 
     gulp.task('clean', function() {
         return del([
             './dist'
         ]);
+    });
+
+    gulp.task('doc', function() {
+        return gulp.src([ 'src/app/**/*.ts', 'bower_components/gtp/dist-all/gtp-all.d.ts' ])
+            .pipe(typedoc({
+                mode: 'file',
+                target: 'es5',
+                out: 'doc/',
+                name: 'Zelda'
+            }));
     });
 
     gulp.task('usemin', function() {

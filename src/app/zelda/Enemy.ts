@@ -3,11 +3,9 @@ module zelda {
 
     const STEP_TIMER_MAX: number = 10;
 
-    export abstract class Enemy extends Actor {
+    export abstract class Enemy extends Character {
 
         protected _health: number;
-        protected _slideTick: number;
-        protected _slidingDir: Direction;
 
         private _step: number;
         private _stepTimer: number;
@@ -15,8 +13,6 @@ module zelda {
         constructor(health: number = 1) {
             super();
             this._health = health;
-            this._slideTick = 0;
-            this._slidingDir = null;
 
             this._step = 0;
             this._stepTimer = STEP_TIMER_MAX;
