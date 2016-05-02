@@ -1,0 +1,8 @@
+<div class="btn-group" uib-dropdown keyboard-nav is-open="vm.isOpen">
+    <button id="{{::vm.buttonId}}" type="button" class="btn btn-primary" uib-dropdown-toggle>
+        {{vm.getSelectedLabel()}} <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="{{::vm.buttonId}}">
+        <li ng-repeat="choice in vm.choices" role="menuitem"><a href="#" ng-click="vm.onClick(choice)">{{::choice.label}}</a></li>
+    </ul>
+</div>

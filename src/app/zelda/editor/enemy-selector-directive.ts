@@ -3,7 +3,17 @@ module zeldaEditor {
 
     export class EnemySelectorController {
 
+        spawnStyles: LabelValuePair[];
+        spawnStyle: LabelValuePair;
+
         constructor() {
+
+            this.spawnStyles = [
+                { label: 'One', value: 'one' },
+                { label: 'Two', value: 'two' }
+            ];
+
+            this.spawnStyle = null;
         }
     }
 }

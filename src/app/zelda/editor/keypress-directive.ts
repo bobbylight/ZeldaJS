@@ -8,15 +8,14 @@ angular.module('editorDirectives')
         restrict: 'A',
 
         link: () => {
+
             $document.bind('keydown', (e: JQueryEventObject) => {
 
                 console.log('gotcha - ' + e.which);
                 $rootScope.$broadcast('keypress', e); // For all key events
                 $rootScope.$broadcast('keypress:' + e.which, e);
 
-                if (PREVENT_DEFUALT_KEYS.indexOf(e.which) > -1) {
-                    e.preventDefault();
-                }
+                e.preventDefault();
             });
         }
     };
