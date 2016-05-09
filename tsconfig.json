@@ -23,6 +23,8 @@
     "src/app/zelda/CurtainOpeningState.ts",
     "src/app/zelda/Direction.ts",
     "src/app/zelda/Enemy.ts",
+    "src/app/zelda/EnemyGroup.ts",
+    "src/app/zelda/InstanceLoader.ts",
     "src/app/zelda/Link.ts",
     "src/app/zelda/LoadingState",
     "src/app/zelda/MainGameState.ts",

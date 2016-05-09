@@ -6,9 +6,11 @@ module zelda {
         private _parent: Map;
         private _tiles: number[][];
         private _actors: Actor[];
+        enemyGroup: EnemyGroup;
+        private _firstTimeThrough: boolean;
         //private _events: Event[];
 
-        constructor(parent: Map, tiles?: number[][]) {
+        constructor(parent: Map, enemyGroup?: EnemyGroup, tiles?: number[][]) {
 
             this._parent = parent;
 
@@ -18,6 +20,8 @@ module zelda {
             this._tiles = tiles;
 
             this._actors = [];
+            this.enemyGroup = enemyGroup;
+            this._firstTimeThrough = true;
             //this._events = [];
         }
 
@@ -38,26 +42,46 @@ module zelda {
         }
 
         enter() {
-            for (let i: number = 0; i < 3; i++) {
-                const enemy: Octorok = new Octorok((i % 2) === 0);
-                this._locateSpawnPoint(enemy);
-                this._actors.push(enemy);
+            if (this._firstTimeThrough && this.enemyGroup) {
+                this.enemyGroup.enemies.forEach((enemyInfo: EnemyInfo) => {
+                    const count: number = enemyInfo.count || 1;
+                    for (let i: number = 0; i < count; i++) {
+                        const enemy: Enemy = InstanceLoader.create<Enemy>(enemyInfo.type, ...enemyInfo.args);
+                        this._locateSpawnPoint(enemy);
+                        this._actors.push(enemy);
+                    }
+                });
+                //this.enemyGroup.clear();
+                this._firstTimeThrough = false;
             }
-            const enemy: Moblin = new Moblin();
-            this._locateSpawnPoint(enemy);
-            this._actors.push(enemy);
         }
 
         exit() {
-            this._actors = [];
+            //this._actors = [];
         }
 
         fromJson(json: ScreenData): Screen {
+
             this._tiles = json.tiles;
             this._actors.length = 0;
             //json.actors.forEach((actorData: ActorData) => {
             //    this._actors.push(new Actor().fromJson(actorData));
             //});
+            this.enemyGroup = json.enemyGroup;
+
+
+            // TODO: Load these, don't hard-code them
+            for (let row: number = 0; row < this._tiles.length; row++) {
+                for (let col: number = 0; col < this._tiles[row].length; col++) {
+                    const tile: number = this._tiles[row][col];
+                    if (this._parent.tileset.isDoorway(tile)) {
+                        const tilePos: Position = new Position(row, col);
+                        //this._events.push(new GoDownStairsEvent(tilePos, true, 'overworld',
+                        //        new Position(7, 6), new Position(8, 8)));
+                    }
+                }
+            }
+
             return this;
         }
 
@@ -119,27 +143,6 @@ module zelda {
                 if (this.isWalkable(actor, x, y)) {
                     actor.setLocation(x, y);
                     return;
-                }
-            }
-        }
-
-        load(data: any) {
-
-            for (let row: number = 0; row < this._tiles.length; row++) {
-                for (let col: number = 0; col < this._tiles[row].length; col++) {
-                    this._tiles[row][col] = data[row][col];
-                }
-            }
-
-            // TODO: Load these, don't hard-code them
-            for (let row: number = 0; row < this._tiles.length; row++) {
-                for (let col: number = 0; col < this._tiles[row].length; col++) {
-                    const tile: number = this._tiles[row][col];
-                    if (this._parent.tileset.isDoorway(tile)) {
-                        const tilePos: Position = new Position(row, col);
-                        //this._events.push(new GoDownStairsEvent(tilePos, true, 'overworld',
-                        //        new Position(7, 6), new Position(8, 8)));
-                    }
                 }
             }
         }
@@ -230,8 +233,15 @@ module zelda {
 
             return {
                 tiles: this._tiles,
-                actors: actorData
+                actors: actorData,
+                enemyGroup: this.enemyGroup
             };
+        }
+
+        toString(): string {
+            return '[Screen: ' +
+                    'enemyGroup=' + this.enemyGroup +
+                    ']';
         }
 
         update() {
@@ -272,5 +282,6 @@ module zelda {
     export interface ScreenData {
         tiles: number[][];
         actors: ActorData[];
+        enemyGroup: EnemyGroup;
     }
 }

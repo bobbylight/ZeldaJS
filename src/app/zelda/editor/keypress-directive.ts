@@ -11,11 +11,13 @@ angular.module('editorDirectives')
 
             $document.bind('keydown', (e: JQueryEventObject) => {
 
-                console.log('gotcha - ' + e.which);
+                //console.log('gotcha - ' + e.which);
                 $rootScope.$broadcast('keypress', e); // For all key events
                 $rootScope.$broadcast('keypress:' + e.which, e);
 
-                e.preventDefault();
+                if (PREVENT_DEFUALT_KEYS.indexOf(e.which) > -1) {
+                    e.preventDefault();
+                }
             });
         }
     };

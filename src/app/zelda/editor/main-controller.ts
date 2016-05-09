@@ -84,7 +84,7 @@ module zeldaEditor {
                 const row: number = this.game.map.currentScreenRow;
                 const col: number = this.game.map.currentScreenCol;
                 if (col > 0) {
-                    this.game.map.setCurrentScreen(row, col - 1);
+                    this._setCurrentScreen(row, col - 1);
                 }
             });
             scope.$on('keypress:38', () => {
@@ -92,7 +92,7 @@ module zeldaEditor {
                 const row: number = this.game.map.currentScreenRow;
                 const col: number = this.game.map.currentScreenCol;
                 if (row > 0) {
-                    this.game.map.setCurrentScreen(row - 1, col);
+                    this._setCurrentScreen(row - 1, col);
                 }
             });
             scope.$on('keypress:39', () => {
@@ -100,7 +100,7 @@ module zeldaEditor {
                 const row: number = this.game.map.currentScreenRow;
                 const col: number = this.game.map.currentScreenCol;
                 if (col < this.game.map.colCount - 1) {
-                    this.game.map.setCurrentScreen(row, col + 1);
+                    this._setCurrentScreen(row, col + 1);
                 }
             });
             scope.$on('keypress:40', () => {
@@ -108,11 +108,15 @@ module zeldaEditor {
                 const row: number = this.game.map.currentScreenRow;
                 const col: number = this.game.map.currentScreenCol;
                 if (row < this.game.map.rowCount - 1) {
-                    this.game.map.setCurrentScreen(row + 1, col);
+                    this._setCurrentScreen(row + 1, col);
                 }
             });
         }
-
+        
+        private _setCurrentScreen(row: number, col: number) {
+            this.game.map.setCurrentScreen(row, col);
+            
+        }
     }
 }
 

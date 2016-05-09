@@ -3,6 +3,7 @@
 
     var gulp = require('gulp');
     var debug = require('gulp-debug');
+    var livereload = require('gulp-livereload');
     var del = require('del');
     var merge2 = require('merge2');
     var runSequence = require('run-sequence');
@@ -71,7 +72,8 @@
         tsResult.dts.pipe(gulp.dest('src/js/'));
         return tsResult.js
             .pipe(sourcemaps.write('.'))
-            .pipe(gulp.dest('src/js/'));
+            .pipe(gulp.dest('src/js/'))
+            .pipe(livereload({ quiet: true }));
     });
     gulp.task('tslint', function() {
         return gulp.src([ 'src/app/**/*.ts', '!src/app/typings/**' ])
@@ -92,6 +94,7 @@
     });
 
     gulp.task('watch', [ 'tslint', 'compile-ts' ], function() {
+        livereload.listen();
         gulp.watch([ 'src/app/**/*.ts', 'src/app/**/*.html'], [ 'tslint', 'compile-ts' ]);
     });
 

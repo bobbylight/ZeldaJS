@@ -1,6 +1,9 @@
 <div>
 
-    Spawn style:
-    <zelda-select choices="vm.spawnStyles" selection="vm.spawnStyle"></zelda-select>
+    <!--Spawn style:-->
+    <!--<zelda-select choices="vm.spawnStyles" selection="vm.spawnStyle"></zelda-select>-->
 
+    Enemy group:
+    <zelda-select choices="vm.choices" selection="vm.selectedEnemyGroup" none-option="true"
+            on-change="vm.selectedEnemyGroupChanged(newValue)"></zelda-select>
 </div>

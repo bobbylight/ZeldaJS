@@ -44,6 +44,7 @@
     <script src="js/zelda.js"></script>
     <script src='js/zelda/Constants.js'></script>
     <script src='js/zelda/Direction.js'></script>
+    <script src='js/zelda/InstanceLoader.js'></script>
     <script src='js/zelda/_BaseState.js'></script>
     <script src='js/zelda/LoadingState.js'></script>
     <script src='js/zelda/TitleState.js'></script>
@@ -58,6 +59,7 @@
     <script src='js/zelda/Character.js'></script>
     <script src='js/zelda/Link.js'></script>
     <script src='js/zelda/Enemy.js'></script>
+    <script src='js/zelda/EnemyGroup.js'></script>
     <script src='js/zelda/Octorok.js'></script>
     <script src='js/zelda/Moblin.js'></script>
     <script src='js/zelda/Position.js'></script>
@@ -135,7 +137,7 @@
                         <h3 class="panel-title">Enemies</h3>
                     </div>
                     <div class="panel-body">
-                        <enemy-selector></enemy-selector>
+                        <enemy-selector screen="vm.game.map.currentScreen"></enemy-selector>
                     </div>
                 </div>
             </div>

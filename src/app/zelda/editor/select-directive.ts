@@ -5,7 +5,10 @@ module zeldaEditor {
 
         buttonId: string;
         choices: LabelValuePair[];
-        selection: any;
+        selection: LabelValuePair;
+        selectedValue: any;
+        onChange: Function;
+        noneOption: boolean | string;
 
         static $inject: string[] = [ '$scope' ];
         
@@ -14,6 +17,22 @@ module zeldaEditor {
             if (!this.buttonId) {
                 this.buttonId = this.createUniqueId();
             }
+
+            if (this.noneOption) {
+                const label: string = this.noneOption === true ? '(none)' : this.noneOption.toString();
+                this.choices.unshift({ label: label, value: null });
+            }
+
+            this.selection = this.choices[0];
+            this.selectedValue = this.selection.value;
+
+            $scope.$watch(() => { return this.selectedValue; }, (newValue: any, oldValue: any) => {
+                const matches: LabelValuePair[] = this.choices.filter((lvp: LabelValuePair) => { return lvp.value === newValue; });
+                if (matches.length === 0) {
+                    throw 'Internal error: value selected in select not found in label/value pairs: ' + newValue;
+                }
+                this.selection = matches[0];
+            });
         }
 
         private createUniqueId(): string {
@@ -21,11 +40,15 @@ module zeldaEditor {
         }
 
         getSelectedLabel(): string {
-            return this.selection != null ? this.selection : '(none)';
+            return this.selection != null ? this.selection.label : '(none)';
         }
 
         onClick(choice: LabelValuePair) {
-            this.selection = choice.value;
+            this.selection = choice;
+            this.selectedValue = choice.value;
+            if (this.onChange) {
+                this.onChange({ newValue: this.selectedValue });
+            }
         }
     }
 
@@ -50,7 +73,9 @@ angular.module('editorDirectives')
         bindToController: {
             buttonId: '@id',
             choices: '=',
-            selection: '='
+            selectedValue: '=selection',
+            onChange: '&',
+            noneOption: '='
         },
 
         link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.SelectController) => {

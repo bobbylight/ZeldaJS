@@ -53,10 +53,14 @@ module zelda {
             this.currentScreen.enter();
         }
 
+        private static _createDefaultEnemyGroup(): EnemyGroup {
+            return null;
+        }
+
         private _createEmptyScreenList(colCount: number) {
             const colList: Screen[] = [];
             for (let col: number = 0; col < colCount; col++) {
-                colList.push(new Screen(this));
+                colList.push(new Screen(this, Map._createDefaultEnemyGroup()));
             }
             return colList;
         }
@@ -113,28 +117,6 @@ module zelda {
 
         get tileset(): Tileset {
             return this._tileset;
-        }
-
-        load(data: any) {
-
-            if (HEADER !== data.header) {
-                throw new Error('Invalid map file: bad header: ' + data.header);
-            }
-
-            this._music = data.music;
-
-            const mapData: any = data.mapData;
-            mapData.forEach((rowData: any) => {
-
-                const mapRow: Screen[] = [];
-                rowData.forEach((screenData: any) => {
-                    const screen: Screen = new Screen(this);
-                    screen.load(screenData);
-                    mapRow.push(screen);
-                });
-
-                this._screens.push(mapRow);
-            });
         }
 
         setCurrentScreen(row: number, col: number) {

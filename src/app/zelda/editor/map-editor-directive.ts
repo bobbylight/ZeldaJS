@@ -34,7 +34,6 @@ angular.module('editorDirectives')
         link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.MapEditorController): void => {
 
             function setArmedTile() {
-                console.log('uh-huh');
                 const screen: zelda.Screen = controller.game.map.currentScreen;
                 const selectedTileIndex: number = controller.selectedTileIndex;
                 screen.setTile(controller._armedRow, controller._armedCol, selectedTileIndex);
