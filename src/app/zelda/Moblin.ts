@@ -8,8 +8,8 @@ module zelda {
         private _blue: boolean;
         private _changeDirTimer: number;
 
-        constructor(blue: boolean = false) {
-            super(blue ? 2 : 1);
+        constructor(blue: boolean = true) {
+            super(blue ? 3 : 2);
             this._blue = blue;
             this.hitBox = new gtp.Rectangle();
             this._changeDirTimer = CHANGE_DIR_TIMER_MAX;
@@ -109,7 +109,7 @@ module zelda {
 
             this._touchStepTimer();
 
-            const speed: number = this.blue ? 1 : 0.5;
+            const speed: number = 0.5; //this.blue ? 1 : 0.5;
             switch (this.dir) {
                 case Direction.UP:
                     this.moveY(-speed);
