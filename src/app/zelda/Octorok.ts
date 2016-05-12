@@ -72,8 +72,8 @@ module zelda {
 
             this.possiblyPaintHitBox(ctx);
 
-            const row: number = this.step + (this._blue ? 2 : 0);
-            const col: number = DirectionUtil.ordinal(this.dir);
+            const row: number = this.step;
+            const col: number = DirectionUtil.ordinal(this.dir) + (this._blue ? 4 : 0);
             const index: number = row * 15 + col;
             const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('enemies');
             ss.drawByIndex(ctx, this.x, this.y, index);
