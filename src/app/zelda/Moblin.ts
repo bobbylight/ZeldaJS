@@ -69,14 +69,7 @@ module zelda {
         }
 
         paint(ctx: CanvasRenderingContext2D) {
-
-            this.possiblyPaintHitBox(ctx);
-
-            const row: number = 4 + this.step + (this._blue ? 2 : 0);
-            const col: number = DirectionUtil.ordinal(this.dir);
-            const index: number = row * 15 + col;
-            const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('enemies');
-            ss.drawByIndex(ctx, this.x, this.y, index);
+            this.paintImpl(ctx, 4 + this.step, this._blue ? 4 : 0);
         }
 
         update() {

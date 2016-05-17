@@ -9,7 +9,7 @@ module zelda {
         private _changeDirTimer: number;
 
         constructor(blue: boolean = false) {
-            super(blue ? 2 : 1);
+            super(blue ? 5 : 4); //2 : 1);
             this._blue = blue;
             this.hitBox = new gtp.Rectangle();
             this._changeDirTimer = CHANGE_DIR_TIMER_MAX;
@@ -69,14 +69,7 @@ module zelda {
         }
 
         paint(ctx: CanvasRenderingContext2D) {
-
-            this.possiblyPaintHitBox(ctx);
-
-            const row: number = this.step;
-            const col: number = DirectionUtil.ordinal(this.dir) + (this._blue ? 4 : 0);
-            const index: number = row * 15 + col;
-            const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('enemies');
-            ss.drawByIndex(ctx, this.x, this.y, index);
+            this.paintImpl(ctx, this.step, this._blue ? 4 : 0);
         }
 
         update() {

@@ -42,7 +42,7 @@ module zelda {
                 else {
                     game.audio.playSound('enemyHit');
                     this.takingDamage = true;
-                    this._slideTick = 30;
+                    this._slideTick = Character.MAX_SLIDE_TICK;
                     this._slidingDir = other.dir;
                 }
             }
@@ -151,7 +151,7 @@ module zelda {
             // TODO: This isn't right...
             const tileH: number = Constants.TILE_HEIGHT;
             const offset: number = this.y % tileH;
-            console.log(this.x + ', ' + offset);
+            //console.log(this.x + ', ' + offset);
             if (offset !== 0) {
 
                 const AMT: number = 3;

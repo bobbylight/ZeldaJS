@@ -33,7 +33,7 @@ module zelda {
                 else {
                     game.audio.playSound('enemyHit');
                     this.takingDamage = true;
-                    this._slideTick = 30;
+                    this._slideTick = Character.MAX_SLIDE_TICK;
                     this._slidingDir = other.dir;
                 }
             }
@@ -49,6 +49,42 @@ module zelda {
 
         set health(health: number) {
             this._health = health;
+        }
+
+
+        protected paintImpl(ctx: CanvasRenderingContext2D, row: number, colOffset: number) {
+
+            this.possiblyPaintHitBox(ctx);
+
+            let col: number = DirectionUtil.ordinal(this.dir) + colOffset;
+
+            if (this._slideTick > 0) {
+                switch (this._slideTick % 5) {
+                    case 0:
+                        col %= 4;
+                        break;
+                    case 1:
+                        col = (col % 4) + 4;
+                        break;
+                    case 2:
+                        row += 2;
+                        col %= 4;
+                        break;
+                    case 3:
+                        row += 2;
+                        col = (col % 4) + 4;
+                        break;
+                    case 4:
+                        row += 2;
+                        col = (col % 4) + 8;
+                        break;
+                }
+            }
+
+            const index: number = row * 15 + col;
+            console.log(this.step + ' -- ' + row + ', ' + col);
+            const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('enemies');
+            ss.drawByIndex(ctx, this.x, this.y, index);
         }
 
         protected _touchStepTimer() {
