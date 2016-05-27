@@ -23,8 +23,10 @@ module zeldaEditor {
                 this.choices.unshift({ label: label, value: null });
             }
 
-            this.selection = this.choices[0];
-            this.selectedValue = this.selection.value;
+            if (!this.selectedValue) {
+                this.selection = this.choices[0];
+                this.selectedValue = this.selection.value;
+            }
 
             $scope.$watch(() => { return this.selectedValue; }, (newValue: any, oldValue: any) => {
                 const matches: LabelValuePair[] = this.choices.filter((lvp: LabelValuePair) => { return lvp.value === newValue; });

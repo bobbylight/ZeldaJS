@@ -9,13 +9,16 @@ module zelda {
 
         private _step: number;
         private _stepTimer: number;
+        private _alwaysFacesForward: boolean;
 
-        constructor(health: number = 1) {
+        constructor(health: number = 1, alwaysFacesForward: boolean = false) {
             super();
             this._health = health;
 
             this._step = 0;
             this._stepTimer = STEP_TIMER_MAX;
+
+            this._alwaysFacesForward = alwaysFacesForward;
         }
 
         collidedWith(other: Actor): boolean {
@@ -51,12 +54,14 @@ module zelda {
             this._health = health;
         }
 
-
         protected paintImpl(ctx: CanvasRenderingContext2D, row: number, colOffset: number) {
 
             this.possiblyPaintHitBox(ctx);
 
-            let col: number = DirectionUtil.ordinal(this.dir) + colOffset;
+            let col: number = colOffset;
+            if (!this._alwaysFacesForward) {
+                col += DirectionUtil.ordinal(this.dir);
+            }
 
             if (this._slideTick > 0) {
                 switch (this._slideTick % 5) {
@@ -82,9 +87,19 @@ module zelda {
             }
 
             const index: number = row * 15 + col;
-            console.log(this.step + ' -- ' + row + ', ' + col);
             const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('enemies');
             ss.drawByIndex(ctx, this.x, this.y, index);
+        }
+
+        setLocationToSpawnPoint(screen: Screen) {
+            while (true) {
+                const x: number = game.randomInt(Constants.SCREEN_ROW_COUNT) * 16;
+                const y: number = game.randomInt(Constants.SCREEN_COL_COUNT) * 16;
+                if (screen.isWalkable(this, x, y)) {
+                    this.setLocation(x, y);
+                    return;
+                }
+            }
         }
 
         protected _touchStepTimer() {

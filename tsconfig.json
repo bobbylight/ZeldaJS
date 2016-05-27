@@ -15,6 +15,7 @@
   "files": [
     "src/app/zelda.ts",
     "src/app/zelda/_BaseState.ts",
+    "src/app/zelda/AbstractWalkingEnemy.ts",
     "src/app/zelda/Actor.ts",
     "src/app/zelda/Animation.ts",
     "src/app/zelda/AnimationListener.ts",

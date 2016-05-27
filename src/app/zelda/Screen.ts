@@ -47,7 +47,7 @@ module zelda {
                     const count: number = enemyInfo.count || 1;
                     for (let i: number = 0; i < count; i++) {
                         const enemy: Enemy = InstanceLoader.create<Enemy>(enemyInfo.type, ...enemyInfo.args);
-                        this._locateSpawnPoint(enemy);
+                        enemy.setLocationToSpawnPoint(this);
                         this._actors.push(enemy);
                     }
                 });
@@ -136,17 +136,6 @@ module zelda {
                 (walkability === 5 && y0 < 16 - x0); // Bottom "\"
         }
 
-        private _locateSpawnPoint(actor: Actor) {
-            while (true) {
-                const x: number = game.randomInt(Constants.SCREEN_ROW_COUNT) * 16;
-                const y: number = game.randomInt(Constants.SCREEN_COL_COUNT) * 16;
-                if (this.isWalkable(actor, x, y)) {
-                    actor.setLocation(x, y);
-                    return;
-                }
-            }
-        }
-
         paint(ctx: CanvasRenderingContext2D) {
 
             const paintWalkability: boolean = false;
@@ -226,14 +215,14 @@ module zelda {
 
         toJson(): ScreenData {
 
-            const actorData: ActorData[] = [];
-            this._actors.forEach((actor: Actor) => {
-                actorData.push(actor.toJson());
-            });
+            // const actorData: ActorData[] = [];
+            // this._actors.forEach((actor: Actor) => {
+            //     actorData.push(actor.toJson());
+            // });
 
             return {
                 tiles: this._tiles,
-                actors: actorData,
+                //actors: actorData,
                 enemyGroup: this.enemyGroup
             };
         }
@@ -281,7 +270,7 @@ module zelda {
 
     export interface ScreenData {
         tiles: number[][];
-        actors: ActorData[];
+        // actors: ActorData[];
         enemyGroup: EnemyGroup;
     }
 }

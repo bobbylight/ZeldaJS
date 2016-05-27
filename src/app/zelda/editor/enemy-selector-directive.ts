@@ -1,5 +1,6 @@
 module zeldaEditor {
     'use strict';
+    import EnemyGroup = zelda.EnemyGroup;
 
     export class EnemySelectorController {
 
@@ -15,7 +16,8 @@ module zeldaEditor {
 
             this.choices = [
                 { label: 'Octoroks', value: 'octoroks' },
-                { label: 'Moblins', value: 'moblins' }
+                { label: 'Moblins', value: 'moblins' },
+                { label: 'Tektites', value: 'tektites' }
             ];
 
             this.selectedEnemyGroup = null;
@@ -23,18 +25,8 @@ module zeldaEditor {
             
             $scope.$watch('vm.curScreen', (newValue: zelda.Screen, oldValue: zelda.Screen) => {
                 if (newValue) {
-                    // Determine which of our hard-coded choices corresponds to their enemy group
                     const screenEnemyGroup: zelda.EnemyGroup = newValue.enemyGroup;
-                    console.log('<<< <<< ' + JSON.stringify(screenEnemyGroup ? screenEnemyGroup.enemies[0] : null));
-                    if (!screenEnemyGroup) {
-                        this.selectedEnemyGroup = null;
-                    }
-                    else if (screenEnemyGroup.enemies[0].type === 'Octorok') {
-                        this.selectedEnemyGroup = 'octoroks';
-                    }
-                    else {
-                        this.selectedEnemyGroup = 'moblins';
-                    }
+                    this._setEnemyGroup(screenEnemyGroup);
                 }
             });
         }
@@ -53,9 +45,32 @@ module zeldaEditor {
                     enemies.push({ type: 'Moblin', args: [ true ], count: 2 });
                     enemies.push({ type: 'Moblin', count: 2 });
                     break;
+                case 'tektites':
+                    enemies.push({ type: 'Tektite', args: [ true ], count: 2 });
+                    enemies.push({ type: 'Tektite', count: 2 });
+                    break;
             }
 
             this.curScreen.enemyGroup = new zelda.EnemyGroup('random', enemies);
+        }
+
+        private _setEnemyGroup(screenEnemyGroup: EnemyGroup) {
+
+            // Determine which of our hard-coded choices corresponds to their enemy group
+            // console.log('<<< <<< ' + JSON.stringify(screenEnemyGroup ? screenEnemyGroup.enemies[0] : null));
+
+            if (!screenEnemyGroup) {
+                this.selectedEnemyGroup = null;
+            }
+            else if (screenEnemyGroup.enemies[0].type === 'Octorok') {
+                this.selectedEnemyGroup = 'octoroks';
+            }
+            else if (screenEnemyGroup.enemies[0].type === 'Moblin') {
+                this.selectedEnemyGroup = 'moblins';
+            }
+            else if (screenEnemyGroup.enemies[0].type === 'Tektite') {
+                this.selectedEnemyGroup = 'tektites';
+            }
         }
     }
 }
@@ -76,7 +91,7 @@ angular.module('editorDirectives')
             curScreen: '=screen'
         },
 
-        link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.EnemySelectorController): void => {
+        link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.EnemySelectorController) => {
         }
     };
 }]);
