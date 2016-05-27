@@ -9,8 +9,8 @@ module zelda {
 
     export class EnemyGroup {
 
-        enemies: EnemyInfo[];
         spawnStyle: string; // TODO: String literal type when gulp-typescript moves up to 1.8
+        enemies: EnemyInfo[];
 
         constructor(spawnStyle: string = 'random', enemies: EnemyInfo[] = []) {
             this.spawnStyle = spawnStyle;
@@ -25,10 +25,30 @@ module zelda {
             this.enemies.length = 0;
         }
 
+        fromJson(json: EnemyGroupData): EnemyGroup {
+            if (json) { // Some screens may be empty
+                this.spawnStyle = json.spawnStyle;
+                this.enemies = json.enemies;
+            }
+            return this;
+        }
+
+        toJson(): EnemyGroupData {
+            return {
+                spawnStyle: this.spawnStyle,
+                enemies: this.enemies
+            };
+        }
+
         toString(): string {
             return '[EnemyGroup: ' +
                 'size=' + this.enemies.length +
                 ']';
         }
+    }
+
+    export interface EnemyGroupData {
+        enemies: EnemyInfo[];
+        spawnStyle: string;
     }
 }

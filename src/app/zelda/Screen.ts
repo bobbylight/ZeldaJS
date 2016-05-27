@@ -67,7 +67,7 @@ module zelda {
             //json.actors.forEach((actorData: ActorData) => {
             //    this._actors.push(new Actor().fromJson(actorData));
             //});
-            this.enemyGroup = json.enemyGroup;
+            this.enemyGroup = new EnemyGroup().fromJson(json.enemyGroup);
 
 
             // TODO: Load these, don't hard-code them
@@ -215,15 +215,15 @@ module zelda {
 
         toJson(): ScreenData {
 
-            // const actorData: ActorData[] = [];
-            // this._actors.forEach((actor: Actor) => {
-            //     actorData.push(actor.toJson());
-            // });
+            const actorData: ActorData[] = [];
+            this._actors.forEach((actor: Actor) => {
+                actorData.push(actor.toJson());
+            });
 
             return {
                 tiles: this._tiles,
                 //actors: actorData,
-                enemyGroup: this.enemyGroup
+                enemyGroup: this.enemyGroup.toJson()
             };
         }
 
@@ -270,7 +270,7 @@ module zelda {
 
     export interface ScreenData {
         tiles: number[][];
-        // actors: ActorData[];
-        enemyGroup: EnemyGroup;
+        //actors: ActorData[];
+        enemyGroup: EnemyGroupData;
     }
 }

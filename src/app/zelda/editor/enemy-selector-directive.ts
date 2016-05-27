@@ -1,6 +1,5 @@
 module zeldaEditor {
     'use strict';
-    import EnemyGroup = zelda.EnemyGroup;
 
     export class EnemySelectorController {
 
@@ -8,7 +7,7 @@ module zeldaEditor {
         // spawnStyle: LabelValuePair;
         curScreen: zelda.Screen;
         choices: LabelValuePair[];
-        selectedEnemyGroup: string;
+        enemyGroup: zelda.EnemyGroup;
         
         static $inject: string[] = [ '$scope' ];
         
@@ -20,7 +19,7 @@ module zeldaEditor {
                 { label: 'Tektites', value: 'tektites' }
             ];
 
-            this.selectedEnemyGroup = null;
+            this.enemyGroup = new zelda.EnemyGroup('random');
             console.log(' >>> >>> >>> ' + this.curScreen);
             
             $scope.$watch('vm.curScreen', (newValue: zelda.Screen, oldValue: zelda.Screen) => {
@@ -32,7 +31,6 @@ module zeldaEditor {
         }
 
         selectedEnemyGroupChanged(newGroup: string) {
-            console.log('yes sir: ' + newGroup + ', ' + this.selectedEnemyGroup);
 
             const enemies: zelda.EnemyInfo[] = [];
 
@@ -51,26 +49,40 @@ module zeldaEditor {
                     break;
             }
 
-            this.curScreen.enemyGroup = new zelda.EnemyGroup('random', enemies);
+            //this.curScreen.enemyGroup = new zelda.EnemyGroup('random', enemies);
+            this.enemyGroup.clear();
+            enemies.forEach((enemy: zelda.EnemyInfo) => {
+                this.enemyGroup.add(enemy);
+            });
         }
 
-        private _setEnemyGroup(screenEnemyGroup: EnemyGroup) {
+        private _setEnemyGroup(newEnemyGroup: zelda.EnemyGroup) {
 
             // Determine which of our hard-coded choices corresponds to their enemy group
-            // console.log('<<< <<< ' + JSON.stringify(screenEnemyGroup ? screenEnemyGroup.enemies[0] : null));
+            // console.log('<<< <<< ' + JSON.stringify(newEnemyGroup ? newEnemyGroup.enemies[0] : null));
 
-            if (!screenEnemyGroup) {
-                this.selectedEnemyGroup = null;
-            }
-            else if (screenEnemyGroup.enemies[0].type === 'Octorok') {
-                this.selectedEnemyGroup = 'octoroks';
-            }
-            else if (screenEnemyGroup.enemies[0].type === 'Moblin') {
-                this.selectedEnemyGroup = 'moblins';
-            }
-            else if (screenEnemyGroup.enemies[0].type === 'Tektite') {
-                this.selectedEnemyGroup = 'tektites';
-            }
+            this.enemyGroup = newEnemyGroup;
+            // if (!newEnemyGroup) {
+            //     this.enemyGroup.clear()
+            // }
+            // else if (newEnemyGroup.enemies[0].type === 'Octorok') {
+            //     this.enemyGroup.clear();
+            //     for (let i: number = 0; i < 4; i++) {
+            //         this.enemyGroup.add({ type: 'Octorok', args: [ (i % 2) === 0 ], count: 1 });
+            //     }
+            // }
+            // else if (newEnemyGroup.enemies[0].type === 'Moblin') {
+            //     this.enemyGroup.clear();
+            //     for (let i: number = 0; i < 4; i++) {
+            //         this.enemyGroup.add({ type: 'Moblin', args: [ (i % 2) === 0 ], count: 1 });
+            //     }
+            // }
+            // else if (newEnemyGroup.enemies[0].type === 'Tektite') {
+            //     this.enemyGroup.clear();
+            //     for (let i: number = 0; i < 4; i++) {
+            //         this.enemyGroup.add({ type: 'Tektite', args: [ (i % 2) === 0 ], count: 1 });
+            //     }
+            // }
         }
     }
 }
