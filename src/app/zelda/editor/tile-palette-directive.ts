@@ -51,11 +51,11 @@ angular.module('editorDirectives')
 
         link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.TilePaletteController): void => {
 
-            element.on('click', (e: MouseEvent) => {
+            element.on('click', (e: JQueryEventObject) => {
                 controller.setSelectedIndex(e.offsetX, e.offsetY);
             });
 
-            element.on('mousemove', (e: MouseEvent) => {
+            element.on('mousemove', (e: JQueryEventObject) => {
                 controller.setArmedIndex(e.offsetX, e.offsetY);
             });
 

@@ -1,7 +1,7 @@
 module zelda {
     'use strict';
 
-    export class _BaseState extends gtp.State {
+    export class BaseState extends gtp.State {
 
         private _lastConfigKeypressTime: number;
         protected _lastSpriteFrameTime: number;
@@ -31,7 +31,7 @@ module zelda {
             const time: number = gtp.Utils.timestamp(); // this.game.playTime;
             const im: gtp.InputManager = this.game.inputManager;
 
-            if (time > (this._lastConfigKeypressTime + _BaseState.INPUT_REPEAT_MILLIS)) {
+            if (time > (this._lastConfigKeypressTime + BaseState.INPUT_REPEAT_MILLIS)) {
 
                 // Audio stuff
                 if (im.isKeyDown(gtp.Keys.KEY_M, true)) {

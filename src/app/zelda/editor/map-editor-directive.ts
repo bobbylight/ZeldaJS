@@ -39,7 +39,7 @@ angular.module('editorDirectives')
                 screen.setTile(controller._armedRow, controller._armedCol, selectedTileIndex);
             }
 
-            element.on('mousemove', (e: MouseEvent) => {
+            element.on('mousemove', (e: JQueryEventObject) => {
 
                 const source: HTMLCanvasElement = <HTMLCanvasElement>e.target;
                 let x: number = e.offsetX;

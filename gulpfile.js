@@ -3,12 +3,13 @@
 
     var gulp = require('gulp');
     var debug = require('gulp-debug');
-    var livereload = require('gulp-livereload');
     var del = require('del');
-    var merge2 = require('merge2');
+    var less = require('gulp-less');
     var runSequence = require('run-sequence');
+    var livereload = require('gulp-livereload');
     var usemin = require('gulp-usemin');
     var uglify = require('gulp-uglify');
+    var replace = require('gulp-replace');
     var concatCss = require('gulp-concat-css');
     var cssnano = require('gulp-cssnano');
     var rev = require('gulp-rev');
@@ -16,14 +17,22 @@
     var tsconfig = tsc.createProject('tsconfig.json');
     var sourcemaps = require('gulp-sourcemaps');
     var tslint = require('gulp-tslint');
-    var replace = require('gulp-replace');
+    var merge2 = require('merge2');
     var dateFormat = require('dateformat');
     var typedoc = require('gulp-typedoc');
 
     gulp.task('clean', function() {
         return del([
+            './src/js',
             './dist'
         ]);
+    });
+
+    gulp.task('less', function() {
+        return gulp.src('src/css/*.less')
+            .pipe(less())
+            .pipe(gulp.dest('src/css'))
+            .pipe(livereload());
     });
 
     gulp.task('doc', function() {
@@ -50,7 +59,7 @@
             .pipe(gulp.dest('dist/'));
     });
 
-    gulp.task('cssmin', function() {
+    gulp.task('cssnano', function() {
         return merge2(
             gulp.src('src/css/all.css')
                 .pipe(concatCss('all.css'))
@@ -64,16 +73,17 @@
     });
 
     gulp.task('compile-ts', function() {
-        gulp.src([ 'src/app/**/*.html' ])
-            .pipe(gulp.dest('src/js/'));
+
         var tsResult = gulp.src([ 'src/app/**/*.ts', 'bower_components/gtp/dist-all/gtp-all.d.ts' ])
             .pipe(sourcemaps.init())
             .pipe(tsc(tsconfig));
-        tsResult.dts.pipe(gulp.dest('src/js/'));
-        return tsResult.js
-            .pipe(sourcemaps.write('.'))
-            .pipe(gulp.dest('src/js/'))
-            .pipe(livereload({ quiet: true }));
+
+        return merge2([
+            tsResult.dts.pipe(gulp.dest('src/js/')),
+            tsResult.js
+                .pipe(sourcemaps.write('.'))
+                .pipe(gulp.dest('src/js/'))
+        ]).pipe(livereload({ quiet: true }))
     });
     gulp.task('tslint', function() {
         return gulp.src([ 'src/app/**/*.ts', '!src/app/typings/**' ])
@@ -81,6 +91,7 @@
             .pipe(tslint.report('prose'));
     });
 
+    // TODO: This currently is wrong!
     gulp.task('copy-non-minified-files', function() {
         // It was tricky here to get the relative paths preserved...
         return gulp.src([ 'src/.htaccess', 'src/img/**', 'src/js/zelda/editor/templates/**', 'src/res/**' ])
@@ -90,12 +101,22 @@
     });
 
     gulp.task('default', function() {
-        runSequence('tslint', 'clean', 'compile-ts', 'usemin', 'cssmin', 'copy-non-minified-files');
+        runSequence('less', 'tslint', 'clean', 'compile-ts', 'usemin', 'cssnano', 'copy-non-minified-files');
     });
 
-    gulp.task('watch', [ 'tslint', 'compile-ts' ], function() {
+    gulp.task('-watch-ts-sequential-actions', function() {
+        runSequence('tslint', 'compile-ts');
+    });
+    gulp.task('-live-reload-markup', function() {
+        gulp.src([ 'src/app/**/*.html' ])
+            .pipe(gulp.dest('src/js/'))
+            .pipe(livereload({ quiet: true }));
+    });
+    gulp.task('watch', [ 'less', '-watch-ts-sequential-actions' ], function() {
         livereload.listen();
-        gulp.watch([ 'src/app/**/*.ts', 'src/app/**/*.html'], [ 'tslint', 'compile-ts' ]);
+        gulp.watch('src/app/**/*.ts', [ '-watch-ts-sequential-actions' ]);
+        gulp.watch('src/css/*.less', [ 'less' ]);
+        gulp.watch('src/**/*.html', [ '-live-reload-markup' ]);
     });
 
 })();

@@ -1,7 +1,7 @@
 module zelda {
     'use strict';
 
-    export class TitleState extends _BaseState {
+    export class TitleState extends BaseState {
 
         private _lastKeypressTime: number;
 
@@ -71,7 +71,7 @@ module zelda {
             this.handleDefaultKeys();
 
             const playTime: number = game.playTime;
-            if (playTime > this._lastKeypressTime + _BaseState.INPUT_REPEAT_MILLIS + 100) {
+            if (playTime > this._lastKeypressTime + BaseState.INPUT_REPEAT_MILLIS + 100) {
 
                 const im: gtp.InputManager = game.inputManager;
 

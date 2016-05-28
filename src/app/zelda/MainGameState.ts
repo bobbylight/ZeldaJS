@@ -1,7 +1,7 @@
 module zelda {
     'use strict';
 
-    export class MainGameState extends _BaseState {
+    export class MainGameState extends BaseState {
 
         private _lastScreen: Screen;
         private _screenSlidingDir: Direction;

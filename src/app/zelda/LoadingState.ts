@@ -1,7 +1,7 @@
 module zelda {
     'use strict';
 
-    export class LoadingState extends _BaseState {
+    export class LoadingState extends BaseState {
 
         assetsLoaded: boolean;
         _loadingImage: any;

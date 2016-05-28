@@ -38,12 +38,16 @@ editor.
 
 ### Implemented so far:
 
-* Map loading
-* Basic resource loading, Link sprite movement
-* Music
-* Moving between screens, smooth screen transitions (though only a couple of screens are implemented on the map)
-* Use of sword (Z key)
-* Basic enemies that can die
+* Game
+  - Map loading
+  - Basic resource loading, Link sprite movement
+  - Music
+  - Moving between screens, smooth screen transitions (though only a couple of screens are implemented on the map)
+  - Use of sword (Z key)
+  - Basic enemies that can die
+* Editor
+  - Screen design, single tile per cell (no burnable bushes, bombable walls, etc.)
+  - Select enemy group per screen
 
 ### Coming next (in no particular order):
 

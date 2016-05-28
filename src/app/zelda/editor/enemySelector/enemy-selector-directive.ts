@@ -8,26 +8,34 @@ module zeldaEditor {
         curScreen: zelda.Screen;
         choices: LabelValuePair[];
         enemyGroup: zelda.EnemyGroup;
-        
+
+        headers: ModifiableTableHeader[];
+
         static $inject: string[] = [ '$scope' ];
         
         constructor($scope: ng.IScope) {
 
             this.choices = [
-                { label: 'Octoroks', value: 'octoroks' },
-                { label: 'Moblins', value: 'moblins' },
-                { label: 'Tektites', value: 'tektites' }
+                {label: 'Octoroks', value: 'octoroks'},
+                {label: 'Moblins', value: 'moblins'},
+                {label: 'Tektites', value: 'tektites'}
             ];
 
             this.enemyGroup = new zelda.EnemyGroup('random');
             console.log(' >>> >>> >>> ' + this.curScreen);
-            
+
             $scope.$watch('vm.curScreen', (newValue: zelda.Screen, oldValue: zelda.Screen) => {
                 if (newValue) {
                     const screenEnemyGroup: zelda.EnemyGroup = newValue.enemyGroup;
                     this._setEnemyGroup(screenEnemyGroup);
                 }
             });
+
+            this.headers = [
+                { label: 'Enemy', cellKey: 'type' },
+                { label: 'Strength', cellKey: 'args' },
+                { label: 'Count', cellKey: 'count' }
+            ];
         }
 
         selectedEnemyGroupChanged(newGroup: string) {
@@ -93,7 +101,7 @@ angular.module('editorDirectives')
     return {
         restrict: 'E',
         //require: 'ngModel',
-        templateUrl: 'js/zelda/editor/templates/enemySelector.html',
+        templateUrl: 'js/zelda/editor/enemySelector/enemySelector.html',
 
         controller: zeldaEditor.EnemySelectorController,
         controllerAs: 'vm',
