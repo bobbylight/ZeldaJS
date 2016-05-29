@@ -17,6 +17,8 @@
     var tsconfig = tsc.createProject('tsconfig.json');
     var sourcemaps = require('gulp-sourcemaps');
     var tslint = require('gulp-tslint');
+    var jshint = require('gulp-jshint');
+    var stylish = require('jshint-stylish');
     var merge2 = require('merge2');
     var dateFormat = require('dateformat');
     var typedoc = require('gulp-typedoc');
@@ -91,6 +93,18 @@
             .pipe(tslint.report('prose'));
     });
 
+    gulp.task('jshint', function() {
+        return gulp.src([ 'src/**/*.js' ])
+            .pipe(jshint())
+            .pipe(jshint.reporter(stylish))
+            .pipe(jshint.reporter('fail'));
+    });
+    gulp.task('-jshint-without-failing', function() {
+        return gulp.src([ 'src/**/*.js' ])
+            .pipe(jshint())
+            .pipe(jshint.reporter(stylish));
+    });
+
     // TODO: This currently is wrong!
     gulp.task('copy-non-minified-files', function() {
         // It was tricky here to get the relative paths preserved...
@@ -100,12 +114,8 @@
             }));
     });
 
-    gulp.task('default', function() {
-        runSequence('less', 'tslint', 'clean', 'compile-ts', 'usemin', 'cssnano', 'copy-non-minified-files');
-    });
-
     gulp.task('-watch-ts-sequential-actions', function() {
-        runSequence('tslint', 'compile-ts');
+        runSequence('tslint', 'compile-ts'/*, '-jshint-without-failing'*/);
     });
     gulp.task('-live-reload-markup', function() {
         gulp.src([ 'src/app/**/*.html' ])
@@ -119,4 +129,7 @@
         gulp.watch('src/**/*.html', [ '-live-reload-markup' ]);
     });
 
+    gulp.task('default', function() {
+        runSequence('less', 'tslint', 'clean', 'compile-ts', /*'jshint', */'usemin', 'cssnano', 'copy-non-minified-files');
+    });
 })();

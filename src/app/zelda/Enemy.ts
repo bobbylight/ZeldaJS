@@ -24,7 +24,7 @@ module zelda {
         collidedWith(other: Actor): boolean {
 
             if (this.takingDamage) {
-                return;
+                return false;
             }
 
             if (other instanceof Sword) {
@@ -32,14 +32,15 @@ module zelda {
                     this.done = true;
                     game.audio.playSound('enemyDie');
                     game.addEnemyDiesAnimation(this.x, this.y);
+                    return true;
                 }
-                else {
-                    game.audio.playSound('enemyHit');
-                    this.takingDamage = true;
-                    this._slideTick = Character.MAX_SLIDE_TICK;
-                    this._slidingDir = other.dir;
-                }
+                game.audio.playSound('enemyHit');
+                this.takingDamage = true;
+                this._slideTick = Character.MAX_SLIDE_TICK;
+                this._slidingDir = other.dir;
             }
+
+            return false;
         }
 
         get health(): number {

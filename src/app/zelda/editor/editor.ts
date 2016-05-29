@@ -1,2 +1,2 @@
-const app: ng.IModule = angular.module('editorApp',
+angular.module('editorApp',
     [ 'ui.bootstrap', 'ngSanitize', 'editorControllers', 'editorDirectives', 'editorServices' ]);

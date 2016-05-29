@@ -13,7 +13,6 @@ module zelda {
          */
         animationCompleted(anim: Animation): void;
 
-
         /**
          * Called when an animation updates to a new frame.
          *

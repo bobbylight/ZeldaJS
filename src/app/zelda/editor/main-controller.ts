@@ -112,10 +112,9 @@ module zeldaEditor {
                 }
             });
         }
-        
+
         private _setCurrentScreen(row: number, col: number) {
             this.game.map.setCurrentScreen(row, col);
-            
         }
     }
 }

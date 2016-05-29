@@ -12,7 +12,7 @@ module zeldaEditor {
         headers: ModifiableTableHeader[];
 
         static $inject: string[] = [ '$scope' ];
-        
+
         constructor($scope: ng.IScope) {
 
             this.choices = [
@@ -96,7 +96,8 @@ module zeldaEditor {
 }
 
 angular.module('editorDirectives')
-    .directive('enemySelector', [ () => {
+.directive('enemySelector', [ () => {
+    'use strict';
 
     return {
         restrict: 'E',

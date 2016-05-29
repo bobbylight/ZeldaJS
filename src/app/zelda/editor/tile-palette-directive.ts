@@ -35,6 +35,7 @@ module zeldaEditor {
 
 angular.module('editorDirectives')
     .directive('tilePalette', [ '$interval', ($interval: ng.IIntervalService) => {
+    'use strict';
 
     return {
         restrict: 'E',

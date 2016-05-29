@@ -3,6 +3,7 @@
     "target": "es5",
     "declaration": true,
     "noImplicitAny": true,
+    "noImplicitReturns": true,
     "removeComments": false,
     "preserveConstEnums": true,
     "outDir": "src/js/",
@@ -14,7 +15,7 @@
   ],
   "files": [
     "src/app/zelda.ts",
-    "src/app/zelda/BaseState.ts.ts",
+    "src/app/zelda/BaseState.ts",
     "src/app/zelda/AbstractWalkingEnemy.ts",
     "src/app/zelda/Actor.ts",
     "src/app/zelda/Animation.ts",

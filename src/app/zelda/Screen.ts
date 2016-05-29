@@ -69,7 +69,6 @@ module zelda {
             //});
             this.enemyGroup = new EnemyGroup().fromJson(json.enemyGroup);
 
-
             // TODO: Load these, don't hard-code them
             for (let row: number = 0; row < this._tiles.length; row++) {
                 for (let col: number = 0; col < this._tiles[row].length; col++) {

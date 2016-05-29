@@ -7,7 +7,7 @@ module zelda {
     export abstract class Character extends Actor {
 
         static MAX_SLIDE_TICK: number = 30;
-        
+
         protected _slideTick: number;
         protected _slidingDir: Direction;
 

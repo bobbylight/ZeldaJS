@@ -11,9 +11,9 @@ module zeldaEditor {
         noneOption: boolean | string;
 
         static $inject: string[] = [ '$scope' ];
-        
+
         constructor($scope: ng.IScope) {
-            
+
             if (!this.buttonId) {
                 this.buttonId = this.createUniqueId();
             }
@@ -62,6 +62,7 @@ module zeldaEditor {
 
 angular.module('editorDirectives')
 .directive('zeldaSelect', [ () => {
+    'use strict';
 
     return {
         restrict: 'E',
