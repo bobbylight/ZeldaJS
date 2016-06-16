@@ -11,6 +11,8 @@ module zeldaEditor {
 
         headers: ModifiableTableHeader[];
 
+        _openModal: Function;
+
         static $inject: string[] = [ '$scope' ];
 
         constructor($scope: ng.IScope) {
@@ -36,6 +38,11 @@ module zeldaEditor {
                 { label: 'Strength', cellKey: 'args' },
                 { label: 'Count', cellKey: 'count' }
             ];
+        }
+
+        addOrEditRow() {
+            console.log('yeah yeah');
+            this._openModal();
         }
 
         selectedEnemyGroupChanged(newGroup: string) {
@@ -96,8 +103,22 @@ module zeldaEditor {
 }
 
 angular.module('editorDirectives')
-.directive('enemySelector', [ () => {
+.directive('enemySelector', [ '$uibModal', ($uibModal: any) => {
     'use strict';
+
+    function openModal() {
+
+        const modalInstance: any = $uibModal.open({
+            templateUrl: 'js/zelda/editor/enemySelector/editRowModal.html',
+            controller: zeldaEditor.EditorRowModalController,
+            size: 'lg',
+            // resolve: {
+            //     items: function () {
+            //         return $scope.items;
+            //     }
+            // }
+        });
+    }
 
     return {
         restrict: 'E',
@@ -113,6 +134,8 @@ angular.module('editorDirectives')
         },
 
         link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.EnemySelectorController) => {
+
+            controller._openModal = openModal;
         }
     };
 }]);

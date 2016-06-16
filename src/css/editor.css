@@ -32,3 +32,11 @@ html, body {
 .code-viewer .widget-area {
     padding-bottom: 1rem;
 }
+
+.modifiable-table .modifiable-table-tool-bar {
+    text-align: end;
+    padding-bottom: 1rem;
+}
+.modifiable-table .modifiable-table-tool-bar button {
+    padding: 0px 6px;
+}

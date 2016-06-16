@@ -1,20 +1,25 @@
+<div class="modifiable-table">
 
-<div class="btn-group" role="group" aria-label="Table Actions">
-    <button class="btn btn-default"><i class="fa fa-plus" aria-hidden="true"></i></button>
-    <button class="btn btn-default"><i class="fa fa-times" aria-hidden="true"></i></button>
-    <button class="btn btn-default"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
-    <button class="btn btn-default"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+    <div class="modifiable-table-tool-bar">
+        <div class="btn-group" role="group" aria-label="Table Actions">
+            <button class="btn btn-default" ng-click="vm.addRow()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            <button class="btn btn-default" ng-click="vm.removeRow()"><i class="fa fa-times" aria-hidden="true"></i></button>
+            <button class="btn btn-default" ng-click="vm.moveRowUp()" ng-disabled="vm.isUpDisabled()"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+            <button class="btn btn-default" ng-click="vm.moveRowDown()" ng-disabled="vm.isDownDisabled()"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-condensed">
+        <thead>
+        <tr>
+            <th ng-repeat="header in vm.headers">{{header.label}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="rowData in vm.rows" ng-click="vm.setPrimary($event)">
+            <td ng-repeat="header in vm.headers">{{rowData[header.cellKey]}}</td>
+        </tr>
+        </tbody>
+    </table>
+
 </div>
-
-<table class="table table-bordered table-condensed">
-    <thead>
-    <tr>
-        <th ng-repeat="header in vm.headers">{{header.label}}</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="rowData in vm.rows" ng-click="vm.setPrimary($event)">
-        <td ng-repeat="header in vm.headers">{{rowData[header.cellKey]}}</td>
-    </tr>
-    </tbody>
-</table>

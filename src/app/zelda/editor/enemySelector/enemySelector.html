@@ -7,5 +7,10 @@
     <zelda-select choices="vm.choices" selection="vm.selectedEnemyGroup" none-option="true"
             on-change="vm.selectedEnemyGroupChanged(newValue)"></zelda-select>
 
-    <modifiable-table headers="vm.headers" rows="vm.enemyGroup.enemies"></modifiable-table>
+    <modifiable-table headers="vm.headers"
+                      rows="vm.enemyGroup.enemies"
+                      add-edit-dialog-fn="vm.addOrEditRow()">
+    </modifiable-table>
+
+
 </div>

@@ -78,28 +78,10 @@ module zelda {
         update() {
 
             if (this._slidingDir) {
-
-                const speed: number = 4;
-                switch (this._slidingDir) {
-                    // case Direction.UP:
-                    //     this.moveY(-speed);
-                    //     break;
-                    // case Direction.LEFT:
-                    //     this.moveX(-speed);
-                    //     break;
-                    // case Direction.DOWN:
-                    //     this.moveY(speed);
-                    //     break;
-                    // case Direction.RIGHT:
-                    //     this.moveX(speed);
-                    //     break;
-                }
-
                 if (--this._slideTick === 0) {
                     this.takingDamage = false;
                     this._slidingDir = null;
                 }
-
                 return;
             }
 
@@ -131,6 +113,8 @@ module zelda {
                     this._paused = true;
                     this._pauseOrJumpTime = 0;
                 }
+
+                this.hitBox.set(this.x, this.y, 16, 16);
             }
         }
     }

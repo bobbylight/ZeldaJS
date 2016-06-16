@@ -6,13 +6,16 @@
   "bundle": "src/app/typings/tsd.d.ts",
   "installed": {
     "angularjs/angular.d.ts": {
-      "commit": "4c9851e6e8ab0c7e035758c1b04b4357995ff957"
+      "commit": "edb64e4a35896510ce02b93c0bca5ec3878db738"
     },
     "jquery/jquery.d.ts": {
-      "commit": "7fffbd3e040a93c244777e3be04cd6223ac69301"
+      "commit": "edb64e4a35896510ce02b93c0bca5ec3878db738"
     },
     "highlightjs/highlightjs.d.ts": {
       "commit": "f65db456d6d76b2ccd5863c711389acc78fa2c91"
+    },
+    "angular-ui-bootstrap/angular-ui-bootstrap.d.ts": {
+      "commit": "edb64e4a35896510ce02b93c0bca5ec3878db738"
     }
   }
 }
