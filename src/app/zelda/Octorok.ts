@@ -16,5 +16,25 @@ module zelda {
         protected getSpeed(): number {
             return this.blue ? 1 : 0.5;
         }
+
+        protected throwProjectile() {
+            if (this.blue) {
+                // TODO: This sould be abstracted better somehow, just for testing for now.
+                // For example, perhaps a canThrowProjectile() method with a createProjectile()
+                // method
+                const arrow: Arrow = new Arrow(this.x, this.y, this.dir);
+                game.map.currentScreen.addActor(arrow);
+                console.log('adding arrow');
+            }
+        }
+
+        update() {
+
+            if (this.blue && !this._slidingDir && game.randomInt(100) === 0) {
+                this.pausedBeforeThrowingProjectile = 30;
+            }
+
+            super.update();
+        }
     }
 }

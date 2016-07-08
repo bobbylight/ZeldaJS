@@ -20,6 +20,7 @@
     "src/app/zelda/Actor.ts",
     "src/app/zelda/Animation.ts",
     "src/app/zelda/AnimationListener.ts",
+    "src/app/zelda/Arrow.ts",
     "src/app/zelda/Character.ts",
     "src/app/zelda/Constants.ts",
     "src/app/zelda/CurtainOpeningState.ts",

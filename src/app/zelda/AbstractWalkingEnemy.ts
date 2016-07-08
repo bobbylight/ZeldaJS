@@ -10,6 +10,7 @@ module zelda {
         private _blue: boolean;
         private _changeDirTimer: number;
         private _ssRowOffset: number;
+        protected pausedBeforeThrowingProjectile: number;
 
         constructor(ssRowOffset: number, blue: boolean = false, health: number = 1) {
             super(health);
@@ -17,10 +18,21 @@ module zelda {
             this._blue = blue;
             this.hitBox = new gtp.Rectangle();
             this._changeDirTimer = this.getChangeDirTimerMax();
+            this.pausedBeforeThrowingProjectile = -1;
         }
 
         protected _changeDirection() {
             this.dir = DirectionUtil.randomDir();
+        }
+
+        collidedWith(other: Actor): boolean {
+
+            // An enemy hit when pausing before throwing a projectile won't throw it
+            if (this.pausedBeforeThrowingProjectile > -1) {
+                this.pausedBeforeThrowingProjectile = -1;
+            }
+
+            return super.collidedWith(other);
         }
 
         get blue(): boolean {
@@ -80,6 +92,25 @@ module zelda {
             this.paintImpl(ctx, this.step + this._ssRowOffset, this._blue ? 4 : 0);
         }
 
+        /**
+         * Throws a projectile, if an enemy is capable of doing so.  This method can be
+         * called directly, or it will be implicitly called after a specific number of
+         * frames of the enemy being "paused" if pausedBeforeThrowingProjectile is set
+         * to something greater than 0.<p>
+         *
+         * The default implementation does nothing.  Subclasses should override if an
+         * enemy type can throw a projectile.
+         */
+        protected throwProjectile() {
+            // Projectile throwing
+            // TODO: This sould be abstracted somehow, just for testing for now
+            if (game.randomInt(1000) === 0) {
+                const arrow: Arrow = new Arrow(this.x, this.y, this.dir);
+                game.map.currentScreen.addActor(arrow);
+                console.log('adding arrow');
+            }
+        }
+
         update() {
 
             if (this._slidingDir) {
@@ -105,6 +136,15 @@ module zelda {
                     this._slidingDir = null;
                 }
 
+                return;
+            }
+
+            else if (this.pausedBeforeThrowingProjectile > -1) {
+                this.pausedBeforeThrowingProjectile--;
+                // Projectile is thrown at frame 0, enemy is unfrozen on frame -1
+                if (this.pausedBeforeThrowingProjectile === 0) {
+                    this.throwProjectile();
+                }
                 return;
             }
 
