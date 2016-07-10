@@ -135,7 +135,7 @@ module zelda {
         moveX(inc: number) {
 
             const tempX: number = this.x + inc;
-            this.hitBox.set(tempX + 2, this.y + 8, 16 - 2 * 2, 8);
+            this.hitBox.set(tempX + 2, this.y + 8, this.w - 2 * 2, 8);
 
             const movingHorizontally: number = this._isMovingHorizontally(this.hitBox);
             if (movingHorizontally !== 0) {
@@ -178,7 +178,7 @@ module zelda {
         moveY(inc: number) {
 
             const tempY: number = this.y + inc;
-            this.hitBox.set(this.x + 2, tempY + 8, 16 - 2 * 2, 8);
+            this.hitBox.set(this.x + 2, tempY + 8, this.w - 2 * 2, 8);
 
             const movingVertically: number = this._isMovingVertically(this.hitBox);
             if (movingVertically !== 0) {
@@ -233,7 +233,7 @@ module zelda {
         }
 
         private _refreshHitBox() {
-            this.hitBox.set(this.x + 2, this.y + 8, 16 - 2 * 2, 8);
+            this.hitBox.set(this.x + 2, this.y + 8, this.w - 2 * 2, 8);
         }
 
         setAnimation(anim: Animation) {

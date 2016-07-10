@@ -130,6 +130,6 @@
     });
 
     gulp.task('default', function() {
-        runSequence('less', 'tslint', 'clean', 'compile-ts', /*'jshint', */'usemin', 'cssnano', 'copy-non-minified-files');
+        runSequence('less', 'tslint', 'clean', 'compile-ts', /*'jshint', */'-live-reload-markup', 'usemin', 'cssnano', 'copy-non-minified-files');
     });
 })();

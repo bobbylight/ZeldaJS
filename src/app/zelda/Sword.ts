@@ -90,13 +90,13 @@ module zelda {
                     case Direction.DOWN:
                     case Direction.UP:
                         hx = this.x + 4; hy = this.y;
-                        hw = 8; hh = 16;
+                        hw = 8; hh = this.h;
                         break;
                     case Direction.LEFT:
                     case Direction.RIGHT:
                     default:
                         hx = this.x; hy = this.y + 6;
-                        hw = 16; hh = 8;
+                        hw = this.w; hh = 8;
                         break;
                 }
                 this.hitBox.set(hx, hy, hw, hh);

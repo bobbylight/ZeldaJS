@@ -114,7 +114,7 @@ module zelda {
                     this._pauseOrJumpTime = 0;
                 }
 
-                this.hitBox.set(this.x, this.y, 16, 16);
+                this.hitBox.set(this.x, this.y, this.w, this.h);
             }
         }
     }

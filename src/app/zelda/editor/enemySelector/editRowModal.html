@@ -1,6 +1,6 @@
  <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">{{::title}}</h4>
+    <h4 class="modal-title">{{::vm.title}}</h4>
 </div>
 <div class="modal-body">
 
@@ -19,12 +19,12 @@
         <div class="form-group error">
             <label for="enemyCount">Count</label>
             <input type="number" class="form-control" id="enemyCount" placeholder="Count"
-                    ng-model="enemyCount" required min="1" max="8" step="1">
+                    ng-model="vm.enemyCount" required min="1" max="8" step="1">
         </div>
     </form>
 
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="onSubmit()" ng-disabled="enemyForm.$invalid" data-dismiss="modal">{{::submitButtonLabel}}</button>
-    <button type="button" class="btn btn-primary" ng-click="onCancel()">Cancel</button>
+    <button type="button" class="btn btn-default" ng-click="vm.onSubmit()" ng-disabled="enemyForm.$invalid" data-dismiss="modal">{{::vm.submitButtonLabel}}</button>
+    <button type="button" class="btn btn-primary" ng-click="vm.onCancel()">Cancel</button>
 </div>

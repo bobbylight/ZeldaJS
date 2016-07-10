@@ -51,7 +51,7 @@ module zelda {
             }
 
             const tempX: number = this.x + inc;
-            this.hitBox.set(tempX, this.y, 16, 16);
+            this.hitBox.set(tempX, this.y, this.w, this.h);
 
             if (this.hitBox.x < 0 || (this.hitBox.x + this.hitBox.w) >= Constants.SCREEN_WIDTH &&
                 !this._slidingDir) {
@@ -74,7 +74,7 @@ module zelda {
             }
 
             const tempY: number = this.y + inc;
-            this.hitBox.set(this.x, tempY, 16, 16);
+            this.hitBox.set(this.x, tempY, this.w, this.h);
 
             if (this.hitBox.y < 0 || (this.hitBox.y + this.hitBox.h) >= Constants.SCREEN_HEIGHT &&
                 !this._slidingDir) {
@@ -102,13 +102,7 @@ module zelda {
          * enemy type can throw a projectile.
          */
         protected throwProjectile() {
-            // Projectile throwing
-            // TODO: This sould be abstracted somehow, just for testing for now
-            if (game.randomInt(1000) === 0) {
-                const arrow: Arrow = new Arrow(this.x, this.y, this.dir);
-                game.map.currentScreen.addActor(arrow);
-                console.log('adding arrow');
-            }
+            console.error('throwProjectile not overridden!');
         }
 
         update() {
@@ -139,7 +133,9 @@ module zelda {
                 return;
             }
 
-            else if (this.pausedBeforeThrowingProjectile > -1) {
+            this._touchStepTimer();
+
+            if (this.pausedBeforeThrowingProjectile > -1) {
                 this.pausedBeforeThrowingProjectile--;
                 // Projectile is thrown at frame 0, enemy is unfrozen on frame -1
                 if (this.pausedBeforeThrowingProjectile === 0) {
@@ -147,8 +143,6 @@ module zelda {
                 }
                 return;
             }
-
-            this._touchStepTimer();
 
             const speed: number = this.getSpeed();
             switch (this.dir) {

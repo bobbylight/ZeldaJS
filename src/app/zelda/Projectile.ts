@@ -1,35 +1,24 @@
 module zelda {
     'use strict';
 
-    export class Arrow extends Actor {
+    /**
+     * A projectile thrown by an enemy, such as a rock or arrow.
+     */
+    export class Projectile extends Actor {
 
-        private frame: number;
+        private _ssRow: number;
+        private _ssCol: number;
 
-        constructor(x: number, y: number, dir: Direction) {
+        constructor(ssRow: number, ssCol: number, x: number, y: number, dir: Direction) {
+
             super();
+            this._ssRow = ssRow;
+            this._ssCol = ssCol;
 
+            // In the actual game, rocks start by completely overlapping the enemy who shoots them.  Honest!
             this.x = x;
             this.y = y;
             this.dir = dir;
-            this.frame = 16;
-
-            switch (this.dir) {
-                case Direction.DOWN:
-                    this.y += 12;
-                    break;
-
-                case Direction.LEFT:
-                    this.x = this.x - 16 + 6;
-                    break;
-
-                case Direction.UP:
-                    this.y -= 12;
-                    break;
-
-                case Direction.RIGHT:
-                    this.x = this.x + 16 - 6;
-                    break;
-            }
 
             this.hitBox = new gtp.Rectangle();
         }
@@ -43,46 +32,43 @@ module zelda {
 
             this.possiblyPaintHitBox(ctx);
 
-            const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('link');
-            const row: number = 3;
-            const col: number = DirectionUtil.ordinal(this.dir);
-            const index: number = row * 15 + col;
+            const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('enemies');
+            const index: number = this._ssRow * 15 + this._ssCol;
             ss.drawByIndex(ctx, this.x, this.y, index);
         }
 
         update() {
 
-            this.frame--;
             const SPEED: number = 3;
 
             switch (this.dir) {
                 case Direction.DOWN:
                     this.y += SPEED;
-                    if (this.y > Constants.SCREEN_HEIGHT_WITH_HUD + 16) {
+                    if (this.y > Constants.SCREEN_HEIGHT_WITH_HUD + this.h) {
                         this.done = true;
                     }
                     break;
                 case Direction.LEFT:
                     this.x -= SPEED;
-                    if (this.x < -16) {
+                    if (this.x < -this.w) {
                         this.done = true;
                     }
                     break;
                 case Direction.UP:
                     this.y -= SPEED;
-                    if (this.y < -16) {
+                    if (this.y < -this.h) {
                         this.done = true;
                     }
                     break;
                 case Direction.RIGHT:
                     this.x += SPEED;
-                    if (this.x > Constants.SCREEN_WIDTH + 16) {
+                    if (this.x > Constants.SCREEN_WIDTH + this.w) {
                         this.done = true;
                     }
                     break;
             }
 
-            this.hitBox.set(this.x, this.y, 16, 16);
+            this.hitBox.set(this.x + 4, this.y + 3, this.w - 8, this.h - 6);
         }
     }
 }

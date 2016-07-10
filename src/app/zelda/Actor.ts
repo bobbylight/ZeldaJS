@@ -11,14 +11,21 @@ module zelda {
         dir: Direction;
         x: number;
         y: number;
+        w: number;
+        h: number;
         hitBox: gtp.Rectangle;
         frozen: boolean;
         takingDamage: boolean; // Not used by all actors
         done: boolean;
 
         constructor() {
+
             this.dir = Direction.DOWN;
             this.done = false;
+
+            // Almost all characters are 1 tile in size; those that aren't can override
+            this.w = Constants.TILE_WIDTH;
+            this.h = Constants.TILE_HEIGHT;
         }
 
         /**
