@@ -22,28 +22,42 @@ module zeldaEditor {
             this.addEditDialogFn();
         }
 
-        isDownDisabled(): boolean {
-            return this.selectedRow === -1 || this.selectedRow === this.rows.length;
+        isDeleteDisabled(): boolean {
+            return this.selectedRow < 0 || this.selectedRow >= this.rows.length;
         }
+
+        isDownDisabled(): boolean {
+            return this.selectedRow === -1 || this.selectedRow === this.rows.length - 1;
+        }
+
         isUpDisabled(): boolean {
-            return this.selectedRow <= 1;
+            return this.selectedRow <= 0;
         }
 
         moveRowDown() {
             console.log('moveRowDown() called');
+            const destRow: number = this.selectedRow + 1;
+            this.rows.splice(destRow, 0, this.rows.splice(this.selectedRow, 1)[0]);
+            this.selectedRow = destRow;
         }
 
         moveRowUp() {
             console.log('moveRowUp() called');
+            const destRow: number = this.selectedRow - 1;
+            this.rows.splice(destRow, 0, this.rows.splice(this.selectedRow, 1)[0]);
+            this.selectedRow = destRow;
         }
 
         removeRow() {
             console.log('removeRow() called');
+            this.rows.splice(this.selectedRow, 1);
+            // TODO: Figure out how to highlight the row at selectedRow, if row count still > 0
+            this.selectedRow = -1;
         }
 
         setPrimary(e: JQueryEventObject) {
-            console.log('--- ' + e);
             this.selectedRow = this._highlightSelectedRow(e);
+            console.log('--- selectedRow === ' + this.selectedRow);
         }
     }
 
@@ -80,7 +94,7 @@ angular.module('editorDirectives')
         link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.ModifiableTableController) => {
 
             controller._highlightSelectedRow = (e: JQueryEventObject): number => {
-                return highlightSelectedRow(element, e);
+                return highlightSelectedRow(element, e) - 1;
             };
         }
     };

@@ -6,14 +6,8 @@
 
     <form name="enemyForm">
         <div class="form-group">
-            <label for="enemyType">Type</label>
-            <!-- TODO: Use zelda-select instead -->
-            <select id="enemyType" class="form-control">
-                <option value="moblin">Moblin</option>
-                <option value="octorok">Octorok</option>
-                <option value="tektite">Tektite</option>
-            </select>
-
+            <label>Type</label>
+            <zelda-select choices="vm.enemyChoices" selection="vm.selectedEnemy"></zelda-select>
         </div>
 
         <div class="form-group error">

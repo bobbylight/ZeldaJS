@@ -24,7 +24,6 @@ module zeldaEditor {
             ];
 
             this.enemyGroup = new zelda.EnemyGroup('random');
-            console.log(' >>> >>> >>> ' + this.curScreen);
 
             $scope.$watch('vm.curScreen', (newValue: zelda.Screen, oldValue: zelda.Screen) => {
                 if (newValue) {
@@ -42,7 +41,11 @@ module zeldaEditor {
 
         addOrEditRow() {
             console.log('yeah yeah');
-            this._openModal();
+            this._openModal((value: zelda.EnemyInfo) => { gtp.Utils.hitch(this, this.addOrEditRowOkCallback)(value); });
+        }
+
+        addOrEditRowOkCallback(newEnemy: zelda.EnemyInfo) {
+            this.enemyGroup.add(newEnemy);
         }
 
         selectedEnemyGroupChanged(newGroup: string) {
@@ -106,12 +109,10 @@ angular.module('editorDirectives')
 .directive('enemySelector', [ '$rootScope', '$uibModal', ($rootScope: ng.IRootScopeService, $uibModal: any) => {
     'use strict';
 
-    function openModal() {
+    function openModal(okCallback: Function) {
 
         const scope: any = $rootScope.$new();
-        scope.okCallback = function(arg: any) {
-            console.log('yay - ' + arg);
-        };
+        scope.okCallback = okCallback;
 
         const modalInstance: any = $uibModal.open({
             templateUrl: 'js/zelda/editor/enemySelector/editRowModal.html',

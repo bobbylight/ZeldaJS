@@ -40,12 +40,27 @@ module zeldaEditor {
             this.enemyCount = 1;
         }
 
+        private _createSelectedEnemyInfo(): zelda.EnemyInfo {
+
+            // TODO: Do this the right way
+            const conversions: any = [];
+            conversions.moblin = 'Moblin';
+            conversions.octorok = 'Octorok';
+            conversions.tektite = 'Tektite';
+
+            return {
+                type: conversions[this.selectedEnemy],
+                args: [],
+                count: this.enemyCount
+            };
+        }
+
         onSubmit() {
             console.log('submit clicked');
             const result: { [ key: string ]: any } = {};
             this.$uibModalInstance.close(result);
             if (this.okCallback) {
-                this.okCallback('apples');
+                this.okCallback(this._createSelectedEnemyInfo());
             }
         }
 
