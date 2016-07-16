@@ -40,3 +40,7 @@ html, body {
 .modifiable-table .modifiable-table-tool-bar button {
     padding: 0px 6px;
 }
+
+.tooltip-inner {
+    white-space: nowrap; /* Needed for ModifiableTable's tool tips */
+}

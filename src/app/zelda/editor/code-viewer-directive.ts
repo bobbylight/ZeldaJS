@@ -21,8 +21,17 @@ module zeldaEditor {
             const start: Date = new Date();
             console.log('Refreshing started at: ' + start);
 
+            // Strip out values inserted by stuff like Angular's ng-repeat ($$hashKey, etc.).
+            const replacer: any = (key: string, value: any) => {
+                if (key === '$$hashKey') {
+                    return undefined;
+                }
+                return value;
+            };
+
             const json: zelda.MapData = this.map.toJson();
-            let jsonStr: string = JSON.stringify(json, null, 2);
+            let jsonStr: string = JSON.stringify(json, replacer, 2);
+            console.log(jsonStr);
             //jsonStr = jsonStr.replace(/\[((\r?\n +\d+,)+(\r?\n +\d+))\]/g, '[$1]');
             jsonStr = jsonStr.replace(/( +)"tiles": \[(?:[ \d,\n\[\]]+)\][, \n]+\]/g, (match: string, p1: string) => {
                 return match.replace(/ +/g, ' ').replace(/\n/g, '').replace(/\], \[/g, ']\,\n' + p1 + '  [');
