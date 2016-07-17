@@ -35,7 +35,9 @@ module zelda {
 
         private _fireFrameUpdate() {
             this._listeners.forEach((listener: AnimationListener) => {
-                listener.animationFrameUpdate(this);
+                if (listener.animationFrameUpdate) {
+                    listener.animationFrameUpdate(this);
+                }
             });
         }
 

@@ -42,7 +42,7 @@ editor.
   - Map loading
   - Basic resource loading, Link sprite movement
   - Music
-  - Moving between screens, smooth screen transitions (though only a couple of screens are implemented on the map)
+  - Moving between screens, smooth screen transitions (though only a portion of the map is implemented)
   - Use of sword (Z key)
   - Basic enemies that can die
 * Editor

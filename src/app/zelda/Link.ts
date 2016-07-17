@@ -1,5 +1,6 @@
 module zelda {
     'use strict';
+    import SpriteSheet = gtp.SpriteSheet;
 
     const STEP_TIMER_MAX: number = 10;
 
@@ -48,6 +49,29 @@ module zelda {
             }
             // TODO: Take damage if it's an enemy
             return false;
+        }
+
+        private _createStairsDownAnimation(completedCallback: AnimationListener): Animation {
+
+            const animation: Animation = new Animation(this.x, this.y);
+            const linkSheet: SpriteSheet = <gtp.SpriteSheet>game.assets.get('link');
+            const frameMillis: number = 120;
+
+            animation.addFrame({ sheet: linkSheet, index: 17 }, frameMillis);
+            animation.addFrame({ sheet: linkSheet, index: 4 }, frameMillis);
+            animation.addFrame({ sheet: linkSheet, index: 5 }, frameMillis);
+            animation.addFrame({ sheet: linkSheet, index: 6 }, frameMillis);
+            animation.addFrame({ sheet: linkSheet, index: 7 }, frameMillis);
+            animation.addFrame({ sheet: linkSheet, index: 8 }, frameMillis);
+            animation.addFrame({ sheet: linkSheet, index: 9 }, frameMillis);
+            animation.addFrame({ sheet: linkSheet, index: 10 }, frameMillis);
+
+            animation.addListener(completedCallback);
+            return animation;
+        }
+
+        enterCave(completedCallback: AnimationListener) {
+            this.setAnimation(this._createStairsDownAnimation(completedCallback));
         }
 
         handleInput(input: gtp.InputManager): boolean {

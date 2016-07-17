@@ -8,28 +8,28 @@ module zelda {
         private _actors: Actor[];
         enemyGroup: EnemyGroup;
         private _firstTimeThrough: boolean;
-        //private _events: Event[];
+        private _events: event.Event[];
 
         constructor(parent: Map, enemyGroup?: EnemyGroup, tiles?: number[][]) {
 
             this._parent = parent;
 
             if (!tiles) {
-                tiles = this._createEmptyTiles();
+                tiles = Screen._createEmptyTiles();
             }
             this._tiles = tiles;
 
             this._actors = [];
             this.enemyGroup = enemyGroup;
             this._firstTimeThrough = true;
-            //this._events = [];
+            this._events = [];
         }
 
         addActor(actor: Actor) {
             this._actors.push(actor);
         }
 
-        private _createEmptyTiles(): number[][] {
+        private static _createEmptyTiles(): number[][] {
             const tiles: number[][] = [];
             for (let row: number = 0; row < Constants.SCREEN_ROW_COUNT; row++) {
                 const rowData: number[] = [];
@@ -75,8 +75,8 @@ module zelda {
                     const tile: number = this._tiles[row][col];
                     if (this._parent.tileset.isDoorway(tile)) {
                         const tilePos: Position = new Position(row, col);
-                        //this._events.push(new GoDownStairsEvent(tilePos, true, 'overworld',
-                        //        new Position(7, 6), new Position(8, 8)));
+                        this._events.push(new event.GoDownStairsEvent(tilePos, true, 'overworld',
+                                new Position(7, 6), new Position(8, 8)));
                     }
                 }
             }
@@ -159,9 +159,9 @@ module zelda {
         /**
          * Paints a specific column of this screen.  Used by the tile editor.
          *
-         * @param {CanvasRenderingContext2D} The rendering context.
+         * @param {CanvasRenderingContext2D} ctx The rendering context.
          * @param {number} col The column to paint.
-         * @param {number} y The y-index at which to paint.
+         * @param {number} x The x-index at which to paint.
          * @param {boolean} paintWalkability Whether to paint a walkability indicator for each tile.
          */
         paintCol(ctx: CanvasRenderingContext2D, col: number, x: number, paintWalkability: boolean = false) {
@@ -183,7 +183,7 @@ module zelda {
         /**
          * Paints a specific row of this screen.  Used by the tile editor.
          *
-         * @param {CanvasRenderingContext2D} The rendering context.
+         * @param {CanvasRenderingContext2D} ctx The rendering context.
          * @param {number} row The row to paint.
          * @param {number} y The y-index at which to paint.
          * @param {boolean} paintWalkability Whether to paint a walkability indicator for each tile.
@@ -238,7 +238,23 @@ module zelda {
         }
 
         private _updateActions() {
-            // TODO: Implement me
+
+            // TODO: Optimize me
+            const remainingEvents: event.Event[] = [];
+
+            this._events.forEach((event: event.Event) => {
+                event.update();
+                if (event.shouldOccur()) {
+                    if (!event.execute()) { // execute() returning true => event is done
+                        remainingEvents.push(event);
+                    }
+                }
+                else {
+                    remainingEvents.push(event);
+                }
+            });
+
+            this._events = remainingEvents;
         }
 
         private _updateActors() {

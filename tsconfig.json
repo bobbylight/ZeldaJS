@@ -40,6 +40,8 @@
     "src/app/zelda/Tileset.ts",
     "src/app/zelda/TitleState.ts",
     "src/app/zelda/ZeldaGame.ts",
+    "src/app/zelda/event/Event.ts",
+    "src/app/zelda/event/GoDownStairsEvent.ts",
     "bower_components/gtp/dist-all/gtp-all.d.ts"
   ],
   "atom": {

@@ -113,6 +113,18 @@ module zelda {
             return false;
         }
 
+        setMap(name: string, destScreen: Position, destPos: Position) {
+
+            if (!/\.map$/.test(name)) {
+                name += '.map';
+            }
+
+            // TODO: Load more than one map, and honor the map name parameter!
+            this.map.setCurrentScreen(destScreen.row, destScreen.col);
+            this.link.setLocation(destPos.col * 16, destPos.row * 16);
+            game.audio.playMusic(this.map.music, true);
+        }
+
         startNewGame() {
             this.map = new Map();
             this.map.fromJson(this.assets.get('overworldData'));
