@@ -115,7 +115,7 @@ angular.module('editorDirectives')
         scope.okCallback = okCallback;
 
         const modalInstance: any = $uibModal.open({
-            templateUrl: 'js/zelda/editor/enemySelector/editRowModal.html',
+            templateUrl: 'js/zelda/editor/enemySelector/edit-row-modal.html',
             controller: zeldaEditor.EditorRowModalController,
             controllerAs: 'vm',
             bindToController: true,
@@ -137,7 +137,7 @@ angular.module('editorDirectives')
     return {
         restrict: 'E',
         //require: 'ngModel',
-        templateUrl: 'js/zelda/editor/enemySelector/enemySelector.html',
+        templateUrl: 'js/zelda/editor/enemySelector/enemy-selector.html',
 
         controller: zeldaEditor.EnemySelectorController,
         controllerAs: 'vm',

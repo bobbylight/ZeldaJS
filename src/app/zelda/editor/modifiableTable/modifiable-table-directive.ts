@@ -79,7 +79,7 @@ angular.module('editorDirectives')
     return {
         restrict: 'E',
         //require: 'ngModel',
-        templateUrl: 'js/zelda/editor/modifiableTable/modifiableTable.html',
+        templateUrl: 'js/zelda/editor/modifiableTable/modifiable-table.html',
 
         controller: zeldaEditor.ModifiableTableController,
         controllerAs: 'vm',

@@ -84,6 +84,6 @@ angular.module('editorDirectives', [])
         scope: {
             map: '='
         },
-        templateUrl: 'js/zelda/editor/templates/codeViewer.html'
+        templateUrl: 'js/zelda/editor/templates/code-viewer.html'
     };
 }]);

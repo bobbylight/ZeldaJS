@@ -80,6 +80,7 @@
     <script src="js/zelda/editor/tile-palette-directive.js"></script>
     <script src="js/zelda/editor/enemySelector/enemy-selector-directive.js"></script>
     <script src="js/zelda/editor/enemySelector/edit-row-modal-directive.js"></script>
+    <script src="js/zelda/editor/eventTable/event-table-directive.js"></script>
     <script src="js/zelda/editor/resource-service.js"></script>
     <!-- endbuild -->
 
@@ -131,14 +132,31 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Tile Palette</h3>
-                    </div>
-                    <div class="panel-body">
-                        <tile-palette selected-index="vm.state.selectedTileIndex"></tile-palette>
-                    </div>
-                </div>
+
+                <uib-tabset active="activeFoo" class="panel panel-default">
+                    <uib-tab index="0" heading="Tile Palette">
+
+                        <!--<div class="panel panel-default">-->
+                            <!--<div class="panel-heading">-->
+                                <!--<h3 class="panel-title">Tile Palette</h3>-->
+                            <!--</div>-->
+                            <div class="panel-body">
+                                <tile-palette selected-index="vm.state.selectedTileIndex"></tile-palette>
+                            </div>
+                        <!--</div>-->
+
+                    </uib-tab>
+
+                    <uib-tab index="1" heading="Events">
+
+                        <div class="panel-body">
+                            <event-table></event-table>
+                        </div>
+
+                    </uib-tab>
+
+                </uib-tabset>
+
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Enemies</h3>
