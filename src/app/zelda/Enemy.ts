@@ -5,6 +5,7 @@ module zelda {
 
     export abstract class Enemy extends Character {
 
+        private _maxHealth: number;
         protected _health: number;
 
         private _step: number;
@@ -13,7 +14,7 @@ module zelda {
 
         constructor(health: number = 1, alwaysFacesForward: boolean = false) {
             super();
-            this._health = health;
+            this._maxHealth = this._health = health;
 
             this._step = 0;
             this._stepTimer = STEP_TIMER_MAX;
@@ -90,6 +91,10 @@ module zelda {
             const index: number = row * 15 + col;
             const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('enemies');
             ss.drawByIndex(ctx, this.x, this.y, index);
+        }
+
+        resetHealth() {
+            this._health = this._maxHealth;
         }
 
         setLocationToSpawnPoint(screen: Screen) {

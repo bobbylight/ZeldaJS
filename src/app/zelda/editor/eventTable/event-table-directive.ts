@@ -4,6 +4,7 @@ module zeldaEditor {
     export class EventTableController {
 
         headers: ModifiableTableHeader[];
+        events: any; // TODO
 
         constructor() {
 

@@ -7,6 +7,7 @@ module zelda {
         private _tiles: number[][];
         private _actors: Actor[];
         enemyGroup: EnemyGroup;
+        private flattenedEnemyGroup: EnemyGroup; // TODO: Can we flatten iff we know we're in the game, not the editor?
         private _firstTimeThrough: boolean;
         private _events: event.Event[];
 
@@ -20,7 +21,7 @@ module zelda {
             this._tiles = tiles;
 
             this._actors = [];
-            this.enemyGroup = enemyGroup;
+            this._setEnemyGroup(enemyGroup);
             this._firstTimeThrough = true;
             this._events = [];
         }
@@ -42,21 +43,45 @@ module zelda {
         }
 
         enter() {
-            if (this._firstTimeThrough && this.enemyGroup) {
-                this.enemyGroup.enemies.forEach((enemyInfo: EnemyInfo) => {
-                    const count: number = enemyInfo.count || 1;
+
+            if (this.enemyGroup) {
+
+                if (this._firstTimeThrough) {
+                    this.enemyGroup.enemies.forEach((enemyInfo: EnemyInfo) => {
+                        const count: number = enemyInfo.count || 1;
+                        for (let i: number = 0; i < count; i++) {
+                            const enemy: Enemy = InstanceLoader.create<Enemy>(enemyInfo.type, ...enemyInfo.args);
+                            enemy.setLocationToSpawnPoint(this);
+                            this._actors.push(enemy);
+                        }
+                    });
+                    //this.enemyGroup.clear();
+                    this._firstTimeThrough = false;
+                }
+
+                else {
+
+                    // First N enemies in the enemy list respawn; see:
+                    // https://www.gamefaqs.com/boards/563433-the-legend-of-zelda/73732540?jumpto=9
+
+                    const count: number = this._actors.length; // Assuming here that "actors" is remaining enemies
+                    this._actors = [];
                     for (let i: number = 0; i < count; i++) {
+                        const enemyInfo: EnemyInfo = this.flattenedEnemyGroup.enemies[i];
                         const enemy: Enemy = InstanceLoader.create<Enemy>(enemyInfo.type, ...enemyInfo.args);
                         enemy.setLocationToSpawnPoint(this);
                         this._actors.push(enemy);
                     }
-                });
-                //this.enemyGroup.clear();
-                this._firstTimeThrough = false;
+                }
             }
         }
 
         exit() {
+
+            // Clear out any "temporary" actors, such as projectiles
+            this._actors = this._actors.filter((actor: Actor): boolean => {
+                return !(actor instanceof Projectile);
+            });
             //this._actors = [];
         }
 
@@ -67,7 +92,7 @@ module zelda {
             //json.actors.forEach((actorData: ActorData) => {
             //    this._actors.push(new Actor().fromJson(actorData));
             //});
-            this.enemyGroup = new EnemyGroup().fromJson(json.enemyGroup);
+            this._setEnemyGroup(new EnemyGroup().fromJson(json.enemyGroup));
 
             // TODO: Load these, don't hard-code them
             for (let row: number = 0; row < this._tiles.length; row++) {
@@ -206,6 +231,13 @@ module zelda {
 
         save() {
             // TODO: Implement me
+        }
+
+        private _setEnemyGroup(enemyGroup: EnemyGroup) {
+            this.enemyGroup = enemyGroup;
+            if (this.enemyGroup) {
+                this.flattenedEnemyGroup = enemyGroup.clone(true);
+            }
         }
 
         setTile(row: number, col: number, tile: number) {

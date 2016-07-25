@@ -25,6 +25,39 @@ module zelda {
             this.enemies.length = 0;
         }
 
+        /**
+         * Clones this enemy group, optionally flattening it.
+         *
+         * @param {boolean} flatten Whether the enemy list should be flattened.
+         * @returns {EnemyGroup}
+         * @see flatten
+         */
+        clone(flatten: boolean = false): EnemyGroup {
+            const newEnemyGroup: EnemyGroup = new EnemyGroup(this.spawnStyle, this.enemies);
+            return flatten ? newEnemyGroup.flatten() : newEnemyGroup;
+        }
+
+        /**
+         * Coverts any EnemyInfo instances in this group that contain multiple enemies into multiple EnemyInfo instances
+         * representing a single enemy.
+         *
+         * @returns {zelda.EnemyGroup} This enemy group.
+         */
+        flatten(): EnemyGroup {
+
+            const flattenedEnemies: EnemyInfo[] = [];
+
+            this.enemies.forEach((enemyGroup: EnemyInfo) => {
+                const count: number = enemyGroup.count || 1;
+                for (let i: number = 0; i < count; i++) {
+                    flattenedEnemies.push({ type: enemyGroup.type, args: enemyGroup.args, count: 1 });
+                }
+            });
+
+            this.enemies = flattenedEnemies;
+            return this;
+        }
+
         fromJson(json: EnemyGroupData): EnemyGroup {
             if (json) { // Some screens may be empty
                 this.spawnStyle = json.spawnStyle;
