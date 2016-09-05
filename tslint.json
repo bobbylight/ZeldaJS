@@ -1,9 +1,11 @@
 {
   "rules": {
+    "adjacent-overload-signatures": true,
     "align": [
       true,
       "statements"
     ],
+    "arrow-parens": true,
     "ban": false,
     "class-name": true,
     "comment-format": [ false ],
@@ -16,6 +18,8 @@
     "jsdoc-format": true,
     "label-position": true,
     "label-undefined": true,
+    //"linebreak-style": [ true, "CRLF" ],
+    "max-file-line-count": [ true, 500 ],
     "max-line-length": [
       true,
       140
@@ -25,6 +29,7 @@
       "variables-before-functions"
     ],
     "new-parens": true,
+    //"no-any": true,
     "no-arg": true,
     "no-bitwise": true,
     "no-consecutive-blank-lines": true,
@@ -35,6 +40,7 @@
     "no-duplicate-variable": true,
     "no-empty": false,
     "no-eval": true,
+    //"no-for-in-array": true,
     "no-inferrable-types": false,
     "no-internal-module": false,
     "no-invalid-this": true,
@@ -45,7 +51,10 @@
     "no-string-literal": true,
     "no-trailing-whitespace": true,
     "no-unreachable": true,
+    "no-unsafe-finally": true,
     "no-unused-expression": true,
+    "no-unused-new": true,
+    "no-unused-variable": [true],
     "no-use-before-declare": true,
     "no-var-keyword": true,
     "no-var-requires": true,
@@ -56,6 +65,7 @@
       "check-open-brace",
       "check-whitespace"
     ],
+    "only-arrow-functions": true,
     "quotemark": [
       true,
       "single",

@@ -67,14 +67,14 @@ angular.module('editorDirectives')
 .directive('modifiableTable', [ () => {
     'use strict';
 
-    function highlightSelectedRow(element: JQuery, e: JQueryEventObject): number {
+    const highlightSelectedRow: Function = (element: JQuery, e: JQueryEventObject): number => {
 
         $(element).find('tr').removeClass('bg-info');
 
         const closestTableRow: JQuery = $(e.target).closest('tr');
         closestTableRow.addClass('bg-info');
         return (<HTMLTableRowElement>e.target.parentElement).rowIndex;
-    }
+    };
 
     return {
         restrict: 'E',

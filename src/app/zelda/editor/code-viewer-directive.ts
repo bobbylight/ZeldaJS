@@ -13,10 +13,6 @@ module zeldaEditor {
             this.mapJsonUpdateTime = 0;
         }
 
-        private jsonReplacer(key: string, value: any): string {
-            return value;
-        }
-
         refresh() {
             const start: Date = new Date();
             console.log('Refreshing started at: ' + start);
@@ -53,7 +49,7 @@ angular.module('editorDirectives', [])
 .directive('codeViewer', [() => {
     'use strict';
 
-    function link(scope: any, element: JQuery, attrs: ng.IAttributes, controller: any) {
+    const link: Function = (scope: any, element: JQuery, attrs: ng.IAttributes, controller: any) => {
 
         scope.$watch(() => { return controller.mapJsonUpdateTime; }, () => {
             const start: Date = new Date();
@@ -73,7 +69,7 @@ angular.module('editorDirectives', [])
             //range.setStart(element.get(0), 0);
             //range.setEnd(element.get(0), 1);
         });
-    }
+    };
 
     return {
         bindToController: true,

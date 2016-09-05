@@ -89,8 +89,8 @@
     });
     gulp.task('tslint', function() {
         return gulp.src([ 'src/app/**/*.ts', '!src/app/typings/**' ])
-            .pipe(tslint())
-            .pipe(tslint.report('prose'));
+            .pipe(tslint({ formatter: 'prose' }))
+            .pipe(tslint.report());
     });
 
     gulp.task('jshint', function() {

@@ -109,12 +109,12 @@ angular.module('editorDirectives')
 .directive('enemySelector', [ '$rootScope', '$uibModal', ($rootScope: ng.IRootScopeService, $uibModal: any) => {
     'use strict';
 
-    function openModal(okCallback: Function) {
+    const openModal: Function = (okCallback: Function) => {
 
         const scope: any = $rootScope.$new();
         scope.okCallback = okCallback;
 
-        const modalInstance: any = $uibModal.open({
+        $uibModal.open({
             templateUrl: 'js/zelda/editor/enemySelector/edit-row-modal.html',
             controller: zeldaEditor.EditorRowModalController,
             controllerAs: 'vm',
@@ -132,7 +132,7 @@ angular.module('editorDirectives')
                 // }
             }
         });
-    }
+    };
 
     return {
         restrict: 'E',

@@ -6,7 +6,7 @@ let CANVAS_WIDTH: number = 256;
 let CANVAS_HEIGHT: number = 240;
 let game: zelda.ZeldaGame;
 
-function init(parent: HTMLElement, assetRoot?: string) {
+function init(parent: HTMLElement, assetRoot?: string) { // tslint:disable-line:only-arrow-functions no-unused-variable
    'use strict';
    game = new zelda.ZeldaGame({
        assetRoot: assetRoot,

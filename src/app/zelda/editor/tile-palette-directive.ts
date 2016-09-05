@@ -60,7 +60,7 @@ angular.module('editorDirectives')
                 controller.setArmedIndex(e.offsetX, e.offsetY);
             });
 
-            function paintScreen() {
+            const paintScreen: Function = () => {
 
                 const canvas: HTMLCanvasElement = <HTMLCanvasElement>element.find('.tile-palette-canvas').get(0);
                 const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
@@ -80,7 +80,7 @@ angular.module('editorDirectives')
                 x = col * 16;
                 y = row * 16;
                 ctx.strokeRect(x, y, 16, 16);
-            }
+            };
             $interval(paintScreen, 50);
         }
     };

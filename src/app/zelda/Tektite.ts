@@ -87,7 +87,6 @@ module zelda {
 
             this._touchStepTimer();
 
-            const speed: number = this.blue ? 1 : 0.5;
             if (this._paused) {
 
                 this._pauseOrJumpTime++;

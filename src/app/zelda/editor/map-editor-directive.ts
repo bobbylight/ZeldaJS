@@ -34,18 +34,18 @@ angular.module('editorDirectives')
 
         link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.MapEditorController): void => {
 
-            function setArmedTile() {
+            const setArmedTile: (e: JQueryEventObject) => void = (e: JQueryEventObject): void => {
                 const screen: zelda.Screen = controller.game.map.currentScreen;
                 const selectedTileIndex: number = controller.selectedTileIndex;
                 screen.setTile(controller._armedRow, controller._armedCol, selectedTileIndex);
-            }
+            };
 
-            function inMainScreen(x: number, y: number, canvas: HTMLCanvasElement) {
+            const inMainScreen: Function = (x: number, y: number, canvas: HTMLCanvasElement) => {
                 return x >= 32 && x < zelda.Constants.SCREEN_WIDTH * 2 + 32 &&
                     y >= 32 && y < zelda.Constants.SCREEN_HEIGHT * 2 + 32;
-            }
+            };
 
-            function paintScreenAbovePart(ctx: CanvasRenderingContext2D) {
+            const paintScreenAbovePart: Function = (ctx: CanvasRenderingContext2D) => {
                 const map: zelda.Map = controller.game.map;
                 if (map && map.currentScreenRow > 0) {
                     ctx.translate(16, 0);
@@ -57,9 +57,9 @@ angular.module('editorDirectives')
                     ctx.fillStyle = 'darkgray';
                     ctx.fillRect(16, 0, zelda.Constants.SCREEN_WIDTH, 16);
                 }
-            }
+            };
 
-            function paintScreenRightPart(ctx: CanvasRenderingContext2D) {
+            const paintScreenRightPart: Function = (ctx: CanvasRenderingContext2D) => {
                 const map: zelda.Map = controller.game.map;
                 if (map && map.currentScreenCol < map.colCount - 1) {
                     ctx.translate(0, 16);
@@ -72,9 +72,9 @@ angular.module('editorDirectives')
                     const x: number = zelda.Constants.SCREEN_WIDTH + 16;
                     ctx.fillRect(x, 16, 16, zelda.Constants.SCREEN_HEIGHT);
                 }
-            }
+            };
 
-            function paintScreenBelowPart(ctx: CanvasRenderingContext2D) {
+            const paintScreenBelowPart: Function = (ctx: CanvasRenderingContext2D) => {
                 const map: zelda.Map = controller.game.map;
                 if (map && map.currentScreenRow < map.rowCount - 1) {
                     ctx.translate(16, 0);
@@ -87,9 +87,9 @@ angular.module('editorDirectives')
                     const y: number = zelda.Constants.SCREEN_HEIGHT + 16;
                     ctx.fillRect(16, y, zelda.Constants.SCREEN_WIDTH, 16);
                 }
-            }
+            };
 
-            function paintScreenLeftPart(ctx: CanvasRenderingContext2D) {
+            const paintScreenLeftPart: Function = (ctx: CanvasRenderingContext2D) => {
                 const map: zelda.Map = controller.game.map;
                 if (map && map.currentScreenCol > 0) {
                     ctx.translate(0, 16);
@@ -101,9 +101,9 @@ angular.module('editorDirectives')
                     ctx.fillStyle = 'darkgray';
                     ctx.fillRect(0, 16, 16, zelda.Constants.SCREEN_HEIGHT);
                 }
-            }
+            };
 
-            function possiblyPaintArmedTile(ctx: CanvasRenderingContext2D) {
+            const possiblyPaintArmedTile: Function = (ctx: CanvasRenderingContext2D) => {
                 const armedRow: number = controller._armedRow;
                 const armedCol: number = controller._armedCol;
                 if (armedRow > -1 && armedCol > -1) {
@@ -113,7 +113,7 @@ angular.module('editorDirectives')
                     controller.game.map.tileset.paintTile(ctx, controller.selectedTileIndex, x, y);
                     ctx.globalAlpha = 1;
                 }
-            }
+            };
 
             element.on('mousemove', (e: JQueryEventObject) => {
 
@@ -128,7 +128,7 @@ angular.module('editorDirectives')
                     controller._armedRow = Math.floor(y / 32);
                     console.log('armed tile: ' + controller._armedRow, controller._armedCol);
                     if (controller._mouseDown) {
-                        setArmedTile();
+                        setArmedTile(null);
                     }
                 }
                 else {
@@ -140,7 +140,8 @@ angular.module('editorDirectives')
             element.on('mouseup mouseleave', () => { controller._mouseDown = false; });
 
             element.on('click', setArmedTile);
-            function paintScreen() {
+
+            const paintScreen: Function = () => {
 
                 const map: zelda.Map = controller.game.map;
                 if (map) {
@@ -165,7 +166,7 @@ angular.module('editorDirectives')
 
                     possiblyPaintArmedTile(ctx);
                 }
-            }
+            };
             $interval(paintScreen, 50);
         }
     };
