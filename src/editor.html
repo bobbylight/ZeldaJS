@@ -121,7 +121,9 @@
     <div class="container">
 
         <div class="row">
+
             <div class="col-md-8">
+
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Screen ({{vm.getCurrentScreenRow()}}, {{vm.getCurrentScreenCol()}}) / ({{vm.rowCount}}, {{vm.colCount}})</h3>
@@ -130,7 +132,17 @@
                         <map-editor game="vm.game" selected-tile-index="vm.state.selectedTileIndex"></map-editor>
                     </div>
                 </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Map Preview</h3>
+                    </div>
+                    <div class="panel-body">
+                        <map-preview game="vm.game"></map-preview>
+                    </div>
+                </div>
             </div>
+
             <div class="col-md-4">
 
                 <uib-tabset active="activeFoo" class="panel panel-default">

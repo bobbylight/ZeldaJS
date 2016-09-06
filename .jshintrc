@@ -1,24 +1,26 @@
 {
   "bitwise": true,
   "browser": true,
-  "curly": true,        // Require curly braces around code blocks
+  "curly": true,         // Require curly braces around code blocks
   "debug": false,
   "devel": true,
   "eqeqeq": false,
-  "eqnull": true,       // Suppress warnings about == null comparisons
-  "forin":  true,       // Require use of hasOwnProperty() check in for...in loops
-  "freeze": true,       // Prohibit overwriting prototypes of native objects such as Array and Date
-  "immed": true,        // Prohibits immediate function invocations without wrapping them in parens
+  "eqnull": true,        // Suppress warnings about == null comparisons
+  "forin":  true,        // Require use of hasOwnProperty() check in for...in loops
+  "freeze": true,        // Prohibit overwriting prototypes of native objects such as Array and Date
+  "futurehostile": true, // Warn on using identifiers defined in future JS versions
+  "immed": true,         // Prohibits immediate function invocations without wrapping them in parens
   "jquery": true,
-  "latedef": true,      // Prohibit use of variable before it is defined
-  "laxcomma": true,     // Suppress warnings about comma-first style in object literals
-  "newcap": true,       // Require constructor functions to be capitalized
-  "noempty": true,      // Prohibit empty blocks in code
+  "latedef": true,       // Prohibit use of variable before it is defined
+  "laxcomma": true,      // Suppress warnings about comma-first style in object literals
+  "newcap": true,        // Require constructor functions to be capitalized
+  "noempty": true,       // Prohibit empty blocks in code
   "node": true,
   "shadow": false,
+  "singleGroups": true,  // Prohibit the use of grouping operator when not strictly required
   "strict": true,
-  "undef": true,        // Warns about unknown globals
-  "unused": "vars",     // Warn on unused variables (explicitly vars, not function params)
+  "undef": true,         // Warns about unknown globals
+  "unused": "vars",      // Warn on unused variables (explicitly vars, not function params)
 
   "globals": {
     "angular": false,

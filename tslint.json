@@ -19,7 +19,7 @@
     "label-position": true,
     "label-undefined": true,
     //"linebreak-style": [ true, "CRLF" ],
-    "max-file-line-count": [ true, 500 ],
+    "max-file-line-count": [ true, 400 ],
     "max-line-length": [
       true,
       140

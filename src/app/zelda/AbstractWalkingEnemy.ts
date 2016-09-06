@@ -45,7 +45,7 @@ module zelda {
 
         moveX(inc: number) {
 
-            if ((this.x % 16) === 0 && this._changeDirTimer <= 0 && game.randomInt(8) === 0) {
+            if (this.x % 16 === 0 && this._changeDirTimer <= 0 && game.randomInt(8) === 0) {
                 this._changeDirection();
                 return;
             }
@@ -67,7 +67,7 @@ module zelda {
 
         moveY(inc: number) {
 
-            if ((this.x % 16) === 0 && (this.y % 16) === 0 && this._changeDirTimer <= 0 &&
+            if (this.x % 16 === 0 && this.y % 16 === 0 && this._changeDirTimer <= 0 &&
                 game.randomInt(8) === 0) {
                 this._changeDirection();
                 return;
