@@ -17,7 +17,7 @@ module zeldaEditor {
 }
 
 angular.module('editorDirectives')
-.directive('mapEditor', [ '$interval', ($interval: ng.IIntervalService) => {
+.directive('mapEditor', [ '$rootScope', '$interval', ($rootScope: ng.IRootScopeService, $interval: ng.IIntervalService) => {
     'use strict';
 
     return {
@@ -38,6 +38,7 @@ angular.module('editorDirectives')
                 const screen: zelda.Screen = controller.game.map.currentScreen;
                 const selectedTileIndex: number = controller.selectedTileIndex;
                 screen.setTile(controller._armedRow, controller._armedCol, selectedTileIndex);
+                $rootScope.$broadcast('mapChanged', screen); // TODO: Formalize an event for this and make it specific
             };
 
             const inMainScreen: Function = (x: number, y: number, canvas: HTMLCanvasElement) => {
