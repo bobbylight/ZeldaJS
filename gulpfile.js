@@ -76,7 +76,7 @@
 
     gulp.task('compile-ts', function() {
 
-        var tsResult = gulp.src([ 'src/app/**/*.ts', 'bower_components/gtp/dist-all/gtp-all.d.ts' ])
+        var tsResult = gulp.src([ 'src/app/**/*.ts', 'typings/index.d.ts' ])
             .pipe(sourcemaps.init())
             .pipe(tsc(tsconfig));
 
@@ -88,7 +88,7 @@
         ]).pipe(livereload({ quiet: true }))
     });
     gulp.task('tslint', function() {
-        return gulp.src([ 'src/app/**/*.ts', '!src/app/typings/**' ])
+        return gulp.src([ 'src/app/**/*.ts' ])
             .pipe(tslint({ formatter: 'prose' }))
             .pipe(tslint.report());
     });
