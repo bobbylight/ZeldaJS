@@ -6,6 +6,7 @@ node_js:
 before_script:
    - npm install -g gulp
    - npm install -g bower
+   - bower install
    - npm install -g typings
    - typings install
 script: gulp ci-build
