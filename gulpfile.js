@@ -22,6 +22,7 @@
     var merge2 = require('merge2');
     var dateFormat = require('dateformat');
     var typedoc = require('gulp-typedoc');
+    var coveralls = require('gulp-coveralls');
 
     gulp.task('clean', function() {
         return del([
@@ -131,5 +132,19 @@
 
     gulp.task('default', function() {
         runSequence('less', 'tslint', 'clean', 'compile-ts', /*'jshint', */'-live-reload-markup', 'usemin', 'cssnano', 'copy-non-minified-files');
+    });
+
+    gulp.task('upload-coverage-data', function() {
+        gulp.src('coverage/**/lcov.info')
+            .pipe(coveralls());
+    });
+
+    gulp.task('ci-build', function() {
+        // runSequence does not appear to work when calling another task that
+        // has a runSequence in it!  It will run the second task after the
+        // first task in the "child" runSequence
+        //runSequence('default', 'upload-coverage-data');
+        runSequence('less', 'tslint', 'clean', 'compile-ts', /*'jshint', */'-live-reload-markup', 'usemin', 'cssnano',
+            'copy-non-minified-files', 'upload-coverage-data');
     });
 })();
