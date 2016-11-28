@@ -1,50 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "declaration": true,
+
+    "allowJs": false,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "declaration": false,
+    "forceConsistentCasingInFileNames": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
-    "removeComments": false,
+    //"noUnusedLocals": true,
+    //"noUnusedParameters": true,
     "preserveConstEnums": true,
+    "removeComments": false,
+
+    "target": "es5",
     "outDir": "src/js/",
     "sourceMap": true
   },
-  "filesGlob": [
+  "include": [
     "src/app/**/*.ts",
-    "bower_components/gtp/dist-all/gtp-all.d.ts"
-  ],
-  "files": [
-    "src/app/zelda.ts",
-    "src/app/zelda/BaseState.ts",
-    "src/app/zelda/AbstractWalkingEnemy.ts",
-    "src/app/zelda/Actor.ts",
-    "src/app/zelda/Animation.ts",
-    "src/app/zelda/AnimationListener.ts",
-    "src/app/zelda/Projectile.ts",
-    "src/app/zelda/Character.ts",
-    "src/app/zelda/Constants.ts",
-    "src/app/zelda/CurtainOpeningState.ts",
-    "src/app/zelda/Direction.ts",
-    "src/app/zelda/Enemy.ts",
-    "src/app/zelda/EnemyGroup.ts",
-    "src/app/zelda/InstanceLoader.ts",
-    "src/app/zelda/Link.ts",
-    "src/app/zelda/LoadingState",
-    "src/app/zelda/MainGameState.ts",
-    "src/app/zelda/Map.ts",
-    "src/app/zelda/Moblin.ts",
-    "src/app/zelda/Octorok.ts",
-    "src/app/zelda/Position.ts",
-    "src/app/zelda/Screen.ts",
-    "src/app/zelda/Sword.ts",
-    "src/app/zelda/Tileset.ts",
-    "src/app/zelda/TitleState.ts",
-    "src/app/zelda/ZeldaGame.ts",
-    "src/app/zelda/event/Event.ts",
-    "src/app/zelda/event/GoDownStairsEvent.ts",
     "typings/index.d.ts"
-  ],
-  "atom": {
-    "rewriteTsconfig": true
-  }
+  ]
 }

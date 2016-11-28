@@ -1,5 +1,4 @@
-ZeldaJS - A Legend of Zelda clone in TypeScript
-===============================================
+#ZeldaJS - A Legend of Zelda clone in TypeScript
 [![Build Status](https://travis-ci.org/bobbylight/ZeldaJS.svg?branch=master)](https://travis-ci.org/bobbylight/ZeldaJS)
 
 A WIP clone of the Legend of Zelda.  This will include a very basic editor as well.

@@ -79,7 +79,7 @@
 
         var tsResult = gulp.src([ 'src/app/**/*.ts', 'typings/index.d.ts' ])
             .pipe(sourcemaps.init())
-            .pipe(tsc(tsconfig));
+            .pipe(tsconfig());
 
         return merge2([
             tsResult.dts.pipe(gulp.dest('src/js/')),

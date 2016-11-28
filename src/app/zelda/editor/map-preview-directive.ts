@@ -49,7 +49,7 @@ angular.module('editorDirectives')
                         console.log('Clearing repaint handle');
                         clearTimeout(repaintHandle);
                     }
-                    repaintHandle = setTimeout(() => {
+                    repaintHandle = window.setTimeout(() => { // Explicitly "window." to avoid TS type declaration issue
                         console.log('Setting repaint handle');
                         repaint(element, scope.game);
                     }, 200);

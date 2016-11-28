@@ -31,7 +31,7 @@ module zelda {
         collidedWith(other: Actor): boolean {
 
             if (this.takingDamage) {
-                return;
+                return false;
             }
 
             if (other instanceof Enemy) {
