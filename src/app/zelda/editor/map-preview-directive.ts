@@ -1,5 +1,7 @@
 angular.module('editorDirectives')
-    .directive('mapPreview', [ '$document', '$rootScope', ($document: ng.IDocumentService, $rootScope: ng.IRootScopeService) => {
+    .directive('mapPreview', [ '$document', '$rootScope', '$timeout',
+        ($document: ng.IDocumentService, $rootScope: ng.IRootScopeService, $timeout: ng.ITimeoutService) => {
+
         'use strict';
 
         let repaintHandle: number;
@@ -54,7 +56,10 @@ angular.module('editorDirectives')
                         repaint(element, scope.game);
                     }, 200);
                 });
-                repaint(element, scope.game);
+
+                $timeout(() => {
+                    repaint(element, scope.game);
+                }, 1000);
             }
         };
 

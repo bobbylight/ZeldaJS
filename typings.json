@@ -1,10 +1,6 @@
 {
   "name": "zelda-html5",
   "globalDependencies": {
-    "angular": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular.d.ts#084e55916674ff7128722bf72150aa55acea08d9",
-    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#084e55916674ff7128722bf72150aa55acea08d9",
-    "highlightjs": "github:DefinitelyTyped/DefinitelyTyped/highlightjs/highlightjs.d.ts#084e55916674ff7128722bf72150aa55acea08d9",
-    "angular-ui-bootstrap": "github:DefinitelyTyped/DefinitelyTyped/angular-ui-bootstrap/angular-ui-bootstrap.d.ts#084e55916674ff7128722bf72150aa55acea08d9",
     "gtp": "file:./node_modules/gtp/dist-all/gtp-all.d.ts"
   }
 }

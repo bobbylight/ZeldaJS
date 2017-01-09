@@ -1,7 +1,7 @@
-@import url('../../bower_components/bootstrap/dist/css/bootstrap.css');
-@import url('../../bower_components/bootstrap/dist/css/bootstrap-theme.css');
-@import url('../../bower_components/font-awesome/css/font-awesome.css');
-@import url('../../bower_components/highlightjs/styles/default.css');
+@import url('../../node_modules/bootstrap/dist/css/bootstrap.css');
+@import url('../../node_modules/bootstrap/dist/css/bootstrap-theme.css');
+@import url('../../node_modules/font-awesome/css/font-awesome.css');
+@import url('../../node_modules/highlight.js/styles/default.css');
 
 html, body {
     height: 100%;
