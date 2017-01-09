@@ -7,24 +7,22 @@ Feel free to [try it out in its current state](http://bobbylight.github.io/Zelda
 Licensed under [an MIT license](LICENSE.txt).
 
 ## Hacking
-This game depends on `gulp` for its builds and `bower` for its runtime
-dependencies.  It also uses `typings` for TypeScript definition files for libraries
-it uses.  To install these if you don't already have them:
+This game depends on `gulp` for its builds and `typings` for TypeScript
+definition files for libraries it uses.  To install these if you don't already
+have them:
 
 ```shell
 npm install -g gulp
-npm install -g bower
 npm install -g typings
 ```
 
-Next, check out the project, install `gulp` locally, run `bower` to pull
-down all dependencies, then run `tsd` to get the type definitions:
+Next, check out the project, install all dependencies locally via `npm`, then
+run `typings` to get the type definitions:
 
 ```shell
 git clone https://github.com/bobbylight/ZeldaJS.git
 cd ZeldaJS
 npm install
-bower install
 typings install
 ```
 
