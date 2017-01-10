@@ -12,10 +12,12 @@ module zeldaEditor {
 
         static $inject: string[] = [ '$scope' ];
 
-        constructor($scope: ng.IScope) {
+        constructor(private $scope: ng.IScope) {
+        }
 
+        $onInit() {
             if (!this.buttonId) {
-                this.buttonId = this.createUniqueId();
+                this.buttonId = SelectController.createUniqueId();
             }
 
             if (this.noneOption) {
@@ -28,7 +30,7 @@ module zeldaEditor {
                 this.selectedValue = this.selection.value;
             }
 
-            $scope.$watch(() => { return this.selectedValue; }, (newValue: any, oldValue: any) => {
+            this.$scope.$watch(() => { return this.selectedValue; }, (newValue: any, oldValue: any) => {
                 const matches: LabelValuePair[] = this.choices.filter((lvp: LabelValuePair) => { return lvp.value === newValue; });
                 if (matches.length === 0) {
                     throw 'Internal error: value selected in select not found in label/value pairs: ' + newValue;
@@ -37,7 +39,7 @@ module zeldaEditor {
             });
         }
 
-        private createUniqueId(): string {
+        private static createUniqueId(): string {
             return 'select-' + new Date().getTime();
         }
 
@@ -60,28 +62,18 @@ module zeldaEditor {
     }
 }
 
-angular.module('editorDirectives')
-.directive('zeldaSelect', [ () => {
-    'use strict';
+angular.module('editorDirectives').component('zeldaSelect', {
 
-    return {
-        restrict: 'E',
-        //require: 'ngModel',
-        templateUrl: 'js/zelda/editor/templates/select.html',
+    //require: 'ngModel',
+    templateUrl: 'js/zelda/editor/templates/select.html',
 
-        controller: zeldaEditor.SelectController,
-        controllerAs: 'vm',
+    controller: zeldaEditor.SelectController,
 
-        scope: true,
-        bindToController: {
-            buttonId: '@id',
-            choices: '=',
-            selectedValue: '=selection',
-            onChange: '&',
-            noneOption: '='
-        },
-
-        link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.SelectController) => {
-        }
-    };
-}]);
+    bindings: {
+        buttonId: '@id',
+        choices: '=',
+        selectedValue: '=selection',
+        onChange: '&',
+        noneOption: '='
+    }
+});
