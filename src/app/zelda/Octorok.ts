@@ -5,7 +5,7 @@ module zelda {
 
     export class Octorok extends AbstractWalkingEnemy {
 
-        private static _PROJECTILE_THROWING_ODDS: number[] = Object.freeze([ 80, 40 ]);
+        private static _PROJECTILE_THROWING_ODDS: ReadonlyArray<number> = Object.freeze([ 80, 40 ]);
 
         constructor(blue: boolean = false) {
             super(0, blue, blue ? 5 : 4); //2 : 1);

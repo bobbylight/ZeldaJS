@@ -16,7 +16,8 @@
     var tsc = require('gulp-typescript');
     var tsconfig = tsc.createProject('tsconfig.json');
     var sourcemaps = require('gulp-sourcemaps');
-    var tslint = require('gulp-tslint');
+    var gulpTslint = require('gulp-tslint');
+    var tslint = require('tslint');
     var jshint = require('gulp-jshint');
     var stylish = require('jshint-stylish');
     var merge2 = require('merge2');
@@ -89,9 +90,15 @@
         ]).pipe(livereload({ quiet: true }))
     });
     gulp.task('tslint', function() {
-        return gulp.src([ 'src/app/**/*.ts' ])
-            .pipe(tslint({ formatter: 'prose' }))
-            .pipe(tslint.report());
+
+        // NOTE: Ensure 'Linter.createProgram' is called inside the gulp task
+        // else the contents of the files will be cached if this tasks is
+        // called again (eg. as part of a 'watch' task).
+        var program = tslint.Linter.createProgram("./tsconfig.json");
+
+        return gulp.src([ 'src/app/**/*.ts' ], { base: '.' })
+            .pipe(gulpTslint({ program: program, formatter: 'prose' }))
+            .pipe(gulpTslint.report());
     });
 
     gulp.task('jshint', function() {
