@@ -6,12 +6,12 @@ module zelda {
         private _parent: Map;
         private _tiles: number[][];
         private _actors: Actor[];
-        enemyGroup: EnemyGroup;
+        enemyGroup: EnemyGroup | undefined | null;
         private flattenedEnemyGroup: EnemyGroup; // TODO: Can we flatten iff we know we're in the game, not the editor?
         private _firstTimeThrough: boolean;
         private _events: event.Event[];
 
-        constructor(parent: Map, enemyGroup?: EnemyGroup, tiles?: number[][]) {
+        constructor(parent: Map, enemyGroup?: EnemyGroup | null, tiles?: number[][]) {
 
             this._parent = parent;
 
@@ -50,7 +50,7 @@ module zelda {
                     this.enemyGroup.enemies.forEach((enemyInfo: EnemyInfo) => {
                         const count: number = enemyInfo.count || 1;
                         for (let i: number = 0; i < count; i++) {
-                            const enemy: Enemy = InstanceLoader.create<Enemy>(enemyInfo.type, ...enemyInfo.args);
+                            const enemy: Enemy = InstanceLoader.create<Enemy>(enemyInfo.type, ...enemyInfo.args!);
                             enemy.setLocationToSpawnPoint(this);
                             this._actors.push(enemy);
                         }
@@ -68,7 +68,7 @@ module zelda {
                     this._actors = [];
                     for (let i: number = 0; i < count; i++) {
                         const enemyInfo: EnemyInfo = this.flattenedEnemyGroup.enemies[i];
-                        const enemy: Enemy = InstanceLoader.create<Enemy>(enemyInfo.type, ...enemyInfo.args);
+                        const enemy: Enemy = InstanceLoader.create<Enemy>(enemyInfo.type, ...enemyInfo.args!);
                         enemy.setLocationToSpawnPoint(this);
                         this._actors.push(enemy);
                     }
@@ -233,10 +233,10 @@ module zelda {
             // TODO: Implement me
         }
 
-        private _setEnemyGroup(enemyGroup: EnemyGroup) {
+        private _setEnemyGroup(enemyGroup?: EnemyGroup | null) {
             this.enemyGroup = enemyGroup;
             if (this.enemyGroup) {
-                this.flattenedEnemyGroup = enemyGroup.clone(true);
+                this.flattenedEnemyGroup = this.enemyGroup.clone(true);
             }
         }
 
@@ -254,7 +254,7 @@ module zelda {
             return {
                 tiles: this._tiles,
                 //actors: actorData,
-                enemyGroup: this.enemyGroup.toJson()
+                enemyGroup: this.enemyGroup ? this.enemyGroup.toJson() : null
             };
         }
 
@@ -318,6 +318,6 @@ module zelda {
     export interface ScreenData {
         tiles: number[][];
         //actors: ActorData[];
-        enemyGroup: EnemyGroupData;
+        enemyGroup: EnemyGroupData | undefined | null;
     }
 }

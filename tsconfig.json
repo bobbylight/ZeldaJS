@@ -12,6 +12,7 @@
     //"noUnusedParameters": true,
     "preserveConstEnums": true,
     "removeComments": false,
+    "strictNullChecks": true,
 
     "target": "es5",
     "outDir": "src/js/",

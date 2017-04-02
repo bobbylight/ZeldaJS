@@ -58,7 +58,7 @@ module zelda {
             return this;
         }
 
-        fromJson(json: EnemyGroupData): EnemyGroup {
+        fromJson(json?: EnemyGroupData | null): EnemyGroup {
             if (json) { // Some screens may be empty
                 this.spawnStyle = json.spawnStyle;
                 this.enemies = json.enemies;

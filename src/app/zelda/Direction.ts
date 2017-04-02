@@ -10,11 +10,11 @@ module zelda {
 
     export class DirectionUtil {
 
-        static isHorizontal(dir: Direction): boolean {
+        static isHorizontal(dir?: Direction | null): boolean {
             return dir === Direction.LEFT || dir === Direction.RIGHT;
         }
 
-        static isVertical(dir: Direction): boolean {
+        static isVertical(dir?: Direction | null): boolean {
             return dir === Direction.UP || dir === Direction.DOWN;
         }
 

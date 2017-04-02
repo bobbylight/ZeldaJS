@@ -60,7 +60,7 @@ module zelda {
                     //game.assets.addSound(pacman.Sounds.TOKEN, 'res/sounds/token.wav');
                     game.assets.onLoad(() => {
 
-                        const skipTitle: string = gtp.Utils.getRequestParam('skipTitle');
+                        const skipTitle: string | null = gtp.Utils.getRequestParam('skipTitle');
                         if (skipTitle !== null) { // Allow empty strings
                             this.getGame().startNewGame();
                             game.setState(new CurtainOpeningState(new MainGameState()));

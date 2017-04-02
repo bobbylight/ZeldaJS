@@ -27,7 +27,7 @@ module zeldaEditor {
 
             $scope.$watch('vm.curScreen', (newValue: zelda.Screen, oldValue: zelda.Screen) => {
                 if (newValue) {
-                    const screenEnemyGroup: zelda.EnemyGroup = newValue.enemyGroup;
+                    const screenEnemyGroup: zelda.EnemyGroup | undefined | null = newValue.enemyGroup;
                     this._setEnemyGroup(screenEnemyGroup);
                 }
             });
@@ -74,12 +74,12 @@ module zeldaEditor {
             });
         }
 
-        private _setEnemyGroup(newEnemyGroup: zelda.EnemyGroup) {
+        private _setEnemyGroup(newEnemyGroup: zelda.EnemyGroup | null = new zelda.EnemyGroup()) {
 
             // Determine which of our hard-coded choices corresponds to their enemy group
             // console.log('<<< <<< ' + JSON.stringify(newEnemyGroup ? newEnemyGroup.enemies[0] : null));
 
-            this.enemyGroup = newEnemyGroup;
+            this.enemyGroup = newEnemyGroup || new zelda.EnemyGroup();
             // if (!newEnemyGroup) {
             //     this.enemyGroup.clear()
             // }

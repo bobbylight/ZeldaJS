@@ -10,7 +10,7 @@ angular.module('editorDirectives')
 
             const canvas: HTMLCanvasElement = <HTMLCanvasElement>element.find('canvas')[0];
 
-            const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+            const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
             ctx.save();
 
             const map: zelda.Map = game.map;

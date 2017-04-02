@@ -57,7 +57,7 @@ module zelda {
         }
 
         drawString(x: number, y: number, text: string|number,
-                   ctx: CanvasRenderingContext2D = game.canvas.getContext('2d')) {
+                   ctx: CanvasRenderingContext2D = game.canvas.getContext('2d')!) {
 
             const str: string = text.toString(); // Allow us to pass in stuff like numerics
 

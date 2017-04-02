@@ -3,8 +3,8 @@ module zelda {
 
     export class MainGameState extends BaseState {
 
-        private _lastScreen: Screen;
-        private _screenSlidingDir: Direction;
+        private _lastScreen: Screen | undefined | null;
+        private _screenSlidingDir: Direction | null;
         private _screenSlidingAmount: number;
 
         private static SCREEN_SLIDING_INC(): number {
@@ -51,28 +51,28 @@ module zelda {
 
                     case Direction.LEFT: // Scrolling "left" so Link goes right
                         ctx.translate(-this._screenSlidingAmount, 0);
-                        this._lastScreen.paint(ctx);
+                        this._lastScreen!.paint(ctx);
                         ctx.save();
                         ctx.translate(Constants.SCREEN_WIDTH, 0);
                         currentScreen.paint(ctx);
                         break;
                     case Direction.RIGHT: // Scrolling "right" so Link goes left
                         ctx.translate(this._screenSlidingAmount, 0);
-                        this._lastScreen.paint(ctx);
+                        this._lastScreen!.paint(ctx);
                         ctx.save();
                         ctx.translate(-Constants.SCREEN_WIDTH, 0);
                         currentScreen.paint(ctx);
                         break;
                     case Direction.UP:
                         ctx.translate(0, -this._screenSlidingAmount);
-                        this._lastScreen.paint(ctx);
+                        this._lastScreen!.paint(ctx);
                         ctx.save();
                         ctx.translate(0, Constants.SCREEN_HEIGHT);
                         currentScreen.paint(ctx);
                         break;
                     case Direction.DOWN:
                         ctx.translate(0, this._screenSlidingAmount);
-                        this._lastScreen.paint(ctx);
+                        this._lastScreen!.paint(ctx);
                         ctx.save();
                         ctx.translate(0, -Constants.SCREEN_HEIGHT);
                         currentScreen.paint(ctx);

@@ -9,7 +9,7 @@ module zelda {
         static MAX_SLIDE_TICK: number = 30;
 
         protected _slideTick: number;
-        protected _slidingDir: Direction;
+        protected _slidingDir: Direction | null;
 
         constructor() {
             super();

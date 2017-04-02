@@ -11,7 +11,7 @@ module zelda {
 
         private _health: number;
 
-        anim: Animation;
+        anim: Animation | null;
         step: number;
         _stepTimer: number;
         _adjustToGridCounter: number;

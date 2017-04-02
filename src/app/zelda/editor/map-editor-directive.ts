@@ -34,7 +34,7 @@ angular.module('editorDirectives')
 
         link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.MapEditorController): void => {
 
-            const setArmedTile: (e: JQueryEventObject) => void = (e: JQueryEventObject): void => {
+            const setArmedTile: (e: JQueryEventObject | null) => void = (e: JQueryEventObject | null): void => {
                 const screen: zelda.Screen = controller.game.map.currentScreen;
                 const selectedTileIndex: number = controller.selectedTileIndex;
                 screen.setTile(controller._armedRow, controller._armedCol, selectedTileIndex);
@@ -148,7 +148,7 @@ angular.module('editorDirectives')
                 if (map) {
 
                     const canvas: HTMLCanvasElement = <HTMLCanvasElement>element.find('.screen-canvas').get(0);
-                    const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+                    const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
 
                     // Clear needed for translucent parts
                     ctx.fillStyle = 'white';

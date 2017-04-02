@@ -63,7 +63,7 @@ angular.module('editorDirectives')
             const paintScreen: Function = () => {
 
                 const canvas: HTMLCanvasElement = <HTMLCanvasElement>element.find('.tile-palette-canvas').get(0);
-                const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+                const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
                 const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('overworld');
                 ss.gtpImage.draw(ctx, 0, 0);
 

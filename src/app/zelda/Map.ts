@@ -53,7 +53,7 @@ module zelda {
             this.currentScreen.enter();
         }
 
-        private static _createDefaultEnemyGroup(): EnemyGroup {
+        private static _createDefaultEnemyGroup(): EnemyGroup | null {
             return null;
         }
 
