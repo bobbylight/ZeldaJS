@@ -1,19 +1,19 @@
-module zeldaEditor {
-    'use strict';
+import {Constants} from '../Constants';
+import {ZeldaGame} from '../ZeldaGame';
+import {Screen} from '../Screen';
+import {Map} from '../Map';
 
-    export class MapEditorController {
+export class MapEditorController {
 
-        game: zelda.ZeldaGame;
-        selectedTileIndex: number;
-        _armedRow: number;
-        _armedCol: number;
-        _mouseDown: boolean;
+    game: ZeldaGame;
+    selectedTileIndex: number;
+    _armedRow: number;
+    _armedCol: number;
+    _mouseDown: boolean;
 
-        constructor() {
-            this._mouseDown = false;
-        }
+    constructor() {
+        this._mouseDown = false;
     }
-
 }
 
 angular.module('editorDirectives')
@@ -25,82 +25,82 @@ angular.module('editorDirectives')
         templateUrl: 'js/zelda/editor/templates/map-editor.html',
 
         scope: {},
-        controller: zeldaEditor.MapEditorController,
+        controller: MapEditorController,
         controllerAs: 'vm',
         bindToController: {
             game: '=',
             selectedTileIndex: '='
         },
 
-        link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.MapEditorController): void => {
+        link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: MapEditorController): void => {
 
             const setArmedTile: (e: JQueryEventObject | null) => void = (e: JQueryEventObject | null): void => {
-                const screen: zelda.Screen = controller.game.map.currentScreen;
+                const screen: Screen = controller.game.map.currentScreen;
                 const selectedTileIndex: number = controller.selectedTileIndex;
                 screen.setTile(controller._armedRow, controller._armedCol, selectedTileIndex);
                 $rootScope.$broadcast('mapChanged', screen); // TODO: Formalize an event for this and make it specific
             };
 
             const inMainScreen: Function = (x: number, y: number, canvas: HTMLCanvasElement) => {
-                return x >= 32 && x < zelda.Constants.SCREEN_WIDTH * 2 + 32 &&
-                    y >= 32 && y < zelda.Constants.SCREEN_HEIGHT * 2 + 32;
+                return x >= 32 && x < Constants.SCREEN_WIDTH * 2 + 32 &&
+                    y >= 32 && y < Constants.SCREEN_HEIGHT * 2 + 32;
             };
 
             const paintScreenAbovePart: Function = (ctx: CanvasRenderingContext2D) => {
-                const map: zelda.Map = controller.game.map;
+                const map: Map = controller.game.map;
                 if (map && map.currentScreenRow > 0) {
                     ctx.translate(16, 0);
-                    const screen: zelda.Screen = map.getScreen(map.currentScreenRow - 1, map.currentScreenCol);
-                    screen.paintRow(ctx, zelda.Constants.SCREEN_ROW_COUNT - 1, 0);
+                    const screen: Screen = map.getScreen(map.currentScreenRow - 1, map.currentScreenCol);
+                    screen.paintRow(ctx, Constants.SCREEN_ROW_COUNT - 1, 0);
                     ctx.translate(-16, 0);
                 }
                 else {
                     ctx.fillStyle = 'darkgray';
-                    ctx.fillRect(16, 0, zelda.Constants.SCREEN_WIDTH, 16);
+                    ctx.fillRect(16, 0, Constants.SCREEN_WIDTH, 16);
                 }
             };
 
             const paintScreenRightPart: Function = (ctx: CanvasRenderingContext2D) => {
-                const map: zelda.Map = controller.game.map;
+                const map: Map = controller.game.map;
                 if (map && map.currentScreenCol < map.colCount - 1) {
                     ctx.translate(0, 16);
-                    const screen: zelda.Screen = map.getScreen(map.currentScreenRow, map.currentScreenCol + 1);
-                    screen.paintCol(ctx, 0, zelda.Constants.SCREEN_WIDTH + 16);
+                    const screen: Screen = map.getScreen(map.currentScreenRow, map.currentScreenCol + 1);
+                    screen.paintCol(ctx, 0, Constants.SCREEN_WIDTH + 16);
                     ctx.translate(0, -16);
                 }
                 else {
                     ctx.fillStyle = 'darkgray';
-                    const x: number = zelda.Constants.SCREEN_WIDTH + 16;
-                    ctx.fillRect(x, 16, 16, zelda.Constants.SCREEN_HEIGHT);
+                    const x: number = Constants.SCREEN_WIDTH + 16;
+                    ctx.fillRect(x, 16, 16, Constants.SCREEN_HEIGHT);
                 }
             };
 
             const paintScreenBelowPart: Function = (ctx: CanvasRenderingContext2D) => {
-                const map: zelda.Map = controller.game.map;
+                const map: Map = controller.game.map;
                 if (map && map.currentScreenRow < map.rowCount - 1) {
                     ctx.translate(16, 0);
-                    const screen: zelda.Screen = map.getScreen(map.currentScreenRow + 1, map.currentScreenCol);
-                    screen.paintRow(ctx, 0, zelda.Constants.SCREEN_HEIGHT + 16);
+                    const screen: Screen = map.getScreen(map.currentScreenRow + 1, map.currentScreenCol);
+                    screen.paintRow(ctx, 0, Constants.SCREEN_HEIGHT + 16);
                     ctx.translate(-16, 0);
                 }
                 else {
                     ctx.fillStyle = 'darkgray';
-                    const y: number = zelda.Constants.SCREEN_HEIGHT + 16;
-                    ctx.fillRect(16, y, zelda.Constants.SCREEN_WIDTH, 16);
+                    const y: number = Constants.SCREEN_HEIGHT + 16;
+                    ctx.fillRect(16, y, Constants.SCREEN_WIDTH, 16);
                 }
             };
 
             const paintScreenLeftPart: Function = (ctx: CanvasRenderingContext2D) => {
-                const map: zelda.Map = controller.game.map;
+                const map: Map = controller.game.map;
                 if (map && map.currentScreenCol > 0) {
                     ctx.translate(0, 16);
-                    const screen: zelda.Screen = map.getScreen(map.currentScreenRow, map.currentScreenCol - 1);
-                    screen.paintCol(ctx, zelda.Constants.SCREEN_COL_COUNT - 1, 0);
+                    const screen: Screen = map.getScreen(map.currentScreenRow, map.currentScreenCol - 1);
+                    screen.paintCol(ctx, Constants.SCREEN_COL_COUNT - 1, 0);
                     ctx.translate(0, -16);
                 }
                 else {
                     ctx.fillStyle = 'darkgray';
-                    ctx.fillRect(0, 16, 16, zelda.Constants.SCREEN_HEIGHT);
+                    ctx.fillRect(0, 16, 16, Constants.SCREEN_HEIGHT);
                 }
             };
 
@@ -144,7 +144,7 @@ angular.module('editorDirectives')
 
             const paintScreen: Function = () => {
 
-                const map: zelda.Map = controller.game.map;
+                const map: Map = controller.game.map;
                 if (map) {
 
                     const canvas: HTMLCanvasElement = <HTMLCanvasElement>element.find('.screen-canvas').get(0);

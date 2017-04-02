@@ -1,87 +1,83 @@
-module zelda {
-    'use strict';
+export interface EnemyInfo {
+    type: string;
+    args?: any[];
+    count?: number;
+}
 
-    export interface EnemyInfo {
-        type: string;
-        args?: any[];
-        count?: number;
+export class EnemyGroup {
+
+    spawnStyle: string; // TODO: String literal type when gulp-typescript moves up to 1.8
+    enemies: EnemyInfo[];
+
+    constructor(spawnStyle: string = 'random', enemies: EnemyInfo[] = []) {
+        this.spawnStyle = spawnStyle;
+        this.enemies = enemies;
     }
 
-    export class EnemyGroup {
+    add(enemy: EnemyInfo) {
+        this.enemies.push(enemy);
+    }
 
-        spawnStyle: string; // TODO: String literal type when gulp-typescript moves up to 1.8
-        enemies: EnemyInfo[];
+    clear() {
+        this.enemies.length = 0;
+    }
 
-        constructor(spawnStyle: string = 'random', enemies: EnemyInfo[] = []) {
-            this.spawnStyle = spawnStyle;
-            this.enemies = enemies;
-        }
+    /**
+     * Clones this enemy group, optionally flattening it.
+     *
+     * @param {boolean} flatten Whether the enemy list should be flattened.
+     * @returns {EnemyGroup}
+     * @see flatten
+     */
+    clone(flatten: boolean = false): EnemyGroup {
+        const newEnemyGroup: EnemyGroup = new EnemyGroup(this.spawnStyle, this.enemies);
+        return flatten ? newEnemyGroup.flatten() : newEnemyGroup;
+    }
 
-        add(enemy: EnemyInfo) {
-            this.enemies.push(enemy);
-        }
+    /**
+     * Coverts any EnemyInfo instances in this group that contain multiple enemies into multiple EnemyInfo instances
+     * representing a single enemy.
+     *
+     * @returns {zelda.EnemyGroup} This enemy group.
+     */
+    flatten(): EnemyGroup {
 
-        clear() {
-            this.enemies.length = 0;
-        }
+        const flattenedEnemies: EnemyInfo[] = [];
 
-        /**
-         * Clones this enemy group, optionally flattening it.
-         *
-         * @param {boolean} flatten Whether the enemy list should be flattened.
-         * @returns {EnemyGroup}
-         * @see flatten
-         */
-        clone(flatten: boolean = false): EnemyGroup {
-            const newEnemyGroup: EnemyGroup = new EnemyGroup(this.spawnStyle, this.enemies);
-            return flatten ? newEnemyGroup.flatten() : newEnemyGroup;
-        }
-
-        /**
-         * Coverts any EnemyInfo instances in this group that contain multiple enemies into multiple EnemyInfo instances
-         * representing a single enemy.
-         *
-         * @returns {zelda.EnemyGroup} This enemy group.
-         */
-        flatten(): EnemyGroup {
-
-            const flattenedEnemies: EnemyInfo[] = [];
-
-            this.enemies.forEach((enemyGroup: EnemyInfo) => {
-                const count: number = enemyGroup.count || 1;
-                for (let i: number = 0; i < count; i++) {
-                    flattenedEnemies.push({ type: enemyGroup.type, args: enemyGroup.args, count: 1 });
-                }
-            });
-
-            this.enemies = flattenedEnemies;
-            return this;
-        }
-
-        fromJson(json?: EnemyGroupData | null): EnemyGroup {
-            if (json) { // Some screens may be empty
-                this.spawnStyle = json.spawnStyle;
-                this.enemies = json.enemies;
+        this.enemies.forEach((enemyGroup: EnemyInfo) => {
+            const count: number = enemyGroup.count || 1;
+            for (let i: number = 0; i < count; i++) {
+                flattenedEnemies.push({ type: enemyGroup.type, args: enemyGroup.args, count: 1 });
             }
-            return this;
-        }
+        });
 
-        toJson(): EnemyGroupData {
-            return {
-                spawnStyle: this.spawnStyle,
-                enemies: this.enemies
-            };
-        }
-
-        toString(): string {
-            return '[EnemyGroup: ' +
-                'size=' + this.enemies.length +
-                ']';
-        }
+        this.enemies = flattenedEnemies;
+        return this;
     }
 
-    export interface EnemyGroupData {
-        enemies: EnemyInfo[];
-        spawnStyle: string;
+    fromJson(json?: EnemyGroupData | null): EnemyGroup {
+        if (json) { // Some screens may be empty
+            this.spawnStyle = json.spawnStyle;
+            this.enemies = json.enemies;
+        }
+        return this;
     }
+
+    toJson(): EnemyGroupData {
+        return {
+            spawnStyle: this.spawnStyle,
+            enemies: this.enemies
+        };
+    }
+
+    toString(): string {
+        return '[EnemyGroup: ' +
+            'size=' + this.enemies.length +
+            ']';
+    }
+}
+
+export interface EnemyGroupData {
+    enemies: EnemyInfo[];
+    spawnStyle: string;
 }

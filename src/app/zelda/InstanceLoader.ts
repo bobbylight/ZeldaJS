@@ -1,14 +1,12 @@
-module zelda {
-    'use strict';
+import * as EnemyTypes from './EnemyTypes';
 
-    export class InstanceLoader {
+export class InstanceLoader {
 
-        static create<T>(className: string, ...args: any[]): T {
-            const instance: T = Object.create((<any>zelda)[className].prototype);
-            if (args) {
-                instance.constructor.apply(instance, args);
-            }
-            return <T>instance;
+    static create<T>(className: string, ...args: any[]): T {
+        const instance: T = Object.create((<any>EnemyTypes)[className].prototype);
+        if (args) {
+            instance.constructor.apply(instance, args);
         }
+        return <T>instance;
     }
 }

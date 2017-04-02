@@ -1,6 +1,5 @@
 {
   "name": "zelda-html5",
   "globalDependencies": {
-    "gtp": "file:./node_modules/gtp/dist-all/gtp-all.d.ts"
   }
 }

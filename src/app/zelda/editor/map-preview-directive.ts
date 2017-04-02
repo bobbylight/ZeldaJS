@@ -1,3 +1,8 @@
+import {Constants} from '../Constants';
+import {ZeldaGame} from '../ZeldaGame';
+import {Screen} from '../Screen';
+import {Map} from '../Map';
+
 angular.module('editorDirectives')
     .directive('mapPreview', [ '$document', '$rootScope', '$timeout',
         ($document: ng.IDocumentService, $rootScope: ng.IRootScopeService, $timeout: ng.ITimeoutService) => {
@@ -6,24 +11,24 @@ angular.module('editorDirectives')
 
         let repaintHandle: number;
 
-        const repaint: Function = (element: JQuery, game: zelda.ZeldaGame) => {
+        const repaint: Function = (element: JQuery, game: ZeldaGame) => {
 
             const canvas: HTMLCanvasElement = <HTMLCanvasElement>element.find('canvas')[0];
 
             const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
             ctx.save();
 
-            const map: zelda.Map = game.map;
+            const map: Map = game.map;
             for (let row: number = 0; row < map.rowCount; row++) {
 
                 for (let col: number = 0; col < map.colCount; col++) {
-                    const screen: zelda.Screen = map.getScreen(row, col);
+                    const screen: Screen = map.getScreen(row, col);
                     screen.paint(ctx);
-                    ctx.translate(zelda.Constants.SCREEN_WIDTH, 0);
+                    ctx.translate(Constants.SCREEN_WIDTH, 0);
                 }
 
-                const xToZero: number = -zelda.Constants.SCREEN_WIDTH * map.colCount;
-                ctx.translate(xToZero, zelda.Constants.SCREEN_HEIGHT);
+                const xToZero: number = -Constants.SCREEN_WIDTH * map.colCount;
+                ctx.translate(xToZero, Constants.SCREEN_HEIGHT);
             }
 
             ctx.restore();
@@ -31,8 +36,8 @@ angular.module('editorDirectives')
             repaintHandle = 0;
         };
 
-        const canvasStyleWidth: number = zelda.Constants.SCREEN_WIDTH * zelda.Constants.SCREEN_COL_COUNT;
-        const canvasStyleHeight: number = zelda.Constants.SCREEN_HEIGHT * zelda.Constants.SCREEN_ROW_COUNT;
+        const canvasStyleWidth: number = Constants.SCREEN_WIDTH * Constants.SCREEN_COL_COUNT;
+        const canvasStyleHeight: number = Constants.SCREEN_HEIGHT * Constants.SCREEN_ROW_COUNT;
 
         return {
 
@@ -44,7 +49,7 @@ angular.module('editorDirectives')
                 game: '='
             },
 
-            link: (scope: /*zelda.MapPreviewScope*/any, element: JQuery, attributes: ng.IAttributes) => {
+            link: (scope: /*MapPreviewScope*/any, element: JQuery, attributes: ng.IAttributes) => {
 
                 $rootScope.$on('mapChanged', () => {
                     if (repaintHandle) {

@@ -1,22 +1,20 @@
-module zeldaEditor {
-    'use strict';
+import {ModifiableTableHeader} from '../modifiableTable/modifiable-table-directive';
 
-    export class EventTableController {
+export class EventTableController {
 
-        headers: ModifiableTableHeader[];
-        events: any; // TODO
+    headers: ModifiableTableHeader[];
+    events: any; // TODO
 
-        constructor() {
+    constructor() {
 
-            this.headers = [
-                { label: 'Type', cellKey: 'type' },
-                { label: 'Description', cellKey: 'desc' }
-            ];
+        this.headers = [
+            { label: 'Type', cellKey: 'type' },
+            { label: 'Description', cellKey: 'desc' }
+        ];
 
-            this.events = [
-                { type: 'Warp', desc: 'Go to overworld (7, 6) (1, 4)' }
-            ];
-        }
+        this.events = [
+            { type: 'Warp', desc: 'Go to overworld (7, 6) (1, 4)' }
+        ];
     }
 }
 
@@ -29,7 +27,7 @@ angular.module('editorDirectives')
         //require: 'ngModel',
         templateUrl: 'js/zelda/editor/eventTable/event-table.html',
 
-        controller: zeldaEditor.EventTableController,
+        controller: EventTableController,
         controllerAs: 'vm',
 
         scope: true,
@@ -37,7 +35,7 @@ angular.module('editorDirectives')
             curScreen: '=screen'
         },
 
-        link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.EventTableController) => {
+        link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: EventTableController) => {
         }
     };
 }]);

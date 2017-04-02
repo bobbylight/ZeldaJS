@@ -18,7 +18,7 @@
     "dateformat": "2.0.0",
     "del": "2.2.2",
     "font-awesome": "4.7.0",
-    "gtp": "0.6.2",
+    "gtp": "1.1.0",
     "gulp": "3.9.1",
     "gulp-concat-css": "2.3.0",
     "gulp-coveralls": "0.1.4",

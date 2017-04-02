@@ -1,107 +1,109 @@
-module zeldaEditor {
-    'use strict';
+import {ModifiableTableHeader} from '../modifiableTable/modifiable-table-directive';
+import {LabelValuePair} from '../select-directive';
+import {EnemyGroup, EnemyInfo} from '../../EnemyGroup';
+import {EditorRowModalController} from './edit-row-modal-directive';
+import {Screen} from '../../Screen';
 
-    export class EnemySelectorController {
+export class EnemySelectorController {
 
-        // spawnStyles: LabelValuePair[];
-        // spawnStyle: LabelValuePair;
-        curScreen: zelda.Screen;
-        choices: LabelValuePair[];
-        enemyGroup: zelda.EnemyGroup;
+    // spawnStyles: LabelValuePair[];
+    // spawnStyle: LabelValuePair;
+    curScreen: Screen;
+    choices: LabelValuePair[];
+    enemyGroup: EnemyGroup;
 
-        headers: ModifiableTableHeader[];
+    headers: ModifiableTableHeader[];
 
-        _openModal: Function;
+    _openModal: Function;
 
-        static $inject: string[] = [ '$scope' ];
+    static $inject: string[] = [ '$scope' ];
 
-        constructor($scope: ng.IScope) {
+    constructor($scope: ng.IScope) {
 
-            this.choices = [
-                {label: 'Octoroks', value: 'octoroks'},
-                {label: 'Moblins', value: 'moblins'},
-                {label: 'Tektites', value: 'tektites'}
-            ];
+        this.choices = [
+            {label: 'Octoroks', value: 'octoroks'},
+            {label: 'Moblins', value: 'moblins'},
+            {label: 'Tektites', value: 'tektites'}
+        ];
 
-            this.enemyGroup = new zelda.EnemyGroup('random');
+        this.enemyGroup = new EnemyGroup('random');
 
-            $scope.$watch('vm.curScreen', (newValue: zelda.Screen, oldValue: zelda.Screen) => {
-                if (newValue) {
-                    const screenEnemyGroup: zelda.EnemyGroup | undefined | null = newValue.enemyGroup;
-                    this._setEnemyGroup(screenEnemyGroup);
-                }
-            });
-
-            this.headers = [
-                { label: 'Enemy', cellKey: 'type' },
-                { label: 'Strength', cellKey: 'args' },
-                { label: 'Count', cellKey: 'count' }
-            ];
-        }
-
-        addOrEditRow() {
-            console.log('yeah yeah');
-            this._openModal((value: zelda.EnemyInfo) => { gtp.Utils.hitch(this, this.addOrEditRowOkCallback)(value); });
-        }
-
-        addOrEditRowOkCallback(newEnemy: zelda.EnemyInfo) {
-            this.enemyGroup.add(newEnemy);
-        }
-
-        selectedEnemyGroupChanged(newGroup: string) {
-
-            const enemies: zelda.EnemyInfo[] = [];
-
-            switch (newGroup) {
-                case 'octoroks':
-                    enemies.push({ type: 'Octorok', args: [ true ], count: 2 });
-                    enemies.push({ type: 'Octorok', count: 2 });
-                    break;
-                case 'moblins':
-                    enemies.push({ type: 'Moblin', args: [ true ], count: 2 });
-                    enemies.push({ type: 'Moblin', count: 2 });
-                    break;
-                case 'tektites':
-                    enemies.push({ type: 'Tektite', args: [ true ], count: 2 });
-                    enemies.push({ type: 'Tektite', count: 2 });
-                    break;
+        $scope.$watch('vm.curScreen', (newValue: Screen, oldValue: Screen) => {
+            if (newValue) {
+                const screenEnemyGroup: EnemyGroup | undefined | null = newValue.enemyGroup;
+                this._setEnemyGroup(screenEnemyGroup);
             }
+        });
 
-            //this.curScreen.enemyGroup = new zelda.EnemyGroup('random', enemies);
-            this.enemyGroup.clear();
-            enemies.forEach((enemy: zelda.EnemyInfo) => {
-                this.enemyGroup.add(enemy);
-            });
+        this.headers = [
+            { label: 'Enemy', cellKey: 'type' },
+            { label: 'Strength', cellKey: 'args' },
+            { label: 'Count', cellKey: 'count' }
+        ];
+    }
+
+    addOrEditRow() {
+        console.log('yeah yeah');
+        this._openModal((value: EnemyInfo) => { gtp.Utils.hitch(this, this.addOrEditRowOkCallback)(value); });
+    }
+
+    addOrEditRowOkCallback(newEnemy: EnemyInfo) {
+        this.enemyGroup.add(newEnemy);
+    }
+
+    selectedEnemyGroupChanged(newGroup: string) {
+
+        const enemies: EnemyInfo[] = [];
+
+        switch (newGroup) {
+            case 'octoroks':
+                enemies.push({ type: 'Octorok', args: [ true ], count: 2 });
+                enemies.push({ type: 'Octorok', count: 2 });
+                break;
+            case 'moblins':
+                enemies.push({ type: 'Moblin', args: [ true ], count: 2 });
+                enemies.push({ type: 'Moblin', count: 2 });
+                break;
+            case 'tektites':
+                enemies.push({ type: 'Tektite', args: [ true ], count: 2 });
+                enemies.push({ type: 'Tektite', count: 2 });
+                break;
         }
 
-        private _setEnemyGroup(newEnemyGroup: zelda.EnemyGroup | null = new zelda.EnemyGroup()) {
+        //this.curScreen.enemyGroup = new EnemyGroup('random', enemies);
+        this.enemyGroup.clear();
+        enemies.forEach((enemy: EnemyInfo) => {
+            this.enemyGroup.add(enemy);
+        });
+    }
 
-            // Determine which of our hard-coded choices corresponds to their enemy group
-            // console.log('<<< <<< ' + JSON.stringify(newEnemyGroup ? newEnemyGroup.enemies[0] : null));
+    private _setEnemyGroup(newEnemyGroup: EnemyGroup | null = new EnemyGroup()) {
 
-            this.enemyGroup = newEnemyGroup || new zelda.EnemyGroup();
-            // if (!newEnemyGroup) {
-            //     this.enemyGroup.clear()
-            // }
-            // else if (newEnemyGroup.enemies[0].type === 'Octorok') {
-            //     this.enemyGroup.clear();
-            //     for (let i: number = 0; i < 4; i++) {
-            //         this.enemyGroup.add({ type: 'Octorok', args: [ (i % 2) === 0 ], count: 1 });
-            //     }
-            // }
-            // else if (newEnemyGroup.enemies[0].type === 'Moblin') {
-            //     this.enemyGroup.clear();
-            //     for (let i: number = 0; i < 4; i++) {
-            //         this.enemyGroup.add({ type: 'Moblin', args: [ (i % 2) === 0 ], count: 1 });
-            //     }
-            // }
-            // else if (newEnemyGroup.enemies[0].type === 'Tektite') {
-            //     this.enemyGroup.clear();
-            //     for (let i: number = 0; i < 4; i++) {
-            //         this.enemyGroup.add({ type: 'Tektite', args: [ (i % 2) === 0 ], count: 1 });
-            //     }
-            // }
-        }
+        // Determine which of our hard-coded choices corresponds to their enemy group
+        // console.log('<<< <<< ' + JSON.stringify(newEnemyGroup ? newEnemyGroup.enemies[0] : null));
+
+        this.enemyGroup = newEnemyGroup || new EnemyGroup();
+        // if (!newEnemyGroup) {
+        //     this.enemyGroup.clear()
+        // }
+        // else if (newEnemyGroup.enemies[0].type === 'Octorok') {
+        //     this.enemyGroup.clear();
+        //     for (let i: number = 0; i < 4; i++) {
+        //         this.enemyGroup.add({ type: 'Octorok', args: [ (i % 2) === 0 ], count: 1 });
+        //     }
+        // }
+        // else if (newEnemyGroup.enemies[0].type === 'Moblin') {
+        //     this.enemyGroup.clear();
+        //     for (let i: number = 0; i < 4; i++) {
+        //         this.enemyGroup.add({ type: 'Moblin', args: [ (i % 2) === 0 ], count: 1 });
+        //     }
+        // }
+        // else if (newEnemyGroup.enemies[0].type === 'Tektite') {
+        //     this.enemyGroup.clear();
+        //     for (let i: number = 0; i < 4; i++) {
+        //         this.enemyGroup.add({ type: 'Tektite', args: [ (i % 2) === 0 ], count: 1 });
+        //     }
+        // }
     }
 }
 
@@ -116,7 +118,7 @@ angular.module('editorDirectives')
 
         $uibModal.open({
             templateUrl: 'js/zelda/editor/enemySelector/edit-row-modal.html',
-            controller: zeldaEditor.EditorRowModalController,
+            controller: EditorRowModalController,
             controllerAs: 'vm',
             bindToController: true,
             scope: scope,
@@ -139,7 +141,7 @@ angular.module('editorDirectives')
         //require: 'ngModel',
         templateUrl: 'js/zelda/editor/enemySelector/enemy-selector.html',
 
-        controller: zeldaEditor.EnemySelectorController,
+        controller: EnemySelectorController,
         controllerAs: 'vm',
 
         scope: true,
@@ -147,7 +149,7 @@ angular.module('editorDirectives')
             curScreen: '=screen'
         },
 
-        link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.EnemySelectorController) => {
+        link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: EnemySelectorController) => {
 
             controller._openModal = openModal;
         }

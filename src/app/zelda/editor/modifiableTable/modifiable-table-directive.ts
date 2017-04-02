@@ -1,66 +1,61 @@
-module zeldaEditor {
-    'use strict';
+export interface ModifiableTableHeader {
+    label: string;
+    cellKey: string;
+}
 
-    export interface ModifiableTableHeader {
-        label: string;
-        cellKey: string;
+export class ModifiableTableController {
+
+    headers: ModifiableTableHeader[];
+    rows: { [ key: string ]: any }[];
+    _highlightSelectedRow: Function;
+    selectedRow: number;
+    addEditDialogFn: Function;
+
+    constructor() {
+        this.selectedRow = -1;
     }
 
-    export class ModifiableTableController {
-
-        headers: ModifiableTableHeader[];
-        rows: { [ key: string ]: any }[];
-        _highlightSelectedRow: Function;
-        selectedRow: number;
-        addEditDialogFn: Function;
-
-        constructor() {
-            this.selectedRow = -1;
-        }
-
-        addRow() {
-            this.addEditDialogFn();
-        }
-
-        isDeleteDisabled(): boolean {
-            return this.selectedRow < 0 || this.selectedRow >= this.rows.length;
-        }
-
-        isDownDisabled(): boolean {
-            return this.selectedRow === -1 || this.selectedRow === this.rows.length - 1;
-        }
-
-        isUpDisabled(): boolean {
-            return this.selectedRow <= 0;
-        }
-
-        moveRowDown() {
-            console.log('moveRowDown() called');
-            const destRow: number = this.selectedRow + 1;
-            this.rows.splice(destRow, 0, this.rows.splice(this.selectedRow, 1)[0]);
-            this.selectedRow = destRow;
-        }
-
-        moveRowUp() {
-            console.log('moveRowUp() called');
-            const destRow: number = this.selectedRow - 1;
-            this.rows.splice(destRow, 0, this.rows.splice(this.selectedRow, 1)[0]);
-            this.selectedRow = destRow;
-        }
-
-        removeRow() {
-            console.log('removeRow() called');
-            this.rows.splice(this.selectedRow, 1);
-            // TODO: Figure out how to highlight the row at selectedRow, if row count still > 0
-            this.selectedRow = -1;
-        }
-
-        setPrimary(e: JQueryEventObject) {
-            this.selectedRow = this._highlightSelectedRow(e);
-            console.log('--- selectedRow === ' + this.selectedRow);
-        }
+    addRow() {
+        this.addEditDialogFn();
     }
 
+    isDeleteDisabled(): boolean {
+        return this.selectedRow < 0 || this.selectedRow >= this.rows.length;
+    }
+
+    isDownDisabled(): boolean {
+        return this.selectedRow === -1 || this.selectedRow === this.rows.length - 1;
+    }
+
+    isUpDisabled(): boolean {
+        return this.selectedRow <= 0;
+    }
+
+    moveRowDown() {
+        console.log('moveRowDown() called');
+        const destRow: number = this.selectedRow + 1;
+        this.rows.splice(destRow, 0, this.rows.splice(this.selectedRow, 1)[0]);
+        this.selectedRow = destRow;
+    }
+
+    moveRowUp() {
+        console.log('moveRowUp() called');
+        const destRow: number = this.selectedRow - 1;
+        this.rows.splice(destRow, 0, this.rows.splice(this.selectedRow, 1)[0]);
+        this.selectedRow = destRow;
+    }
+
+    removeRow() {
+        console.log('removeRow() called');
+        this.rows.splice(this.selectedRow, 1);
+        // TODO: Figure out how to highlight the row at selectedRow, if row count still > 0
+        this.selectedRow = -1;
+    }
+
+    setPrimary(e: JQueryEventObject) {
+        this.selectedRow = this._highlightSelectedRow(e);
+        console.log('--- selectedRow === ' + this.selectedRow);
+    }
 }
 
 angular.module('editorDirectives')
@@ -81,7 +76,7 @@ angular.module('editorDirectives')
         //require: 'ngModel',
         templateUrl: 'js/zelda/editor/modifiableTable/modifiable-table.html',
 
-        controller: zeldaEditor.ModifiableTableController,
+        controller: ModifiableTableController,
         controllerAs: 'vm',
 
         scope: true,
@@ -91,7 +86,7 @@ angular.module('editorDirectives')
             addEditDialogFn: '&'
         },
 
-        link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.ModifiableTableController) => {
+        link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: ModifiableTableController) => {
 
             controller._highlightSelectedRow = (e: JQueryEventObject): number => {
                 return highlightSelectedRow(element, e) - 1;

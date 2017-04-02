@@ -1,35 +1,34 @@
-module zeldaEditor {
-    'use strict';
+import {ZeldaGame} from '../ZeldaGame';
+declare let game: ZeldaGame;
 
-    export class TilePaletteController {
+export class TilePaletteController {
 
-        armedIndex: number;
-        selectedIndex: number;
+    armedIndex: number;
+    selectedIndex: number;
 
-        constructor() {
-        }
+    constructor() {
+    }
 
-        get selectedTileCol(): number {
-            return this.selectedIndex % 10;
-        }
+    get selectedTileCol(): number {
+        return this.selectedIndex % 10;
+    }
 
-        get selectedTileRow(): number {
-            return Math.floor(this.selectedIndex / 10);
-        }
+    get selectedTileRow(): number {
+        return Math.floor(this.selectedIndex / 10);
+    }
 
-        setArmedIndex(x: number, y: number) {
-            this.armedIndex = this._computeIndexFromXY(x, y);
-        }
+    setArmedIndex(x: number, y: number) {
+        this.armedIndex = this._computeIndexFromXY(x, y);
+    }
 
-        setSelectedIndex(x: number, y: number) {
-            this.selectedIndex = this._computeIndexFromXY(x, y);
-        }
+    setSelectedIndex(x: number, y: number) {
+        this.selectedIndex = this._computeIndexFromXY(x, y);
+    }
 
-        private _computeIndexFromXY(x: number, y: number): number {
-            console.log('--- ' + x + ', ' + y);
-            console.log('--- --- row/col === ' + Math.floor(y / 32) + ', ' + Math.floor(x / 32));
-            return Math.floor(y / 32) * 10 + Math.floor(x / 32);
-        }
+    private _computeIndexFromXY(x: number, y: number): number {
+        console.log('--- ' + x + ', ' + y);
+        console.log('--- --- row/col === ' + Math.floor(y / 32) + ', ' + Math.floor(x / 32));
+        return Math.floor(y / 32) * 10 + Math.floor(x / 32);
     }
 }
 
@@ -42,7 +41,7 @@ angular.module('editorDirectives')
         //require: 'ngModel',
         templateUrl: 'js/zelda/editor/templates/tile-palette.html',
 
-        controller: zeldaEditor.TilePaletteController,
+        controller: TilePaletteController,
         controllerAs: 'vm',
 
         scope: true,
@@ -50,7 +49,7 @@ angular.module('editorDirectives')
             selectedIndex: '='
         },
 
-        link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: zeldaEditor.TilePaletteController): void => {
+        link: (scope: ng.IScope, element: JQuery, attributes: ng.IAttributes, controller: TilePaletteController): void => {
 
             element.on('click', (e: JQueryEventObject) => {
                 controller.setSelectedIndex(e.offsetX, e.offsetY);

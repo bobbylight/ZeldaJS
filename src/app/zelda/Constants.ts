@@ -1,37 +1,38 @@
-module zelda {
-    'use strict';
+export class Constants {
 
-    export class Constants {
+    //static TILE_SIZE = 8;//16;
 
-        static SCREEN_ROW_COUNT: number	= 11;
+    static CANVAS_WIDTH: number = 256;
+    static CANVAS_HEIGHT: number = 240;
 
-        static SCREEN_COL_COUNT: number	= 16;
+    static SCREEN_ROW_COUNT: number	= 11;
 
-        static TILE_HEIGHT: number = 16;
+    static SCREEN_COL_COUNT: number	= 16;
 
-        static TILE_WIDTH: number = 16;
+    static TILE_HEIGHT: number = 16;
 
-        static HUD_HEIGHT: number = 64;
+    static TILE_WIDTH: number = 16;
 
-        static SCREEN_HEIGHT: number = Constants.SCREEN_ROW_COUNT * Constants.TILE_WIDTH;
+    static HUD_HEIGHT: number = 64;
 
-        static SCREEN_HEIGHT_WITH_HUD: number = Constants.SCREEN_HEIGHT + Constants.HUD_HEIGHT;
+    static SCREEN_HEIGHT: number = Constants.SCREEN_ROW_COUNT * Constants.TILE_WIDTH;
 
-        static SCREEN_WIDTH: number = Constants.SCREEN_COL_COUNT * Constants.TILE_WIDTH;
+    static SCREEN_HEIGHT_WITH_HUD: number = Constants.SCREEN_HEIGHT + Constants.HUD_HEIGHT;
 
-        static  MUSIC_OVERWORLD: string = '02-overworld.ogg';
+    static SCREEN_WIDTH: number = Constants.SCREEN_COL_COUNT * Constants.TILE_WIDTH;
 
-        static WALKABLE: number[] = [
-            1, 0, 0, 2, 3, 0, 0, 0, 0, 0,
-            1, 0, 0, 4, 5, 0, 0, 0, 0, 0,
-            1, 0, 0, 2, 3, 0, 0, 0, 0, 0,
-            1, 0, 0, 4, 5, 0, 0, 0, 0, 0,
-            1, 0, 0, 2, 3, 0, 0, 0, 0, 0,
-            1, 0, 0, 4, 5, 0, 0, 0, 0, 0,
-            1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-            1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
-            1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
-            1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-        ];
-    }
+    static  MUSIC_OVERWORLD: string = '02-overworld.ogg';
+
+    static WALKABLE: number[] = [
+        1, 0, 0, 2, 3, 0, 0, 0, 0, 0,
+        1, 0, 0, 4, 5, 0, 0, 0, 0, 0,
+        1, 0, 0, 2, 3, 0, 0, 0, 0, 0,
+        1, 0, 0, 4, 5, 0, 0, 0, 0, 0,
+        1, 0, 0, 2, 3, 0, 0, 0, 0, 0,
+        1, 0, 0, 4, 5, 0, 0, 0, 0, 0,
+        1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
+        1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
+        1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+    ];
 }

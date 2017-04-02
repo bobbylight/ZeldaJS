@@ -14,6 +14,7 @@
     "removeComments": false,
     "strictNullChecks": true,
 
+    "module": "commonjs",
     "target": "es5",
     "outDir": "src/js/",
     "sourceMap": true

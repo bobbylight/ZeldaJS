@@ -1,47 +1,45 @@
-module zeldaEditor {
-    'use strict';
+import {Map, MapData} from '../Map';
 
-    export class CodeViewerController {
+export class CodeViewerController {
 
-        map: zelda.Map;
-        mapJsonUpdateTime: number;
-        mapJson: string;
+    map: Map;
+    mapJsonUpdateTime: number;
+    mapJson: string;
 
-        static $inject: string[] = [ '$scope', '$sce' ];
+    static $inject: string[] = [ '$scope', '$sce' ];
 
-        constructor(private $scope: ng.IScope, private $sce: ng.ISCEService) {
-            this.mapJsonUpdateTime = 0;
-        }
+    constructor(private $scope: ng.IScope, private $sce: ng.ISCEService) {
+        this.mapJsonUpdateTime = 0;
+    }
 
-        refresh() {
-            const start: Date = new Date();
-            console.log('Refreshing started at: ' + start);
+    refresh() {
+        const start: Date = new Date();
+        console.log('Refreshing started at: ' + start);
 
-            // Strip out values inserted by stuff like Angular's ng-repeat ($$hashKey, etc.).
-            const replacer: any = (key: string, value: any) => {
-                if (key === '$$hashKey') {
-                    return undefined;
-                }
-                return value;
-            };
+        // Strip out values inserted by stuff like Angular's ng-repeat ($$hashKey, etc.).
+        const replacer: any = (key: string, value: any) => {
+            if (key === '$$hashKey') {
+                return undefined;
+            }
+            return value;
+        };
 
-            const json: zelda.MapData = this.map.toJson();
-            let jsonStr: string = JSON.stringify(json, replacer, 2);
-            console.log(jsonStr);
-            //jsonStr = jsonStr.replace(/\[((\r?\n +\d+,)+(\r?\n +\d+))\]/g, '[$1]');
-            jsonStr = jsonStr.replace(/( +)"tiles": \[(?:[ \d,\n\[\]]+)\][, \n]+\]/g, (match: string, p1: string) => {
-                return match.replace(/ +/g, ' ').replace(/\n/g, '').replace(/\], \[/g, ']\,\n' + p1 + '  [');
-            });
-            //jsonStr = jsonStr.replace(/\n/g, '');
+        const json: MapData = this.map.toJson();
+        let jsonStr: string = JSON.stringify(json, replacer, 2);
+        console.log(jsonStr);
+        //jsonStr = jsonStr.replace(/\[((\r?\n +\d+,)+(\r?\n +\d+))\]/g, '[$1]');
+        jsonStr = jsonStr.replace(/( +)"tiles": \[(?:[ \d,\n\[\]]+)\][, \n]+\]/g, (match: string, p1: string) => {
+            return match.replace(/ +/g, ' ').replace(/\n/g, '').replace(/\], \[/g, ']\,\n' + p1 + '  [');
+        });
+        //jsonStr = jsonStr.replace(/\n/g, '');
 
-            this.mapJson = hljs.highlight('json', jsonStr).value;
-            this.mapJsonUpdateTime = new Date().getTime();
-            console.log('Refreshing completed, took: ' + (new Date().getTime() - start.getTime()));
-        }
+        this.mapJson = hljs.highlight('json', jsonStr).value;
+        this.mapJsonUpdateTime = new Date().getTime();
+        console.log('Refreshing completed, took: ' + (new Date().getTime() - start.getTime()));
+    }
 
-        copy() {
-            this.$scope.$broadcast('copy-json');
-        }
+    copy() {
+        this.$scope.$broadcast('copy-json');
     }
 }
 
@@ -73,7 +71,7 @@ angular.module('editorDirectives', [])
 
     return {
         bindToController: true,
-        controller: zeldaEditor.CodeViewerController,
+        controller: CodeViewerController,
         controllerAs: 'vm',
         link: link,
         restrict: 'E',
