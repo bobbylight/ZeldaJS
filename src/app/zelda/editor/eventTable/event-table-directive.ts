@@ -1,4 +1,5 @@
 import {ModifiableTableHeader} from '../modifiableTable/modifiable-table-directive';
+import * as angular from 'angular';
 
 export class EventTableController {
 

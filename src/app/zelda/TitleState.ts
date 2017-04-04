@@ -2,6 +2,7 @@ import {BaseState} from './BaseState';
 import {CurtainOpeningState} from './CurtainOpeningState';
 import {MainGameState} from './MainGameState';
 import {ZeldaGame} from './ZeldaGame';
+import {BaseStateArgs, Game, Image, InputManager} from 'gtp';
 declare let game: ZeldaGame;
 
 export class TitleState extends BaseState {
@@ -12,7 +13,7 @@ export class TitleState extends BaseState {
      * State that renders the title screen.
      * @constructor
      */
-    constructor(args?: ZeldaGame | gtp.BaseStateArgs) {
+    constructor(args?: ZeldaGame | BaseStateArgs) {
         super(args);
     }
 
@@ -24,7 +25,7 @@ export class TitleState extends BaseState {
         this._lastKeypressTime = game.playTime;
     }
 
-    leaving(game: gtp.Game) {
+    leaving(game: Game) {
         game.canvas.removeEventListener('touchstart', this.handleStart, false);
     }
 
@@ -38,7 +39,7 @@ export class TitleState extends BaseState {
         this.game.clearScreen();
 
         // Title banner
-        const title: gtp.Image = game.assets.get('title');
+        const title: Image = game.assets.get('title');
         title.draw(ctx, 0, 0);
 
         if (!game.audio.isInitialized()) {
@@ -76,7 +77,7 @@ export class TitleState extends BaseState {
         const playTime: number = game.playTime;
         if (playTime > this._lastKeypressTime + BaseState.INPUT_REPEAT_MILLIS + 100) {
 
-            const im: gtp.InputManager = game.inputManager;
+            const im: InputManager = game.inputManager;
 
             if (im.enter(true)) {
                 this._startGame();

@@ -1,3 +1,5 @@
+import {Utils} from 'gtp';
+
 export enum Direction {
     DOWN = 1,
     LEFT = 2,
@@ -30,6 +32,6 @@ export class DirectionUtil {
     }
 
     static randomDir(): Direction {
-        return gtp.Utils.randomInt(1, 5);
+        return Utils.randomInt(1, 5);
     }
 }

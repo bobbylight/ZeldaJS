@@ -2,6 +2,7 @@ import {Direction} from './Direction';
 import {Constants} from './Constants';
 import {ZeldaGame} from './ZeldaGame';
 import {Position} from './Position';
+import {Rectangle} from 'gtp';
 declare let game: ZeldaGame;
 
 export const MOVE_AMT: number = 1;
@@ -16,7 +17,7 @@ export abstract class Actor {
     y: number;
     w: number;
     h: number;
-    hitBox: gtp.Rectangle;
+    hitBox: Rectangle;
     frozen: boolean;
     takingDamage: boolean; // Not used by all actors
     done: boolean;
@@ -73,7 +74,7 @@ export abstract class Actor {
         const size: number = Constants.TILE_WIDTH; // TILE_HEIGHT is the same
         const x: number = tile.col * size;
         const y: number = tile.row * size;
-        const tileBounds: gtp.Rectangle = new gtp.Rectangle(x, y, size, size);
+        const tileBounds: Rectangle = new Rectangle(x, y, size, size);
         return tileBounds.containsRect(this.hitBox);
     }
 
@@ -86,7 +87,7 @@ export abstract class Actor {
      */
     protected isHitBoxWalkable(dx: number = 0, dy: number = 0): boolean {
 
-        const hitBox: gtp.Rectangle = this.hitBox;
+        const hitBox: Rectangle = this.hitBox;
         const x: number = hitBox.x + dx;
         const y: number = hitBox.y + dy;
 
@@ -109,7 +110,7 @@ export abstract class Actor {
     protected possiblyPaintHitBox(ctx: CanvasRenderingContext2D) {
         if (game.paintHitBoxes) {
             ctx.fillStyle = 'pink';
-            const hitBox: gtp.Rectangle = this.hitBox;
+            const hitBox: Rectangle = this.hitBox;
             ctx.fillRect(hitBox.x, hitBox.y, hitBox.w, hitBox.h);
         }
     }
@@ -153,7 +154,7 @@ export interface ActorData {
     dir: Direction;
     x: number;
     y: number;
-    hitBox: gtp.Rectangle;
+    hitBox: Rectangle;
     frozen: boolean;
     done: boolean;
 }

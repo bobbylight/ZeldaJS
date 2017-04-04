@@ -1,4 +1,5 @@
 import {Map, MapData} from '../Map';
+import * as angular from 'angular';
 
 export class CodeViewerController {
 

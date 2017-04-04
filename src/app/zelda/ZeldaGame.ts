@@ -3,9 +3,10 @@ import {Actor} from './Actor';
 import {Animation} from './Animation';
 import {Map} from './Map';
 import {Position} from './Position';
+import {Game, SpriteSheet} from 'gtp';
 declare let game: ZeldaGame;
 
-export class ZeldaGame extends gtp.Game {
+export class ZeldaGame extends Game {
 
     map: Map;
     link: Link;
@@ -39,7 +40,7 @@ export class ZeldaGame extends gtp.Game {
         }
     }
     createEnemyDiesAnimation(x: number, y: number): Animation {
-        const sheet: gtp.SpriteSheet = <gtp.SpriteSheet>this.assets.get('enemyDies');
+        const sheet: SpriteSheet = <SpriteSheet>this.assets.get('enemyDies');
         const anim: Animation = new Animation(x, y);
         anim.addFrame({ sheet: sheet, index: 0 }, 30);
         anim.addFrame({ sheet: sheet, index: 1 }, 30);
@@ -63,7 +64,7 @@ export class ZeldaGame extends gtp.Game {
 
         // Note we have a gtp.SpriteSheet, not a gtp.BitmapFont, so our
         // calculation of what sub-image to draw is a little convoluted
-        const fontImage: gtp.SpriteSheet = <gtp.SpriteSheet>this.assets.get('font');
+        const fontImage: SpriteSheet = <SpriteSheet>this.assets.get('font');
         const alphaOffs: number = 'A'.charCodeAt(0);
         const numericOffs: number = '0'.charCodeAt(0);
         let index: number;

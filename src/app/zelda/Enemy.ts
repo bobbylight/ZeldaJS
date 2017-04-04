@@ -5,6 +5,7 @@ import {DirectionUtil} from './Direction';
 import {Sword} from './Sword';
 import {Screen} from './Screen';
 import {ZeldaGame} from './ZeldaGame';
+import {SpriteSheet} from 'gtp';
 declare let game: ZeldaGame;
 
 const STEP_TIMER_MAX: number = 10;
@@ -95,7 +96,7 @@ export abstract class Enemy extends Character {
         }
 
         const index: number = row * 15 + col;
-        const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('enemies');
+        const ss: SpriteSheet = <SpriteSheet>game.assets.get('enemies');
         ss.drawByIndex(ctx, this.x, this.y, index);
     }
 

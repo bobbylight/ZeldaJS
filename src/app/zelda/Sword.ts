@@ -2,6 +2,7 @@ import {Link} from './Link';
 import {Direction, DirectionUtil} from './Direction';
 import {Actor} from './Actor';
 import {ZeldaGame} from './ZeldaGame';
+import {Rectangle, SpriteSheet} from 'gtp';
 declare let game: ZeldaGame;
 
 export class Sword extends Actor {
@@ -37,7 +38,7 @@ export class Sword extends Actor {
                 break;
         }
 
-        this.hitBox = new gtp.Rectangle();
+        this.hitBox = new Rectangle();
     }
 
     collidedWith(other: Actor): boolean {
@@ -50,7 +51,7 @@ export class Sword extends Actor {
         this.possiblyPaintHitBox(ctx);
 
         if (this.frame >= 0 && this.frame < 14) { // First two frames, we aren't painted
-            const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('link');
+            const ss: SpriteSheet = <SpriteSheet>game.assets.get('link');
             const row: number = 3;
             const col: number = DirectionUtil.ordinal(this.dir);
             const index: number = row * 15 + col;

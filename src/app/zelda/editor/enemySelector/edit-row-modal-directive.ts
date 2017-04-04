@@ -3,6 +3,7 @@
 
 import {EnemyInfo} from '../../EnemyGroup';
 import {LabelValuePair} from '../select-directive';
+import {IModalServiceInstance} from 'angular-ui-bootstrap';
 
 export class EditorRowModalController {
 
@@ -17,7 +18,7 @@ export class EditorRowModalController {
 
     // Note we must hang stuff off of the scope here since ui-bootstrap does not
     // use controller-as.
-    constructor(private $scope: ng.IScope, private $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance) {
+    constructor(private $scope: ng.IScope, private $uibModalInstance: IModalServiceInstance) {
         console.log('In controller!!!');
 
         this.submitButtonLabel = 'OK';

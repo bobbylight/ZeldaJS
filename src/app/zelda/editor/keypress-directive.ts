@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 angular.module('editorDirectives')
 .directive('keyPressTrapper', [ '$document', '$rootScope', ($document: ng.IDocumentService, $rootScope: ng.IRootScopeService) => {
     'use strict';

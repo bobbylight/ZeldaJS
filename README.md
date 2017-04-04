@@ -4,34 +4,32 @@
 A WIP clone of the Legend of Zelda.  This will include a very basic editor as well.
 Feel free to [try it out in its current state](http://bobbylight.github.io/ZeldaJS/).
 
+*NOTE:* The editor app is currently broken due to my inability to get all needed
+angular modules included in the webpack build.
+
 Licensed under [an MIT license](LICENSE.txt).
 
 ## Hacking
-This game depends on `gulp` for its builds and `typings` for TypeScript
-definition files for libraries it uses.  To install these if you don't already
-have them:
-
-```shell
-npm install -g gulp
-npm install -g typings
-```
-
-Next, check out the project, install all dependencies locally via `npm`, then
-run `typings` to get the type definitions:
+First, check out the project and install all dependencies locally via `npm`:
 
 ```shell
 git clone https://github.com/bobbylight/ZeldaJS.git
 cd ZeldaJS
 npm install
-typings install
 ```
 
-The source code lives in `src/app`.  You can build both the development and
-production (minified) versions of the game by running `gulp`.  The development
-version will be built in `src/js` and the production version in `dist/`.
+This game is built with `webpack`.  Development is done with `npm` scripts:
 
-`index.html` demos the most recent build of the game, while `editor.html` demos the most recent build of the map
-editor.
+```shell
+npm run clean   # Deletes build/ folder
+npm run watch   # Start webpack, watch for changes
+npm run build   # Build into build/
+npm run start   # Nothing (for now)
+npm run test    # Run unit test
+```
+
+The source code lives in `src/`, and is built into `build/web/`.
+`index.html` is the game itself, while `editor.html` is a simple map editor.
 
 ## Roadmap
 

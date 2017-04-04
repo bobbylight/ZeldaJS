@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 export interface ModifiableTableHeader {
     label: string;
     cellKey: string;

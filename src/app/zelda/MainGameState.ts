@@ -4,6 +4,7 @@ import {BaseState} from './BaseState';
 import {Screen} from './Screen';
 import {Map} from './Map';
 import {ZeldaGame} from './ZeldaGame';
+import {Game, Image} from 'gtp';
 declare let game: ZeldaGame;
 
 export class MainGameState extends BaseState {
@@ -36,7 +37,7 @@ export class MainGameState extends BaseState {
         this._screenSlidingAmount = MainGameState.SCREEN_SLIDING_INC();
     }
 
-    enter(game: gtp.Game) {
+    enter(game: Game) {
         super.enter(game);
         //game.inputManager.setResetKeyStateOnPoll(false);
         game.audio.playMusic(this.getGame().map.music, true);
@@ -100,7 +101,7 @@ export class MainGameState extends BaseState {
 
         ctx.restore();
 
-        const hudMockup: gtp.Image = <gtp.Image>game.assets.get('hud');
+        const hudMockup: Image = <Image>game.assets.get('hud');
         hudMockup.draw(ctx, 0, 0);
     }
 

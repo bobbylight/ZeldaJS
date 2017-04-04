@@ -4,61 +4,7 @@
     <meta charset="UTF-8">
     <title>Zelda Map Editor</title>
 
-    <link href="css/editor.css" rel="stylesheet">
-
-    <!-- build:js js/editor.min.js -->
-    <script src="../node_modules/jquery/dist/jquery.js"></script>
-    <script src="../node_modules/angular/angular.js"></script>
-    <script src="../node_modules/angular-sanitize/angular-sanitize.js"></script>
-    <script src="../node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
-    <script src="../node_modules/highlight.js/lib/highlight.js"></script>
-
-    <!-- Game files -->
-    <script src='../node_modules/gtp/lib/index.js'></script>
-    <script src="js/zelda.js"></script>
-    <script src='js/zelda/Constants.js'></script>
-    <script src='js/zelda/Direction.js'></script>
-    <script src='js/zelda/InstanceLoader.js'></script>
-    <script src='js/zelda/BaseState.js'></script>
-    <script src='js/zelda/LoadingState.js'></script>
-    <script src='js/zelda/TitleState.js'></script>
-    <script src='js/zelda/MainGameState.js'></script>
-    <script src='js/zelda/Screen.js'></script>
-    <script src='js/zelda/Map.js'></script>
-    <script src='js/zelda/Tileset.js'></script>
-    <script src='js/zelda/ZeldaGame.js'></script>
-    <script src='js/zelda/Actor.js'></script>
-    <script src='js/zelda/Animation.js'></script>
-    <script src='js/zelda/AnimationListener.js'></script>
-    <script src='js/zelda/Character.js'></script>
-    <script src='js/zelda/Link.js'></script>
-    <script src='js/zelda/Enemy.js'></script>
-    <script src='js/zelda/EnemyGroup.js'></script>
-    <script src='js/zelda/AbstractWalkingEnemy.js'></script>
-    <script src='js/zelda/Octorok.js'></script>
-    <script src='js/zelda/Moblin.js'></script>
-    <script src='js/zelda/Projectile.js'></script>
-    <script src='js/zelda/Tektite.js'></script>
-    <script src='js/zelda/Position.js'></script>
-    <script src='js/zelda/event/Event.js'></script>
-    <script src='js/zelda/event/GoDownStairsEvent.js'></script>
-
-    <!-- Editor-specific files -->
-    <script src="js/zelda/editor/editor.js"></script>
-    <script src="js/zelda/editor/main-controller.js"></script>
-    <script src="js/zelda/editor/code-viewer-directive.js"></script>
-    <script src="js/zelda/editor/select-directive.js"></script>
-    <script src="js/zelda/editor/modifiableTable/modifiable-table-directive.js"></script>
-    <script src="js/zelda/editor/keypress-directive.js"></script>
-    <script src="js/zelda/editor/map-editor-directive.js"></script>
-    <script src="js/zelda/editor/map-preview-directive.js"></script>
-    <script src="js/zelda/editor/tile-palette-directive.js"></script>
-    <script src="js/zelda/editor/enemySelector/enemy-selector-directive.js"></script>
-    <script src="js/zelda/editor/enemySelector/edit-row-modal-directive.js"></script>
-    <script src="js/zelda/editor/eventTable/event-table-directive.js"></script>
-    <script src="js/zelda/editor/resource-service.js"></script>
-    <!-- endbuild -->
-
+    <script src='editor.js'></script>
 </head>
 
 <body ng-controller="MainCtrl as vm" key-press-trapper>
@@ -79,7 +25,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#/"><img src="img/crest.png" class="banner-img"> Zelda Map Creator</a>
+                <a class="navbar-brand" href="#/"><img src="../img/crest.png" class="banner-img"> Zelda Map Creator</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->

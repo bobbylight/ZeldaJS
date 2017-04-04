@@ -1,5 +1,6 @@
 import {AnimationListener} from './AnimationListener';
 import {ZeldaGame} from './ZeldaGame';
+import {SpriteSheet} from 'gtp';
 declare let game: ZeldaGame;
 
 export class Animation {
@@ -169,7 +170,7 @@ export class Animation {
  */
 export interface SpriteSheetAndIndex {
 
-    sheet: gtp.SpriteSheet;
+    sheet: SpriteSheet;
     index: number;
 }
 

@@ -1,4 +1,5 @@
 import {ZeldaGame} from '../ZeldaGame';
+import * as angular from 'angular';
 
 declare let game: ZeldaGame;
 

@@ -2,6 +2,7 @@ import {CurtainOpeningState} from './CurtainOpeningState';
 import {MainGameState} from './MainGameState';
 import {TitleState} from './TitleState';
 import {BaseState} from './BaseState';
+import {Game, BaseStateArgs, Utils, FadeOutInState} from 'gtp';
 
 export class LoadingState extends BaseState {
 
@@ -12,7 +13,7 @@ export class LoadingState extends BaseState {
      * State that renders while resources are loading.
      * @constructor
      */
-    constructor(args?: gtp.Game | gtp.BaseStateArgs) {
+    constructor(args?: Game | BaseStateArgs) {
         super(args);
     }
 
@@ -23,7 +24,7 @@ export class LoadingState extends BaseState {
         if (!this.assetsLoaded) {
 
             this.assetsLoaded = true;
-            const game: gtp.Game = this.game;
+            const game: Game = this.game;
 
             // Load assets used by this state first
             game.assets.addImage('loading', 'res/loadingMessage.png');
@@ -62,13 +63,13 @@ export class LoadingState extends BaseState {
                 //game.assets.addSound(pacman.Sounds.TOKEN, 'res/sounds/token.wav');
                 game.assets.onLoad(() => {
 
-                    const skipTitle: string | null = gtp.Utils.getRequestParam('skipTitle');
+                    const skipTitle: string | null = Utils.getRequestParam('skipTitle');
                     if (skipTitle !== null) { // Allow empty strings
                         this.getGame().startNewGame();
                         game.setState(new CurtainOpeningState(new MainGameState()));
                     }
                     else {
-                        game.setState(new gtp.FadeOutInState(this, new TitleState()));
+                        game.setState(new FadeOutInState(this, new TitleState()));
                     }
                 });
 

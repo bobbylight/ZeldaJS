@@ -3,6 +3,7 @@ import {Constants} from './Constants';
 import {Actor} from './Actor';
 import {Enemy} from './Enemy';
 import {ZeldaGame} from './ZeldaGame';
+import {Rectangle} from 'gtp';
 declare let game: ZeldaGame;
 
 /**
@@ -20,7 +21,7 @@ export abstract class AbstractWalkingEnemy extends Enemy {
         super(health);
         this._ssRowOffset = ssRowOffset;
         this._blue = blue;
-        this.hitBox = new gtp.Rectangle();
+        this.hitBox = new Rectangle();
         this._changeDirTimer = this.getChangeDirTimerMax();
         this.pausedBeforeThrowingProjectile = -1;
     }

@@ -5,18 +5,21 @@ import {ZeldaGame} from './zelda/ZeldaGame';
 import {LoadingState} from './zelda/LoadingState';
 import {Constants} from './zelda/Constants';
 
-let game: ZeldaGame;
+// Webpack makes you import your HTML and CSS.  WTF?
+import 'index.html';
+import 'all.css';
 
-function init(parent: HTMLElement, assetRoot?: string) { // tslint:disable-line:only-arrow-functions no-unused-variable
-   'use strict';
-   game = new ZeldaGame({
-       assetRoot: assetRoot,
-       height: Constants.CANVAS_HEIGHT,
-       keyRefreshMillis: 300,
-       parent: parent,
-       targetFps: 60,
-       width: Constants.CANVAS_WIDTH
-   });
-   game.setState(new LoadingState());
-   game.start();
+(<any>window).init = (parent: HTMLElement, assetRoot?: string) => { // tslint:disable-line:only-arrow-functions no-unused-variable
+    'use strict';
+    const gameWindow: any = <any>window;
+    gameWindow.game = new ZeldaGame({
+        assetRoot: assetRoot,
+        height: Constants.CANVAS_HEIGHT,
+        keyRefreshMillis: 300,
+        parent: parent,
+        targetFps: 60,
+        width: Constants.CANVAS_WIDTH
+    });
+    gameWindow.game.setState(new LoadingState());
+    gameWindow.game.start();
 }

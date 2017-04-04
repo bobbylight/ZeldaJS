@@ -1,4 +1,6 @@
 import {ZeldaGame} from '../ZeldaGame';
+import {SpriteSheet} from 'gtp';
+import * as angular from 'angular';
 declare let game: ZeldaGame;
 
 export class TilePaletteController {
@@ -63,7 +65,7 @@ angular.module('editorDirectives')
 
                 const canvas: HTMLCanvasElement = <HTMLCanvasElement>element.find('.tile-palette-canvas').get(0);
                 const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
-                const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('overworld');
+                const ss: SpriteSheet = <SpriteSheet>game.assets.get('overworld');
                 ss.gtpImage.draw(ctx, 0, 0);
 
                 ctx.strokeStyle = 'red';

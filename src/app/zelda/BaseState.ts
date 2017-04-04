@@ -1,7 +1,8 @@
 import {ZeldaGame} from './ZeldaGame';
+import {State, Game, BaseStateArgs, Utils, InputManager, Keys} from 'gtp';
 declare let game: ZeldaGame;
 
-export class BaseState extends gtp.State {
+export class BaseState extends State {
 
     private _lastConfigKeypressTime: number;
     protected _lastSpriteFrameTime: number;
@@ -10,9 +11,9 @@ export class BaseState extends gtp.State {
      * Functionality common amongst all states in this game.
      * @constructor
      */
-    constructor(args?: gtp.Game | gtp.BaseStateArgs) {
+    constructor(args?: Game | BaseStateArgs) {
         super(args);
-        this._lastConfigKeypressTime = gtp.Utils.timestamp();
+        this._lastConfigKeypressTime = Utils.timestamp();
         this._lastSpriteFrameTime = 0;
     }
 
@@ -28,22 +29,22 @@ export class BaseState extends gtp.State {
 
         // We use a timestamp instead of game.playTime since game.playTime gets
         // reset, which messes us up
-        const time: number = gtp.Utils.timestamp(); // this.game.playTime;
-        const im: gtp.InputManager = this.game.inputManager;
+        const time: number = Utils.timestamp(); // this.game.playTime;
+        const im: InputManager = this.game.inputManager;
 
         if (time > (this._lastConfigKeypressTime + BaseState.INPUT_REPEAT_MILLIS)) {
 
             // Audio stuff
-            if (im.isKeyDown(gtp.Keys.KEY_M, true)) {
+            if (im.isKeyDown(Keys.KEY_M, true)) {
                 game.toggleMuted();
                 this._lastConfigKeypressTime = time;
             }
 
             // Debugging actions
-            if (im.isKeyDown(gtp.Keys.KEY_Z)) {
+            if (im.isKeyDown(Keys.KEY_Z)) {
 
                 // Increase canvas size
-                if (im.isKeyDown(gtp.Keys.KEY_P, true)) {
+                if (im.isKeyDown(Keys.KEY_P, true)) {
                     if (!game.canvas.style.width) {
                         game.canvas.style.width = game.canvas.width + 'px';
                     }
@@ -59,7 +60,7 @@ export class BaseState extends gtp.State {
                 }
 
                 // Decrease canvas size
-                else if (im.isKeyDown(gtp.Keys.KEY_L, true)) {
+                else if (im.isKeyDown(Keys.KEY_L, true)) {
                     if (!game.canvas.style.width) {
                         game.canvas.style.width = game.canvas.width + 'px';
                     }

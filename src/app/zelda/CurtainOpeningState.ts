@@ -1,12 +1,13 @@
 import {Constants} from './Constants';
 import {MainGameState} from './MainGameState';
 import {ZeldaGame} from './ZeldaGame';
+import {State, Delay} from 'gtp';
 declare let game: ZeldaGame;
 
-export class CurtainOpeningState extends gtp.State {
+export class CurtainOpeningState extends State {
 
     private _mainState: MainGameState;
-    private _delay: gtp.Delay;
+    private _delay: Delay;
     private _openAmount: number;
 
     /**
@@ -19,7 +20,7 @@ export class CurtainOpeningState extends gtp.State {
         super();
         this._mainState = mainState;
         this._openAmount = 0;
-        this._delay = new gtp.Delay({ millis: 70, loop: true, loopCount: 16,
+        this._delay = new Delay({ millis: 70, loop: true, loopCount: 16,
                 callback: () => { this._delayCallback.call(this); } });
     }
 

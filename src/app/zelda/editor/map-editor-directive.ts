@@ -2,6 +2,7 @@ import {Constants} from '../Constants';
 import {ZeldaGame} from '../ZeldaGame';
 import {Screen} from '../Screen';
 import {Map} from '../Map';
+import * as angular from 'angular';
 
 export class MapEditorController {
 

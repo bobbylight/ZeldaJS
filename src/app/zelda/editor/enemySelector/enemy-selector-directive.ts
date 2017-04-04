@@ -3,6 +3,8 @@ import {LabelValuePair} from '../select-directive';
 import {EnemyGroup, EnemyInfo} from '../../EnemyGroup';
 import {EditorRowModalController} from './edit-row-modal-directive';
 import {Screen} from '../../Screen';
+import {Utils} from 'gtp';
+import * as angular from 'angular';
 
 export class EnemySelectorController {
 
@@ -44,7 +46,7 @@ export class EnemySelectorController {
 
     addOrEditRow() {
         console.log('yeah yeah');
-        this._openModal((value: EnemyInfo) => { gtp.Utils.hitch(this, this.addOrEditRowOkCallback)(value); });
+        this._openModal((value: EnemyInfo) => { Utils.hitch(this, this.addOrEditRowOkCallback)(value); });
     }
 
     addOrEditRowOkCallback(newEnemy: EnemyInfo) {

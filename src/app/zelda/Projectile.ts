@@ -2,6 +2,7 @@ import {Constants} from './Constants';
 import {Direction} from './Direction';
 import {Actor} from './Actor';
 import {ZeldaGame} from './ZeldaGame';
+import {Rectangle, SpriteSheet} from 'gtp';
 declare let game: ZeldaGame;
 
 /**
@@ -23,7 +24,7 @@ export class Projectile extends Actor {
         this.y = y;
         this.dir = dir;
 
-        this.hitBox = new gtp.Rectangle();
+        this.hitBox = new Rectangle();
     }
 
     collidedWith(other: Actor): boolean {
@@ -35,7 +36,7 @@ export class Projectile extends Actor {
 
         this.possiblyPaintHitBox(ctx);
 
-        const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('enemies');
+        const ss: SpriteSheet = <SpriteSheet>game.assets.get('enemies');
         const index: number = this._ssRow * 15 + this._ssCol;
         ss.drawByIndex(ctx, this.x, this.y, index);
     }

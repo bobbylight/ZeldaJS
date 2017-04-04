@@ -8,7 +8,7 @@ import {Constants} from './Constants';
 import {Sword} from './Sword';
 import {MainGameState} from './MainGameState';
 import {ZeldaGame} from './ZeldaGame';
-import SpriteSheet = gtp.SpriteSheet;
+import {SpriteSheet, InputManager, Keys, Rectangle} from 'gtp';
 declare let game: ZeldaGame;
 
 const STEP_TIMER_MAX: number = 10;
@@ -32,7 +32,7 @@ export class Link extends Character {
     constructor() {
         super();
         this._stepTimer = STEP_TIMER_MAX;
-        this.hitBox = new gtp.Rectangle();
+        this.hitBox = new Rectangle();
         this.step = 0;
         this._adjustToGridCounter = 0;
     }
@@ -63,7 +63,7 @@ export class Link extends Character {
     private _createStairsDownAnimation(completedCallback: AnimationListener): Animation {
 
         const animation: Animation = new Animation(this.x, this.y);
-        const linkSheet: SpriteSheet = <gtp.SpriteSheet>game.assets.get('link');
+        const linkSheet: SpriteSheet = <SpriteSheet>game.assets.get('link');
         const frameMillis: number = 120;
 
         animation.addFrame({ sheet: linkSheet, index: 17 }, frameMillis);
@@ -83,14 +83,14 @@ export class Link extends Character {
         this.setAnimation(this._createStairsDownAnimation(completedCallback));
     }
 
-    handleInput(input: gtp.InputManager): boolean {
+    handleInput(input: InputManager): boolean {
 
         if (this.frozen) {
             return false;
         }
 
         // Action buttons should take priority over moving
-        else if (input.isKeyDown(gtp.Keys.KEY_Z)) {
+        else if (input.isKeyDown(Keys.KEY_Z)) {
             this._swingSword();
         }
 
@@ -145,7 +145,7 @@ export class Link extends Character {
         return this.anim != null;
     }
 
-    private _isMovingHorizontally(hitBox: gtp.Rectangle): number {
+    private _isMovingHorizontally(hitBox: Rectangle): number {
         if (hitBox.x < 0) {
             return -1;
         }
@@ -155,7 +155,7 @@ export class Link extends Character {
         return 0;
     }
 
-    private _isMovingVertically(hitBox: gtp.Rectangle): number {
+    private _isMovingVertically(hitBox: Rectangle): number {
         if (hitBox.y < 0) {
             return -1;
         }
@@ -257,7 +257,7 @@ export class Link extends Character {
             this.anim.paint(ctx);
         }
         else {
-            const ss: gtp.SpriteSheet = <gtp.SpriteSheet>game.assets.get('link');
+            const ss: SpriteSheet = <SpriteSheet>game.assets.get('link');
             const row: number = this.step;
             const col: number = DirectionUtil.ordinal(this.dir);
             const index: number = row * 15 + col;
