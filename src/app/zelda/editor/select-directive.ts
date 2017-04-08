@@ -63,7 +63,7 @@ export interface LabelValuePair {
 angular.module('editorDirectives').component('zeldaSelect', {
 
     //require: 'ngModel',
-    templateUrl: 'js/zelda/editor/templates/select.html',
+    templateUrl: 'zelda/editor/templates/select.html',
 
     controller: SelectController,
 

@@ -23,7 +23,7 @@ angular.module('editorDirectives')
 
     return {
         restrict: 'E',
-        templateUrl: 'js/zelda/editor/templates/map-editor.html',
+        templateUrl: 'zelda/editor/templates/map-editor.html',
 
         scope: {},
         controller: MapEditorController,

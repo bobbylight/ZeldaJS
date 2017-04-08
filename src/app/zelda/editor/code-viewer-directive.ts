@@ -1,5 +1,6 @@
 import {Map, MapData} from '../Map';
 import * as angular from 'angular';
+import * as hljs from 'highlight.js';
 
 export class CodeViewerController {
 
@@ -79,6 +80,6 @@ angular.module('editorDirectives', [])
         scope: {
             map: '='
         },
-        templateUrl: 'js/zelda/editor/templates/code-viewer.html'
+        templateUrl: 'zelda/editor/templates/code-viewer.html'
     };
 }]);

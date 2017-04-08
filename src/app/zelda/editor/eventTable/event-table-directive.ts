@@ -26,7 +26,7 @@ angular.module('editorDirectives')
     return {
         restrict: 'E',
         //require: 'ngModel',
-        templateUrl: 'js/zelda/editor/eventTable/event-table.html',
+        templateUrl: 'zelda/editor/eventTable/event-table.html',
 
         controller: EventTableController,
         controllerAs: 'vm',

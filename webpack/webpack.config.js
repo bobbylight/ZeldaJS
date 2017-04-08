@@ -2,6 +2,7 @@ const loaders = require('./loaders');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const StringReplacePlugin = require('string-replace-webpack-plugin');
+const webpack = require('webpack');
 
 // todo: add back when tslint-loader is updated for tslint 5.0.0
 // // Loaders specific to compiling
@@ -24,7 +25,7 @@ module.exports = [
         output: {
             path: path.resolve('./build/web/'),
             filename: '[name].js',
-            publicPath: '/'
+            //publicPath: 'build/web/'
         },
         resolve: {
             extensions: ['.js', '.ts'],
@@ -36,9 +37,17 @@ module.exports = [
         plugins: [
             // Simply copies the files over
             new CopyWebpackPlugin([
-                { from: 'src/res', to: 'res' }
+                { from: 'src/res', to: 'res' },
+                { from: 'src/img', to: 'img' },
+                { from: '**/*.html', context: 'src/app' }
             ]),
-            new StringReplacePlugin()
+            new StringReplacePlugin(),
+            new webpack.ProvidePlugin({
+                'window.$': 'jquery',
+                'window.jQuery': 'jquery',
+                $: 'jquery',
+                jQuery: 'jquery'
+            })
         ],
         // Create Sourcemaps for the bundle
         devtool: 'source-map',

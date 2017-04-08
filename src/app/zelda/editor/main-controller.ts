@@ -22,7 +22,7 @@ export class MainController {
         // Initialize the game declared in zelda.ts
         // TODO: Do game initialization in a service?
         let parent: HTMLDivElement = document.createElement('div');
-        game = new ZeldaGame({
+        (<any>window).game = new ZeldaGame({
             assetRoot: undefined,
             height: Constants.CANVAS_HEIGHT,
             keyRefreshMillis: 300,

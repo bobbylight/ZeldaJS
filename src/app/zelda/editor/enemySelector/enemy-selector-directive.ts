@@ -119,7 +119,7 @@ angular.module('editorDirectives')
         scope.okCallback = okCallback;
 
         $uibModal.open({
-            templateUrl: 'js/zelda/editor/enemySelector/edit-row-modal.html',
+            templateUrl: 'zelda/editor/enemySelector/edit-row-modal.html',
             controller: EditorRowModalController,
             controllerAs: 'vm',
             bindToController: true,
@@ -141,7 +141,7 @@ angular.module('editorDirectives')
     return {
         restrict: 'E',
         //require: 'ngModel',
-        templateUrl: 'js/zelda/editor/enemySelector/enemy-selector.html',
+        templateUrl: 'zelda/editor/enemySelector/enemy-selector.html',
 
         controller: EnemySelectorController,
         controllerAs: 'vm',

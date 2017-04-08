@@ -39,5 +39,8 @@
     "url-loader": "0.5.8",
     "webpack": "2.3.3",
     "webpack-target-electron-renderer": "0.4.0"
+  },
+  "dependencies": {
+    "jquery": "3.2.1"
   }
 }

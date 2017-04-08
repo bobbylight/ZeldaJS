@@ -31,7 +31,7 @@ module.exports = [
 
     {
         // This is the voodoo to have webpack convert "import 'index.html'; into an actual HTML file (!!)
-        test: /(?:index|editor).html$/,
+        test: /\.html$/, // /(?:index|editor)\.html$/,
         loaders: [ 'file-loader?name=[name].[ext]',
             StringReplacePlugin.replace({
                 replacements: [{

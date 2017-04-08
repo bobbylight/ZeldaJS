@@ -41,7 +41,7 @@ angular.module('editorDirectives')
     return {
         restrict: 'E',
         //require: 'ngModel',
-        templateUrl: 'js/zelda/editor/templates/tile-palette.html',
+        templateUrl: 'zelda/editor/templates/tile-palette.html',
 
         controller: TilePaletteController,
         controllerAs: 'vm',

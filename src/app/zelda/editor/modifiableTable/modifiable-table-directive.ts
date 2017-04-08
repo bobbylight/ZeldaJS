@@ -76,7 +76,7 @@ angular.module('editorDirectives')
     return {
         restrict: 'E',
         //require: 'ngModel',
-        templateUrl: 'js/zelda/editor/modifiableTable/modifiable-table.html',
+        templateUrl: 'zelda/editor/modifiableTable/modifiable-table.html',
 
         controller: ModifiableTableController,
         controllerAs: 'vm',

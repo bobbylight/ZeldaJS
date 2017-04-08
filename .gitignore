@@ -6,3 +6,4 @@ js
 .idea
 doc
 build
+npm-debug.log
