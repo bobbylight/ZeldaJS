@@ -7,11 +7,12 @@
     "url": "https://github.com/bobbylight/ZeldaJS.git"
   },
   "scripts": {
-    "clean": "rimraf build",
+    "clean": "rimraf build doc",
     "build": "NODE_ENV=production webpack --config webpack/webpack.config.js",
     "watch": "NODE_ENV=dev webpack --config webpack/webpack.config.js --watch",
     "start": "electron src/js/electron-main.js",
-    "test": "NODE_ENV=test karma start"
+    "test":  "NODE_ENV=test karma start",
+    "doc":   "typedoc --mode file --target ES5 --out doc/ ."
   },
   "devDependencies": {
     "@types/angular": "1.6.14",

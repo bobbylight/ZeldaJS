@@ -1,4 +1,4 @@
-#ZeldaJS - A Legend of Zelda clone in TypeScript
+# ZeldaJS - A Legend of Zelda clone in TypeScript
 [![Build Status](https://travis-ci.org/bobbylight/ZeldaJS.svg?branch=master)](https://travis-ci.org/bobbylight/ZeldaJS)
 
 A WIP clone of the Legend of Zelda.  This will include a very basic editor as well.
@@ -12,7 +12,7 @@ Licensed under [an MIT license](LICENSE.txt).
 ## Hacking
 First, check out the project and install all dependencies locally via `npm`:
 
-```shell
+```bash
 git clone https://github.com/bobbylight/ZeldaJS.git
 cd ZeldaJS
 npm install
@@ -20,7 +20,7 @@ npm install
 
 This game is built with `webpack`.  Development is done with `npm` scripts:
 
-```shell
+```bash
 npm run clean   # Deletes build/ folder
 npm run watch   # Start webpack, watch for changes
 npm run build   # Build into build/

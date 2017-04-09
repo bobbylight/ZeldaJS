@@ -1,7 +1,6 @@
 node_modules
 Thumbs.db
 *.iml
-js
 .DS_Store
 .idea
 doc
