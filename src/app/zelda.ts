@@ -22,4 +22,4 @@ import 'all.css';
     });
     gameWindow.game.setState(new LoadingState());
     gameWindow.game.start();
-}
+};

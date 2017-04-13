@@ -4,14 +4,16 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const StringReplacePlugin = require('string-replace-webpack-plugin');
 const webpack = require('webpack');
 
-// todo: add back when tslint-loader is updated for tslint 5.0.0
-// // Loaders specific to compiling
-// loaders.push({
-//     enforce: 'pre',
-//     test: /\.ts$/,
-//     loader: 'tslint-loader',
-//     exclude: /node_modules/
-// });
+// Loaders specific to compiling
+loaders.push({
+    test: /\.ts$/,
+    enforce: 'pre',
+    loader: 'tslint-loader',
+    exclude: /node_modules/,
+    options: {
+        typeCheck: true
+    }
+});
 
 module.exports = [
     {

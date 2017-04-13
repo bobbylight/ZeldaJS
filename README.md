@@ -4,9 +4,6 @@
 A WIP clone of the Legend of Zelda.  This will include a very basic editor as well.
 Feel free to [try it out in its current state](http://bobbylight.github.io/ZeldaJS/).
 
-*NOTE:* The editor app is currently broken due to my inability to get all needed
-angular modules included in the webpack build.
-
 Licensed under [an MIT license](LICENSE.txt).
 
 ## Hacking

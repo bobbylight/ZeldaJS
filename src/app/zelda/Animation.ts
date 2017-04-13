@@ -3,6 +3,30 @@ import {ZeldaGame} from './ZeldaGame';
 import {SpriteSheet} from 'gtp';
 declare let game: ZeldaGame;
 
+/**
+ * Structure representing a single frame in an <code>Animation</code>.
+ */
+export interface SpriteSheetAndIndex {
+
+    sheet: SpriteSheet;
+    index: number;
+}
+
+/**
+ * A frame in an animation.
+ */
+class Frame {
+
+    sheetAndIndex: SpriteSheetAndIndex;
+    time: number;
+
+    constructor(sheetAndIndex: SpriteSheetAndIndex, time: number) {
+        this.sheetAndIndex = sheetAndIndex;
+        this.time = time;
+    }
+
+}
+
 export class Animation {
 
     private _x: number;
@@ -163,28 +187,4 @@ export class Animation {
             }
         }
     }
-}
-
-/**
- * Structure representing a single frame in an <code>Animation</code>.
- */
-export interface SpriteSheetAndIndex {
-
-    sheet: SpriteSheet;
-    index: number;
-}
-
-/**
- * A frame in an animation.
- */
-class Frame {
-
-    sheetAndIndex: SpriteSheetAndIndex;
-    time: number;
-
-    constructor(sheetAndIndex: SpriteSheetAndIndex, time: number) {
-        this.sheetAndIndex = sheetAndIndex;
-        this.time = time;
-    }
-
 }
