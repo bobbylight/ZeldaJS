@@ -10,6 +10,7 @@
     "clean": "rimraf build doc",
     "build": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.js",
     "watch": "cross-env NODE_ENV=dev webpack --config webpack/webpack.config.js --watch",
+    "dev": "cross-env NODE_ENV=dev webpack-dev-server --config ./webpack/webpack.config.js",
     "start": "electron src/js/electron-main.js",
     "test": "NODE_ENV=test karma start",
     "doc": "typedoc --mode file --target ES5 --out doc/ ."
@@ -39,7 +40,8 @@
     "typedoc": "0.5.10",
     "typescript": "2.2.2",
     "url-loader": "0.5.8",
-    "webpack": "2.3.3",
+    "webpack": "2.4.1",
+    "webpack-dev-server": "2.4.2",
     "webpack-target-electron-renderer": "0.4.0"
   },
   "dependencies": {

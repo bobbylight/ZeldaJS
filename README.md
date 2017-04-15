@@ -15,11 +15,20 @@ cd ZeldaJS
 npm install
 ```
 
+To get started right away, run:
+
+```bash
+npm run dev
+```
+
+The game will be served from [http://localhost:8080](), and hot deploy any changes.
+
 This game is built with `webpack`.  Development is done with `npm` scripts:
 
 ```bash
-npm run clean   # Deletes build/ folder
-npm run watch   # Start webpack, watch for changes
+npm run clean   # Deletes build/ and doc/ folders
+npm run dev     # Start webpack, watch for changes, test at localhost:8080
+npm run watch   # Start webpack, watch for changes (prefer "dev")
 npm run build   # Build into build/
 npm run start   # Nothing (for now)
 npm run test    # Run unit test
