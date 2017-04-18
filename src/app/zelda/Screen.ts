@@ -10,6 +10,8 @@ import {Projectile} from './Projectile';
 import {GoDownStairsEvent} from './event/GoDownStairsEvent';
 import {Link} from './Link';
 import {Tileset} from './Tileset';
+import {ZeldaGame} from './ZeldaGame';
+declare let game: ZeldaGame;
 
 export class Screen {
 
@@ -301,12 +303,15 @@ export class Screen {
 
     private _updateActors() {
 
+        const actors: Actor[] = this._actors.slice();
+        actors.push(game.link);
+
         // Handle collisions between actors.  This is really crude, but due
         // to the low number of actors per screen, this works
-        for (let i: number = 0; i < this._actors.length; i++) {
-            const actor1: Actor = this._actors[i];
-            for (let j: number = i + 1; j < this._actors.length; j++) {
-                const actor2: Actor = this._actors[j];
+        for (let i: number = 0; i < actors.length; i++) {
+            const actor1: Actor = actors[i];
+            for (let j: number = i + 1; j < actors.length; j++) {
+                const actor2: Actor = actors[j];
                 if (actor1.intersects(actor2)) {
                     actor1.collidedWith(actor2);
                     actor2.collidedWith(actor1);

@@ -46,25 +46,25 @@ export class Projectile extends Actor {
         const SPEED: number = 3;
 
         switch (this.dir) {
-            case Direction.DOWN:
+            case 'DOWN':
                 this.y += SPEED;
                 if (this.y > Constants.SCREEN_HEIGHT_WITH_HUD + this.h) {
                     this.done = true;
                 }
                 break;
-            case Direction.LEFT:
+            case 'LEFT':
                 this.x -= SPEED;
                 if (this.x < -this.w) {
                     this.done = true;
                 }
                 break;
-            case Direction.UP:
+            case 'UP':
                 this.y -= SPEED;
                 if (this.y < -this.h) {
                     this.done = true;
                 }
                 break;
-            case Direction.RIGHT:
+            case 'RIGHT':
                 this.x += SPEED;
                 if (this.x > Constants.SCREEN_WIDTH + this.w) {
                     this.done = true;

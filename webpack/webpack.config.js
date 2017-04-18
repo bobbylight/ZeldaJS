@@ -19,10 +19,12 @@ module.exports = [
     {
         entry: {
             app: path.resolve('./src/app/zelda.ts'),
-            editor: [ path.resolve('./src/app/zelda.ts'), path.resolve('./src/app/zelda/editor/editor.ts'),
-                    // TODO: Figure out a way to pull in these dependencies without referencing the entire libs!
-                    path.resolve('./node_modules/angular-ui-bootstrap/index.js'),
-                    path.resolve('./node_modules/angular-sanitize/index.js') ]
+            // TODO: Figure out how to split editor's node_module stuff into a separate chunk
+            editor: [ path.resolve('./src/app/zelda/editor/editor.ts'),
+                // TODO: Figure out a way to pull in these dependencies without referencing the entire libs!
+                path.resolve('./node_modules/angular-ui-bootstrap/index.js'),
+                path.resolve('./node_modules/angular-sanitize/index.js')
+            ]
         },
         output: {
             path: path.resolve('./build/web/'),
@@ -37,6 +39,7 @@ module.exports = [
             loaders: loaders
         },
         plugins: [
+//            new webpack.optimize.CommonsChunkPlugin({ names: [ 'editorVendor', 'manifest' ] }),
             // Simply copies the files over
             new CopyWebpackPlugin([
                 { from: 'src/res', to: 'res' },

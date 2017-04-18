@@ -24,7 +24,7 @@ export abstract class Actor {
 
     constructor() {
 
-        this.dir = Direction.DOWN;
+        this.dir = 'DOWN';
         this.done = false;
 
         // Almost all characters are 1 tile in size; those that aren't can override

@@ -29,7 +29,7 @@
     "css-loader": "0.28.0",
     "electron": "1.6.2",
     "font-awesome": "4.7.0",
-    "gtp": "1.1.0",
+    "gtp": "1.1.1",
     "highlight.js": "9.10.0",
     "rimraf": "2.6.1",
     "string-replace-webpack-plugin": "0.1.3",

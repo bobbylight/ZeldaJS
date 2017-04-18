@@ -3,12 +3,12 @@ import {Actor, MOVE_AMT} from './Actor';
 import {Animation} from './Animation';
 import {Enemy} from './Enemy';
 import {AnimationListener} from './AnimationListener';
-import {Direction, DirectionUtil} from './Direction';
+import {DirectionUtil} from './Direction';
 import {Constants} from './Constants';
 import {Sword} from './Sword';
 import {MainGameState} from './MainGameState';
 import {ZeldaGame} from './ZeldaGame';
-import {SpriteSheet, InputManager, Keys, Rectangle} from 'gtp';
+import {InputManager, Keys, Rectangle, SpriteSheet} from 'gtp';
 declare let game: ZeldaGame;
 
 const STEP_TIMER_MAX: number = 10;
@@ -35,6 +35,7 @@ export class Link extends Character {
         this.hitBox = new Rectangle();
         this.step = 0;
         this._adjustToGridCounter = 0;
+        this._health = 6;
     }
 
     collidedWith(other: Actor): boolean {
@@ -46,17 +47,17 @@ export class Link extends Character {
         if (other instanceof Enemy) {
             if (--this._health === 0) {
                 this.done = true;
-                game.audio.playSound('enemyDie');
-                game.addEnemyDiesAnimation(this.x, this.y);
+                game.linkDied();
             }
             else {
+                console.log(`Link's health is now ${this._health}`);
                 game.audio.playSound('enemyHit');
                 this.takingDamage = true;
                 this._slideTick = Character.MAX_SLIDE_TICK;
-                this._slidingDir = other.dir;
+                this._slidingDir = DirectionUtil.opposite(this.dir);
             }
         }
-        // TODO: Take damage if it's an enemy
+
         return false;
     }
 
@@ -85,7 +86,7 @@ export class Link extends Character {
 
     handleInput(input: InputManager): boolean {
 
-        if (this.frozen) {
+        if (this.frozen || this.takingDamage) {
             return false;
         }
 
@@ -96,8 +97,8 @@ export class Link extends Character {
 
         else if (input.up()) {
             this.moveY(-MOVE_AMT);
-            if (this.dir !== Direction.UP) {
-                this.dir = Direction.UP;
+            if (this.dir !== 'UP') {
+                this.dir = 'UP';
             }
             else {
                 this._touchStepTimer();
@@ -107,8 +108,8 @@ export class Link extends Character {
 
         else if (input.down()) {
             this.moveY(MOVE_AMT);
-            if (this.dir !== Direction.DOWN) {
-                this.dir = Direction.DOWN;
+            if (this.dir !== 'DOWN') {
+                this.dir = 'DOWN';
             }
             else {
                 this._touchStepTimer();
@@ -118,8 +119,8 @@ export class Link extends Character {
 
         else if (input.left()) {
             this.moveX(-MOVE_AMT);
-            if (this.dir !== Direction.LEFT) {
-                this.dir = Direction.LEFT;
+            if (this.dir !== 'LEFT') {
+                this.dir = 'LEFT';
             }
             else {
                 this._touchStepTimer();
@@ -129,8 +130,8 @@ export class Link extends Character {
 
         else if (input.right()) {
             this.moveX(MOVE_AMT);
-            if (this.dir !== Direction.RIGHT) {
-                this.dir = Direction.RIGHT;
+            if (this.dir !== 'RIGHT') {
+                this.dir = 'RIGHT';
             }
             else {
                 this._touchStepTimer();
@@ -307,8 +308,39 @@ export class Link extends Character {
     }
 
     update() {
+
+        if (this._slidingDir) {
+            this.updateSlide();
+            return;
+        }
+
         if (this.anim) {
             this.anim.update();
+        }
+    }
+
+    // TODO: Share with AbstractWalkingEnemy?
+    protected updateSlide() {
+
+        const speed: number = 4;
+        switch (this._slidingDir) {
+            case 'UP':
+                this.moveY(-speed);
+                break;
+            case 'LEFT':
+                this.moveX(-speed);
+                break;
+            case 'DOWN':
+                this.moveY(speed);
+                break;
+            case 'RIGHT':
+                this.moveX(speed);
+                break;
+        }
+
+        if (--this._slideTick === 0) {
+            this.takingDamage = false;
+            this._slidingDir = null;
         }
     }
 

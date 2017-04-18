@@ -16,5 +16,4 @@ export abstract class Character extends Actor {
         this._slideTick = 0;
         this._slidingDir = null;
     }
-
 }

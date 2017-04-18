@@ -1,5 +1,5 @@
 import {Link} from './Link';
-import {Direction, DirectionUtil} from './Direction';
+import {DirectionUtil} from './Direction';
 import {Actor} from './Actor';
 import {ZeldaGame} from './ZeldaGame';
 import {Rectangle, SpriteSheet} from 'gtp';
@@ -17,22 +17,22 @@ export class Sword extends Actor {
         this.frame = 16;
 
         switch (this.dir) {
-            case Direction.DOWN:
+            case 'DOWN':
                 this.x = link.x;
                 this.y = link.y + 12;
                 break;
 
-            case Direction.LEFT:
+            case 'LEFT':
                 this.x = link.x - 16 + 6;
                 this.y = link.y;
                 break;
 
-            case Direction.UP:
+            case 'UP':
                 this.x = link.x;
                 this.y = link.y - 12;
                 break;
 
-            case Direction.RIGHT:
+            case 'RIGHT':
                 this.x = link.x + 16 - 6;
                 this.y = link.y;
                 break;
@@ -67,16 +67,16 @@ export class Sword extends Actor {
         if (this.frame === 3) {
             link.step = Link.FRAME_STEP;
             switch (this.dir) {
-                case Direction.DOWN:
+                case 'DOWN':
                     this.y -= 6;
                     break;
-                case Direction.LEFT:
+                case 'LEFT':
                     this.x += 6;
                     break;
-                case Direction.UP:
+                case 'UP':
                     this.y += 6;
                     break;
-                case Direction.RIGHT:
+                case 'RIGHT':
                     this.x -= 6;
                     break;
             }
@@ -91,13 +91,13 @@ export class Sword extends Actor {
         if (this.frame > 6 && this.frame < 11) {
             let hx: number, hy: number, hw: number, hh: number;
             switch (this.dir) {
-                case Direction.DOWN:
-                case Direction.UP:
+                case 'DOWN':
+                case 'UP':
                     hx = this.x + 4; hy = this.y;
                     hw = 8; hh = this.h;
                     break;
-                case Direction.LEFT:
-                case Direction.RIGHT:
+                case 'LEFT':
+                case 'RIGHT':
                 default:
                     hx = this.x; hy = this.y + 6;
                     hw = this.w; hh = 8;

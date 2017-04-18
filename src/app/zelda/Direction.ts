@@ -1,37 +1,56 @@
 import {Utils} from 'gtp';
 
-export enum Direction {
-    DOWN = 1,
-    LEFT = 2,
-    UP = 3,
-    RIGHT = 4
-}
+export type Direction = 'DOWN' | 'LEFT' | 'UP' | 'RIGHT';
 
 export class DirectionUtil {
 
+    private static DIRECTIONS: Direction[] = [ 'DOWN', 'LEFT', 'UP', 'RIGHT' ];
+
     static isHorizontal(dir?: Direction | null): boolean {
-        return dir === Direction.LEFT || dir === Direction.RIGHT;
+        return dir === 'LEFT' || dir === 'RIGHT';
     }
 
     static isVertical(dir?: Direction | null): boolean {
-        return dir === Direction.UP || dir === Direction.DOWN;
+        return dir === 'UP' || dir === 'DOWN';
+    }
+
+    static opposite(dir: Direction): Direction {
+
+        let opposite: Direction = 'UP';
+
+        switch (dir) {
+            case 'DOWN':
+                opposite = 'UP';
+                break;
+            case 'LEFT':
+                opposite = 'RIGHT';
+                break;
+            case 'UP':
+                opposite = 'DOWN';
+                break;
+            case 'RIGHT':
+                opposite = 'LEFT';
+                break;
+        }
+
+        return opposite;
     }
 
     static ordinal(dir: Direction): number {
         switch (dir) {
             default:
-            case Direction.DOWN:
+            case 'DOWN':
                 return 0;
-            case Direction.LEFT:
+            case 'LEFT':
                 return 1;
-            case Direction.UP:
+            case 'UP':
                 return 2;
-            case Direction.RIGHT:
+            case 'RIGHT':
                 return 3;
         }
     }
 
     static randomDir(): Direction {
-        return Utils.randomInt(1, 5);
+        return DirectionUtil.DIRECTIONS[Utils.randomInt(4)];
     }
 }

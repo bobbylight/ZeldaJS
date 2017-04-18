@@ -1,4 +1,4 @@
-import {Direction, DirectionUtil} from './Direction';
+import {DirectionUtil} from './Direction';
 import {Constants} from './Constants';
 import {Actor} from './Actor';
 import {Enemy} from './Enemy';
@@ -113,28 +113,7 @@ export abstract class AbstractWalkingEnemy extends Enemy {
     update() {
 
         if (this._slidingDir) {
-
-            const speed: number = 4;
-            switch (this._slidingDir) {
-                case Direction.UP:
-                    this.moveY(-speed);
-                    break;
-                case Direction.LEFT:
-                    this.moveX(-speed);
-                    break;
-                case Direction.DOWN:
-                    this.moveY(speed);
-                    break;
-                case Direction.RIGHT:
-                    this.moveX(speed);
-                    break;
-            }
-
-            if (--this._slideTick === 0) {
-                this.takingDamage = false;
-                this._slidingDir = null;
-            }
-
+            this.updateSlide();
             return;
         }
 
@@ -151,20 +130,45 @@ export abstract class AbstractWalkingEnemy extends Enemy {
 
         const speed: number = this.getSpeed();
         switch (this.dir) {
-            case Direction.UP:
+            case 'UP':
                 this.moveY(-speed);
                 break;
-            case Direction.LEFT:
+            case 'LEFT':
                 this.moveX(-speed);
                 break;
-            case Direction.DOWN:
+            case 'DOWN':
                 this.moveY(speed);
                 break;
-            case Direction.RIGHT:
+            case 'RIGHT':
                 this.moveX(speed);
                 break;
         }
 
         this._changeDirTimer--;
+    }
+
+    // TODO: Share with Link?
+    protected updateSlide() {
+
+        const speed: number = 4;
+        switch (this._slidingDir) {
+            case 'UP':
+                this.moveY(-speed);
+                break;
+            case 'LEFT':
+                this.moveX(-speed);
+                break;
+            case 'DOWN':
+                this.moveY(speed);
+                break;
+            case 'RIGHT':
+                this.moveX(speed);
+                break;
+        }
+
+        if (--this._slideTick === 0) {
+            this.takingDamage = false;
+            this._slidingDir = null;
+        }
     }
 }

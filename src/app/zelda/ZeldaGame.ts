@@ -27,19 +27,7 @@ export class ZeldaGame extends Game {
         });
     }
 
-    updateAnimations() {
-        if (this.animations.length > 0) {
-            const newAnims: Animation[] = [];
-            this.animations.forEach((anim: Animation) => {
-                anim.update();
-                if (!anim.done) {
-                    newAnims.push(anim);
-                }
-            });
-            this.animations = newAnims;
-        }
-    }
-    createEnemyDiesAnimation(x: number, y: number): Animation {
+    private createEnemyDiesAnimation(x: number, y: number): Animation {
         const sheet: SpriteSheet = <SpriteSheet>this.assets.get('enemyDies');
         const anim: Animation = new Animation(x, y);
         anim.addFrame({ sheet: sheet, index: 0 }, 30);
@@ -54,6 +42,27 @@ export class ZeldaGame extends Game {
         anim.addFrame({ sheet: sheet, index: 1 }, 30);
         anim.addFrame({ sheet: sheet, index: 2 }, 30);
         anim.addFrame({ sheet: sheet, index: 3 }, 30);
+        return anim;
+    }
+
+    private createLinkDiesAnimation(): Animation {
+
+        const sheet: SpriteSheet = <SpriteSheet>game.assets.get('link');
+        const anim: Animation = new Animation(this.link.x, this.link.y);
+
+        for (let i: number = 0; i < 100; i++) {
+            anim.addFrame({sheet: sheet, index: 0}, 30);
+            anim.addFrame({sheet: sheet, index: 1}, 30);
+            anim.addFrame({sheet: sheet, index: 2}, 30);
+            anim.addFrame({sheet: sheet, index: 3}, 30);
+        }
+
+        anim.addListener({
+            animationCompleted(anim: Animation) {
+                // TODO: End the game!
+            }
+        });
+
         return anim;
     }
 
@@ -110,6 +119,11 @@ export class ZeldaGame extends Game {
         return this.map.currentScreen.isWalkable(actor, x, y);
     }
 
+    linkDied() {
+        this.animations.push(this.createLinkDiesAnimation());
+        game.audio.playMusic('linkDies');
+    }
+
     get paintHitBoxes(): boolean {
         return false;
     }
@@ -132,5 +146,18 @@ export class ZeldaGame extends Game {
         this.map.setCurrentScreen(7, 6);
         this.link = new Link();
         this.link.setLocation(100, 100);
+    }
+
+    updateAnimations() {
+        if (!this.link.done && this.animations.length > 0) {
+            const newAnims: Animation[] = [];
+            this.animations.forEach((anim: Animation) => {
+                anim.update();
+                if (!anim.done) {
+                    newAnims.push(anim);
+                }
+            });
+            this.animations = newAnims;
+        }
     }
 }
