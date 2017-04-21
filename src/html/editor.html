@@ -3,112 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Zelda Map Editor</title>
-
-    <script src='editor.js'></script>
 </head>
 
 <body ng-controller="MainCtrl as vm" key-press-trapper>
 
-<div ng-show="vm.loading === true">
-    Yo
-</div>
-<div ng-show="vm.loading === false">
+    <div id="react-content"></div>
 
-    <nav class="navbar navbar-inverse" role="navigation">
-        <div class="container">
-
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#/"><img src="img/crest.png" class="banner-img"> Zelda Map Creator</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#/about">About</a></li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
-
-        </div><!-- /.container-fluid -->
-
-    </nav>
-
-    <div class="container">
-
-        <div class="row">
-
-            <div class="col-md-8">
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Screen ({{vm.getCurrentScreenRow()}}, {{vm.getCurrentScreenCol()}}) / ({{vm.rowCount}}, {{vm.colCount}})</h3>
-                    </div>
-                    <div class="panel-body">
-                        <map-editor game="vm.game" selected-tile-index="vm.state.selectedTileIndex"></map-editor>
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Map Preview</h3>
-                    </div>
-                    <div class="panel-body">
-                        <map-preview game="vm.game"></map-preview>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-
-                <uib-tabset active="activeFoo" class="panel panel-default">
-                    <uib-tab index="0" heading="Tile Palette">
-
-                        <!--<div class="panel panel-default">-->
-                            <!--<div class="panel-heading">-->
-                                <!--<h3 class="panel-title">Tile Palette</h3>-->
-                            <!--</div>-->
-                            <div class="panel-body">
-                                <tile-palette selected-index="vm.state.selectedTileIndex"></tile-palette>
-                            </div>
-                        <!--</div>-->
-
-                    </uib-tab>
-
-                    <uib-tab index="1" heading="Events">
-
-                        <div class="panel-body">
-                            <event-table></event-table>
-                        </div>
-
-                    </uib-tab>
-
-                </uib-tabset>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Enemies</h3>
-                    </div>
-                    <div class="panel-body">
-                        <enemy-selector screen="vm.game.map.currentScreen"></enemy-selector>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <code-viewer map="vm.game.map"></code-viewer>
-        </div>
-
-    </div>
-
-</div>
-
+    <script src='editor.js'></script>
 </body>
 
 </html>

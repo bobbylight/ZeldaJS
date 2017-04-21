@@ -6,7 +6,7 @@ const webpack = require('webpack');
 
 // Loaders specific to compiling
 loaders.push({
-    test: /\.ts$/,
+    test: /\.tsx?$/,
     enforce: 'pre',
     loader: 'tslint-loader',
     exclude: /node_modules/,
@@ -18,12 +18,12 @@ loaders.push({
 module.exports = [
     {
         entry: {
-            app: path.resolve('./src/app/zelda.ts'),
+            //app: path.resolve('./src/app/zelda.ts'),
             // TODO: Figure out how to split editor's node_module stuff into a separate chunk
-            editor: [ path.resolve('./src/app/zelda/editor/editor.ts'),
-                // TODO: Figure out a way to pull in these dependencies without referencing the entire libs!
-                path.resolve('./node_modules/angular-ui-bootstrap/index.js'),
-                path.resolve('./node_modules/angular-sanitize/index.js')
+            editor: [ path.resolve('./src/app/zelda/editor/editor-main.ts'),
+                // // TODO: Figure out a way to pull in these dependencies without referencing the entire libs!
+                // path.resolve('./node_modules/angular-ui-bootstrap/index.js'),
+                // path.resolve('./node_modules/angular-sanitize/index.js')
             ]
         },
         output: {
@@ -32,7 +32,7 @@ module.exports = [
             //publicPath: 'build/web/'
         },
         resolve: {
-            extensions: ['.js', '.ts'],
+            extensions: ['.js', '.ts', '.tsx'],
             modules: ['src/app', 'src/html', 'src/css', 'node_modules']
         },
         module: {
@@ -45,6 +45,7 @@ module.exports = [
                 { from: 'src/res', to: 'res' },
                 { from: 'src/img', to: 'img' },
                 { from: '**/*.html', context: 'src/app' }
+, { from: '*.html', context: 'src/html' }
             ]),
             new StringReplacePlugin(),
             new webpack.ProvidePlugin({

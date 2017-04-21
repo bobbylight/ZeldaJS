@@ -6,6 +6,7 @@
     "allowUnusedLabels": false,
     "declaration": false,
     "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
     "noImplicitAny": true,
     "noImplicitReturns": true,
     //"noUnusedLocals": true,
