@@ -1,7 +1,8 @@
 import * as React from 'react';
+import {ZeldaGame} from '../ZeldaGame';
 
 interface MapEditorProps {
-
+    game: ZeldaGame;
 }
 
 interface MapEditorState {

@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
 import ToolBar from './toolbar';
+import MainContent from './main-content';
+import {ZeldaGame} from '../ZeldaGame';
 
 export interface MainProps {
-
+    game: ZeldaGame;
 }
 
 export interface MainState {
@@ -28,8 +30,7 @@ export class Main extends React.Component<MainProps, MainState> {
             <div>
                 <ToolBar/>
 
-                <div className="container">
-                </div>
+                <MainContent game={this.props.game}/>
             </div>
         );
     }

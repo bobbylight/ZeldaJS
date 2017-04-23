@@ -20,9 +20,12 @@
     "@types/angular-ui-bootstrap": "0.13.41",
     "@types/highlight.js": "9.1.9",
     "@types/jquery": "2.0.41",
-    "@types/react": "^15.0.22",
+    "@types/react": "15.0.22",
     "@types/react-bootstrap": "0.0.47",
-    "@types/react-dom": "^15.5.0",
+    "@types/react-dom": "15.5.0",
+    "@types/react-redux": "4.4.39",
+    "@types/redux": "3.6.0",
+    "@types/redux-actions": "^1.2.4",
     "angular": "1.6.4",
     "angular-sanitize": "1.6.4",
     "angular-ui-bootstrap": "2.5.0",
@@ -51,6 +54,9 @@
     "jquery": "3.2.1",
     "react": "15.5.4",
     "react-bootstrap": "0.30.9",
-    "react-dom": "15.5.4"
+    "react-dom": "15.5.4",
+    "react-redux": "5.0.4",
+    "redux": "3.6.0",
+    "redux-actions": "2.0.2"
   }
 }
