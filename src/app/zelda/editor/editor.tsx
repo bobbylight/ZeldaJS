@@ -4,17 +4,17 @@ import ToolBar from './toolbar';
 import MainContent from './main-content';
 import {ZeldaGame} from '../ZeldaGame';
 
-export interface MainProps {
+export interface EditorProps {
     game: ZeldaGame;
 }
 
-export interface MainState {
+export interface EditorState {
 
 }
 
-export class Main extends React.Component<MainProps, MainState> {
+export class Editor extends React.Component<EditorProps, EditorState> {
 
-    state: MainState = {};
+    state: EditorState = {};
 
     constructor() {
         super();

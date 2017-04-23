@@ -1,13 +1,12 @@
-import {createAction} from 'redux-actions';
+import {createAction, Action} from 'redux-actions';
+import {Map} from '../Map';
+//import {Action} from 'redux';
 
-type ACTION_TYPE = 'temp';
+export type ACTION_TYPE = 'temp' | 'MAP_CHANGED';
 
-const fooAction = createAction(
-    'temp',
-    (text: string) => ({ text: text })
-);
-
-export {
-    ACTION_TYPE,
-    fooAction
-};
+export function mapChanged(map: Map): Action<Map> {
+    return {
+        type: 'MAP_CHANGED',
+        payload: map
+    }
+}

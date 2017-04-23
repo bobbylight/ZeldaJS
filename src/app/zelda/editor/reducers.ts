@@ -1,9 +1,10 @@
 import {combineReducers, Reducer} from 'redux';
 import {handleActions, Action} from 'redux-actions';
-import {fooAction} from './actions';
+import {ACTION_TYPE} from './actions';
 import {State} from './state';
 import {ZeldaGame} from '../ZeldaGame';
 import {Constants} from '../Constants';
+import {Map} from '../Map';
 
 // Initialize the game declared in zelda.ts
 // TODO: Do game initialization in a service?
@@ -25,9 +26,14 @@ const gameReducer: Reducer<ZeldaGame> = (state: ZeldaGame = (<any>window).game, 
     return state;
 };
 
+const mapChangedReducer: Reducer<Map | null> = (state: Map | null = null, action: Action<Map>) => {
+    return state;
+};
+
 const rootReducer: Reducer<State> = combineReducers<State>({
     temp: tempReducer,
-    game: gameReducer
+    game: gameReducer,
+    map: mapChangedReducer
 });
 
 export default rootReducer;
