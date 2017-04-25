@@ -3,11 +3,13 @@ import {ZeldaGame} from '../ZeldaGame';
 import {Constants} from '../Constants';
 import {Map} from '../Map';
 import {Screen} from '../Screen';
+import {screenModified} from './actions';
 import {MouseEventHandler} from 'react';
 
-interface MapEditorProps {
+export interface MapEditorProps {
     game: ZeldaGame;
     selectedTileIndex: number;
+    onChange: (row: number, col: number) => void;
 }
 
 interface MapEditorState {
@@ -34,6 +36,7 @@ export default class MapEditor extends React.Component<MapEditorProps, MapEditor
         const selectedTileIndex: number = this.props.selectedTileIndex;
         screen.setTile(this.state.armedRow, this.state.armedCol, selectedTileIndex);
         //$rootScope.$broadcast('mapChanged', screen); // TODO: Formalize an event for this and make it specific
+        this.props.onChange(this.state.armedRow, this.state.armedCol);
     }
 
     static inMainScreen(x: number, y: number) {

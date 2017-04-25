@@ -97,7 +97,8 @@
     "variable-name": [
       true,
       "check-format",
-      "allow-leading-underscore",
+      "allow-pascal-case",
+      "allow-leading-underscore", // TODO: remove this
       "ban-keywords"
     ],
     "whitespace": [

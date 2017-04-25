@@ -1,12 +1,17 @@
 import {createAction, Action} from 'redux-actions';
-import {Map} from '../Map';
-//import {Action} from 'redux';
 
-export type ACTION_TYPE = 'temp' | 'MAP_CHANGED';
+export type ACTION_TYPE = 'SCREEN_MODIFIED' | 'TILE_SELECTED';
 
-export function mapChanged(map: Map): Action<Map> {
+export const screenModified: (row: number, col: number) => Action<number> = (row: number, col: number): Action<number> => {
     return {
-        type: 'MAP_CHANGED',
-        payload: map
-    }
-}
+        type: 'SCREEN_MODIFIED',
+        payload: Date.now()
+    };
+};
+
+export const tileSelected: (index: number) => Action<number> = (index: number): Action<number> => {
+    return {
+        type: 'TILE_SELECTED',
+        payload: index
+    };
+};

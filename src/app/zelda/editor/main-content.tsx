@@ -1,8 +1,8 @@
 import * as React from 'react';
-import MapEditor from './map-editor';
+import VisibleMapEditor from './containers/visible-map-editor';
 import {ZeldaGame} from '../ZeldaGame';
 import {Map} from '../Map';
-import MapPreview from './map-preview';
+import VisibleMapPreview from './containers/visible-map-preview';
 
 interface MainContentProps {
     game: ZeldaGame;
@@ -131,7 +131,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                                 </h3>
                             </div>
                             <div className="panel-body">
-                                <MapEditor game={this.props.game} selectedTileIndex={this.state.selectedTileIndex}></MapEditor>
+                                <VisibleMapEditor></VisibleMapEditor>
                             </div>
                         </div>
 
@@ -140,7 +140,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                                 <h3 className="panel-title">Map Preview</h3>
                             </div>
                             <div className="panel-body">
-                                <MapPreview game={this.props.game}></MapPreview>
+                                <VisibleMapPreview></VisibleMapPreview>
                             </div>
                         </div>
                     </div>

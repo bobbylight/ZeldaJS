@@ -4,22 +4,23 @@ import {Constants} from '../Constants';
 import {Map} from '../Map';
 import {Screen} from '../Screen';
 
-interface MapPreviewProps {
-    game: ZeldaGame;
+export interface MapPreviewProps {
+    game?: ZeldaGame;
+    lastModified: number;
 }
 
 interface MapPreviewState {
-    repaintHandle: number;}
+    repaintHandle: number;
+}
 
 export default class MapPreview extends React.Component<MapPreviewProps, MapPreviewState> {
 
     private canvas: HTMLCanvasElement;
-    private repaintHandle: number; // Outside of state since we're actively rendering
+    private repaintHandle: any; // Outside of state since we're actively rendering, "any" to target node and browser
+    private lastLastModified: number;
 
     constructor(props: MapPreviewProps) {
         super(props);
-
-        this.repaint = this.repaint.bind(this);
     }
 
     repaint() {
@@ -29,7 +30,7 @@ export default class MapPreview extends React.Component<MapPreviewProps, MapPrev
         const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
         ctx.save();
 
-        const map: Map = this.props.game.map;
+        const map: Map = this.props.game!.map;
         for (let row: number = 0; row < map.rowCount; row++) {
 
             for (let col: number = 0; col < map.colCount; col++) {
@@ -49,18 +50,19 @@ export default class MapPreview extends React.Component<MapPreviewProps, MapPrev
 
     componentDidMount() {
 
-        $rootScope.$on('mapChanged', () => {
-            if (this.repaintHandle) {
-                console.log('Clearing repaint handle');
-                clearTimeout(this.repaintHandle);
-            }
-            this.repaintHandle = window.setTimeout(() => { // Explicitly "window." to avoid TS type declaration issue
-                console.log('Setting repaint handle');
+        // Every 1 second, repaint this widget if the map has been modified.
+        // We unfortunately can't (easily) listen for changes and debounce a repaint
+        // after them...
+        this.repaintHandle = setInterval(() => {
+            if (this.props.lastModified !== this.lastLastModified) {
+                this.lastLastModified = this.props.lastModified;
                 this.repaint();
-            }, 200);
-        });
+            }
+        }, 1000 as number);
+    }
 
-        setTimeout(this.repaint, 1000);
+    componentWillUnmount() {
+        clearInterval(this.repaintHandle);
     }
 
     render() {

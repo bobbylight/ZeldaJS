@@ -18,10 +18,6 @@ let parent: HTMLDivElement = document.createElement('div');
     width: Constants.CANVAS_WIDTH
 });
 
-const tempReducer: Reducer<string> = (state: string = 'initialValue', action: Action<any>) => {
-    return state;
-};
-
 const gameReducer: Reducer<ZeldaGame> = (state: ZeldaGame = (<any>window).game, action: Action<any>) => {
     return state;
 };
@@ -30,10 +26,25 @@ const mapChangedReducer: Reducer<Map | null> = (state: Map | null = null, action
     return state;
 };
 
+const selectedTileIndexReducer: Reducer<number> = (state: number = 1, action: Action<number>) => {
+    if (action.type === 'TILE_SELECTED') {
+        return action.payload ? action.payload : state;
+    }
+    return state;
+};
+
+const lastModifiedReducer: Reducer<number> = (state: number = Date.now(), action: Action<number>) => {
+    if (action.type === 'SCREEN_MODIFIED') {
+        return action.payload ? action.payload : state;
+    }
+    return state;
+};
+
 const rootReducer: Reducer<State> = combineReducers<State>({
-    temp: tempReducer,
     game: gameReducer,
-    map: mapChangedReducer
+    map: mapChangedReducer,
+    selectedTileIndex: selectedTileIndexReducer,
+    lastModified: lastModifiedReducer
 });
 
 export default rootReducer;
