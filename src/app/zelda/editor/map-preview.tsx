@@ -58,7 +58,7 @@ export default class MapPreview extends React.Component<MapPreviewProps, MapPrev
                 this.lastLastModified = this.props.lastModified;
                 this.repaint();
             }
-        }, 1000 as number);
+        }, 1000);
     }
 
     componentWillUnmount() {

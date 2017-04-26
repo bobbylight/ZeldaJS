@@ -27,6 +27,7 @@ const mapChangedReducer: Reducer<Map | null> = (state: Map | null = null, action
 };
 
 const selectedTileIndexReducer: Reducer<number> = (state: number = 1, action: Action<number>) => {
+    console.log(`Tile selected: ' + ${action.payload}`);
     if (action.type === 'TILE_SELECTED') {
         return action.payload ? action.payload : state;
     }

@@ -3,6 +3,7 @@ import VisibleMapEditor from './containers/visible-map-editor';
 import {ZeldaGame} from '../ZeldaGame';
 import {Map} from '../Map';
 import VisibleMapPreview from './containers/visible-map-preview';
+import VisibleTilePalette from './containers/visible-tile-palette';
 
 interface MainContentProps {
     game: ZeldaGame;
@@ -145,19 +146,19 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                         </div>
                     </div>
 
-                    {/*<div className="col-md-4">*/}
+                    <div className="col-md-4">
 
                         {/*<uib-tabset active="activeFoo" className="panel panel-default">*/}
                             {/*<uib-tab index="0" heading="Tile Palette">*/}
 
-                                {/*/!*<div className="panel panel-default">*!/*/}
-                                {/*/!*<div className="panel-heading">*!/*/}
-                                {/*/!*<h3 className="panel-title">Tile Palette</h3>*!/*/}
-                                {/*/!*</div>*!/*/}
-                                {/*<div className="panel-body">*/}
-                                    {/*<tile-palette selected-index="vm.state.selectedTileIndex"></tile-palette>*/}
+                                {/*<div className="panel panel-default">*/}
+                                {/*<div className="panel-heading">*/}
+                                {/*<h3 className="panel-title">Tile Palette</h3>*/}
                                 {/*</div>*/}
-                                {/*/!*</div>*!/*/}
+                                <div className="panel-body">
+                                    <VisibleTilePalette></VisibleTilePalette>
+                                </div>
+                                {/*</div>*/}
 
                             {/*</uib-tab>*/}
 
@@ -179,7 +180,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                                 {/*<enemy-selector screen="vm.game.map.currentScreen"></enemy-selector>*/}
                             {/*</div>*/}
                         {/*</div>*/}
-                    {/*</div>*/}
+                    </div>
                 </div>
 
                 {/*<div className="row">*/}
