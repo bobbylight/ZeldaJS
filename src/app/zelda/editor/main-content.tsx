@@ -4,6 +4,7 @@ import {ZeldaGame} from '../ZeldaGame';
 import {Map} from '../Map';
 import VisibleMapPreview from './containers/visible-map-preview';
 import VisibleTilePalette from './containers/visible-tile-palette';
+import CodeViewer from './code-viewer';
 
 interface MainContentProps {
     game: ZeldaGame;
@@ -183,9 +184,9 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                     </div>
                 </div>
 
-                {/*<div className="row">*/}
-                    {/*<code-viewer map="vm.game.map"></code-viewer>*/}
-                {/*</div>*/}
+                <div className="row">
+                    <CodeViewer game={this.props.game}></CodeViewer>
+                </div>
 
             </div>
         );
