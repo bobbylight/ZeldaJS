@@ -18,18 +18,19 @@ loaders.push({
 module.exports = [
     {
         entry: {
-            //app: path.resolve('./src/app/zelda.ts'),
-            // TODO: Figure out how to split editor's node_module stuff into a separate chunk
+            app: path.resolve('./src/app/zelda.ts'),
             editor: [ path.resolve('./src/app/zelda/editor/editor-main.ts'),
                 // // TODO: Figure out a way to pull in these dependencies without referencing the entire libs!
                 // path.resolve('./node_modules/angular-ui-bootstrap/index.js'),
                 // path.resolve('./node_modules/angular-sanitize/index.js')
-            ]
+            ],
+            // gtp: [ 'gtp' ],
+            // // TODO: Figure out how to split highlight.js into separate, lazy-loaded chunk.  Also, custom build it?
+            // editorVendor: [ 'bootstrap', 'highlight.js', 'jquery', 'react', 'react-bootstrap', 'react-dom', 'react-redux', 'redux', 'redux-actions' ]
         },
         output: {
             path: path.resolve('./build/web/'),
-            filename: '[name].js',
-            //publicPath: 'build/web/'
+            filename: '[name].js'
         },
         resolve: {
             extensions: ['.js', '.ts', '.tsx'],
@@ -39,7 +40,11 @@ module.exports = [
             loaders: loaders
         },
         plugins: [
-//            new webpack.optimize.CommonsChunkPlugin({ names: [ 'editorVendor', 'manifest' ] }),
+            // new webpack.optimize.CommonsChunkPlugin({ names: [ 'gtp', 'editorVendor' ] }),
+            // new webpack.optimize.CommonsChunkPlugin({
+            //     name: 'manifest',
+            //     minChunks: Infinity
+            // }),
             // Simply copies the files over
             new CopyWebpackPlugin([
                 { from: 'src/res', to: 'res' },

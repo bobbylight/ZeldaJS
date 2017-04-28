@@ -2,6 +2,7 @@ import {ZeldaGame} from '../ZeldaGame';
 import * as React from 'react';
 import {MapData} from '../Map';
 import {Button, ButtonToolbar} from 'react-bootstrap';
+
 import * as hljs from 'highlight.js';
 
 export interface CodeViewerProps {
