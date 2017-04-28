@@ -1,10 +1,12 @@
 import * as React from 'react';
+import {Tab, Tabs} from 'react-bootstrap';
 import VisibleMapEditor from './containers/visible-map-editor';
-import {ZeldaGame} from '../ZeldaGame';
-import {Map} from '../Map';
 import VisibleMapPreview from './containers/visible-map-preview';
 import VisibleTilePalette from './containers/visible-tile-palette';
+import {ZeldaGame} from '../ZeldaGame';
+import {Map} from '../Map';
 import CodeViewer from './code-viewer';
+import EventTable from './event-table';
 
 interface MainContentProps {
     game: ZeldaGame;
@@ -149,43 +151,43 @@ export default class MainContent extends React.Component<MainContentProps, MainC
 
                     <div className="col-md-4">
 
-                        {/*<uib-tabset active="activeFoo" className="panel panel-default">*/}
-                            {/*<uib-tab index="0" heading="Tile Palette">*/}
+                        <Tabs id="tabSet1" defaultActiveKey={0} className="panel panel-default">
+                            <Tab eventKey={0} title="Tile Palette">
 
-                                {/*<div className="panel panel-default">*/}
-                                {/*<div className="panel-heading">*/}
-                                {/*<h3 className="panel-title">Tile Palette</h3>*/}
-                                {/*</div>*/}
+                                <div className="panel panel-default">
+                                <div className="panel-heading">
+                                <h3 className="panel-title">Tile Palette</h3>
+                                </div>
                                 <div className="panel-body">
                                     <VisibleTilePalette></VisibleTilePalette>
                                 </div>
-                                {/*</div>*/}
+                                </div>
 
-                            {/*</uib-tab>*/}
+                            </Tab>
 
-                            {/*<uib-tab index="1" heading="Events">*/}
+                            <Tab eventKey={1} title="Events">
 
-                                {/*<div className="panel-body">*/}
-                                    {/*<event-table></event-table>*/}
-                                {/*</div>*/}
+                                <div className="panel-body">
+                                    <EventTable game={this.props.game}/>
+                                </div>
 
-                            {/*</uib-tab>*/}
+                            </Tab>
 
-                        {/*</uib-tabset>*/}
+                        </Tabs>
 
-                        {/*<div className="panel panel-default">*/}
-                            {/*<div className="panel-heading">*/}
-                                {/*<h3 className="panel-title">Enemies</h3>*/}
-                            {/*</div>*/}
-                            {/*<div className="panel-body">*/}
+                        <div className="panel panel-default">
+                            <div className="panel-heading">
+                                <h3 className="panel-title">Enemies</h3>
+                            </div>
+                            <div className="panel-body">
                                 {/*<enemy-selector screen="vm.game.map.currentScreen"></enemy-selector>*/}
-                            {/*</div>*/}
-                        {/*</div>*/}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div className="row">
-                    <CodeViewer game={this.props.game}></CodeViewer>
+                    <CodeViewer game={this.props.game} />
                 </div>
 
             </div>

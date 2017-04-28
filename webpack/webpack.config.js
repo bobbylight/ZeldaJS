@@ -4,6 +4,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const StringReplacePlugin = require('string-replace-webpack-plugin');
 const webpack = require('webpack');
 
+const devBuild = process.env.NODE_ENV === 'dev';
+
 // Loaders specific to compiling
 loaders.push({
     test: /\.tsx?$/,
@@ -60,10 +62,13 @@ module.exports = [
                 jQuery: 'jquery'
             })
         ],
-        // Create Sourcemaps for the bundle
-        devtool: 'source-map',
+        devtool: devBuild ? 'cheap-eval-source-map' : 'source-map',
         devServer: {
             contentBase: './build/web'
         }
     }
 ];
+
+if (!devBuild) {
+    module.exports[0].plugins.push(new webpack.optimize.UglifyJsPlugin({minimize: true}));
+}

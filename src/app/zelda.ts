@@ -9,7 +9,7 @@ import {Constants} from './zelda/Constants';
 import 'all.css';
 import 'index.html';
 
-(<any>window).init = (parent: HTMLElement, assetRoot?: string) => { // tslint:disable-line:only-arrow-functions no-unused-variable
+(<any>window).init = (parent: HTMLElement, assetRoot?: string) => {
     'use strict';
     const gameWindow: any = <any>window;
     gameWindow.game = new ZeldaGame({

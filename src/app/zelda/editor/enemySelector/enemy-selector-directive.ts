@@ -1,10 +1,11 @@
-import {ModifiableTableHeader} from '../modifiableTable/modifiable-table-directive';
+//import {ModifiableTableHeader} from '../modifiableTable/modifiable-table-directive';
 import {LabelValuePair} from '../select-directive';
 import {EnemyGroup, EnemyInfo} from '../../EnemyGroup';
 import {EditorRowModalController} from './edit-row-modal-directive';
 import {Screen} from '../../Screen';
 import {Utils} from 'gtp';
 import * as angular from 'angular';
+import {ModifiableTableHeader} from '../modifiable-table';
 
 export class EnemySelectorController {
 
