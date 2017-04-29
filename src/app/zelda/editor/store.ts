@@ -1,8 +1,6 @@
 import {createStore, StoreEnhancer, Store} from 'redux';
 import rootReducer from './reducers';
 import {State} from './state';
-import {Constants} from '../Constants';
-import {ZeldaGame} from '../ZeldaGame';
 
 const configureStore: () => Store<State> = (): Store<State> => {
 

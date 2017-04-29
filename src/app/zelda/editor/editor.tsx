@@ -1,15 +1,13 @@
 import * as React from 'react';
-import { Button } from 'react-bootstrap';
 import ToolBar from './toolbar';
-import MainContent from './main-content';
 import {ZeldaGame} from '../ZeldaGame';
+import VisibleMainContent from './containers/VisibleMainContent';
 
 export interface EditorProps {
     game: ZeldaGame;
 }
 
 export interface EditorState {
-
 }
 
 export class Editor extends React.Component<EditorProps, EditorState> {
@@ -29,8 +27,7 @@ export class Editor extends React.Component<EditorProps, EditorState> {
 
             <div>
                 <ToolBar/>
-
-                <MainContent game={this.props.game}/>
+                <VisibleMainContent/>
             </div>
         );
     }

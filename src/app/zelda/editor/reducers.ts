@@ -26,9 +26,23 @@ const mapChangedReducer: Reducer<Map | null> = (state: Map | null = null, action
     return state;
 };
 
+const currentScreenRowReducer: Reducer<number> = (state: number = 0, action: Action<Map>) => {
+    if (action.type === 'CURRENT_SCREEN_CHANGED') {
+        return action.payload ? action.payload.currentScreenRow : 0;
+    }
+    return state;
+};
+
+const currentScreenColReducer: Reducer<number> = (state: number = 0, action: Action<Map>) => {
+    if (action.type === 'CURRENT_SCREEN_CHANGED') {
+        return action.payload ? action.payload.currentScreenCol : 0;
+    }
+    return state;
+};
+
 const selectedTileIndexReducer: Reducer<number> = (state: number = 1, action: Action<number>) => {
-    console.log(`Tile selected: ' + ${action.payload}`);
     if (action.type === 'TILE_SELECTED') {
+        console.log(`Tile selected: ${action.payload}`);
         return action.payload ? action.payload : state;
     }
     return state;
@@ -44,6 +58,8 @@ const lastModifiedReducer: Reducer<number> = (state: number = Date.now(), action
 const rootReducer: Reducer<State> = combineReducers<State>({
     game: gameReducer,
     map: mapChangedReducer,
+    currentScreenRow: currentScreenRowReducer,
+    currentScreenCol: currentScreenColReducer,
     selectedTileIndex: selectedTileIndexReducer,
     lastModified: lastModifiedReducer
 });

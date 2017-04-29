@@ -6,4 +6,6 @@ export type State = {
     map: Map;
     selectedTileIndex: number;
     lastModified: number;
+    currentScreenRow: number;
+    currentScreenCol: number;
 };

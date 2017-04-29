@@ -37,8 +37,7 @@ export default class EventTable extends React.Component<EventTableProps, EventTa
         return (
             <div>
 
-                <ModifiableTable game={this.props.game}
-                                 headers={this.state.headers}
+                <ModifiableTable headers={this.state.headers}
                                  rows={this.state.events}
                                  addEditDialogFn={this.addOrEditRow}>
                 </ModifiableTable>

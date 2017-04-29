@@ -7,15 +7,17 @@ import {ZeldaGame} from '../ZeldaGame';
 import {Map} from '../Map';
 import CodeViewer from './code-viewer';
 import EventTable from './event-table';
+import VisibleEnemySelector from './containers/visible-enemy-selector';
 
 interface MainContentProps {
     game: ZeldaGame;
+    currentScreenRow: number;
+    currentScreenCol: number;
+    currentScreenChanged: (game: ZeldaGame) => void;
 }
 
 interface MainContentState {
     loading: boolean;
-    row: number;
-    col: number;
     rowCount: number;
     colCount: number;
     selectedTileIndex: number; // TODO: This should be in IState
@@ -23,7 +25,7 @@ interface MainContentState {
 
 export default class MainContent extends React.Component<MainContentProps, MainContentState> {
 
-    state: MainContentState = { row: 0, col: 0, rowCount: 0, colCount: 0, selectedTileIndex: -1, loading: true };
+    state: MainContentState = { rowCount: 0, colCount: 0, selectedTileIndex: -1, loading: true };
 
     componentDidMount() {
 
@@ -65,8 +67,8 @@ export default class MainContent extends React.Component<MainContentProps, MainC
 
                 case 37:
                     console.log('left');
-                    row = this.props.game.map.currentScreenRow;
-                    col = this.props.game.map.currentScreenCol;
+                    row = this.props.currentScreenRow;
+                    col = this.props.currentScreenCol;
                     if (col > 0) {
                         this._setCurrentScreen(row, col - 1);
                     }
@@ -75,8 +77,8 @@ export default class MainContent extends React.Component<MainContentProps, MainC
 
                 case 38:
                     console.log('up');
-                    row = this.props.game.map.currentScreenRow;
-                    col = this.props.game.map.currentScreenCol;
+                    row = this.props.currentScreenRow;
+                    col = this.props.currentScreenCol;
                     if (row > 0) {
                         this._setCurrentScreen(row - 1, col);
                     }
@@ -85,8 +87,8 @@ export default class MainContent extends React.Component<MainContentProps, MainC
 
                 case 39:
                     console.log('right');
-                    row = this.props.game.map.currentScreenRow;
-                    col = this.props.game.map.currentScreenCol;
+                    row = this.props.currentScreenRow;
+                    col = this.props.currentScreenCol;
                     if (col < this.props.game.map.colCount - 1) {
                         this._setCurrentScreen(row, col + 1);
                     }
@@ -95,8 +97,8 @@ export default class MainContent extends React.Component<MainContentProps, MainC
 
                 case 40:
                     console.log('down');
-                    row = this.props.game.map.currentScreenRow;
-                    col = this.props.game.map.currentScreenCol;
+                    row = this.props.currentScreenRow;
+                    col = this.props.currentScreenCol;
                     if (row < this.props.game.map.rowCount - 1) {
                         this._setCurrentScreen(row + 1, col);
                     }
@@ -109,7 +111,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
 
     private _setCurrentScreen(row: number, col: number) {
         this.props.game.map.setCurrentScreen(row, col);
-        this.setState({ row: row, col: col });
+        this.props.currentScreenChanged(this.props.game);
     }
 
     render() {
@@ -119,6 +121,9 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                 <span>Yo</span>
             );
         }
+
+        const currentScreenRow: number = this.props.currentScreenRow;
+        const currentScreenCol: number = this.props.currentScreenCol;
 
         return (
 
@@ -131,11 +136,11 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                         <div className="panel panel-default">
                             <div className="panel-heading">
                                 <h3 className="panel-title">
-                                    Screen ({this.state.row}, {this.state.col}) / ({this.state.rowCount}, {this.state.colCount})
+                                    Screen ({currentScreenRow}, {currentScreenCol}) / ({this.state.rowCount}, {this.state.colCount})
                                 </h3>
                             </div>
                             <div className="panel-body">
-                                <VisibleMapEditor></VisibleMapEditor>
+                                <VisibleMapEditor/>
                             </div>
                         </div>
 
@@ -144,7 +149,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                                 <h3 className="panel-title">Map Preview</h3>
                             </div>
                             <div className="panel-body">
-                                <VisibleMapPreview></VisibleMapPreview>
+                                <VisibleMapPreview/>
                             </div>
                         </div>
                     </div>
@@ -159,7 +164,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                                 <h3 className="panel-title">Tile Palette</h3>
                                 </div>
                                 <div className="panel-body">
-                                    <VisibleTilePalette></VisibleTilePalette>
+                                    <VisibleTilePalette/>
                                 </div>
                                 </div>
 
@@ -180,7 +185,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                                 <h3 className="panel-title">Enemies</h3>
                             </div>
                             <div className="panel-body">
-                                {/*<enemy-selector screen="vm.game.map.currentScreen"></enemy-selector>*/}
+                                <VisibleEnemySelector/>
                             </div>
                         </div>
                     </div>

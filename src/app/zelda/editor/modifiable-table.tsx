@@ -1,9 +1,7 @@
 import * as React from 'react';
-import {ZeldaGame} from '../ZeldaGame';
 import {MouseEvent} from 'react';
 
 interface ModifiableTableProps {
-    game: ZeldaGame;
     headers: ModifiableTableHeader[];
     rows: ModifiableTableRow[];
     addEditDialogFn: Function;
@@ -27,9 +25,8 @@ export default class ModifiableTable extends React.Component<ModifiableTableProp
     state: ModifiableTableState = { selectedRow: -1 };
     private tableElem: HTMLTableElement;
 
-    componentDidMount() {
-        console.log('headers: ' + JSON.stringify(this.props.headers));
-        console.log(`rows: ${JSON.stringify(this.props.rows)}`);
+    constructor(props: ModifiableTableProps) {
+        super(props);
 
         this.addRow = this.addRow.bind(this);
         this.removeRow = this.removeRow.bind(this);
