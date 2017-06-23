@@ -11,7 +11,8 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.js",
     "watch": "cross-env NODE_ENV=dev webpack --config webpack/webpack.config.js --watch",
     "dev": "cross-env NODE_ENV=dev webpack-dev-server --config ./webpack/webpack.config.js",
-    "build-stats": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.js --json > stats.json",
+    "webpack-analyze": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.js --json > size-info.json",
+    "webpack-size-view": "webpack-bundle-size-analyzer size-info.json > size-info.txt",
     "start": "electron src/js/electron-main.js",
     "test": "NODE_ENV=test karma start",
     "doc": "typedoc --mode file --target ES5 --out doc/ ."
@@ -41,6 +42,7 @@
     "typescript": "2.3.4",
     "url-loader": "0.5.9",
     "webpack": "2.4.1",
+    "webpack-bundle-size-analyzer": "2.7.0",
     "webpack-dev-server": "2.4.5",
     "webpack-target-electron-renderer": "0.4.0"
   },
@@ -51,8 +53,8 @@
     "bootstrap": "3.3.7",
     "font-awesome": "4.7.0",
     "gtp": "1.1.1",
-    "highlight.js": "9.12.0",
     "jquery": "3.2.1",
+    "jshighlight": "0.2.1",
     "react": "15.6.1",
     "react-bootstrap": "0.31.0",
     "react-dom": "15.6.1",

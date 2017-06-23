@@ -82,7 +82,7 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
 
         //const scope: any = $rootScope.$new();
         //scope.okCallback = okCallback;
-		//
+        //
         //$uibModal.open({
         //    templateUrl: 'zelda/editor/enemySelector/edit-row-modal.html',
         //    controller: EditorRowModalController,

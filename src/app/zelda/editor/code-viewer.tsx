@@ -3,7 +3,10 @@ import * as React from 'react';
 import {MapData} from '../Map';
 import {Button, ButtonToolbar} from 'react-bootstrap';
 
-import * as hljs from 'highlight.js';
+import Highlighter from 'jshighlight/lib/highlighter';
+import {JsonParser} from 'jshighlight/lib/parsers/json-parser';
+
+import '../../../../node_modules/jshighlight/src/styles/jshl-default.css';
 
 export interface CodeViewerProps {
     game: ZeldaGame;
@@ -44,8 +47,7 @@ export default class CodeViewer extends React.Component<CodeViewerProps, CodeVie
         });
         //jsonStr = jsonStr.replace(/\n/g, '');
 
-        const mapJson: string = hljs.highlight('json', jsonStr).value;
-
+        const mapJson: string = Highlighter.highlight(new JsonParser(), jsonStr);
         this.codeDiv.innerHTML = mapJson;
 
         console.log('Refreshing completed, took: ' + (new Date().getTime() - start.getTime()));
