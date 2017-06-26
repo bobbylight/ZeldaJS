@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {Editor} from './editor';
 import configureStore from './store';
+import 'bootstrap/dist/js/bootstrap';
 
 // Webpack makes you import your HTML and CSS.  WTF?
 //import 'editor.html';

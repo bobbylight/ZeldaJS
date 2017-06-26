@@ -1,8 +1,0 @@
-<div class="btn-group" uib-dropdown keyboard-nav is-open="$ctrl.isOpen">
-    <button id="{{::$ctrl.buttonId}}" type="button" class="btn btn-primary" uib-dropdown-toggle>
-        {{$ctrl.getSelectedLabel()}} <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="{{::$ctrl.buttonId}}">
-        <li ng-repeat="choice in $ctrl.choices" role="menuitem"><a href="#" ng-click="$ctrl.onClick(choice)">{{::choice.label}}</a></li>
-    </ul>
-</div>

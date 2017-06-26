@@ -21,11 +21,7 @@ module.exports = [
     {
         entry: {
             app: path.resolve('./src/app/zelda.ts'),
-            editor: [ path.resolve('./src/app/zelda/editor/editor-main.ts'),
-                // // TODO: Figure out a way to pull in these dependencies without referencing the entire libs!
-                // path.resolve('./node_modules/angular-ui-bootstrap/index.js'),
-                // path.resolve('./node_modules/angular-sanitize/index.js')
-            ],
+            editor: [ path.resolve('./src/app/zelda/editor/editor-main.ts') ],
             // gtp: [ 'gtp' ],
             // // TODO: Figure out how to split highlight.js into separate, lazy-loaded chunk.  Also, custom build it?
             // editorVendor: [ 'bootstrap', 'highlight.js', 'jquery', 'react', 'react-bootstrap', 'react-dom', 'react-redux', 'redux', 'redux-actions' ]
@@ -48,12 +44,17 @@ module.exports = [
             //     minChunks: Infinity
             // }),
             // Simply copies the files over
-            new CopyWebpackPlugin([
-                { from: 'src/res', to: 'res' },
-                { from: 'src/img', to: 'img' },
-                { from: '**/*.html', context: 'src/app' }
+            new CopyWebpackPlugin(
+                [
+                    { from: 'src/res', to: 'res', exclude: 'res/originals/**' },
+                    { from: 'src/img', to: 'img' },
+                    { from: '**/*.html', context: 'src/app' }
 , { from: '*.html', context: 'src/html' }
-            ]),
+                ],
+                {
+                    ignore: [ 'originals/*' ]
+                }
+            ),
             new StringReplacePlugin(),
             new webpack.ProvidePlugin({
                 'window.$': 'jquery',

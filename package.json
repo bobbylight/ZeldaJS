@@ -1,6 +1,6 @@
 {
   "name": "zelda-html5",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -18,9 +18,6 @@
     "doc": "typedoc --mode file --target ES5 --out doc/ ."
   },
   "devDependencies": {
-    "@types/angular": "1.6.19",
-    "@types/angular-ui-bootstrap": "0.13.43",
-    "@types/highlight.js": "9.1.9",
     "@types/jquery": "3.2.2",
     "@types/react": "15.0.29",
     "@types/react-bootstrap": "0.0.50",
@@ -47,9 +44,6 @@
     "webpack-target-electron-renderer": "0.4.0"
   },
   "dependencies": {
-    "angular": "1.6.4",
-    "angular-sanitize": "1.6.4",
-    "angular-ui-bootstrap": "2.5.0",
     "bootstrap": "3.3.7",
     "font-awesome": "4.7.0",
     "gtp": "1.1.1",

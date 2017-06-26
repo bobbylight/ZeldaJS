@@ -2,8 +2,8 @@ import * as React from 'react';
 import {ZeldaGame} from '../ZeldaGame';
 import ModifiableTable, {ModifiableTableHeader} from './modifiable-table';
 import {EnemyGroup, EnemyInfo} from '../EnemyGroup';
-import {Utils} from 'gtp/lib';
-import {LabelValuePair} from './select-directive';
+import {LabelValuePair} from './label-value-pair';
+import EditEnemyRowModal from './edit-enemy-row-modal';
 
 interface EnemySelectorProps {
     game: ZeldaGame;
@@ -13,9 +13,9 @@ interface EnemySelectorProps {
 interface EnemySelectorState {
     // spawnStyles: LabelValuePair[];
     // spawnStyle: LabelValuePair;
-    choices: LabelValuePair[];
-    enemyGroup: EnemyGroup;
+    choices: LabelValuePair<string>[];
     headers: ModifiableTableHeader[];
+    editRowModalVisible: boolean;
 }
 
 export default class EnemySelector extends React.Component<EnemySelectorProps, EnemySelectorState> {
@@ -24,32 +24,37 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
         super(props);
 
         this.addOrEditRow = this.addOrEditRow.bind(this);
+        this.addOrEditRowOkCallback = this.addOrEditRowOkCallback.bind(this);
     }
 
     componentWillMount() {
 
         this.setState({
             choices: [
-                {label: 'Octoroks', value: 'octoroks'},
-                {label: 'Moblins', value: 'moblins'},
-                {label: 'Tektites', value: 'tektites'}
+                { label: 'Octoroks', value: 'octoroks' },
+                { label: 'Moblins', value: 'moblins' },
+                { label: 'Tektites', value: 'tektites' }
             ],
-            enemyGroup: new EnemyGroup('random'),
             headers: [
                 { label: 'Enemy', cellKey: 'type' },
                 { label: 'Strength', cellKey: 'args' },
                 { label: 'Count', cellKey: 'count' }
-            ]
+            ],
+            editRowModalVisible: false
         });
     }
 
     addOrEditRow() {
         console.log('yeah yeah');
-        this.openModal((value: EnemyInfo) => { Utils.hitch(this, this.addOrEditRowOkCallback)(value); });
+        //this.openModal((value: EnemyInfo) => { Utils.hitch(this, this.addOrEditRowOkCallback)(value); });
+        this.setState({ editRowModalVisible: true });
     }
 
     addOrEditRowOkCallback(newEnemy: EnemyInfo) {
-        this.state.enemyGroup.add(newEnemy);
+        if (newEnemy) {
+            this.props.enemyGroup.add(newEnemy);
+        }
+        this.setState({ editRowModalVisible: false });
     }
 
     selectedEnemyGroupChanged(newGroup: string) {
@@ -72,40 +77,15 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
         }
 
         //this.curScreen.enemyGroup = new EnemyGroup('random', enemies);
-        this.state.enemyGroup.clear();
+        this.props.enemyGroup.clear();
         enemies.forEach((enemy: EnemyInfo) => {
-            this.state.enemyGroup.add(enemy);
+            this.props.enemyGroup.add(enemy);
         });
-    }
-
-    private openModal(okCallback: Function) {
-
-        //const scope: any = $rootScope.$new();
-        //scope.okCallback = okCallback;
-        //
-        //$uibModal.open({
-        //    templateUrl: 'zelda/editor/enemySelector/edit-row-modal.html',
-        //    controller: EditorRowModalController,
-        //    controllerAs: 'vm',
-        //    bindToController: true,
-        //    scope: scope,
-        //    // scope: {
-        //    //     okCallback: function() {
-        //    //         console.log('We did it: ');
-        //    //     }
-        //    // },
-        //    size: 'lg',
-        //    resolve: {
-        //        // items: function () {
-        //        //     return $scope.items;
-        //        // }
-        //    }
-        //});
     }
 
     render() {
 
-        console.log('re-rendering enemy-selector...' + Date.now());
+        console.log('re-rendering enemy-selector...' + Date.now() + ', ' + this.props.enemyGroup);
 
         return (
 
@@ -118,8 +98,17 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
                               {/*on-change="vm.selectedEnemyGroupChanged(newValue)"></zelda-select>*/}
 
                 <ModifiableTable headers={this.state.headers}
-                                 rows={this.state.enemyGroup.enemies}
+                                 rows={this.props.enemyGroup.enemies}
                                  addEditDialogFn={this.addOrEditRow}/>
+
+                <EditEnemyRowModal game={this.props.game}
+                        submitButtonLabel="Add"
+                        title="Add Ememy"
+                        enemyChoices={this.state.choices}
+                        selectedEnemy={null}
+                        initialEnemyCount={this.props.enemyGroup.enemies.length}
+                        okCallback={this.addOrEditRowOkCallback}
+                        visible={this.state.editRowModalVisible}/>
             </div>
         );
     }
