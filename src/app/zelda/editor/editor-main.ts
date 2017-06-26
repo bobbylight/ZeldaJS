@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import {render as ReactDOMRender} from 'react-dom';
 import {Provider} from 'react-redux';
 import {Editor} from './editor';
 import configureStore from './store';
@@ -13,7 +13,7 @@ import {State} from './state';
 
 const store: Store<State> = configureStore();
 
-ReactDOM.render(
+ReactDOMRender(
     React.createElement(Provider,
         { store: store },
         React.createElement(Editor, { game: store.getState().game })),

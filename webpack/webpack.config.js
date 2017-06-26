@@ -23,8 +23,7 @@ module.exports = [
             app: path.resolve('./src/app/zelda.ts'),
             editor: [ path.resolve('./src/app/zelda/editor/editor-main.ts') ],
             // gtp: [ 'gtp' ],
-            // // TODO: Figure out how to split highlight.js into separate, lazy-loaded chunk.  Also, custom build it?
-            // editorVendor: [ 'bootstrap', 'highlight.js', 'jquery', 'react', 'react-bootstrap', 'react-dom', 'react-redux', 'redux', 'redux-actions' ]
+            // editorVendor: [ 'bootstrap', 'jquery', 'jshighlight', 'react', 'react-bootstrap', 'react-dom', 'react-redux', 'redux', 'redux-actions' ]
         },
         output: {
             path: path.resolve('./build/web/'),
