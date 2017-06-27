@@ -25,6 +25,7 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
 
         this.addOrEditRow = this.addOrEditRow.bind(this);
         this.addOrEditRowOkCallback = this.addOrEditRowOkCallback.bind(this);
+        this.reorderOrRemoveRow = this.reorderOrRemoveRow.bind(this);
     }
 
     componentWillMount() {
@@ -55,6 +56,11 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
             this.props.enemyGroup.add(newEnemy);
         }
         this.setState({ editRowModalVisible: false });
+    }
+
+    reorderOrRemoveRow(newEnemies: EnemyInfo[]) {
+        this.props.enemyGroup.enemies.length = 0;
+        this.props.enemyGroup.enemies.push.apply(this.props.enemyGroup.enemies, newEnemies);
     }
 
     selectedEnemyGroupChanged(newGroup: string) {
@@ -99,7 +105,8 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
 
                 <ModifiableTable headers={this.state.headers}
                                  rows={this.props.enemyGroup.enemies}
-                                 addEditDialogFn={this.addOrEditRow}/>
+                                 addEditDialogFn={this.addOrEditRow}
+                                 reorderOrRemoveFn={this.reorderOrRemoveRow}/>
 
                 <EditEnemyRowModal game={this.props.game}
                         submitButtonLabel="Add"

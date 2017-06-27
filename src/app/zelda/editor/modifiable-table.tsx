@@ -5,6 +5,7 @@ interface ModifiableTableProps {
     headers: ModifiableTableHeader[];
     rows: ModifiableTableRow[];
     addEditDialogFn: Function;
+    reorderOrRemoveFn: Function;
 }
 
 interface ModifiableTableState {
@@ -76,8 +77,7 @@ export default class ModifiableTable extends React.Component<ModifiableTableProp
         const destRow: number = this.state.selectedRow + 1;
         const newRows: ModifiableTableRow[] = this.props.rows.slice();
         newRows.splice(destRow, 0, newRows.splice(this.state.selectedRow, 1)[0]);
-        this.props.rows.length = 0;
-        this.props.rows.concat(newRows);
+        this.props.reorderOrRemoveFn(newRows);
         this.setState({ selectedRow: destRow });
     }
 
@@ -86,8 +86,7 @@ export default class ModifiableTable extends React.Component<ModifiableTableProp
         const destRow: number = this.state.selectedRow - 1;
         const newRows: ModifiableTableRow[] = this.props.rows.slice();
         newRows.splice(destRow, 0, newRows.splice(this.state.selectedRow, 1)[0]);
-        this.props.rows.length = 0;
-        this.props.rows.concat(newRows);
+        this.props.reorderOrRemoveFn(newRows);
         this.setState({ selectedRow: destRow });
     }
 
@@ -114,14 +113,20 @@ export default class ModifiableTable extends React.Component<ModifiableTableProp
         });
 
         key = 0;
-        const rows: JSX.Element[] = this.props.rows ? this.props.rows.map((row: ModifiableTableRow) => {
+        const rows: JSX.Element[] = this.props.rows ? this.props.rows.map((row: ModifiableTableRow, rowIndex: number) => {
 
             const tds: JSX.Element[] = this.props.headers.map((header: ModifiableTableHeader) => {
                 return ( <td key={key++}>{row[header.cellKey]}</td> );
             });
 
+            // Only add class="bg-info" to the selected row, if any
+            const extraProps: any = {};
+            if (this.state.selectedRow === rowIndex) {
+                extraProps.className = 'bg-info';
+            }
+
             return (
-                <tr onClick={this.setPrimary} key={key++}>{tds}</tr>
+                <tr onClick={this.setPrimary} key={key++} {...extraProps}>{tds}</tr>
             );
         }) : [];
 

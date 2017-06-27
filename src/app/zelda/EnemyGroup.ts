@@ -38,7 +38,7 @@ export class EnemyGroup {
      * Coverts any EnemyInfo instances in this group that contain multiple enemies into multiple EnemyInfo instances
      * representing a single enemy.
      *
-     * @returns {zelda.EnemyGroup} This enemy group.
+     * @returns {EnemyGroup} This enemy group.
      */
     flatten(): EnemyGroup {
 

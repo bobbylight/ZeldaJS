@@ -15,6 +15,14 @@ export default class EventTable extends React.Component<EventTableProps, EventTa
 
     state: EventTableState = { headers: [], events: null };
 
+    constructor(props: EventTableProps) {
+
+        super(props);
+
+        this.addOrEditRow = this.addOrEditRow.bind(this);
+        this.reorderOrRemoveRow = this.reorderOrRemoveRow.bind(this);
+    }
+
     componentDidMount() {
 
         this.setState({
@@ -32,6 +40,10 @@ export default class EventTable extends React.Component<EventTableProps, EventTa
         console.log('TODO: Implement EventTable.addOrEditRow');
     }
 
+    reorderOrRemoveRow(newEnemies: any[]) {
+        console.log('TODO: Implement EventTable.reorderOrRemoveRow');
+    }
+
     render() {
 
         return (
@@ -39,7 +51,8 @@ export default class EventTable extends React.Component<EventTableProps, EventTa
 
                 <ModifiableTable headers={this.state.headers}
                                  rows={this.state.events}
-                                 addEditDialogFn={this.addOrEditRow}>
+                                 addEditDialogFn={this.addOrEditRow}
+                                 reorderOrRemoveFn={this.reorderOrRemoveRow}>
                 </ModifiableTable>
 
             </div>
