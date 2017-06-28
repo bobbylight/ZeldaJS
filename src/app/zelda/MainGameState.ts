@@ -109,6 +109,7 @@ export class MainGameState extends BaseState {
 
         // If Link's in his dying animation, don't update anything
         if (game.link.done) {
+            game.link.update();
             return;
         }
 

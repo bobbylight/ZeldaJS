@@ -9,6 +9,8 @@ import {Sword} from './Sword';
 import {MainGameState} from './MainGameState';
 import {ZeldaGame} from './ZeldaGame';
 import {InputManager, Keys, Rectangle, SpriteSheet} from 'gtp';
+import FadeOutInState from 'gtp/lib/gtp/FadeOutInState';
+import {TitleState} from './TitleState';
 declare let game: ZeldaGame;
 
 const STEP_TIMER_MAX: number = 10;
@@ -47,18 +49,75 @@ export class Link extends Character {
         if (other instanceof Enemy) {
             if (--this._health === 0) {
                 this.done = true;
+                this.setAnimation(this._createDyingAnimation());
                 game.linkDied();
             }
             else {
                 console.log(`Link's health is now ${this._health}`);
-                game.audio.playSound('enemyHit');
+                game.audio.playSound('linkHurt');
                 this.takingDamage = true;
-                this._slideTick = Character.MAX_SLIDE_TICK;
+                this._slideTick = Character.MAX_SLIDE_TICK / 2; // Link isn't knocked back as much
                 this._slidingDir = DirectionUtil.opposite(this.dir);
             }
         }
 
         return false;
+    }
+
+    private _createDyingAnimation(): Animation {
+
+        const sheet: SpriteSheet = <SpriteSheet>game.assets.get('link');
+        const anim: Animation = new Animation(this.x, this.y);
+
+        const SPIN_FRAME_TIME: number = 90;
+        let preChirpPlayFrames: number = 0;
+
+        let spinTime: number = 1500;
+        while (spinTime > 0) {
+            anim.addFrame({ sheet: sheet, index: 0 }, SPIN_FRAME_TIME);
+            anim.addFrame({ sheet: sheet, index: 1 }, SPIN_FRAME_TIME);
+            anim.addFrame({ sheet: sheet, index: 2 }, SPIN_FRAME_TIME);
+            anim.addFrame({ sheet: sheet, index: 3 }, SPIN_FRAME_TIME);
+            spinTime -= 4 * SPIN_FRAME_TIME;
+            preChirpPlayFrames += 4;
+        }
+
+        anim.addFrame({ sheet: sheet, index: 0 }, 1000);
+        preChirpPlayFrames++;
+
+        // TODO: Share with ZeldaGame.createEnemyDiesAnimation()
+        const enemyDiesSheet: SpriteSheet = <SpriteSheet>game.assets.get('enemyDies');
+        anim.addFrame({ sheet: enemyDiesSheet, index: 0 }, 30);
+        anim.addFrame({ sheet: enemyDiesSheet, index: 1 }, 30);
+        anim.addFrame({ sheet: enemyDiesSheet, index: 2 }, 30);
+        anim.addFrame({ sheet: enemyDiesSheet, index: 3 }, 30);
+        anim.addFrame({ sheet: enemyDiesSheet, index: 16 }, 30);
+        anim.addFrame({ sheet: enemyDiesSheet, index: 17 }, 30);
+        anim.addFrame({ sheet: enemyDiesSheet, index: 18 }, 30);
+        anim.addFrame({ sheet: enemyDiesSheet, index: 19 }, 30);
+        anim.addFrame({ sheet: enemyDiesSheet, index: 0 }, 30);
+        anim.addFrame({ sheet: enemyDiesSheet, index: 1 }, 30);
+        anim.addFrame({ sheet: enemyDiesSheet, index: 2 }, 30);
+        anim.addFrame({ sheet: enemyDiesSheet, index: 3 }, 30);
+
+        let dieChirpPlayed: boolean = false;
+
+        anim.addListener({
+
+            animationFrameUpdate: (anim: Animation) => {
+                console.log('... ... ' + anim.frame);
+                if (anim.frame >= preChirpPlayFrames && !dieChirpPlayed) {
+                    game.audio.playSound('text');
+                    dieChirpPlayed = true;
+                }
+            },
+
+            animationCompleted: (anim: Animation) => {
+                game.setState(new FadeOutInState(game.state, new TitleState()));
+            }
+        });
+
+        return anim;
     }
 
     private _createStairsDownAnimation(completedCallback: AnimationListener): Animation {
@@ -251,6 +310,11 @@ export class Link extends Character {
     }
 
     paint(ctx: CanvasRenderingContext2D) {
+
+        // Cheap hack since Game always paints Link, even when he's dead
+        if (this.done && !this.anim ) {
+            return;
+        }
 
         this.possiblyPaintHitBox(ctx);
 

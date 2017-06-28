@@ -4,6 +4,8 @@ import {Animation} from './Animation';
 import {Map} from './Map';
 import {Position} from './Position';
 import {Game, SpriteSheet} from 'gtp';
+import {TitleState} from './TitleState';
+import FadeOutInState from 'gtp/lib/gtp/FadeOutInState';
 declare let game: ZeldaGame;
 
 export class ZeldaGame extends Game {
@@ -42,27 +44,6 @@ export class ZeldaGame extends Game {
         anim.addFrame({ sheet: sheet, index: 1 }, 30);
         anim.addFrame({ sheet: sheet, index: 2 }, 30);
         anim.addFrame({ sheet: sheet, index: 3 }, 30);
-        return anim;
-    }
-
-    private createLinkDiesAnimation(): Animation {
-
-        const sheet: SpriteSheet = <SpriteSheet>game.assets.get('link');
-        const anim: Animation = new Animation(this.link.x, this.link.y);
-
-        for (let i: number = 0; i < 100; i++) {
-            anim.addFrame({sheet: sheet, index: 0}, 30);
-            anim.addFrame({sheet: sheet, index: 1}, 30);
-            anim.addFrame({sheet: sheet, index: 2}, 30);
-            anim.addFrame({sheet: sheet, index: 3}, 30);
-        }
-
-        anim.addListener({
-            animationCompleted(anim: Animation) {
-                // TODO: End the game!
-            }
-        });
-
         return anim;
     }
 
@@ -120,7 +101,6 @@ export class ZeldaGame extends Game {
     }
 
     linkDied() {
-        this.animations.push(this.createLinkDiesAnimation());
         game.audio.playMusic('linkDies');
     }
 

@@ -1,7 +1,6 @@
 import {ZeldaGame} from '../ZeldaGame';
 import * as React from 'react';
 import {MapData} from '../Map';
-import {Button, ButtonToolbar} from 'react-bootstrap';
 
 import Highlighter from 'jshighlight/lib/highlighter';
 import {JsonParser} from 'jshighlight/lib/parsers/json-parser';
@@ -39,8 +38,7 @@ export default class CodeViewer extends React.Component<CodeViewerProps, CodeVie
         });
         //jsonStr = jsonStr.replace(/\n/g, '');
 
-        const mapJson: string = Highlighter.highlight(new JsonParser(), jsonStr);
-        this.codeDiv.innerHTML = mapJson;
+        this.codeDiv.innerHTML = Highlighter.highlight(new JsonParser(), jsonStr);
 
         console.log('Refreshing completed, took: ' + (new Date().getTime() - start.getTime()));
     }
@@ -59,6 +57,10 @@ export default class CodeViewer extends React.Component<CodeViewerProps, CodeVie
 
     render() {
 
+        const buttonStyle: any = {
+            marginRight: '1rem'
+        };
+
         return (
             <div className="code-viewer">
 
@@ -68,10 +70,10 @@ export default class CodeViewer extends React.Component<CodeViewerProps, CodeVie
                         <h3 className="panel-title">Map JSON</h3>
                     </div>
                     <div className="panel-body">
-                        <ButtonToolbar className="widget-area">
-                            <Button bsStyle="primary" onClick={this.refresh}>Refresh</Button>
-                            <Button onClick={this.copy}>Copy</Button>
-                        </ButtonToolbar>
+                        <div style={{ marginBottom: '1rem' }}>
+                            <button className="btn btn-primary" style={buttonStyle} onClick={this.refresh}>Refresh</button>
+                            <button className="btn btn-default" style={buttonStyle} onClick={this.copy}>Copy</button>
+                        </div>
                         <pre ref={(element: HTMLPreElement) => { this.codeDiv = element; }}/>
                     </div>
                 </div>
