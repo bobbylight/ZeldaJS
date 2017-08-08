@@ -20,6 +20,7 @@ const STEP_TIMER_MAX: number = 10;
  */
 export class Link extends Character {
 
+    private _maxHealth: number;
     private _health: number;
 
     anim: Animation | null;
@@ -37,6 +38,7 @@ export class Link extends Character {
         this.hitBox = new Rectangle();
         this.step = 0;
         this._adjustToGridCounter = 0;
+        this._maxHealth = 6;
         this._health = 6;
     }
 
@@ -141,6 +143,14 @@ export class Link extends Character {
 
     enterCave(completedCallback: AnimationListener) {
         this.setAnimation(this._createStairsDownAnimation(completedCallback));
+    }
+
+    getHealth(): number {
+        return this._health;
+    }
+
+    getMaxHealth(): number {
+        return this._maxHealth;
     }
 
     handleInput(input: InputManager): boolean {

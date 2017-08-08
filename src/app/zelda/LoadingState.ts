@@ -3,6 +3,7 @@ import {MainGameState} from './MainGameState';
 import {TitleState} from './TitleState';
 import {BaseState} from './BaseState';
 import {Game, BaseStateArgs, Utils, FadeOutInState} from 'gtp';
+import {ImageAtlasInfo} from 'gtp/lib/gtp/ImageAtlas';
 
 export class LoadingState extends BaseState {
 
@@ -23,6 +24,17 @@ export class LoadingState extends BaseState {
 
         if (!this.assetsLoaded) {
 
+            const treasureAtlasInfo: ImageAtlasInfo = {
+                prefix: 'treasures.',
+                firstPixelIsTranslucent: true,
+                images: [
+                    { id: 'fullHeart',  x: 0, y: 0, s: 8 },
+                    { id: 'halfHeart',  x: 8, y: 0, s: 8 },
+                    { id: 'emptyHeart', x: 16, y: 0, s: 8 },
+                    { id: 'blueHeart',  x: 0, y: 8, s: 8 }
+                ]
+            };
+
             this.assetsLoaded = true;
             const game: Game = this.game;
 
@@ -38,6 +50,7 @@ export class LoadingState extends BaseState {
                 game.assets.addSpriteSheet('enemies', 'res/enemies.png', 16, 16, 1, 1, true);
                 game.assets.addSpriteSheet('enemyDies', 'res/enemyDies.png', 16, 16, 1, 1, true);
                 game.assets.addSpriteSheet('overworld', 'res/overworld.png', 16, 16);
+                game.assets.addImageAtlasContents('treaureAtlas', 'res/treasures.png', treasureAtlasInfo);
                 game.assets.addImage('hud', 'res/hudMockup.png');
                 game.assets.addJson('overworldData', 'res/data/overworld.json');
                 game.assets.addSound('sword', 'res/sounds/sword.wav');

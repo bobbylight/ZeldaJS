@@ -4,17 +4,24 @@ import {BaseState} from './BaseState';
 import {Screen} from './Screen';
 import {Map} from './Map';
 import {ZeldaGame} from './ZeldaGame';
-import {Game, Image} from 'gtp';
+import {BaseStateArgs, Game, Image} from 'gtp';
+import {Hud} from './Hud';
 declare let game: ZeldaGame;
 
 export class MainGameState extends BaseState {
 
+    private _hud: Hud;
     private _lastScreen: Screen | undefined | null;
     private _screenSlidingDir: Direction | null;
     private _screenSlidingAmount: number;
 
     private static SCREEN_SLIDING_INC(): number {
         return 4;
+    }
+
+    constructor(args?: Game | BaseStateArgs) {
+        super(args);
+        this._hud = new Hud();
     }
 
     changeScreenHorizontally(inc: number) {
@@ -101,8 +108,7 @@ export class MainGameState extends BaseState {
 
         ctx.restore();
 
-        const hudMockup: Image = <Image>game.assets.get('hud');
-        hudMockup.draw(ctx, 0, 0);
+        this._hud.render(ctx);
     }
 
     update(delta: number) {
