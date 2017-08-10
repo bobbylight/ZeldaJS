@@ -41,5 +41,22 @@ export class Hud {
             x += 8;
             drawnHeartCount++;
         }
+
+        this.paintMap(ctx);
+    }
+
+    private paintMap(ctx: CanvasRenderingContext2D) {
+
+        ctx.fillStyle = '#83d313';
+        const s: number = 3;
+
+        // Note that the map isn't a perfect grid; there is a 1-pixel area
+        // on the left and bottom of the gray area that is never highlighted
+        // as a screen Link is on.  We could fix that, but this ia a faithful
+        // reproduction
+        const x: number = 17 + game.map.currentScreenCol * (s + 1);
+        const y: number = 24 + game.map.currentScreenRow * (s + 1);
+
+        ctx.fillRect(x, y, s, s);
     }
 }

@@ -11,6 +11,7 @@ import {GoDownStairsEvent} from './event/GoDownStairsEvent';
 import {Link} from './Link';
 import {Tileset} from './Tileset';
 import {ZeldaGame} from './ZeldaGame';
+import {Sword} from './Sword';
 declare let game: ZeldaGame;
 
 export class Screen {
@@ -237,6 +238,16 @@ export class Screen {
 
             if (paintWalkability) {
                 // TODO: Implement me
+            }
+        }
+    }
+
+    removeLinksSwordActor() {
+        for (let i: number = 0; i < this._actors.length; i++) {
+            const actor: Actor = this._actors[i];
+            if (actor instanceof Sword) {
+                this._actors.splice(i, 1);
+                break;
             }
         }
     }

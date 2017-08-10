@@ -49,6 +49,11 @@ export class Link extends Character {
         }
 
         if (other instanceof Enemy) {
+
+            game.map.currentScreen.removeLinksSwordActor();
+            this.frozen = false;
+            this.step = Link.FRAME_STILL;
+
             if (--this._health === 0) {
                 this.done = true;
                 this.setAnimation(this._createDyingAnimation());
@@ -107,7 +112,6 @@ export class Link extends Character {
         anim.addListener({
 
             animationFrameUpdate: (anim: Animation) => {
-                console.log('... ... ' + anim.frame);
                 if (anim.frame >= preChirpPlayFrames && !dieChirpPlayed) {
                     game.audio.playSound('text');
                     dieChirpPlayed = true;

@@ -58,7 +58,6 @@ The source code lives in `src/`, and is built into `build/web/`.
 * Link getting hit by enemy projectiles
 * More accurate enemy spawning
 * Going into caves animation
-* Link getting hit/dying animation improvements
 * Expanded map
 * Define enemies for each screen in the editor
 * Lynels
