@@ -61,6 +61,7 @@ export class LoadingState extends BaseState {
                 game.assets.addSound('linkDies', 'res/sounds/LOZ_Die.wav');
                 game.assets.addSound('text', 'res/sounds/LOZ_Text.wav');
                 game.assets.addSound('linkHurt', 'res/sounds/LOZ_Hurt.wav');
+                game.assets.addSound('shield', 'res/sounds/LOZ_Shield.wav');
                 //game.assets.addImage('sprites', 'res/sprite_tiles.png', true);
                 //game.assets.addSpriteSheet('mapTiles', 'res/map_tiles.png', 8,8, 0,0);
                 //game.assets.addSpriteSheet('points', 'res/points.png', 18,9, 0,0);

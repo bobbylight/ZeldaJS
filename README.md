@@ -48,14 +48,14 @@ The source code lives in `src/`, and is built into `build/web/`.
   - Moving between screens, smooth screen transitions (though only a portion of the map is implemented)
   - Use of sword (Z key)
   - Basic enemies that can die
-  - Link takes damage from enemies (though not projectiles) and can die
+  - Link takes damage from enemies and projectiles, and can die
 * Editor
   - Screen design, single tile per cell (no burnable bushes, bombable walls, etc.)
   - Select enemy group per screen
 
 ### Coming next (in no particular order):
 
-* Link getting hit by enemy projectiles
+* More accurate Link getting hit colors
 * More accurate enemy spawning
 * Going into caves animation
 * Expanded map

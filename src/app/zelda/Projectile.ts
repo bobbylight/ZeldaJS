@@ -3,6 +3,7 @@ import {Direction} from './Direction';
 import {Actor} from './Actor';
 import {ZeldaGame} from './ZeldaGame';
 import {Rectangle, SpriteSheet} from 'gtp';
+import {Link} from './Link';
 declare let game: ZeldaGame;
 
 /**
@@ -28,7 +29,12 @@ export class Projectile extends Actor {
     }
 
     collidedWith(other: Actor): boolean {
-        // Do nothing
+
+        if (other instanceof Link) {
+            this.done = true;
+            return true;
+        }
+
         return false;
     }
 

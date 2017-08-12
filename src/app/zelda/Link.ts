@@ -11,6 +11,7 @@ import {ZeldaGame} from './ZeldaGame';
 import {InputManager, Keys, Rectangle, SpriteSheet} from 'gtp';
 import FadeOutInState from 'gtp/lib/gtp/FadeOutInState';
 import {TitleState} from './TitleState';
+import {Projectile} from './Projectile';
 declare let game: ZeldaGame;
 
 const STEP_TIMER_MAX: number = 10;
@@ -48,13 +49,22 @@ export class Link extends Character {
             return false;
         }
 
-        if (other instanceof Enemy) {
+        if (other instanceof Enemy || other instanceof Projectile) {
+
+            // Projectiles reflect off of Link's shield
+            if (!this.frozen && other instanceof Projectile) {
+                if (DirectionUtil.opposite(other.dir) === this.dir) {
+                    game.audio.playSound('shield');
+                    return false;
+                }
+            }
 
             game.map.currentScreen.removeLinksSwordActor();
             this.frozen = false;
             this.step = Link.FRAME_STILL;
 
             if (--this._health === 0) {
+                game.audio.playSound('linkHurt');
                 this.done = true;
                 this.setAnimation(this._createDyingAnimation());
                 game.linkDied();
@@ -64,7 +74,7 @@ export class Link extends Character {
                 game.audio.playSound('linkHurt');
                 this.takingDamage = true;
                 this._slideTick = Character.MAX_SLIDE_TICK / 2; // Link isn't knocked back as much
-                this._slidingDir = DirectionUtil.opposite(this.dir);
+                this._slidingDir = other.dir;
             }
         }
 
