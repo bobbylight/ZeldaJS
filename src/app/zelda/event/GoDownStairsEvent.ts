@@ -6,25 +6,25 @@ import {ZeldaGame} from '../ZeldaGame';
 declare let game: ZeldaGame;
 
 /**
- * Occurs when Link steps on a stairwel or doorway on the overworld map.
+ * Occurs when Link steps on a stairwell or doorway on the overworld map.
  */
 export class GoDownStairsEvent extends Event implements AnimationListener {
 
     private _animate: boolean;
-    private _destMap: string;
-    private _destScreen: Position;
-    private _destPos: Position;
+    destMap: string;
+    destScreen: Position;
+    destPos: Position;
 
     constructor(tile: Position, animate: boolean, destMap: string, destScreen: Position, destPos: Position) {
         super(tile);
         this._animate = animate;
-        this._destMap = destMap;
-        this._destScreen = destScreen;
-        this._destPos = destPos;
+        this.destMap = destMap;
+        this.destScreen = destScreen;
+        this.destPos = destPos;
     }
 
     animationCompleted(anim: Animation) {
-        game.setMap(this._destMap, this._destScreen, this._destPos);
+        game.setMap(this.destMap, this.destScreen, this.destPos);
     }
 
     execute(): boolean {
@@ -33,6 +33,10 @@ export class GoDownStairsEvent extends Event implements AnimationListener {
             game.link.enterCave(this);
         }
         return false;
+    }
+
+    getAnimate(): boolean {
+        return this._animate;
     }
 
     shouldOccur(): boolean {

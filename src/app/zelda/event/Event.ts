@@ -10,6 +10,10 @@ export abstract class Event {
 
     abstract execute(): boolean;
 
+    getTile(): Position {
+        return this.tile;
+    }
+
     abstract shouldOccur(): boolean;
 
     abstract update(): void;

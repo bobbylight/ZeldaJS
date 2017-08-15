@@ -4,7 +4,7 @@ import {MouseEvent} from 'react';
 interface ModifiableTableProps {
     headers: ModifiableTableHeader[];
     rows: ModifiableTableRow[];
-    addEditDialogFn: Function;
+    addEditDialogFn: (row: ModifiableTableRow | null) => void;
     reorderOrRemoveFn: Function;
 }
 
@@ -17,7 +17,7 @@ export interface ModifiableTableHeader {
     cellKey: string;
 }
 
-interface ModifiableTableRow {
+export interface ModifiableTableRow {
     [ key: string ]: any;
 }
 
@@ -37,7 +37,15 @@ export default class ModifiableTable extends React.Component<ModifiableTableProp
     }
 
     addRow() {
-        this.props.addEditDialogFn();
+
+        let selectedRowData: ModifiableTableRow | null = null;
+
+        const selectedRow: number = this.state.selectedRow;
+        if (selectedRow > -1) {
+            selectedRowData = this.props.rows[selectedRow];
+        }
+
+        this.props.addEditDialogFn(selectedRowData);
     }
 
     highlightSelectedRow(e: MouseEvent<HTMLTableRowElement>) {
@@ -48,9 +56,16 @@ export default class ModifiableTable extends React.Component<ModifiableTableProp
         }
 
         const closestTableRow: HTMLTableRowElement = ModifiableTable.getClosestTableRow(e.target as HTMLElement);
+        //const rowIndex: number = (<HTMLTableRowElement>e.target.parentElement).rowIndex;
+        const rowIndex: number = closestTableRow.rowIndex - 1;
+
+        // ctrl+clicking on the selected row clears the selection
+        if (e.ctrlKey && rowIndex === this.state.selectedRow) {
+            return -1;
+        }
+
         closestTableRow.classList.add('bg-info');
-        //return (<HTMLTableRowElement>e.target.parentElement).rowIndex;
-        return closestTableRow.rowIndex - 1;
+        return rowIndex;
     }
 
     private static getClosestTableRow(e: HTMLElement | null): HTMLTableRowElement {

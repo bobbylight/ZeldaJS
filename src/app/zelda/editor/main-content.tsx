@@ -6,7 +6,7 @@ import VisibleTilePalette from './containers/visible-tile-palette';
 import {ZeldaGame} from '../ZeldaGame';
 import {Map} from '../Map';
 import CodeViewer from './code-viewer';
-import EventTable from './event-table';
+import EventTable from './event-editor';
 import VisibleEnemySelector from './containers/visible-enemy-selector';
 
 interface MainContentProps {
@@ -173,7 +173,8 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                             <Tab eventKey={1} title="Events">
 
                                 <div className="panel-body">
-                                    <EventTable game={this.props.game}/>
+                                    <EventTable game={this.props.game}
+                                            events={this.props.game.map.currentScreen.events} />
                                 </div>
 
                             </Tab>

@@ -22,7 +22,7 @@ export class Screen {
     enemyGroup: EnemyGroup | undefined | null;
     private flattenedEnemyGroup: EnemyGroup; // TODO: Can we flatten iff we know we're in the game, not the editor?
     private _firstTimeThrough: boolean;
-    private _events: Event[];
+    events: Event[];
 
     constructor(parent: Map, enemyGroup?: EnemyGroup | null, tiles?: number[][]) {
 
@@ -36,7 +36,7 @@ export class Screen {
         this._actors = [];
         this._setEnemyGroup(enemyGroup);
         this._firstTimeThrough = true;
-        this._events = [];
+        this.events = [];
     }
 
     addActor(actor: Actor) {
@@ -113,7 +113,7 @@ export class Screen {
                 const tile: number = this._tiles[row][col];
                 if (this._parent.tileset.isDoorway(tile)) {
                     const tilePos: Position = new Position(row, col);
-                    this._events.push(new GoDownStairsEvent(tilePos, true, 'overworld',
+                    this.events.push(new GoDownStairsEvent(tilePos, true, 'overworld',
                             new Position(7, 6), new Position(8, 8)));
                 }
             }
@@ -297,7 +297,7 @@ export class Screen {
         // TODO: Optimize me
         const remainingEvents: Event[] = [];
 
-        this._events.forEach((event: Event) => {
+        this.events.forEach((event: Event) => {
             event.update();
             if (event.shouldOccur()) {
                 if (!event.execute()) { // execute() returning true => event is done
@@ -309,7 +309,7 @@ export class Screen {
             }
         });
 
-        this._events = remainingEvents;
+        this.events = remainingEvents;
     }
 
     private _updateActors() {

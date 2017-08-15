@@ -110,7 +110,7 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
 
                 <EditEnemyRowModal game={this.props.game}
                         submitButtonLabel="Add"
-                        title="Add Ememy"
+                        title="Add Enemy"
                         enemyChoices={this.state.choices}
                         selectedEnemy={null}
                         initialEnemyCount={this.props.enemyGroup.enemies.length}

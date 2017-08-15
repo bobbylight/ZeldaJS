@@ -43,3 +43,10 @@ html, body {
 .tooltip-inner {
     white-space: nowrap; /* Needed for ModifiableTable's tool tips */
 }
+
+.form-group.row-col-buffer {
+    margin-right: 2rem;
+}
+.form-group.row-col-buffer label {
+    margin-right: 1rem;
+}
