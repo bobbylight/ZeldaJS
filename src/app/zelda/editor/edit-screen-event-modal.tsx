@@ -62,9 +62,11 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
     }
 
     componentWillReceiveProps(nextProps: Readonly<EditScreenEventModalProps>, nextContext: any) {
+
         let selectedEvent: Event | null = nextProps.selectedEvent;
         console.log('-------------------> ' + selectedEvent);
         let selectedEventGenerator: EventGenerator<any>;
+
         if (selectedEvent instanceof GoDownStairsEvent) {
             selectedEventGenerator = this.generators[0].value as GoDownStairsEventGenerator;
         }

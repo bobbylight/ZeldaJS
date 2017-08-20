@@ -14,6 +14,7 @@ interface EventEditorState {
     headers: ModifiableTableHeader[];
     eventTableRows: EventTableRow[];
     selectedEvent: Event | null;
+    selectedEventIndex: number;
     editRowModalVisible: boolean;
 }
 
@@ -36,32 +37,45 @@ export default class EventEditor extends React.Component<EventEditorProps, Event
 
     componentWillMount() {
 
-        let eventTableRows: EventTableRow[] = this.props.events.map((e: Event) => {
-            return this.eventToEventTableRow(e);
-        });
-
         this.setState({
             headers: [
                 { label: 'Type', cellKey: 'type' },
                 { label: 'Description', cellKey: 'desc' }
             ],
-            eventTableRows: eventTableRows,
+            eventTableRows: this.regenerateEventTableRows(),
             selectedEvent: null,
+            selectedEventIndex: -1,
             editRowModalVisible: false
         });
     }
 
-    addOrEditRow(selectedRowData: EventTableRow | null) {
-        console.log('here: ' + JSON.stringify(selectedRowData));
-        const selectedEvent: Event | null = selectedRowData ? selectedRowData.event : null;
-        this.setState({ editRowModalVisible: true, selectedEvent: selectedEvent });
+    private regenerateEventTableRows(): EventTableRow[] {
+        return this.props.events.map((e: Event) => {
+            return this.eventToEventTableRow(e);
+        });
     }
 
-    addOrEditRowOkCallback(newEvent: any) {
+    addOrEditRow(index: number, selectedRowData: EventTableRow | null) {
+        console.log('here: ' + JSON.stringify(selectedRowData));
+        const selectedEvent: Event | null = selectedRowData ? selectedRowData.event : null;
+        this.setState({ editRowModalVisible: true, selectedEventIndex: index, selectedEvent: selectedEvent });
+    }
+
+    addOrEditRowOkCallback(newEvent: Event) {
+
+        const newState: any = { editRowModalVisible: false, selectedEventIndex: -1, selectedEvent: null };
+
         if (newEvent) {
-            console.log('TODO: Add new event: ' + newEvent);
+            if (this.state.selectedEventIndex === -1) {
+                this.props.events.push(newEvent);
+            }
+            else {
+                this.props.events[this.state.selectedEventIndex] = newEvent;
+            }
+            newState.eventTableRows = this.regenerateEventTableRows();
         }
-        this.setState({ editRowModalVisible: false, selectedEvent: null });
+
+        this.setState(newState);
     }
 
     private eventToEventTableRow(e: Event): EventTableRow {

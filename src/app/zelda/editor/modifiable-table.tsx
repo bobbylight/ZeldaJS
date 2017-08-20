@@ -4,7 +4,7 @@ import {MouseEvent} from 'react';
 interface ModifiableTableProps {
     headers: ModifiableTableHeader[];
     rows: ModifiableTableRow[];
-    addEditDialogFn: (row: ModifiableTableRow | null) => void;
+    addEditDialogFn: (row: number, rowData: ModifiableTableRow | null) => void;
     reorderOrRemoveFn: Function;
 }
 
@@ -45,7 +45,7 @@ export default class ModifiableTable extends React.Component<ModifiableTableProp
             selectedRowData = this.props.rows[selectedRow];
         }
 
-        this.props.addEditDialogFn(selectedRowData);
+        this.props.addEditDialogFn(this.state.selectedRow, selectedRowData);
     }
 
     highlightSelectedRow(e: MouseEvent<HTMLTableRowElement>) {
