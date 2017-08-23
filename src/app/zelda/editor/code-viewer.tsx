@@ -1,9 +1,9 @@
-import {ZeldaGame} from '../ZeldaGame';
+import { ZeldaGame } from '../ZeldaGame';
 import * as React from 'react';
-import {MapData} from '../Map';
+import { MapData } from '../Map';
 
-import Highlighter from 'jshighlight/lib/highlighter';
-import {JsonParser} from 'jshighlight/lib/parsers/json-parser';
+import highlighter from 'jshighlight/lib/highlighter';
+import { JsonParser } from 'jshighlight/lib/parsers/json-parser';
 
 import '../../../../node_modules/jshighlight/src/styles/jshl-default.css';
 
@@ -38,7 +38,7 @@ export default class CodeViewer extends React.Component<CodeViewerProps, CodeVie
         });
         //jsonStr = jsonStr.replace(/\n/g, '');
 
-        this.codeDiv.innerHTML = Highlighter.highlight(new JsonParser(), jsonStr);
+        this.codeDiv.innerHTML = highlighter.highlight(new JsonParser(), jsonStr);
 
         console.log('Refreshing completed, took: ' + (new Date().getTime() - start.getTime()));
     }

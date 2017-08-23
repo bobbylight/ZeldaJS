@@ -1,8 +1,8 @@
-import {Direction} from './Direction';
-import {Constants} from './Constants';
-import {ZeldaGame} from './ZeldaGame';
-import {Position} from './Position';
-import {Rectangle} from 'gtp';
+import { Direction } from './Direction';
+import { Constants } from './Constants';
+import { ZeldaGame } from './ZeldaGame';
+import { Position } from './Position';
+import { Rectangle } from 'gtp';
 declare let game: ZeldaGame;
 
 export const MOVE_AMT: number = 1;

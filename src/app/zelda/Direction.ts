@@ -1,4 +1,4 @@
-import {Utils} from 'gtp';
+import { Utils } from 'gtp';
 
 export type Direction = 'DOWN' | 'LEFT' | 'UP' | 'RIGHT';
 

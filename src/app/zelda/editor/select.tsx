@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {LabelValuePair} from './label-value-pair';
-import {CSSProperties} from 'react';
+import { LabelValuePair } from './label-value-pair';
+import { CSSProperties } from 'react';
 
 /**
  * Note: <code>choices</code> should only be a <code>string[]</code> if <code>t</code> is <code>string</code>!
@@ -92,7 +92,7 @@ export default class Select<T> extends React.Component<SelectProps<T>, SelectSta
     }
 
     private getSelectedLabel(): string {
-        return this.state.selection != null ? this.state.selection.label : '(none)';
+        return this.state.selection.label;
     }
 
     onClick(choice: LabelValuePair<T>) {

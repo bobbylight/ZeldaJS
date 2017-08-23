@@ -1,4 +1,4 @@
-import {ZeldaGame} from '../ZeldaGame';
+import { ZeldaGame } from '../ZeldaGame';
 import * as React from 'react';
 import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 

@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {Tab, Tabs} from 'react-bootstrap';
+import { Tab, Tabs } from 'react-bootstrap';
 import VisibleMapEditor from './containers/visible-map-editor';
 import VisibleMapPreview from './containers/visible-map-preview';
 import VisibleTilePalette from './containers/visible-tile-palette';
-import {ZeldaGame} from '../ZeldaGame';
-import {Map} from '../Map';
+import { ZeldaGame } from '../ZeldaGame';
+import { Map } from '../Map';
 import CodeViewer from './code-viewer';
-import EventTable from './event-editor';
+import EventEditor from './event-editor';
 import VisibleEnemySelector from './containers/visible-enemy-selector';
 
 interface MainContentProps {
@@ -173,8 +173,8 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                             <Tab eventKey={1} title="Events">
 
                                 <div className="panel-body">
-                                    <EventTable game={this.props.game}
-                                            events={this.props.game.map.currentScreen.events} />
+                                    <EventEditor game={this.props.game}
+                                                 events={this.props.game.map.currentScreen.events} />
                                 </div>
 
                             </Tab>

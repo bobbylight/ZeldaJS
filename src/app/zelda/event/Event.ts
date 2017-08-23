@@ -1,4 +1,4 @@
-import {Position} from '../Position';
+import { Position } from '../Position';
 
 export abstract class Event {
 

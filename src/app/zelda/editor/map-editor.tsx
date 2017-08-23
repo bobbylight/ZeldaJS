@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {ZeldaGame} from '../ZeldaGame';
-import {Constants} from '../Constants';
-import {Map} from '../Map';
-import {Screen} from '../Screen';
-import {screenModified} from './actions';
-import {MouseEventHandler} from 'react';
+import { ZeldaGame } from '../ZeldaGame';
+import { Constants } from '../Constants';
+import { Map } from '../Map';
+import { Screen } from '../Screen';
+import { screenModified } from './actions';
+import { MouseEventHandler } from 'react';
 
 export interface MapEditorProps {
     game: ZeldaGame;

@@ -1,6 +1,6 @@
-import {Screen, ScreenData} from './Screen';
-import {Tileset, TilesetData} from './Tileset';
-import {EnemyGroup} from './EnemyGroup';
+import { Screen, ScreenData } from './Screen';
+import { Tileset, TilesetData } from './Tileset';
+import { EnemyGroup } from './EnemyGroup';
 
 const HEADER: string = 'ZeldaMap';
 

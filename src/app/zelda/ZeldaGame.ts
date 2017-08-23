@@ -1,11 +1,9 @@
-import {Link} from './Link';
-import {Actor} from './Actor';
-import {Animation} from './Animation';
-import {Map} from './Map';
-import {Position} from './Position';
-import {Game, SpriteSheet} from 'gtp';
-import {TitleState} from './TitleState';
-import FadeOutInState from 'gtp/lib/gtp/FadeOutInState';
+import { Link } from './Link';
+import { Actor } from './Actor';
+import { Animation } from './Animation';
+import { Map } from './Map';
+import { Position } from './Position';
+import { Game, SpriteSheet } from 'gtp';
 declare let game: ZeldaGame;
 
 export class ZeldaGame extends Game {

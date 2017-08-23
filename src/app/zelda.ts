@@ -1,9 +1,9 @@
 /*
  * Game bootstrap code.  This can be in an inline <script> tag as well.
  */
-import {ZeldaGame} from './zelda/ZeldaGame';
-import {LoadingState} from './zelda/LoadingState';
-import {Constants} from './zelda/Constants';
+import { ZeldaGame } from './zelda/ZeldaGame';
+import { LoadingState } from './zelda/LoadingState';
+import { Constants } from './zelda/Constants';
 
 // Webpack makes you import your HTML and CSS.  WTF?
 import 'all.css';

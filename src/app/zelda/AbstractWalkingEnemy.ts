@@ -1,9 +1,9 @@
-import {DirectionUtil} from './Direction';
-import {Constants} from './Constants';
-import {Actor} from './Actor';
-import {Enemy} from './Enemy';
-import {ZeldaGame} from './ZeldaGame';
-import {Rectangle} from 'gtp';
+import { DirectionUtil } from './Direction';
+import { Constants } from './Constants';
+import { Actor } from './Actor';
+import { Enemy } from './Enemy';
+import { ZeldaGame } from './ZeldaGame';
+import { Rectangle } from 'gtp';
 declare let game: ZeldaGame;
 
 /**

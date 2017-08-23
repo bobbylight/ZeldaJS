@@ -11,6 +11,10 @@ export class Position {
         this.col = col;
     }
 
+    clone(): Position {
+        return new Position(this.row, this.col);
+    }
+
     distanceSquared(p2: Position): number {
         return (p2.row - this.row) * (p2.row - this.row) +
             (p2.col - this.col) * (p2.col - this.col);
@@ -27,7 +31,7 @@ export class Position {
             this.col = row.col;
         }
         else {
-            this.row = <number>row;
+            this.row = row;
             this.col = col;
         }
     }

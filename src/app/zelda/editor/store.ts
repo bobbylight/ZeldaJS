@@ -1,6 +1,6 @@
-import {createStore, StoreEnhancer, Store} from 'redux';
+import { createStore, StoreEnhancer, Store } from 'redux';
 import rootReducer from './reducers';
-import {State} from './state';
+import { State } from './state';
 
 const configureStore: () => Store<State> = (): Store<State> => {
 

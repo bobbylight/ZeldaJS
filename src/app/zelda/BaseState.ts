@@ -1,5 +1,5 @@
-import {ZeldaGame} from './ZeldaGame';
-import {State, Game, BaseStateArgs, Utils, InputManager, Keys} from 'gtp';
+import { ZeldaGame } from './ZeldaGame';
+import { State, Game, BaseStateArgs, Utils, InputManager, Keys } from 'gtp';
 declare let game: ZeldaGame;
 
 export class BaseState extends State {

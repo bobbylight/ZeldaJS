@@ -1,11 +1,12 @@
 import * as React from 'react';
-import {MouseEvent} from 'react';
+import { MouseEvent } from 'react';
+import { ModifiableTableEventHandler } from './modifiable-table-event-handler';
+import { ColumnRenderer } from './modifiable-table-column-renderer';
 
 interface ModifiableTableProps {
     headers: ModifiableTableHeader[];
     rows: ModifiableTableRow[];
-    addEditDialogFn: (row: number, rowData: ModifiableTableRow | null) => void;
-    reorderOrRemoveFn: Function;
+    eventHandler: ModifiableTableEventHandler;
 }
 
 interface ModifiableTableState {
@@ -15,6 +16,7 @@ interface ModifiableTableState {
 export interface ModifiableTableHeader {
     label: string;
     cellKey: string;
+    columnRenderer?: ColumnRenderer;
 }
 
 export interface ModifiableTableRow {
@@ -30,6 +32,7 @@ export default class ModifiableTable extends React.Component<ModifiableTableProp
         super(props);
 
         this.addRow = this.addRow.bind(this);
+        this.editRow = this.editRow.bind(this);
         this.removeRow = this.removeRow.bind(this);
         this.moveRowUp = this.moveRowUp.bind(this);
         this.moveRowDown = this.moveRowDown.bind(this);
@@ -37,15 +40,21 @@ export default class ModifiableTable extends React.Component<ModifiableTableProp
     }
 
     addRow() {
+        this.props.eventHandler.addOrEditTableRow(-1, null);
+    }
 
-        let selectedRowData: ModifiableTableRow | null = null;
+    componentWillReceiveProps(newProps: ModifiableTableProps) {
 
-        const selectedRow: number = this.state.selectedRow;
-        if (selectedRow > -1) {
-            selectedRowData = this.props.rows[selectedRow];
+        // Clear the row selection if the new row set is empty
+        if (!newProps.rows || !newProps.rows.length) {
+            this.setState({ selectedRow: -1 });
         }
+    }
 
-        this.props.addEditDialogFn(this.state.selectedRow, selectedRowData);
+    editRow() {
+        const selectedRow: number = this.state.selectedRow;
+        const selectedRowData: ModifiableTableRow = this.props.rows[selectedRow];
+        this.props.eventHandler.addOrEditTableRow(selectedRow, selectedRowData);
     }
 
     highlightSelectedRow(e: MouseEvent<HTMLTableRowElement>) {
@@ -89,30 +98,29 @@ export default class ModifiableTable extends React.Component<ModifiableTableProp
 
     moveRowDown() {
         console.log('moveRowDown() called');
-        const destRow: number = this.state.selectedRow + 1;
-        const newRows: ModifiableTableRow[] = this.props.rows.slice();
-        newRows.splice(destRow, 0, newRows.splice(this.state.selectedRow, 1)[0]);
-        this.props.reorderOrRemoveFn(newRows);
-        this.setState({ selectedRow: destRow });
+        this.props.eventHandler.moveTableRow(this.state.selectedRow, 1);
+        // We're assuming the event handler will reorder rows appropriately, and adjusting the selection accordingly
+        if (this.state.selectedRow < this.props.rows.length - 1) {
+            this.setState({
+                selectedRow: this.state.selectedRow + 1
+            });
+        }
     }
 
     moveRowUp() {
         console.log('moveRowUp() called');
-        const destRow: number = this.state.selectedRow - 1;
-        const newRows: ModifiableTableRow[] = this.props.rows.slice();
-        newRows.splice(destRow, 0, newRows.splice(this.state.selectedRow, 1)[0]);
-        this.props.reorderOrRemoveFn(newRows);
-        this.setState({ selectedRow: destRow });
+        this.props.eventHandler.moveTableRow(this.state.selectedRow, -1);
+        // We're assuming the event handler will reorder rows appropriately, and adjusting the selection accordingly
+        if (this.state.selectedRow > 0) {
+            this.setState({
+                selectedRow: this.state.selectedRow - 1
+            });
+        }
     }
 
     removeRow() {
         console.log('removeRow() called');
-        const newRows: ModifiableTableRow[] = this.props.rows.slice();
-        newRows.splice(this.state.selectedRow, 1);
-        this.props.rows.length = 0;
-        this.props.rows.concat(newRows);
-        // TODO: Figure out how to highlight the row at selectedRow, if row count still > 0
-        this.setState({ selectedRow: -1 });
+        this.props.eventHandler.removeTableRow(this.state.selectedRow);
     }
 
     setPrimary(e: MouseEvent<HTMLTableRowElement>) {
@@ -131,7 +139,11 @@ export default class ModifiableTable extends React.Component<ModifiableTableProp
         const rows: JSX.Element[] = this.props.rows ? this.props.rows.map((row: ModifiableTableRow, rowIndex: number) => {
 
             const tds: JSX.Element[] = this.props.headers.map((header: ModifiableTableHeader) => {
-                return ( <td key={key++}>{row[header.cellKey]}</td> );
+                let value: any = row[header.cellKey];
+                if (header.columnRenderer) {
+                    value = header.columnRenderer(value, row);
+                }
+                return ( <td key={key++}>{value}</td> );
             });
 
             // Only add class="bg-info" to the selected row, if any
@@ -150,8 +162,13 @@ export default class ModifiableTable extends React.Component<ModifiableTableProp
 
                 <div className="modifiable-table-tool-bar">
                     <div className="btn-group" role="group" aria-label="Table Actions">
-                        <button className="btn btn-default" onClick={this.addRow} data-toggle="tooltip" title="Add row">
-                            <i className="fa fa-plus" aria-hidden="true"/>
+                        <button className="btn btn-default" onClick={this.addRow} data-toggle="tooltip"
+                                title="Add row">
+                            <i className="fa fa-plus" aria-hidden/>
+                        </button>
+                        <button className="btn btn-default" onClick={this.editRow} data-toggle="tooltip"
+                                title="Edit selected row" disabled={this.state.selectedRow === -1}>
+                            <i className="fa fa-pencil" aria-hidden="true"/>
                         </button>
                         <button className="btn btn-default" onClick={this.removeRow} data-toggle="tooltip"
                                 title="Remove selected row" disabled={this.isDeleteDisabled()}>

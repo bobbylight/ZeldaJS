@@ -1,8 +1,8 @@
-import {Link} from './Link';
-import {DirectionUtil} from './Direction';
-import {Actor} from './Actor';
-import {ZeldaGame} from './ZeldaGame';
-import {Rectangle, SpriteSheet} from 'gtp';
+import { Link } from './Link';
+import { DirectionUtil } from './Direction';
+import { Actor } from './Actor';
+import { ZeldaGame } from './ZeldaGame';
+import { Rectangle, SpriteSheet } from 'gtp';
 declare let game: ZeldaGame;
 
 export class Sword extends Actor {

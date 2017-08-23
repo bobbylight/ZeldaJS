@@ -1,6 +1,6 @@
-import {AnimationListener} from './AnimationListener';
-import {ZeldaGame} from './ZeldaGame';
-import {SpriteSheet} from 'gtp';
+import { AnimationListener } from './AnimationListener';
+import { ZeldaGame } from './ZeldaGame';
+import { SpriteSheet } from 'gtp';
 declare let game: ZeldaGame;
 
 /**

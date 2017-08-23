@@ -1,8 +1,8 @@
-import {Animation} from '../Animation';
-import {AnimationListener} from '../AnimationListener';
-import {Position} from '../Position';
-import {Event} from './Event';
-import {ZeldaGame} from '../ZeldaGame';
+import { Animation } from '../Animation';
+import { AnimationListener } from '../AnimationListener';
+import { Position } from '../Position';
+import { Event } from './Event';
+import { ZeldaGame } from '../ZeldaGame';
 declare let game: ZeldaGame;
 
 /**
@@ -25,6 +25,11 @@ export class GoDownStairsEvent extends Event implements AnimationListener {
 
     animationCompleted(anim: Animation) {
         game.setMap(this.destMap, this.destScreen, this.destPos);
+    }
+
+    clone(): GoDownStairsEvent {
+        return new GoDownStairsEvent(this.getTile().clone(), this._animate, this.destMap, this.destScreen.clone(),
+            this.destPos.clone());
     }
 
     execute(): boolean {

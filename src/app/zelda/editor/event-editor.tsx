@@ -1,9 +1,11 @@
 import * as React from 'react';
-import {ZeldaGame} from '../ZeldaGame';
-import ModifiableTable, {ModifiableTableHeader, ModifiableTableRow} from './modifiable-table';
+import { ZeldaGame } from '../ZeldaGame';
+import ModifiableTable, { ModifiableTableHeader, ModifiableTableRow } from './modifiable-table/modifiable-table';
 import EditScreenEventModal from './edit-screen-event-modal';
-import {Event} from '../event/Event';
-import {GoDownStairsEvent} from '../event/GoDownStairsEvent';
+import { Event } from '../event/Event';
+import { GoDownStairsEvent } from '../event/GoDownStairsEvent';
+import { ModifiableTableEventHandler } from './modifiable-table/modifiable-table-event-handler';
+import { Position } from '../Position';
 
 interface EventEditorProps {
     game: ZeldaGame;
@@ -15,24 +17,24 @@ interface EventEditorState {
     eventTableRows: EventTableRow[];
     selectedEvent: Event | null;
     selectedEventIndex: number;
+    modalTitle: string;
     editRowModalVisible: boolean;
 }
 
-interface EventTableRow {
+interface EventTableRow extends ModifiableTableRow {
     type: string;
     desc: string;
     event: Event;
 }
 
-export default class EventEditor extends React.Component<EventEditorProps, EventEditorState> {
+export default class EventEditor extends React.Component<EventEditorProps, EventEditorState>
+        implements ModifiableTableEventHandler {
 
     constructor(props: EventEditorProps) {
 
         super(props);
 
-        this.addOrEditRow = this.addOrEditRow.bind(this);
         this.addOrEditRowOkCallback = this.addOrEditRowOkCallback.bind(this);
-        this.reorderOrRemoveRow = this.reorderOrRemoveRow.bind(this);
     }
 
     componentWillMount() {
@@ -40,7 +42,7 @@ export default class EventEditor extends React.Component<EventEditorProps, Event
         this.setState({
             headers: [
                 { label: 'Type', cellKey: 'type' },
-                { label: 'Description', cellKey: 'desc' }
+                { label: 'Description', cellKey: 'desc', columnRenderer: this.descColumnRenderer }
             ],
             eventTableRows: this.regenerateEventTableRows(),
             selectedEvent: null,
@@ -49,16 +51,39 @@ export default class EventEditor extends React.Component<EventEditorProps, Event
         });
     }
 
+    descColumnRenderer(cellValue: Event, rowData: ModifiableTableRow): any {
+
+        if (cellValue instanceof GoDownStairsEvent) {
+
+            const sourceTile: Position = cellValue.getTile();
+            const map: string = cellValue.destMap;
+            const screen: Position = cellValue.destScreen;
+            const destPos: Position = cellValue.destPos;
+
+            return `(${sourceTile.row}, ${sourceTile.col}) to ${map}, screen (${screen.row}, ${screen.col}), ` +
+                `pos (${destPos.row}, ${destPos.col})`;
+        }
+
+        return cellValue.toString();
+    }
+
     private regenerateEventTableRows(): EventTableRow[] {
         return this.props.events.map((e: Event) => {
             return this.eventToEventTableRow(e);
         });
     }
 
-    addOrEditRow(index: number, selectedRowData: EventTableRow | null) {
+    addOrEditTableRow(index: number, selectedRowData: EventTableRow | null) {
+
         console.log('here: ' + JSON.stringify(selectedRowData));
         const selectedEvent: Event | null = selectedRowData ? selectedRowData.event : null;
-        this.setState({ editRowModalVisible: true, selectedEventIndex: index, selectedEvent: selectedEvent });
+
+        this.setState({
+            editRowModalVisible: true,
+            selectedEventIndex: index,
+            modalTitle: index === -1 ? 'Add Event' : 'Edit Event',
+            selectedEvent: selectedEvent
+        });
     }
 
     addOrEditRowOkCallback(newEvent: Event) {
@@ -81,12 +106,12 @@ export default class EventEditor extends React.Component<EventEditorProps, Event
     private eventToEventTableRow(e: Event): EventTableRow {
 
         let type: string;
-        let desc: string;
+        let desc: any;
 
         if (e instanceof GoDownStairsEvent) {
-            const gdse: GoDownStairsEvent = e as GoDownStairsEvent;
+            const gdse: GoDownStairsEvent = e;
             type = 'GoDownStairs';
-            desc = `Down at ${gdse.getTile()} to ${gdse.destMap}, screen ${gdse.destScreen}, tile ${gdse.destPos}`;
+            desc = gdse;
         }
         else {
             type = 'Unknown';
@@ -100,8 +125,17 @@ export default class EventEditor extends React.Component<EventEditorProps, Event
         };
     }
 
-    reorderOrRemoveRow(newEnemies: any[]) {
-        console.log('TODO: Implement EventEditor.reorderOrRemoveRow');
+    moveTableRow(row: number, delta: number) {
+        const temp: EventTableRow = this.state.eventTableRows[row + delta];
+        this.state.eventTableRows[row + delta] = this.state.eventTableRows[row];
+        this.state.eventTableRows[row] = temp;
+        this.forceUpdate();
+    }
+
+    removeTableRow(index: number) {
+        this.props.events.splice(index, 1);
+        this.setState({ eventTableRows: this.regenerateEventTableRows() });
+        this.forceUpdate();
     }
 
     render() {
@@ -111,13 +145,11 @@ export default class EventEditor extends React.Component<EventEditorProps, Event
 
                 <ModifiableTable headers={this.state.headers}
                                  rows={this.state.eventTableRows}
-                                 addEditDialogFn={this.addOrEditRow}
-                                 reorderOrRemoveFn={this.reorderOrRemoveRow}>
-                </ModifiableTable>
+                                 eventHandler={this}/>
 
                 <EditScreenEventModal game={this.props.game}
                                       submitButtonLabel="Add"
-                                      title="Add Event"
+                                      title={this.state.modalTitle}
                                       selectedEvent={this.state.selectedEvent}
                                       okCallback={this.addOrEditRowOkCallback}
                                       visible={this.state.editRowModalVisible}/>

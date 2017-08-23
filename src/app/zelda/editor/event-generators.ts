@@ -1,6 +1,6 @@
-import {Event} from '../event/Event';
-import {GoDownStairsEvent} from '../event/GoDownStairsEvent';
-import {Position} from '../Position';
+import { Event } from '../event/Event';
+import { GoDownStairsEvent } from '../event/GoDownStairsEvent';
+import { Position } from '../Position';
 
 /**
  * Generates an event of some type.

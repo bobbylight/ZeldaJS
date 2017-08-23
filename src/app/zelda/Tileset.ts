@@ -1,5 +1,5 @@
-import {ZeldaGame} from './ZeldaGame';
-import {SpriteSheet} from 'gtp';
+import { ZeldaGame } from './ZeldaGame';
+import { SpriteSheet } from 'gtp';
 declare let game: ZeldaGame;
 
 /**

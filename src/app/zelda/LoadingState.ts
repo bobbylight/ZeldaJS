@@ -1,9 +1,9 @@
-import {CurtainOpeningState} from './CurtainOpeningState';
-import {MainGameState} from './MainGameState';
-import {TitleState} from './TitleState';
-import {BaseState} from './BaseState';
-import {Game, BaseStateArgs, Utils, FadeOutInState} from 'gtp';
-import {ImageAtlasInfo} from 'gtp/lib/gtp/ImageAtlas';
+import { CurtainOpeningState } from './CurtainOpeningState';
+import { MainGameState } from './MainGameState';
+import { TitleState } from './TitleState';
+import { BaseState } from './BaseState';
+import { Game, BaseStateArgs, Utils, FadeOutInState } from 'gtp';
+import { ImageAtlasInfo } from 'gtp/lib/gtp/ImageAtlas';
 
 export class LoadingState extends BaseState {
 

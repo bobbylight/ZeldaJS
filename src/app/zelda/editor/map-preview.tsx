@@ -1,8 +1,8 @@
-import {ZeldaGame} from '../ZeldaGame';
+import { ZeldaGame } from '../ZeldaGame';
 import * as React from 'react';
-import {Constants} from '../Constants';
-import {Map} from '../Map';
-import {Screen} from '../Screen';
+import { Constants } from '../Constants';
+import { Map } from '../Map';
+import { Screen } from '../Screen';
 
 export interface MapPreviewProps {
     game?: ZeldaGame;

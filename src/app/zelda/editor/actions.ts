@@ -1,7 +1,7 @@
-import {Action} from 'redux-actions';
-import {ZeldaGame} from '../ZeldaGame';
-import {Screen} from '../Screen';
-import {Map} from '../Map';
+import { Action } from 'redux-actions';
+import { ZeldaGame } from '../ZeldaGame';
+import { Screen } from '../Screen';
+import { Map } from '../Map';
 
 export type ACTION_TYPE = 'SCREEN_MODIFIED' | 'TILE_SELECTED' | 'CURRENT_SCREEN_CHANGED';
 

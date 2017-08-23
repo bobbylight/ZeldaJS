@@ -1,17 +1,17 @@
-import {Actor, ActorData} from './Actor';
-import {Constants} from './Constants';
-import {Enemy} from './Enemy';
-import {EnemyGroup, EnemyGroupData, EnemyInfo} from './EnemyGroup';
-import {Map} from './Map';
-import {InstanceLoader} from './InstanceLoader';
-import {Position} from './Position';
-import {Event} from './event/Event';
-import {Projectile} from './Projectile';
-import {GoDownStairsEvent} from './event/GoDownStairsEvent';
-import {Link} from './Link';
-import {Tileset} from './Tileset';
-import {ZeldaGame} from './ZeldaGame';
-import {Sword} from './Sword';
+import { Actor, ActorData } from './Actor';
+import { Constants } from './Constants';
+import { Enemy } from './Enemy';
+import { EnemyGroup, EnemyGroupData, EnemyInfo } from './EnemyGroup';
+import { Map } from './Map';
+import { InstanceLoader } from './InstanceLoader';
+import { Position } from './Position';
+import { Event } from './event/Event';
+import { Projectile } from './Projectile';
+import { GoDownStairsEvent } from './event/GoDownStairsEvent';
+import { Link } from './Link';
+import { Tileset } from './Tileset';
+import { ZeldaGame } from './ZeldaGame';
+import { Sword } from './Sword';
 declare let game: ZeldaGame;
 
 export class Screen {

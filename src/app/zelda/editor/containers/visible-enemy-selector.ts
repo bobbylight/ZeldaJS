@@ -1,7 +1,7 @@
-import {ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps} from 'react-redux';
-import {State} from '../state';
+import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { State } from '../state';
 import EnemySelector from '../enemy-selector';
-import {EnemyGroup} from '../../EnemyGroup';
+import { EnemyGroup } from '../../EnemyGroup';
 
 const mapStateToProps: MapStateToProps<any, any> = (state: State, ownProps?: any): any => {
 

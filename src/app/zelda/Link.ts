@@ -1,17 +1,17 @@
-import {Character} from './Character';
-import {Actor, MOVE_AMT} from './Actor';
-import {Animation} from './Animation';
-import {Enemy} from './Enemy';
-import {AnimationListener} from './AnimationListener';
-import {DirectionUtil} from './Direction';
-import {Constants} from './Constants';
-import {Sword} from './Sword';
-import {MainGameState} from './MainGameState';
-import {ZeldaGame} from './ZeldaGame';
-import {InputManager, Keys, Rectangle, SpriteSheet} from 'gtp';
+import { Character } from './Character';
+import { Actor, MOVE_AMT } from './Actor';
+import { Animation } from './Animation';
+import { Enemy } from './Enemy';
+import { AnimationListener } from './AnimationListener';
+import { DirectionUtil } from './Direction';
+import { Constants } from './Constants';
+import { Sword } from './Sword';
+import { MainGameState } from './MainGameState';
+import { ZeldaGame } from './ZeldaGame';
+import { InputManager, Keys, Rectangle, SpriteSheet } from 'gtp';
 import FadeOutInState from 'gtp/lib/gtp/FadeOutInState';
-import {TitleState} from './TitleState';
-import {Projectile} from './Projectile';
+import { TitleState } from './TitleState';
+import { Projectile } from './Projectile';
 declare let game: ZeldaGame;
 
 const STEP_TIMER_MAX: number = 10;
@@ -226,7 +226,7 @@ export class Link extends Character {
     }
 
     isAnimationRunning(): boolean {
-        return this.anim != null;
+        return !!this.anim;
     }
 
     private _isMovingHorizontally(hitBox: Rectangle): number {

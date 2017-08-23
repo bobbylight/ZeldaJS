@@ -1,8 +1,8 @@
-import {ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps} from 'react-redux';
-import {State} from '../state';
-import {currentScreenChanged} from '../actions';
+import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { State } from '../state';
+import { currentScreenChanged } from '../actions';
 import MainContent from '../main-content';
-import {ZeldaGame} from '../../ZeldaGame';
+import { ZeldaGame } from '../../ZeldaGame';
 
 const mapStateToProps: MapStateToProps<any, any> = (state: State, ownProps?: any): any => {
     return {

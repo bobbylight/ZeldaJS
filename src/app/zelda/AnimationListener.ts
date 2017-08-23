@@ -1,4 +1,4 @@
-import {Animation} from './Animation';
+import { Animation } from './Animation';
 
 /**
  * Listens for an animation completing.

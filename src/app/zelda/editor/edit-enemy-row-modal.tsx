@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {ZeldaGame} from '../ZeldaGame';
-import {EnemyInfo} from '../EnemyGroup';
-import {LabelValuePair} from './label-value-pair';
-import {ChangeEvent} from 'react';
-import Select, {SelectOnChangeEvent} from './select';
+import { ZeldaGame } from '../ZeldaGame';
+import { EnemyInfo } from '../EnemyGroup';
+import { LabelValuePair } from './label-value-pair';
+import { ChangeEvent } from 'react';
+import Select, { SelectOnChangeEvent } from './select';
 
 interface EditEnemyRowModalProps {
     game: ZeldaGame;

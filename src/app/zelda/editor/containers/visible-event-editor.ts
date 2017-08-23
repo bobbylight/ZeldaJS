@@ -1,5 +1,5 @@
-import {ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps} from 'react-redux';
-import {State} from '../state';
+import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { State } from '../state';
 import EventTable from '../event-editor';
 
 const mapStateToProps: MapStateToProps<any, any> = (state: State, ownProps?: any): any => {

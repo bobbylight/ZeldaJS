@@ -1,6 +1,6 @@
-import {ZeldaGame} from './ZeldaGame';
+import { ZeldaGame } from './ZeldaGame';
 import Image from 'gtp/lib/gtp/Image';
-import {Link} from './Link';
+import { Link } from './Link';
 
 declare let game: ZeldaGame;
 

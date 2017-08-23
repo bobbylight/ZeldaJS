@@ -1,11 +1,11 @@
-import {Character} from './Character';
-import {Actor} from './Actor';
-import {Constants} from './Constants';
-import {DirectionUtil} from './Direction';
-import {Sword} from './Sword';
-import {Screen} from './Screen';
-import {ZeldaGame} from './ZeldaGame';
-import {SpriteSheet} from 'gtp';
+import { Character } from './Character';
+import { Actor } from './Actor';
+import { Constants } from './Constants';
+import { DirectionUtil } from './Direction';
+import { Sword } from './Sword';
+import { Screen } from './Screen';
+import { ZeldaGame } from './ZeldaGame';
+import { SpriteSheet } from 'gtp';
 declare let game: ZeldaGame;
 
 const STEP_TIMER_MAX: number = 10;
@@ -59,10 +59,6 @@ export abstract class Enemy extends Character {
         return this._step;
     }
 
-    set health(health: number) {
-        this._health = health;
-    }
-
     protected paintImpl(ctx: CanvasRenderingContext2D, row: number, colOffset: number) {
 
         this.possiblyPaintHitBox(ctx);
@@ -102,6 +98,10 @@ export abstract class Enemy extends Character {
 
     resetHealth() {
         this._health = this._maxHealth;
+    }
+
+    set health(health: number) {
+        this._health = health;
     }
 
     setLocationToSpawnPoint(screen: Screen) {

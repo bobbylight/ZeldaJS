@@ -1,7 +1,7 @@
-import {Constants} from './Constants';
-import {MainGameState} from './MainGameState';
-import {ZeldaGame} from './ZeldaGame';
-import {State, Delay} from 'gtp';
+import { Constants } from './Constants';
+import { MainGameState } from './MainGameState';
+import { ZeldaGame } from './ZeldaGame';
+import { State, Delay } from 'gtp';
 declare let game: ZeldaGame;
 
 export class CurtainOpeningState extends State {

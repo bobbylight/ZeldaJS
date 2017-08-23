@@ -1,9 +1,11 @@
 import * as React from 'react';
-import {ZeldaGame} from '../ZeldaGame';
-import ModifiableTable, {ModifiableTableHeader} from './modifiable-table';
-import {EnemyGroup, EnemyInfo} from '../EnemyGroup';
-import {LabelValuePair} from './label-value-pair';
+import { ZeldaGame } from '../ZeldaGame';
+import ModifiableTable, { ModifiableTableHeader, ModifiableTableRow } from './modifiable-table/modifiable-table';
+import { EnemyGroup, EnemyInfo } from '../EnemyGroup';
+import { LabelValuePair } from './label-value-pair';
 import EditEnemyRowModal from './edit-enemy-row-modal';
+import { ModifiableTableEventHandler } from './modifiable-table/modifiable-table-event-handler';
+import { Enemy } from '../Enemy';
 
 interface EnemySelectorProps {
     game: ZeldaGame;
@@ -15,17 +17,17 @@ interface EnemySelectorState {
     // spawnStyle: LabelValuePair;
     choices: LabelValuePair<string>[];
     headers: ModifiableTableHeader[];
+    modalTitle: string;
     editRowModalVisible: boolean;
 }
 
-export default class EnemySelector extends React.Component<EnemySelectorProps, EnemySelectorState> {
+export default class EnemySelector extends React.Component<EnemySelectorProps, EnemySelectorState>
+        implements ModifiableTableEventHandler {
 
     constructor(props: EnemySelectorProps) {
         super(props);
 
-        this.addOrEditRow = this.addOrEditRow.bind(this);
         this.addOrEditRowOkCallback = this.addOrEditRowOkCallback.bind(this);
-        this.reorderOrRemoveRow = this.reorderOrRemoveRow.bind(this);
     }
 
     componentWillMount() {
@@ -45,10 +47,12 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
         });
     }
 
-    addOrEditRow() {
-        console.log('yeah yeah');
+    addOrEditTableRow(row: number, rowData: ModifiableTableRow | null) {
         //this.openModal((value: EnemyInfo) => { Utils.hitch(this, this.addOrEditRowOkCallback)(value); });
-        this.setState({ editRowModalVisible: true });
+        this.setState({
+            modalTitle: row === -1 ? 'Add Enemy' : 'Edit Enemy',
+            editRowModalVisible: true
+        });
     }
 
     addOrEditRowOkCallback(newEnemy: EnemyInfo) {
@@ -58,9 +62,16 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
         this.setState({ editRowModalVisible: false });
     }
 
-    reorderOrRemoveRow(newEnemies: EnemyInfo[]) {
-        this.props.enemyGroup.enemies.length = 0;
-        this.props.enemyGroup.enemies.push.apply(this.props.enemyGroup.enemies, newEnemies);
+    moveTableRow(row: number, delta: number) {
+        const temp: EnemyInfo = this.props.enemyGroup.enemies[row + delta];
+        this.props.enemyGroup.enemies[row + delta] = this.props.enemyGroup.enemies[row];
+        this.props.enemyGroup.enemies[row] = temp;
+        this.forceUpdate();
+    }
+
+    removeTableRow(index: number) {
+        this.props.enemyGroup.enemies.splice(index, 1);
+        this.forceUpdate();
     }
 
     selectedEnemyGroupChanged(newGroup: string) {
@@ -105,12 +116,11 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
 
                 <ModifiableTable headers={this.state.headers}
                                  rows={this.props.enemyGroup.enemies}
-                                 addEditDialogFn={this.addOrEditRow}
-                                 reorderOrRemoveFn={this.reorderOrRemoveRow}/>
+                                 eventHandler={this}/>
 
                 <EditEnemyRowModal game={this.props.game}
                         submitButtonLabel="Add"
-                        title="Add Enemy"
+                        title={this.state.modalTitle}
                         enemyChoices={this.state.choices}
                         selectedEnemy={null}
                         initialEnemyCount={this.props.enemyGroup.enemies.length}

@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {ZeldaGame} from '../ZeldaGame';
-import Select, {SelectOnChangeEvent} from './select';
-import {Event} from '../event/Event';
-import {LabelValuePair} from './label-value-pair';
-import {EventGenerator, GoDownStairsEventGenerator} from './event-generators';
-import {GoDownStairsEvent} from '../event/GoDownStairsEvent';
-import {CSSProperties} from 'react';
-import {Position} from '../Position';
+import { ZeldaGame } from '../ZeldaGame';
+import Select, { SelectOnChangeEvent } from './select';
+import { Event } from '../event/Event';
+import { LabelValuePair } from './label-value-pair';
+import { EventGenerator, GoDownStairsEventGenerator } from './event-generators';
+import { GoDownStairsEvent } from '../event/GoDownStairsEvent';
+import { CSSProperties } from 'react';
+import { Position } from '../Position';
 
 interface EditScreenEventModalProps {
     game: ZeldaGame;
@@ -69,6 +69,7 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
 
         if (selectedEvent instanceof GoDownStairsEvent) {
             selectedEventGenerator = this.generators[0].value as GoDownStairsEventGenerator;
+            selectedEvent = selectedEvent.clone();
         }
         else {
             // Fallback to appease tsc compiler
@@ -98,6 +99,8 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
             const event: GoDownStairsEvent = this.state.selectedEvent as GoDownStairsEvent;
             const screenRow: number = event ? event.destScreen.row : 0;
             const screenCol: number = event ? event.destScreen.col : 0;
+            const destTileRow: number = event ? event.destPos.row : 0;
+            const destTileCol: number = event ? event.destPos.col : 0;
             console.log('>>> ' + screenRow + ', ' + screenCol);
 
             markup = <div>
@@ -132,14 +135,14 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
                         <div className="form-group row-col-buffer">
                             <label>Row:</label>
                             <Select choices={this.screenRows}
-                                    initialValue="0"
+                                    initialValue={destTileRow.toString()}
                                     onChange={this.goDownStairsDestTileRowChanged}
                                     display="inline-block"/>
                         </div>
                         <div className="form-group row-col-buffer">
                             <label>Col:</label>
                             <Select choices={this.screenCols}
-                                    initialValue="0"
+                                    initialValue={destTileCol.toString()}
                                     onChange={this.goDownStairsDestTileColChanged}
                                     display="inline-block"/>
                         </div>

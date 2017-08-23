@@ -1,11 +1,11 @@
-import {Direction, DirectionUtil} from './Direction';
-import {Constants} from './Constants';
-import {BaseState} from './BaseState';
-import {Screen} from './Screen';
-import {Map} from './Map';
-import {ZeldaGame} from './ZeldaGame';
-import {BaseStateArgs, Game, Image} from 'gtp';
-import {Hud} from './Hud';
+import { Direction, DirectionUtil } from './Direction';
+import { Constants } from './Constants';
+import { BaseState } from './BaseState';
+import { Screen } from './Screen';
+import { Map } from './Map';
+import { ZeldaGame } from './ZeldaGame';
+import { BaseStateArgs, Game, Image } from 'gtp';
+import { Hud } from './Hud';
 declare let game: ZeldaGame;
 
 export class MainGameState extends BaseState {

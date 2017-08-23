@@ -1,6 +1,6 @@
-import {Projectile} from './Projectile';
-import {AbstractWalkingEnemy} from './AbstractWalkingEnemy';
-import {ZeldaGame} from './ZeldaGame';
+import { Projectile } from './Projectile';
+import { AbstractWalkingEnemy } from './AbstractWalkingEnemy';
+import { ZeldaGame } from './ZeldaGame';
 declare let game: ZeldaGame;
 
 const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds

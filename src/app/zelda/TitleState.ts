@@ -1,8 +1,8 @@
-import {BaseState} from './BaseState';
-import {CurtainOpeningState} from './CurtainOpeningState';
-import {MainGameState} from './MainGameState';
-import {ZeldaGame} from './ZeldaGame';
-import {BaseStateArgs, Game, Image, InputManager} from 'gtp';
+import { BaseState } from './BaseState';
+import { CurtainOpeningState } from './CurtainOpeningState';
+import { MainGameState } from './MainGameState';
+import { ZeldaGame } from './ZeldaGame';
+import { BaseStateArgs, Game, Image, InputManager } from 'gtp';
 declare let game: ZeldaGame;
 
 export class TitleState extends BaseState {

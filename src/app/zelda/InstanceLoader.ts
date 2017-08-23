@@ -7,6 +7,6 @@ export class InstanceLoader {
         if (args) {
             instance.constructor.apply(instance, args);
         }
-        return <T>instance;
+        return instance;
     }
 }

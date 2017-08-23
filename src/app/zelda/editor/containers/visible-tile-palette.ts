@@ -1,6 +1,6 @@
-import {ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps} from 'react-redux';
-import {State} from '../state';
-import {tileSelected} from '../actions';
+import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { State } from '../state';
+import { tileSelected } from '../actions';
 import TilePalette from '../tile-palette';
 
 const mapStateToProps: MapStateToProps<any, any> = (state: State, ownProps?: any): any => {

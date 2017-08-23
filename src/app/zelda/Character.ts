@@ -1,5 +1,5 @@
-import {Actor} from './Actor';
-import {Direction} from './Direction';
+import { Actor } from './Actor';
+import { Direction } from './Direction';
 
 /**
  * A base class for entities that can attack and/or be attacked.

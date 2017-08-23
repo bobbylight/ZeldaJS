@@ -1,5 +1,5 @@
-import {ZeldaGame} from '../ZeldaGame';
-import {Map} from '../Map';
+import { ZeldaGame } from '../ZeldaGame';
+import { Map } from '../Map';
 
 export type State = {
     game: ZeldaGame;

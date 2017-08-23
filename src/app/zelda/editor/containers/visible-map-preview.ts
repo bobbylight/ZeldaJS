@@ -1,6 +1,6 @@
-import {ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps} from 'react-redux';
-import MapPreview, {MapPreviewProps} from '../map-preview';
-import {State} from '../state';
+import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import MapPreview, { MapPreviewProps } from '../map-preview';
+import { State } from '../state';
 
 const mapStateToProps: MapStateToProps<any, any> = (state: State, ownProps?: any): MapPreviewProps => {
     return {

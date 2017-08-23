@@ -1,8 +1,8 @@
-import {Constants} from './Constants';
-import {Enemy} from './Enemy';
-import {Screen} from './Screen';
-import {ZeldaGame} from './ZeldaGame';
-import {Rectangle} from 'gtp';
+import { Constants } from './Constants';
+import { Enemy } from './Enemy';
+import { Screen } from './Screen';
+import { ZeldaGame } from './ZeldaGame';
+import { Rectangle } from 'gtp';
 declare let game: ZeldaGame;
 
 const TOP_MARGIN_ROWS: number = 2;

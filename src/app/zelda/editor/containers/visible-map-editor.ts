@@ -1,6 +1,6 @@
-import {ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps} from 'react-redux';
-import {State} from '../state';
-import {screenModified} from '../actions';
+import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { State } from '../state';
+import { screenModified } from '../actions';
 import MapEditor from '../map-editor';
 
 const mapStateToProps: MapStateToProps<any, any> = (state: State, ownProps?: any): any => {
