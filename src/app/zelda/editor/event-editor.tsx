@@ -9,13 +9,13 @@ import { Position } from '../Position';
 
 interface EventEditorProps {
     game: ZeldaGame;
-    events: Event[];
+    events: Event<any>[];
 }
 
 interface EventEditorState {
     headers: ModifiableTableHeader[];
     eventTableRows: EventTableRow[];
-    selectedEvent: Event | null;
+    selectedEvent: Event<any> | null;
     selectedEventIndex: number;
     modalTitle: string;
     editRowModalVisible: boolean;
@@ -24,7 +24,7 @@ interface EventEditorState {
 interface EventTableRow extends ModifiableTableRow {
     type: string;
     desc: string;
-    event: Event;
+    event: Event<any>;
 }
 
 export default class EventEditor extends React.Component<EventEditorProps, EventEditorState>
@@ -51,7 +51,11 @@ export default class EventEditor extends React.Component<EventEditorProps, Event
         });
     }
 
-    descColumnRenderer(cellValue: Event, rowData: ModifiableTableRow): any {
+    componentWillReceiveProps(newProps: EventEditorProps) {
+        this.setState({ eventTableRows: this.regenerateEventTableRows(newProps) });
+    }
+
+    descColumnRenderer(cellValue: Event<any>, rowData: ModifiableTableRow): any {
 
         if (cellValue instanceof GoDownStairsEvent) {
 
@@ -67,8 +71,8 @@ export default class EventEditor extends React.Component<EventEditorProps, Event
         return cellValue.toString();
     }
 
-    private regenerateEventTableRows(): EventTableRow[] {
-        return this.props.events.map((e: Event) => {
+    private regenerateEventTableRows(props: EventEditorProps = this.props): EventTableRow[] {
+        return props.events.map((e: Event<any>) => {
             return this.eventToEventTableRow(e);
         });
     }
@@ -76,17 +80,17 @@ export default class EventEditor extends React.Component<EventEditorProps, Event
     addOrEditTableRow(index: number, selectedRowData: EventTableRow | null) {
 
         console.log('here: ' + JSON.stringify(selectedRowData));
-        const selectedEvent: Event | null = selectedRowData ? selectedRowData.event : null;
+        const selectedEvent: Event<any> | null = selectedRowData ? selectedRowData.event : null;
 
         this.setState({
             editRowModalVisible: true,
             selectedEventIndex: index,
-            modalTitle: index === -1 ? 'Add Event' : 'Edit Event',
+            modalTitle: index === -1 ? 'Add Event' : 'Edit Event<any>',
             selectedEvent: selectedEvent
         });
     }
 
-    addOrEditRowOkCallback(newEvent: Event) {
+    addOrEditRowOkCallback(newEvent: Event<any>) {
 
         const newState: any = { editRowModalVisible: false, selectedEventIndex: -1, selectedEvent: null };
 
@@ -103,7 +107,7 @@ export default class EventEditor extends React.Component<EventEditorProps, Event
         this.setState(newState);
     }
 
-    private eventToEventTableRow(e: Event): EventTableRow {
+    private eventToEventTableRow(e: Event<any>): EventTableRow {
 
         let type: string;
         let desc: any;

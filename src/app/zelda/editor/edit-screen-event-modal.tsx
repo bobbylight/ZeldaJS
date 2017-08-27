@@ -12,13 +12,13 @@ interface EditScreenEventModalProps {
     game: ZeldaGame;
     submitButtonLabel: string;
     title: string;
-    selectedEvent: Event | null;
+    selectedEvent: Event<any> | null;
     okCallback: Function;
     visible: boolean;
 }
 
 interface EditScreenEventModalState {
-    selectedEvent: Event | null;
+    selectedEvent: Event<any> | null;
     selectedEventGenerator: EventGenerator<any>;
 }
 
@@ -27,10 +27,10 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
     private currentlyShowing: boolean;
     private generators: LabelValuePair<EventGenerator<any>>[];
     private maps: string[];
-    private rows: string[];
-    private cols: string[];
-    private screenRows: string[];
-    private screenCols: string[];
+    private rows: number[];
+    private cols: number[];
+    private screenRows: number[];
+    private screenCols: number[];
 
     constructor(props: EditScreenEventModalProps) {
         super(props);
@@ -42,10 +42,10 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
         ];
 
         this.maps = [ 'overworld' ];
-        this.rows = [ '0', '1', '2', '3', '4', '5', '6', '7' ];
-        this.cols = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15' ];
-        this.screenRows = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11' ];
-        this.screenCols = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15' ];
+        this.rows = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
+        this.cols = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];
+        this.screenRows = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
+        this.screenCols = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];
 
         this.eventGeneratorChanged = this.eventGeneratorChanged.bind(this);
         this.goDownStairsDestTileColChanged = this.goDownStairsDestTileColChanged.bind(this);
@@ -53,6 +53,8 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
         this.goDownStairsMapChanged = this.goDownStairsMapChanged.bind(this);
         this.goDownStairsScreenColChanged = this.goDownStairsScreenColChanged.bind(this);
         this.goDownStairsScreenRowChanged = this.goDownStairsScreenRowChanged.bind(this);
+        this.goDownStairsStartColChanged = this.goDownStairsStartColChanged.bind(this);
+        this.goDownStairsStartRowChanged = this.goDownStairsStartRowChanged.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onCancel = this.onCancel.bind(this);
     }
@@ -63,7 +65,7 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
 
     componentWillReceiveProps(nextProps: Readonly<EditScreenEventModalProps>, nextContext: any) {
 
-        let selectedEvent: Event | null = nextProps.selectedEvent;
+        let selectedEvent: Event<any> | null = nextProps.selectedEvent;
         console.log('-------------------> ' + selectedEvent);
         let selectedEventGenerator: EventGenerator<any>;
 
@@ -97,6 +99,8 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
         if (eventGenerator instanceof GoDownStairsEventGenerator) {
 
             const event: GoDownStairsEvent = this.state.selectedEvent as GoDownStairsEvent;
+            const startTileRow: number = event.getTile().row;
+            const startTileCol: number = event.getTile().col;
             const screenRow: number = event ? event.destScreen.row : 0;
             const screenCol: number = event ? event.destScreen.col : 0;
             const destTileRow: number = event ? event.destPos.row : 0;
@@ -104,6 +108,25 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
             console.log('>>> ' + screenRow + ', ' + screenCol);
 
             markup = <div>
+                <div className="form-group">
+                    <label>Source Tile</label>
+                    <div className="form-inline" style={indentStyle}>
+                        <div className="form-group row-col-buffer">
+                            <label>Row:</label>
+                            <Select choices={this.screenRows}
+                                    initialValue={startTileRow}
+                                    onChange={this.goDownStairsStartRowChanged}
+                                    display="inline-block"/>
+                        </div>
+                        <div className="form-group row-col-buffer">
+                            <label>Col:</label>
+                            <Select choices={this.screenCols}
+                                    initialValue={startTileCol}
+                                    onChange={this.goDownStairsStartColChanged}
+                                    display="inline-block"/>
+                        </div>
+                    </div>
+                </div>
                 <div className="form-group">
                     <label>Destination Map</label>
                     <Select choices={this.maps}
@@ -116,14 +139,14 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
                         <div className="form-group row-col-buffer">
                             <label>Row:</label>
                             <Select choices={this.rows}
-                                    initialValue={screenRow.toString()}
+                                    initialValue={screenRow}
                                     onChange={this.goDownStairsScreenRowChanged}
                                     display="inline-block"/>
                         </div>
                         <div className="form-group row-col-buffer">
                             <label>Col:</label>
                             <Select choices={this.cols}
-                                    initialValue={screenCol.toString()}
+                                    initialValue={screenCol}
                                     onChange={this.goDownStairsScreenColChanged}
                                     display="inline-block"/>
                         </div>
@@ -135,14 +158,14 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
                         <div className="form-group row-col-buffer">
                             <label>Row:</label>
                             <Select choices={this.screenRows}
-                                    initialValue={destTileRow.toString()}
+                                    initialValue={destTileRow}
                                     onChange={this.goDownStairsDestTileRowChanged}
                                     display="inline-block"/>
                         </div>
                         <div className="form-group row-col-buffer">
                             <label>Col:</label>
                             <Select choices={this.screenCols}
-                                    initialValue={destTileCol.toString()}
+                                    initialValue={destTileCol}
                                     onChange={this.goDownStairsDestTileColChanged}
                                     display="inline-block"/>
                         </div>
@@ -167,7 +190,7 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
 
         console.log(`Event selected: ${JSON.stringify(e)}`);
         const selectedEventGenerator: EventGenerator<any> = e.newValue!;
-        const event: Event = selectedEventGenerator.generate() as Event;
+        const event: Event<any> = selectedEventGenerator.generate() as Event<any>;
 
         this.setState({ selectedEvent: event, selectedEventGenerator: selectedEventGenerator });
     }
@@ -195,6 +218,16 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
     private goDownStairsScreenRowChanged(e: SelectOnChangeEvent<number>) {
         const gdse: GoDownStairsEvent = this.state.selectedEvent as GoDownStairsEvent;
         gdse.destScreen.row = e.newValue!;
+    }
+
+    private goDownStairsStartColChanged(e: SelectOnChangeEvent<number>) {
+        const gdse: GoDownStairsEvent = this.state.selectedEvent as GoDownStairsEvent;
+        gdse.getTile().col = e.newValue!;
+    }
+
+    private goDownStairsStartRowChanged(e: SelectOnChangeEvent<number>) {
+        const gdse: GoDownStairsEvent = this.state.selectedEvent as GoDownStairsEvent;
+        gdse.getTile().row = e.newValue!;
     }
 
     onSubmit() {

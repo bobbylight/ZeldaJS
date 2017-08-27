@@ -1,6 +1,6 @@
-import { Position } from '../Position';
+import { Position, PositionData } from '../Position';
 
-export abstract class Event {
+export abstract class Event<T extends EventData> {
 
     protected tile: Position;
 
@@ -16,5 +16,12 @@ export abstract class Event {
 
     abstract shouldOccur(): boolean;
 
+    abstract toJson(): T;
+
     abstract update(): void;
+}
+
+export interface EventData {
+    type: string;
+    tile: PositionData;
 }

@@ -1,14 +1,16 @@
 import { Animation } from '../Animation';
 import { AnimationListener } from '../AnimationListener';
-import { Position } from '../Position';
-import { Event } from './Event';
+import { Position, PositionData } from '../Position';
+import { Event, EventData } from './Event';
 import { ZeldaGame } from '../ZeldaGame';
 declare let game: ZeldaGame;
 
 /**
  * Occurs when Link steps on a stairwell or doorway on the overworld map.
  */
-export class GoDownStairsEvent extends Event implements AnimationListener {
+export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements AnimationListener {
+
+    static readonly EVENT_TYPE: string = 'goDownStairs';
 
     private _animate: boolean;
     destMap: string;
@@ -48,7 +50,26 @@ export class GoDownStairsEvent extends Event implements AnimationListener {
         return game.link.isEntirelyOn(this.tile);
     }
 
+    toJson(): GoDownStairsEventData {
+
+        return {
+            type: GoDownStairsEvent.EVENT_TYPE,
+            tile: this.tile.toJson(),
+            animate: this._animate,
+            destMap: this.destMap,
+            destScreen: this.destScreen.toJson(),
+            destPos: this.destPos.toJson()
+        };
+    }
+
     update() {
         // Do nothing
     }
+}
+
+export interface GoDownStairsEventData extends EventData {
+    animate: boolean;
+    destMap: string;
+    destScreen: PositionData;
+    destPos: PositionData;
 }

@@ -39,7 +39,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
         game.assets.addSpriteSheet('font', 'res/font.png', 9, 7, 0, 0);
         game.assets.addSpriteSheet('link', 'res/link.png', 16, 16, 1, 1, true);
         game.assets.addSpriteSheet('overworld', 'res/overworld.png', 16, 16);
-        game.assets.addImage('hud', 'res/hudMockup.png');
+        game.assets.addImage('hud', 'res/hud.png');
         game.assets.addJson('overworldData', 'res/data/overworld.json');
 
         const that: MainContent = this;
@@ -75,6 +75,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                         this._setCurrentScreen(row, col - 1);
                     }
                     e.preventDefault();
+                    e.stopPropagation();
                     break;
 
                 case 38:

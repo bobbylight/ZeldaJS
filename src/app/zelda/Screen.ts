@@ -5,13 +5,13 @@ import { EnemyGroup, EnemyGroupData, EnemyInfo } from './EnemyGroup';
 import { Map } from './Map';
 import { InstanceLoader } from './InstanceLoader';
 import { Position } from './Position';
-import { Event } from './event/Event';
+import { Event, EventData } from './event/Event';
 import { Projectile } from './Projectile';
-import { GoDownStairsEvent } from './event/GoDownStairsEvent';
 import { Link } from './Link';
 import { Tileset } from './Tileset';
 import { ZeldaGame } from './ZeldaGame';
 import { Sword } from './Sword';
+import EventLoader from './editor/event-loader';
 declare let game: ZeldaGame;
 
 export class Screen {
@@ -22,7 +22,7 @@ export class Screen {
     enemyGroup: EnemyGroup | undefined | null;
     private flattenedEnemyGroup: EnemyGroup; // TODO: Can we flatten iff we know we're in the game, not the editor?
     private _firstTimeThrough: boolean;
-    events: Event[];
+    events: Event<any>[];
 
     constructor(parent: Map, enemyGroup?: EnemyGroup | null, tiles?: number[][]) {
 
@@ -107,16 +107,8 @@ export class Screen {
         //});
         this._setEnemyGroup(new EnemyGroup().fromJson(json.enemyGroup));
 
-        // TODO: Load these, don't hard-code them
-        for (let row: number = 0; row < this._tiles.length; row++) {
-            for (let col: number = 0; col < this._tiles[row].length; col++) {
-                const tile: number = this._tiles[row][col];
-                if (this._parent.tileset.isDoorway(tile)) {
-                    const tilePos: Position = new Position(row, col);
-                    this.events.push(new GoDownStairsEvent(tilePos, true, 'overworld',
-                            new Position(7, 6), new Position(8, 8)));
-                }
-            }
+        if (json.events) {
+            this.events = json.events.map((eventData: EventData) => { return EventLoader.load(eventData); });
         }
 
         return this;
@@ -188,7 +180,7 @@ export class Screen {
         }
 
         if (this._parent.showEvents) {
-            this.events.forEach((event: Event) => {
+            this.events.forEach((event: Event<any>) => {
                 const tile: Position = event.getTile();
                 const x: number = tile.col * Constants.TILE_WIDTH;
                 const y: number = tile.row * Constants.TILE_WIDTH;
@@ -262,10 +254,6 @@ export class Screen {
         }
     }
 
-    save() {
-        // TODO: Implement me
-    }
-
     private _setEnemyGroup(enemyGroup?: EnemyGroup | null) {
         this.enemyGroup = enemyGroup;
         if (this.enemyGroup) {
@@ -284,11 +272,18 @@ export class Screen {
             actorData.push(actor.toJson());
         });
 
-        return {
+        const screenData: ScreenData = {
             tiles: this._tiles,
             //actors: actorData,
             enemyGroup: this.enemyGroup ? this.enemyGroup.toJson() : null
         };
+        if (this.events && this.events.length) {
+            screenData.events = this.events.map((e: Event<any>) => {
+                return e.toJson();
+            });
+        }
+
+        return screenData;
     }
 
     toString(): string {
@@ -305,9 +300,9 @@ export class Screen {
     private _updateActions() {
 
         // TODO: Optimize me
-        const remainingEvents: Event[] = [];
+        const remainingEvents: Event<any>[] = [];
 
-        this.events.forEach((event: Event) => {
+        this.events.forEach((event: Event<any>) => {
             event.update();
             if (event.shouldOccur()) {
                 if (!event.execute()) { // execute() returning true => event is done
@@ -355,4 +350,5 @@ export interface ScreenData {
     tiles: number[][];
     //actors: ActorData[];
     enemyGroup: EnemyGroupData | undefined | null;
+    events?: EventData[] | undefined | null;
 }

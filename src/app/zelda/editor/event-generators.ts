@@ -5,7 +5,7 @@ import { Position } from '../Position';
 /**
  * Generates an event of some type.
  */
-export abstract class EventGenerator<E extends Event> {
+export abstract class EventGenerator<E extends Event<any>> {
 
     protected tile: Position;
 

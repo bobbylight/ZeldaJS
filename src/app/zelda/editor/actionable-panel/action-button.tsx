@@ -40,7 +40,7 @@ export default class ActionButton extends React.Component<ActionButtonProps, Act
         const className: string = 'action-button' + (this.state.pressed ? ' action-button-pressed' : '');
 
         return (
-            <div key={this.props.key} className={className} onClick={this.handleClick} title={this.props.action.title}>
+            <div className={className} onClick={this.handleClick} title={this.props.action.title}>
                 <i className={`fa fa-${this.props.action.iconClass}`}/>
             </div>
         );

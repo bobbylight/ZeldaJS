@@ -62,7 +62,7 @@ module.exports = [
                 jQuery: 'jquery'
             })
         ],
-        devtool: devBuild ? 'cheap-eval-source-map' : 'source-map',
+        devtool: devBuild ? 'cheap-module-eval-source-map' : undefined,
         devServer: {
             contentBase: './build/web'
         }
@@ -70,5 +70,5 @@ module.exports = [
 ];
 
 if (!devBuild) {
-    module.exports[0].plugins.push(new webpack.optimize.UglifyJsPlugin({minimize: true}));
+    module.exports[0].plugins.push(new webpack.optimize.UglifyJsPlugin({ sourceMap: true, minimize: true }));
 }

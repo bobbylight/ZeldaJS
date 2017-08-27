@@ -2067,7 +2067,26 @@
               "count": 1
             }
           ]
-        }
+        },
+        "events": [
+          {
+            "type": "goDownStairs",
+            "tile": {
+              "row": 1,
+              "col": 4
+            },
+            "animate": true,
+            "destMap": "overworld",
+            "destScreen": {
+              "row": 8,
+              "col": 6
+            },
+            "destPos": {
+              "row": 10,
+              "col": 8
+            }
+          }
+        ]
       },
       {
         "tiles": [ [ 21, 21, 31, 0, 31, 0, 31, 0, 0, 31, 0, 31, 0, 31, 0, 31 ],
@@ -2788,6 +2807,6 @@
     "name": "overworld"
   },
   "music": "overworldMusic",
-  "row": 8,
+  "row": 7,
   "col": 6
 }
