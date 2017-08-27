@@ -6,7 +6,7 @@ import { LoadingState } from './zelda/LoadingState';
 import { Constants } from './zelda/Constants';
 
 // Webpack makes you import your HTML and CSS.  WTF?
-import 'all.css';
+import 'all.less';
 import 'index.html';
 
 (<any>window).init = (parent: HTMLElement, assetRoot?: string) => {

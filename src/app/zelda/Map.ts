@@ -21,6 +21,11 @@ export class Map {
     private _curRow: number;
     private _curCol: number;
 
+    /**
+     * A debug flag that, if set, causes events to be shown when rendering.
+     */
+    showEvents: boolean;
+
     constructor(rowCount: number = 8, colCount: number = 16) {
 
         this._screens = [];

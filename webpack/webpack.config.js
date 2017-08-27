@@ -31,7 +31,7 @@ module.exports = [
         },
         resolve: {
             extensions: ['.js', '.ts', '.tsx'],
-            modules: ['src/app', 'src/html', 'src/css', 'node_modules']
+            modules: ['src/app', 'src/html', 'src/less', 'node_modules']
         },
         module: {
             loaders: loaders

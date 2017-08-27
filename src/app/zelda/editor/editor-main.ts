@@ -7,7 +7,7 @@ import 'bootstrap/dist/js/bootstrap';
 
 // Webpack makes you import your HTML and CSS.  WTF?
 //import 'editor.html';
-import 'editor.css';
+import 'editor.less';
 import { Store } from 'react-redux';
 import { State } from './state';
 

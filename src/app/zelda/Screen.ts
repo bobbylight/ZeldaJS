@@ -186,6 +186,16 @@ export class Screen {
             const y: number = row * Constants.TILE_HEIGHT;
             this.paintRow(ctx, row, y, paintWalkability);
         }
+
+        if (this._parent.showEvents) {
+            this.events.forEach((event: Event) => {
+                const tile: Position = event.getTile();
+                const x: number = tile.col * Constants.TILE_WIDTH;
+                const y: number = tile.row * Constants.TILE_WIDTH;
+                ctx.strokeStyle = 'red';
+                ctx.strokeRect(x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT);
+            });
+        }
     }
 
     paintActors(ctx: CanvasRenderingContext2D) {

@@ -8,6 +8,8 @@ import { Map } from '../Map';
 import CodeViewer from './code-viewer';
 import EventEditor from './event-editor';
 import VisibleEnemySelector from './containers/visible-enemy-selector';
+import ActionablePanel from './actionable-panel/actionable-panel';
+import { ActionablePanelAction } from './actionable-panel/actionable-panel-action';
 
 interface MainContentProps {
     game: ZeldaGame;
@@ -124,6 +126,11 @@ export default class MainContent extends React.Component<MainContentProps, MainC
 
         const currentScreenRow: number = this.props.currentScreenRow;
         const currentScreenCol: number = this.props.currentScreenCol;
+        const title: string = `Screen (${currentScreenRow}, ${currentScreenCol}) / (${this.state.rowCount}, ${this.state.colCount})`;
+        const actions: ActionablePanelAction[] = [
+            { iconClass: 'bolt', toggle: true, title: 'Toggle Event visibility',
+                callback: (pressed: boolean) => { this.props.game.map.showEvents = pressed; } }
+        ];
 
         return (
 
@@ -133,14 +140,20 @@ export default class MainContent extends React.Component<MainContentProps, MainC
 
                     <div className="col-md-8">
 
+                        <ActionablePanel title={title} actions={actions}>
+                            <VisibleMapEditor/>
+                        </ActionablePanel>
+
                         <div className="panel panel-default">
                             <div className="panel-heading">
-                                <h3 className="panel-title">
-                                    Screen ({currentScreenRow}, {currentScreenCol}) / ({this.state.rowCount}, {this.state.colCount})
-                                </h3>
+                                <div className="panel-title">
+
+                                </div>
+                                <div className="panel-action-buttons">
+                                    <a href="#"><i className="fa fa-bolt"/></a>
+                                </div>
                             </div>
                             <div className="panel-body">
-                                <VisibleMapEditor/>
                             </div>
                         </div>
 

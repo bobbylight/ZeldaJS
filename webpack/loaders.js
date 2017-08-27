@@ -7,8 +7,12 @@ module.exports = [
         loader: 'ts-loader'
     },
     {
-        test: /\.css$/,
+        test: /\.css/,
         loader: "style-loader!css-loader"
+    },
+    {
+        test: /\.less/,
+        loader: "style-loader!css-loader!less-loader"
     },
 
     // Loaders for font-awesome fonts
