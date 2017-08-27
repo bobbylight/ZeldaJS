@@ -146,19 +146,6 @@ export default class MainContent extends React.Component<MainContentProps, MainC
 
                         <div className="panel panel-default">
                             <div className="panel-heading">
-                                <div className="panel-title">
-
-                                </div>
-                                <div className="panel-action-buttons">
-                                    <a href="#"><i className="fa fa-bolt"/></a>
-                                </div>
-                            </div>
-                            <div className="panel-body">
-                            </div>
-                        </div>
-
-                        <div className="panel panel-default">
-                            <div className="panel-heading">
                                 <h3 className="panel-title">Map Preview</h3>
                             </div>
                             <div className="panel-body">
@@ -171,16 +158,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
 
                         <Tabs id="tabSet1" defaultActiveKey={0} className="panel panel-default">
                             <Tab eventKey={0} title="Tile Palette">
-
-                                <div className="panel panel-default">
-                                <div className="panel-heading">
-                                <h3 className="panel-title">Tile Palette</h3>
-                                </div>
-                                <div className="panel-body">
-                                    <VisibleTilePalette/>
-                                </div>
-                                </div>
-
+                                <VisibleTilePalette/>
                             </Tab>
 
                             <Tab eventKey={1} title="Events">
