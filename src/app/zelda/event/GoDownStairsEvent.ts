@@ -35,7 +35,6 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
     }
 
     execute(): boolean {
-        game.audio.playSound('stairs', false, () => { console.log('sound done'); });
         if (this._animate) {
             game.link.enterCave(this);
         }

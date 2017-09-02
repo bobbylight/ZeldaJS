@@ -105,10 +105,27 @@ export class Map {
         return this._curCol;
     }
 
+    /**
+     * Returns the music to play for a particular screen in this map.  Optional per-screen music will
+     * override the map-wide music.
+     *
+     * @returns {string} The music to play.
+     * @see music
+     */
+    get currentScreenMusic(): string | null | undefined {
+        return this.currentScreen.hasOwnProperty('music') ? this.currentScreen.music : this.music;
+    }
+
     get currentScreenRow(): number {
         return this._curRow;
     }
 
+    /**
+     * Returns the standard music to play for this map.  This does not take into account per-screen music.
+     *
+     * @returns {string} The music to play.
+     * @see currentScreenMusic
+     */
     get music(): string {
         return this._music;
     }

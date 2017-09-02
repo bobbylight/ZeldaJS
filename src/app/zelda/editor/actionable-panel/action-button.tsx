@@ -20,7 +20,7 @@ export default class ActionButton extends React.Component<ActionButtonProps, Act
     }
 
     componentWillMount() {
-        this.setState({ pressed: false });
+        this.setState({ pressed: !!this.props.action.pressed });
     }
 
     handleClick() {

@@ -1,6 +1,5 @@
 import { combineReducers, Reducer } from 'redux';
-import { handleActions, Action } from 'redux-actions';
-import { ACTION_TYPE } from './actions';
+import { Action } from 'redux-actions';
 import { State } from './state';
 import { ZeldaGame } from '../ZeldaGame';
 import { Constants } from '../Constants';

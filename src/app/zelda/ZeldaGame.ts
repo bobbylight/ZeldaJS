@@ -115,7 +115,8 @@ export class ZeldaGame extends Game {
         // TODO: Load more than one map, and honor the map name parameter!
         this.map.setCurrentScreen(destScreen.row, destScreen.col);
         this.link.setLocation(destPos.col * 16, destPos.row * 16);
-        game.audio.playMusic(this.map.music, true);
+
+        game.audio.playMusic(this.map.currentScreenMusic, true);
     }
 
     startNewGame() {

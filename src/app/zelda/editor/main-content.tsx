@@ -48,6 +48,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
             //vm.game = game;
             game.map = new Map();
             game.map.fromJson(game.assets.get('overworldData'));
+            game.map.showEvents = true;
             this._setCurrentScreen(7, 6);
 
             that._installKeyHandlers();
@@ -129,7 +130,8 @@ export default class MainContent extends React.Component<MainContentProps, MainC
         const currentScreenCol: number = this.props.currentScreenCol;
         const title: string = `Screen (${currentScreenRow}, ${currentScreenCol}) / (${this.state.rowCount}, ${this.state.colCount})`;
         const actions: ActionablePanelAction[] = [
-            { iconClass: 'bolt', toggle: true, title: 'Toggle Event visibility',
+            { iconClass: 'bolt', title: 'Toggle Event visibility',
+                toggle: true, pressed: this.props.game.map.showEvents,
                 callback: (pressed: boolean) => { this.props.game.map.showEvents = pressed; } }
         ];
 

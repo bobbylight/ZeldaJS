@@ -175,6 +175,7 @@ export class Link extends Character {
     }
 
     enterCave(completedCallback: AnimationListener) {
+        game.audio.playSound('stairs', false, () => { console.log('sound done'); });
         this.setAnimation(this._createStairsDownAnimation(completedCallback));
     }
 

@@ -4,6 +4,7 @@
 export interface ActionablePanelAction {
     iconClass: string;
     toggle: boolean;
+    pressed?: boolean | null | undefined;
     callback: ActionCallback;
     title?: string;
 }

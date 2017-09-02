@@ -63,7 +63,7 @@ export class MainGameState extends BaseState {
     enter(game: Game) {
         super.enter(game);
         //game.inputManager.setResetKeyStateOnPoll(false);
-        game.audio.playMusic(this.getGame().map.music, true);
+        game.audio.playMusic(this.getGame().map.currentScreenMusic, true);
         this._screenSlidingAmount = 0;
     }
 
