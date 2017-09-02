@@ -32,43 +32,46 @@ export default class Select<T> extends React.Component<SelectProps<T>, SelectSta
 
     private buttonId: string;
 
-    componentWillReceiveProps(nextProps: Readonly<SelectProps<T>>) {
+    constructor(props: SelectProps<T>) {
+        super(props);
+        this.state = this.computeState(props);
+    }
 
+    componentWillReceiveProps(nextProps: Readonly<SelectProps<T>>) {
         console.log('-------- componentWillReceiveProps called: ' + JSON.stringify(nextProps));
+        this.setState(this.computeState(nextProps));
+    }
+
+    componentWillMount() {
+        this.buttonId = this.props.buttonId || Select.createUniqueId();
+    }
+
+    private computeState(props: SelectProps<T>): SelectState<T> {
 
         // Ensure we get start with an array of LabelValuePairs.  Note just passing an array of strings is
         // wonky, as it makes the big assumption that T === 'string'
         let lvpChoices: LabelValuePair<any>[];
-        if (nextProps.choices.length > 0 &&
-            (typeof nextProps.choices[0] === 'string' || typeof nextProps.choices[0] === 'number')) {
-            lvpChoices = (nextProps.choices as string[]).map((choice: string) => {
+        if (props.choices.length > 0 &&
+            (typeof props.choices[0] === 'string' || typeof props.choices[0] === 'number')) {
+            lvpChoices = (props.choices as string[]).map((choice: string) => {
                 return { label: choice, value: choice };
             });
         }
         else {
-            lvpChoices = nextProps.choices as LabelValuePair<T>[];
+            lvpChoices = props.choices as LabelValuePair<T>[];
         }
 
-        if (nextProps.noneOption) {
-            const label: string = typeof nextProps.noneOption === 'string' ? nextProps.noneOption : '(none)';
+        if (props.noneOption) {
+            const label: string = typeof props.noneOption === 'string' ? props.noneOption : '(none)';
             lvpChoices.unshift({ label: label, value: null });
         }
 
-        let initialValue: T | null | undefined = nextProps.initialValue;
+        let initialValue: T | null | undefined = props.initialValue;
         if (!initialValue) {
             initialValue = lvpChoices[0].value;
         }
 
-        this.setState({
-            choices: lvpChoices,
-            selection: this.getLabelValuePairFor(lvpChoices, initialValue!)
-        });
-    }
-
-    componentWillMount() {
-
-        this.buttonId = this.props.buttonId || Select.createUniqueId();
-        this.setState({ choices: [], selection: { label: 'notUsed', value: null } });
+        return { choices: lvpChoices, selection: this.getLabelValuePairFor(lvpChoices, initialValue!) };
     }
 
     private static createUniqueId(): string {

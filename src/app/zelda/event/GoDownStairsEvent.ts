@@ -47,7 +47,8 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
     }
 
     shouldOccur(): boolean {
-        return game.link.isEntirelyOn(this.tile);
+        return game.link.isWalkingUpOnto(this.tile) && game.link.dir === 'UP';
+        //return game.link.isEntirelyOn(this.tile) && game.link.dir === 'UP';
     }
 
     toJson(): GoDownStairsEventData {

@@ -3,10 +3,11 @@ import { ZeldaGame } from '../ZeldaGame';
 import Select, { SelectOnChangeEvent } from './select';
 import { Event } from '../event/Event';
 import { LabelValuePair } from './label-value-pair';
-import { EventGenerator, GoDownStairsEventGenerator } from './event-generators';
+import { ChangeScreenWarpEventGenerator, EventGenerator, GoDownStairsEventGenerator } from './event-generators';
 import { GoDownStairsEvent } from '../event/GoDownStairsEvent';
 import { CSSProperties } from 'react';
 import { Position } from '../Position';
+import { ChangeScreenWarpEvent } from '../event/ChangeScreenWarpEvent';
 
 interface EditScreenEventModalProps {
     game: ZeldaGame;
@@ -38,7 +39,8 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
         this.currentlyShowing = false;
 
         this.generators = [
-            { label: 'Go Down Stairs', value: new GoDownStairsEventGenerator() }
+            { label: 'Go Down Stairs', value: new GoDownStairsEventGenerator() },
+            { label: 'Warp on Screen Change', value: new ChangeScreenWarpEventGenerator() }
         ];
 
         this.maps = [ 'overworld' ];
@@ -47,6 +49,11 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
         this.screenRows = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
         this.screenCols = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];
 
+        this.changeScreenWarpDestTileColChanged = this.changeScreenWarpDestTileColChanged.bind(this);
+        this.changeScreenWarpDestTileRowChanged = this.changeScreenWarpDestTileRowChanged.bind(this);
+        this.changeScreenWarpMapChanged = this.changeScreenWarpMapChanged.bind(this);
+        this.changeScreenWarpScreenColChanged = this.changeScreenWarpScreenColChanged.bind(this);
+        this.changeScreenWarpScreenRowChanged = this.changeScreenWarpScreenRowChanged.bind(this);
         this.eventGeneratorChanged = this.eventGeneratorChanged.bind(this);
         this.goDownStairsDestTileColChanged = this.goDownStairsDestTileColChanged.bind(this);
         this.goDownStairsDestTileRowChanged = this.goDownStairsDestTileRowChanged.bind(this);
@@ -73,6 +80,10 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
             selectedEventGenerator = this.generators[0].value as GoDownStairsEventGenerator;
             selectedEvent = selectedEvent.clone();
         }
+        if (selectedEvent instanceof ChangeScreenWarpEvent) {
+            selectedEventGenerator = this.generators[0].value as ChangeScreenWarpEventGenerator;
+            selectedEvent = selectedEvent.clone();
+        }
         else {
             // Fallback to appease tsc compiler
             selectedEventGenerator = this.generators[0].value as GoDownStairsEventGenerator;
@@ -85,6 +96,31 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
             selectedEvent: selectedEvent,
             selectedEventGenerator: selectedEventGenerator
         });
+    }
+
+    private changeScreenWarpDestTileColChanged(e: SelectOnChangeEvent<number>) {
+        const event: ChangeScreenWarpEvent = this.state.selectedEvent as ChangeScreenWarpEvent;
+        event.destPos.col = e.newValue!;
+    }
+
+    private changeScreenWarpDestTileRowChanged(e: SelectOnChangeEvent<number>) {
+        const event: ChangeScreenWarpEvent = this.state.selectedEvent as ChangeScreenWarpEvent;
+        event.destPos.row = e.newValue!;
+    }
+
+    private changeScreenWarpMapChanged(e: SelectOnChangeEvent<string>) {
+        const event: ChangeScreenWarpEvent = this.state.selectedEvent as ChangeScreenWarpEvent;
+        event.destMap = e.newValue!;
+    }
+
+    private changeScreenWarpScreenColChanged(e: SelectOnChangeEvent<number>) {
+        const event: ChangeScreenWarpEvent = this.state.selectedEvent as ChangeScreenWarpEvent;
+        event.destScreen.col = e.newValue!;
+    }
+
+    private changeScreenWarpScreenRowChanged(e: SelectOnChangeEvent<number>) {
+        const event: ChangeScreenWarpEvent = this.state.selectedEvent as ChangeScreenWarpEvent;
+        event.destScreen.row = e.newValue!;
     }
 
     private createSelectedEventGeneratorForm(): JSX.Element {
@@ -138,14 +174,16 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
                     <div className="form-inline" style={indentStyle}>
                         <div className="form-group row-col-buffer">
                             <label>Row:</label>
-                            <Select choices={this.rows}
+                            <Select buttonId="select-destScreenRow"
+                                    choices={this.rows}
                                     initialValue={screenRow}
                                     onChange={this.goDownStairsScreenRowChanged}
                                     display="inline-block"/>
                         </div>
                         <div className="form-group row-col-buffer">
                             <label>Col:</label>
-                            <Select choices={this.cols}
+                            <Select buttonId="select-destScreenCol"
+                                    choices={this.cols}
                                     initialValue={screenCol}
                                     onChange={this.goDownStairsScreenColChanged}
                                     display="inline-block"/>
@@ -157,16 +195,77 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
                     <div className="form-inline" style={indentStyle}>
                         <div className="form-group row-col-buffer">
                             <label>Row:</label>
-                            <Select choices={this.screenRows}
+                            <Select buttonId="select-destTileRow"
+                                    choices={this.screenRows}
                                     initialValue={destTileRow}
                                     onChange={this.goDownStairsDestTileRowChanged}
                                     display="inline-block"/>
                         </div>
                         <div className="form-group row-col-buffer">
                             <label>Col:</label>
-                            <Select choices={this.screenCols}
+                            <Select buttonId="select-destTileCol"
+                                    choices={this.screenCols}
                                     initialValue={destTileCol}
                                     onChange={this.goDownStairsDestTileColChanged}
+                                    display="inline-block"/>
+                        </div>
+                    </div>
+                </div>
+            </div>;
+        }
+
+        else if (eventGenerator instanceof ChangeScreenWarpEventGenerator) {
+
+            const event: ChangeScreenWarpEvent = this.state.selectedEvent as ChangeScreenWarpEvent;
+            const startTileRow: number = event.getTile().row;
+            const startTileCol: number = event.getTile().col;
+            const screenRow: number = event ? event.destScreen.row : 0;
+            const screenCol: number = event ? event.destScreen.col : 0;
+            const destTileRow: number = event ? event.destPos.row : 0;
+            const destTileCol: number = event ? event.destPos.col : 0;
+            console.log('>>> ' + screenRow + ', ' + screenCol);
+
+            markup = <div>
+                <div className="form-group">
+                    <label>Destination Map</label>
+                    <Select choices={this.maps}
+                            initialValue="overworld"
+                            onChange={this.changeScreenWarpMapChanged}/>
+                </div>
+                <div className="form-group">
+                    <label>Destination Screen</label>
+                    <div className="form-inline" style={indentStyle}>
+                        <div className="form-group row-col-buffer">
+                            <label>Row:</label>
+                            <Select choices={this.rows}
+                                    initialValue={screenRow}
+                                    onChange={this.changeScreenWarpScreenRowChanged}
+                                    display="inline-block"/>
+                        </div>
+                        <div className="form-group row-col-buffer">
+                            <label>Col:</label>
+                            <Select choices={this.cols}
+                                    initialValue={screenCol}
+                                    onChange={this.changeScreenWarpScreenColChanged}
+                                    display="inline-block"/>
+                        </div>
+                    </div>
+                </div>
+                <div className="form-group">
+                    <label>Destination Tile</label>
+                    <div className="form-inline" style={indentStyle}>
+                        <div className="form-group row-col-buffer">
+                            <label>Row:</label>
+                            <Select choices={this.screenRows}
+                                    initialValue={destTileRow}
+                                    onChange={this.changeScreenWarpDestTileRowChanged}
+                                    display="inline-block"/>
+                        </div>
+                        <div className="form-group row-col-buffer">
+                            <label>Col:</label>
+                            <Select choices={this.screenCols}
+                                    initialValue={destTileCol}
+                                    onChange={this.changeScreenWarpDestTileColChanged}
                                     display="inline-block"/>
                         </div>
                     </div>

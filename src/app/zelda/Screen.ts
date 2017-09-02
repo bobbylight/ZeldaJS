@@ -151,6 +151,9 @@ export class Screen {
                 case 5:
                     walkabilityStr = (y0 < 16 - x0).toString();
                     break;
+                case 6:
+                    walkabilityStr = (y0 < 8).toString();
+                    break;
                 default:
                     walkabilityStr = 'false';
                     break;
@@ -162,7 +165,8 @@ export class Screen {
             (walkability === 2 && y0 > 16 - x0) || // Top "\"
             (walkability === 3 && y0 > x0) || // Top "/"
             (walkability === 4 && y0 < x0) || // Bottom "/"
-            (walkability === 5 && y0 < 16 - x0); // Bottom "\"
+            (walkability === 5 && y0 < 16 - x0) || // Bottom "\"
+            (walkability === 6 && y0 < 8); // bottom half of tile
     }
 
     paint(ctx: CanvasRenderingContext2D) {

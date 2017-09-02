@@ -98,6 +98,34 @@ export abstract class Actor {
     }
 
     /**
+     * Returns whether this actor is moving upwards and "enough" onto the next tile up that
+     * an event can trigger, causing him to walk into it.
+     * @param tile The row/column of the tile.
+     * @returns {boolean} Whether this actor is walking onto it, facing upwards.
+     */
+    isWalkingUpOnto(tile: Position): boolean {
+
+        if (this.dir === 'UP') {
+            const size: number = Constants.TILE_HEIGHT;
+            const x: number = tile.col * size;
+            const y: number = tile.row * size;
+            const tileBounds: Rectangle = new Rectangle(x, y, size, size);
+
+            // Note that, to support the "two adjacent doors" scenario, like the Level 6 entrance, we
+            // only check whether either edge of the hit box will move into the next tile.  The standard
+            // walkability check should prevent moving up if appropriate.
+            const checkAmount: number = 2;
+            const x1: number = this.hitBox.x;
+            const y1: number = this.hitBox.y + this.hitBox.h - 1;
+            const x2: number = this.hitBox.x + this.hitBox.w - 1;
+            return (tileBounds.contains(x1, y1) && !tileBounds.contains(x1, y1 + 1)) ||
+                (tileBounds.contains(x2, y1) && !tileBounds.contains(x2, y1 + 1));
+        }
+
+        return false;
+    }
+
+    /**
      * Renders this actor.
      * @param ctx The rendering context to use.
      */

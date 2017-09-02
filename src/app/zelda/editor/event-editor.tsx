@@ -6,6 +6,7 @@ import { Event } from '../event/Event';
 import { GoDownStairsEvent } from '../event/GoDownStairsEvent';
 import { ModifiableTableEventHandler } from './modifiable-table/modifiable-table-event-handler';
 import { Position } from '../Position';
+import { ChangeScreenWarpEvent } from '../event/ChangeScreenWarpEvent';
 
 interface EventEditorProps {
     game: ZeldaGame;
@@ -68,6 +69,16 @@ export default class EventEditor extends React.Component<EventEditorProps, Event
                 `pos (${destPos.row}, ${destPos.col})`;
         }
 
+        else if (cellValue instanceof ChangeScreenWarpEvent) {
+
+            const map: string = cellValue.destMap;
+            const screen: Position = cellValue.destScreen;
+            const destPos: Position = cellValue.destPos;
+
+            return `Warp to ${map}, screen (${screen.row}, ${screen.col}), ` +
+                `pos (${destPos.row}, ${destPos.col})`;
+        }
+
         return cellValue.toString();
     }
 
@@ -116,6 +127,10 @@ export default class EventEditor extends React.Component<EventEditorProps, Event
             const gdse: GoDownStairsEvent = e;
             type = 'GoDownStairs';
             desc = gdse;
+        }
+        else if (e instanceof ChangeScreenWarpEvent) {
+            type = 'ChangeScreenWarp';
+            desc = e;
         }
         else {
             type = 'Unknown';

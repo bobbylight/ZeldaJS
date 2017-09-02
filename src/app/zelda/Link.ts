@@ -14,7 +14,7 @@ import { TitleState } from './TitleState';
 import { Projectile } from './Projectile';
 declare let game: ZeldaGame;
 
-const STEP_TIMER_MAX: number = 10;
+const STEP_TIMER_MAX: number = 8;
 
 /**
  * The hero of the game.
@@ -155,8 +155,32 @@ export class Link extends Character {
         return animation;
     }
 
+    private _createStairsUpAnimation(completedCallback: AnimationListener): Animation {
+
+        const animation: Animation = new Animation(this.x, this.y);
+        const linkSheet: SpriteSheet = <SpriteSheet>game.assets.get('link');
+        const frameMillis: number = 120;
+
+        animation.addFrame({ sheet: linkSheet, index: 19 }, frameMillis);
+        animation.addFrame({ sheet: linkSheet, index: 20 }, frameMillis);
+        animation.addFrame({ sheet: linkSheet, index: 21 }, frameMillis);
+        animation.addFrame({ sheet: linkSheet, index: 22 }, frameMillis);
+        animation.addFrame({ sheet: linkSheet, index: 23 }, frameMillis);
+        animation.addFrame({ sheet: linkSheet, index: 24 }, frameMillis);
+        animation.addFrame({ sheet: linkSheet, index: 25 }, frameMillis);
+        animation.addFrame({ sheet: linkSheet, index: 15 }, frameMillis);
+
+        animation.addListener(completedCallback);
+        return animation;
+    }
+
     enterCave(completedCallback: AnimationListener) {
         this.setAnimation(this._createStairsDownAnimation(completedCallback));
+    }
+
+    exitCave(completedCallback: AnimationListener) {
+        game.audio.playSound('stairs', false, () => { console.log('sound done'); });
+        this.setAnimation(this._createStairsUpAnimation(completedCallback));
     }
 
     getHealth(): number {

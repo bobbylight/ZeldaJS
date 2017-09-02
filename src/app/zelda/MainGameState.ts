@@ -4,8 +4,10 @@ import { BaseState } from './BaseState';
 import { Screen } from './Screen';
 import { Map } from './Map';
 import { ZeldaGame } from './ZeldaGame';
-import { BaseStateArgs, Game, Image } from 'gtp';
+import { BaseStateArgs, Game } from 'gtp';
 import { Hud } from './Hud';
+import { ChangeScreenWarpEvent } from './event/ChangeScreenWarpEvent';
+import { Event } from './event/Event';
 declare let game: ZeldaGame;
 
 export class MainGameState extends BaseState {
@@ -37,7 +39,21 @@ export class MainGameState extends BaseState {
     changeScreenVertically(inc: number) {
 
         const map: Map = game.map;
-        this._lastScreen = map.currentScreen;
+        const screen: Screen = map.currentScreen;
+
+        const changeScreenWarpEvents: Event<any>[] = screen.events.filter((e: Event<any>) => {
+            return e instanceof ChangeScreenWarpEvent;
+        });
+        if (changeScreenWarpEvents.length) {
+            if (changeScreenWarpEvents.length > 1) {
+                console.error(`More than one ChangeScreenWarpEvent for screen ${screen}!`);
+            }
+            const event: ChangeScreenWarpEvent = changeScreenWarpEvents[0] as ChangeScreenWarpEvent;
+            event.execute();
+            return;
+        }
+
+        this._lastScreen = screen;
         map.changeScreensVertically(inc);
 
         this._screenSlidingDir = inc > 0 ? 'UP' : 'DOWN';
