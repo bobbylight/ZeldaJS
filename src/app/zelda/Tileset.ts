@@ -46,7 +46,7 @@ export class Tileset {
      */
     load(name: string) {
         this._name = name;
-        this._tiles = <SpriteSheet>game.assets.get(name);
+        this._tiles = game.assets.get(name) as SpriteSheet;
     }
 
     paintTile(ctx: CanvasRenderingContext2D, tile: number, x: number, y: number) {

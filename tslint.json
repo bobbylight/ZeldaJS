@@ -9,8 +9,10 @@
     "ban": false,
     "class-name": false,
     "comment-format": [ false ],
+    //"completed-docs": [ true, "classes", "enums", "functions", "interfaces" ],
     "curly": true,
     "deprecation": true,
+    "eofline": true,
     "forin": false,
     "indent": [
       true,
@@ -23,7 +25,7 @@
     "max-file-line-count": [ true, 760 ],
     "max-line-length": [
       true,
-      140
+      130
     ],
     "member-access": false,
     "member-ordering": [
@@ -31,13 +33,13 @@
       "variables-before-functions"
     ],
     "new-parens": true,
-    "no-angle-bracket-type-assertion": false,
+    "no-angle-bracket-type-assertion": true,
     "no-any": false,
     "no-arg": true,
     "no-bitwise": true,
     "no-boolean-literal-compare": true,
     "no-conditional-assignment": true,
-    "no-consecutive-blank-lines": false,
+    "no-consecutive-blank-lines": [ true, 1 ],
     "no-console": false, //[ true, "log", "debug", "info", "warn", "error" ],
     "no-construct": true,
     "no-constructor-vars": false,
@@ -48,11 +50,18 @@
     "no-for-in-array": true,
     "no-inferrable-types": false,
     "no-internal-module": false,
+    "no-invalid-template-strings": true,
     "no-invalid-this": false,
+    "no-mergeable-namespace": true,
     "no-null-keyword": false,
+    "no-parameter-properties": false,
     "no-require-imports": false,
     "no-shadowed-variable": false, // Our interfaces and injected fields are named the same
+    "no-sparse-arrays": true,
     "no-string-literal": true,
+    "no-submodule-imports": false, // Possibly explore true later
+    "no-switch-case-fall-through": true,
+    "no-this-assignment": true,
     "no-trailing-whitespace": true,
     //"no-unbound-method": true,
     "no-unnecessary-qualifier": true,
@@ -78,6 +87,7 @@
 //      "avoid-escape"
 //    ],
     "radix": true,
+    "restrict-plus-operands": false,
     "semicolon": true,
     "strict-type-predicates": true,
     "trailing-comma": [
@@ -105,13 +115,14 @@
         "variable-declaration": "nospace"
       }
     ],
+    "use-default-type-parameter": true,
     "use-isnan": true,
     "variable-name": [
       true,
       "check-format",
       "allow-pascal-case",
-      "allow-leading-underscore", // TODO: remove this
-      "ban-keywords"
+      "ban-keywords",
+      "allow-leading-underscore" // TODO: Remove me
     ],
     "whitespace": [
       true,

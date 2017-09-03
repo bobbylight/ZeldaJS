@@ -5,6 +5,7 @@ const StringReplacePlugin = require('string-replace-webpack-plugin');
 const webpack = require('webpack');
 
 const devBuild = process.env.NODE_ENV === 'dev';
+console.log('devBuild === ' + devBuild);
 
 // Loaders specific to compiling
 loaders.push({

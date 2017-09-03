@@ -159,7 +159,6 @@ export class Screen {
                     walkabilityStr = 'false';
                     break;
             }
-            //console.log('walkability: ' + walkability + ' (' + row + ', ' + col + ') - ' + x0 + ', ' + y0 + ': ' + walkabilityStr);
         }
 
         return walkability === 1 ||

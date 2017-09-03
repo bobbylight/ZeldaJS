@@ -5,6 +5,9 @@ declare let game: ZeldaGame;
 
 const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
 
+/**
+ * A dog/pig-like enemy, commonly found in wooded areas.
+ */
 export class Moblin extends AbstractWalkingEnemy {
 
     private static _PROJECTILE_THROWING_ODDS: number[] = [ 80, 40 ];

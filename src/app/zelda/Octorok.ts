@@ -5,6 +5,9 @@ declare let game: ZeldaGame;
 
 const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
 
+/**
+ * An octopus-like creature that can shoot rocks.
+ */
 export class Octorok extends AbstractWalkingEnemy {
 
     private static _PROJECTILE_THROWING_ODDS: ReadonlyArray<number> = Object.freeze([ 80, 40 ]);

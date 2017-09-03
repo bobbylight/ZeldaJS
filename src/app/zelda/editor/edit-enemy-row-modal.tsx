@@ -5,6 +5,9 @@ import { LabelValuePair } from './label-value-pair';
 import { ChangeEvent } from 'react';
 import Select, { SelectOnChangeEvent } from './select';
 
+/**
+ * Properties passed to the modal dialog.
+ */
 interface EditEnemyRowModalProps {
     game: ZeldaGame;
     submitButtonLabel: string;
@@ -16,11 +19,17 @@ interface EditEnemyRowModalProps {
     visible: boolean;
 }
 
+/**
+ * The internal state of the modal dialog.
+ */
 interface EditEnemyRowModalState {
     selectedEnemy: string;
     enemyCount: number;
 }
 
+/**
+ * Modal dialog allowing the user to edit a group of enemies on a screen.
+ */
 export default class EditEnemyRowModal extends React.Component<EditEnemyRowModalProps, EditEnemyRowModalState> {
 
     private currentlyShowing: boolean;
@@ -83,7 +92,7 @@ export default class EditEnemyRowModal extends React.Component<EditEnemyRowModal
 
     render() {
 
-        console.log('>>> ' + this.props.visible + ' / ' + this.currentlyShowing);
+        console.log(`>>> ${this.props.visible} / ${this.currentlyShowing}`);
 
         if (this.props.visible !== this.currentlyShowing) {
             const modal: /*JQuery*/ any = $('.editRowModal');

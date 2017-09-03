@@ -7,6 +7,9 @@ declare let game: ZeldaGame;
 
 const TOP_MARGIN_ROWS: number = 2;
 
+/**
+ * A spider-like enemy that jumps around.
+ */
 export class Tektite extends Enemy {
 
     private _blue: boolean;

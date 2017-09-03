@@ -9,9 +9,9 @@ import { Constants } from './zelda/Constants';
 import 'all.less';
 import 'index.html';
 
-(<any>window).init = (parent: HTMLElement, assetRoot?: string) => {
+(window as any).init = (parent: HTMLElement, assetRoot?: string) => {
     'use strict';
-    const gameWindow: any = <any>window;
+    const gameWindow: any = window as any;
     gameWindow.game = new ZeldaGame({
         assetRoot: assetRoot,
         height: Constants.CANVAS_HEIGHT,

@@ -92,7 +92,7 @@ export abstract class Enemy extends Character {
         }
 
         const index: number = row * 15 + col;
-        const ss: SpriteSheet = <SpriteSheet>game.assets.get('enemies');
+        const ss: SpriteSheet = game.assets.get('enemies') as SpriteSheet;
         ss.drawByIndex(ctx, this.x, this.y, index);
     }
 

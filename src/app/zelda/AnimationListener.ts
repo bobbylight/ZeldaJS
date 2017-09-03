@@ -6,6 +6,11 @@ import { Animation } from './Animation';
 export interface AnimationListener {
 
     /**
+     * If defined, callbacks in this listener will be called with this value as the scope (<code>this</code>).
+     */
+    scope?: any | null | undefined;
+
+    /**
      * If defined, called when an animation updates to a new frame.
      *
      * @param {Animation} anim The animation that updated.

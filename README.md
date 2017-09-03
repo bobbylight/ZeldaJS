@@ -46,19 +46,22 @@ The source code lives in `src/`, and is built into `build/web/`.
   - Basic resource loading, Link sprite movement
   - Music
   - Moving between screens, smooth screen transitions (though only a portion of the map is implemented)
+  - Entering and exiting caves
   - Use of sword (Z key)
   - Basic enemies that can die
   - Link takes damage from enemies and projectiles, and can die
 * Editor
   - Screen design, single tile per cell (no burnable bushes, bombable walls, etc.)
   - Select enemy group per screen
+  - Enter and exit caves events
 
 ### Coming next (in no particular order):
 
 * More accurate Link getting hit colors
 * More accurate enemy spawning
-* Going into caves animation
 * Expanded map
 * Define enemies for each screen in the editor
 * Lynels
 * Gibdos
+* Rupee item drop
+* Heart item drop

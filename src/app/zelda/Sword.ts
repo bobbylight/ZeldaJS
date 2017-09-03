@@ -51,7 +51,7 @@ export class Sword extends Actor {
         this.possiblyPaintHitBox(ctx);
 
         if (this.frame >= 0 && this.frame < 14) { // First two frames, we aren't painted
-            const ss: SpriteSheet = <SpriteSheet>game.assets.get('link');
+            const ss: SpriteSheet = game.assets.get('link') as SpriteSheet;
             const row: number = 3;
             const col: number = DirectionUtil.ordinal(this.dir);
             const index: number = row * 15 + col;

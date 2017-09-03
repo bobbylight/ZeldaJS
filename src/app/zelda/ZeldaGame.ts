@@ -28,7 +28,7 @@ export class ZeldaGame extends Game {
     }
 
     private createEnemyDiesAnimation(x: number, y: number): Animation {
-        const sheet: SpriteSheet = <SpriteSheet>this.assets.get('enemyDies');
+        const sheet: SpriteSheet = this.assets.get('enemyDies') as SpriteSheet;
         const anim: Animation = new Animation(x, y);
         anim.addFrame({ sheet: sheet, index: 0 }, 30);
         anim.addFrame({ sheet: sheet, index: 1 }, 30);
@@ -52,7 +52,7 @@ export class ZeldaGame extends Game {
 
         // Note we have a gtp.SpriteSheet, not a gtp.BitmapFont, so our
         // calculation of what sub-image to draw is a little convoluted
-        const fontImage: SpriteSheet = <SpriteSheet>this.assets.get('font');
+        const fontImage: SpriteSheet = this.assets.get('font') as SpriteSheet;
         const alphaOffs: number = 'A'.charCodeAt(0);
         const numericOffs: number = '0'.charCodeAt(0);
         let index: number;

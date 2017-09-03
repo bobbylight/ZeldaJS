@@ -20,14 +20,23 @@ interface SelectState<T> {
     selection: LabelValuePair<T>;
 }
 
+/**
+ * A callback that can listen for changes to the selected value in a <code>Select</code>.
+ */
 export interface SelectOnChangeHandler<T> {
     (e: SelectOnChangeEvent<T>): void;
 }
 
+/**
+ * The event fired when the selected value in a <code>Select</code> changes.
+ */
 export interface SelectOnChangeEvent<T> {
     newValue: T | null;
 }
 
+/**
+ * A dropdown component.
+ */
 export default class Select<T> extends React.Component<SelectProps<T>, SelectState<T>> {
 
     private buttonId: string;

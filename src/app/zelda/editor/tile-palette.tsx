@@ -2,6 +2,9 @@ import { ZeldaGame } from '../ZeldaGame';
 import * as React from 'react';
 import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 
+/**
+ * Properties passed to the tile palette component.
+ */
 export interface TilePaletteProps {
     game?: ZeldaGame;
     selectedTileIndex: number;
@@ -13,6 +16,9 @@ interface TilePaletteState {
     repaintHandle: number;
 }
 
+/**
+ * A component that allows the user to select a tile to paint onto the current screen.
+ */
 export default class TilePalette extends React.Component<TilePaletteProps, TilePaletteState> {
 
     private canvas: HTMLCanvasElement;

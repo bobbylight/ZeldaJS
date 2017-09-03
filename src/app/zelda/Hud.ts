@@ -8,7 +8,7 @@ export class Hud {
 
     render(ctx: CanvasRenderingContext2D) {
 
-        const hudMockup: Image = <Image>game.assets.get('hud');
+        const hudMockup: Image = game.assets.get('hud') as Image;
         hudMockup.draw(ctx, 0, 0);
 
         const link: Link = game.link;

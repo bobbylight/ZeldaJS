@@ -83,7 +83,7 @@ export class Link extends Character {
 
     private _createDyingAnimation(): Animation {
 
-        const sheet: SpriteSheet = <SpriteSheet>game.assets.get('link');
+        const sheet: SpriteSheet = game.assets.get('link') as SpriteSheet;
         const anim: Animation = new Animation(this.x, this.y);
 
         const SPIN_FRAME_TIME: number = 90;
@@ -103,7 +103,7 @@ export class Link extends Character {
         preChirpPlayFrames++;
 
         // TODO: Share with ZeldaGame.createEnemyDiesAnimation()
-        const enemyDiesSheet: SpriteSheet = <SpriteSheet>game.assets.get('enemyDies');
+        const enemyDiesSheet: SpriteSheet = game.assets.get('enemyDies') as SpriteSheet;
         anim.addFrame({ sheet: enemyDiesSheet, index: 0 }, 30);
         anim.addFrame({ sheet: enemyDiesSheet, index: 1 }, 30);
         anim.addFrame({ sheet: enemyDiesSheet, index: 2 }, 30);
@@ -139,7 +139,7 @@ export class Link extends Character {
     private _createStairsDownAnimation(completedCallback: AnimationListener): Animation {
 
         const animation: Animation = new Animation(this.x, this.y);
-        const linkSheet: SpriteSheet = <SpriteSheet>game.assets.get('link');
+        const linkSheet: SpriteSheet = game.assets.get('link') as SpriteSheet;
         const frameMillis: number = 120;
 
         animation.addFrame({ sheet: linkSheet, index: 17 }, frameMillis);
@@ -158,7 +158,7 @@ export class Link extends Character {
     private _createStairsUpAnimation(completedCallback: AnimationListener): Animation {
 
         const animation: Animation = new Animation(this.x, this.y);
-        const linkSheet: SpriteSheet = <SpriteSheet>game.assets.get('link');
+        const linkSheet: SpriteSheet = game.assets.get('link') as SpriteSheet;
         const frameMillis: number = 120;
 
         animation.addFrame({ sheet: linkSheet, index: 19 }, frameMillis);
@@ -282,7 +282,7 @@ export class Link extends Character {
         const movingHorizontally: number = this._isMovingHorizontally(this.hitBox);
         if (movingHorizontally !== 0) {
             this.x = tempX;
-            const mgs: MainGameState = <MainGameState>game.state;
+            const mgs: MainGameState = game.state as MainGameState;
             mgs.changeScreenHorizontally(movingHorizontally);
         }
         else if (this.isHitBoxWalkable()) {
@@ -325,7 +325,7 @@ export class Link extends Character {
         const movingVertically: number = this._isMovingVertically(this.hitBox);
         if (movingVertically !== 0) {
             this.y = tempY;
-            const mgs: MainGameState = <MainGameState>game.state;
+            const mgs: MainGameState = game.state as MainGameState;
             mgs.changeScreenVertically(movingVertically);
         }
         else if (this.isHitBoxWalkable()) {
@@ -371,7 +371,7 @@ export class Link extends Character {
             this.anim.paint(ctx);
         }
         else {
-            const ss: SpriteSheet = <SpriteSheet>game.assets.get('link');
+            const ss: SpriteSheet = game.assets.get('link') as SpriteSheet;
             const row: number = this.step;
             const col: number = DirectionUtil.ordinal(this.dir);
             const index: number = row * 15 + col;
@@ -386,13 +386,13 @@ export class Link extends Character {
     setAnimation(anim: Animation) {
         this.anim = anim;
         this.frozen = true;
-        const self: Link = this;
         this.anim.addListener({
+            scope: this,
             animationFrameUpdate(animation: Animation) {
             },
             animationCompleted(animation: Animation) {
-                self.anim = null;
-                self.frozen = false;
+                this.anim = null;
+                this.frozen = false;
             }
         });
     }

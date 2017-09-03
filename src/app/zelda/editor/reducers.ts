@@ -8,7 +8,7 @@ import { Map } from '../Map';
 // Initialize the game declared in zelda.ts
 // TODO: Do game initialization in a service?
 let parent: HTMLDivElement = document.createElement('div');
-(<any>window).game = new ZeldaGame({
+(window as any).game = new ZeldaGame({
     assetRoot: undefined,
     height: Constants.CANVAS_HEIGHT,
     keyRefreshMillis: 300,
@@ -17,7 +17,7 @@ let parent: HTMLDivElement = document.createElement('div');
     width: Constants.CANVAS_WIDTH
 });
 
-const gameReducer: Reducer<ZeldaGame> = (state: ZeldaGame = (<any>window).game, action: Action<any>) => {
+const gameReducer: Reducer<ZeldaGame> = (state: ZeldaGame = (window as any).game, action: Action<any>) => {
     return state;
 };
 

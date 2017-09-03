@@ -42,7 +42,6 @@ export default class MainContent extends React.Component<MainContentProps, MainC
         game.assets.addImage('hud', 'res/hud.png');
         game.assets.addJson('overworldData', 'res/data/overworld.json');
 
-        const that: MainContent = this;
         game.assets.onLoad(() => {
 
             //vm.game = game;
@@ -51,9 +50,9 @@ export default class MainContent extends React.Component<MainContentProps, MainC
             game.map.showEvents = true;
             this._setCurrentScreen(7, 6);
 
-            that._installKeyHandlers();
+            this._installKeyHandlers();
 
-            that.setState({ loading: false,
+            this.setState({ loading: false,
                 rowCount: game.map.rowCount - 1, colCount: game.map.colCount - 1,
                 selectedTileIndex: 1 });
         });
@@ -128,7 +127,8 @@ export default class MainContent extends React.Component<MainContentProps, MainC
 
         const currentScreenRow: number = this.props.currentScreenRow;
         const currentScreenCol: number = this.props.currentScreenCol;
-        const title: string = `Screen (${currentScreenRow}, ${currentScreenCol}) / (${this.state.rowCount}, ${this.state.colCount})`;
+        const title: string =
+            `Screen (${currentScreenRow}, ${currentScreenCol}) / (${this.state.rowCount}, ${this.state.colCount})`;
         const actions: ActionablePanelAction[] = [
             { iconClass: 'bolt', title: 'Toggle Event visibility',
                 toggle: true, pressed: this.props.game.map.showEvents,
