@@ -1,6 +1,6 @@
-import { Projectile } from './Projectile';
+import { Projectile } from '../Projectile';
 import { AbstractWalkingEnemy } from './AbstractWalkingEnemy';
-import { ZeldaGame } from './ZeldaGame';
+import { ZeldaGame } from '../ZeldaGame';
 declare let game: ZeldaGame;
 
 const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
@@ -10,7 +10,7 @@ const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
  */
 export class Octorok extends AbstractWalkingEnemy {
 
-    private static _PROJECTILE_THROWING_ODDS: ReadonlyArray<number> = Object.freeze([ 80, 40 ]);
+    private static readonly _PROJECTILE_THROWING_ODDS: ReadonlyArray<number> = Object.freeze([ 240, 120 ]);
 
     constructor(blue: boolean = false) {
         super(0, blue, blue ? 5 : 4); //2 : 1);

@@ -1,6 +1,6 @@
 import { Actor, ActorData } from './Actor';
 import { Constants } from './Constants';
-import { Enemy } from './Enemy';
+import { Enemy } from './enemy/Enemy';
 import { EnemyGroup, EnemyGroupData, EnemyInfo } from './EnemyGroup';
 import { Map } from './Map';
 import { InstanceLoader } from './InstanceLoader';

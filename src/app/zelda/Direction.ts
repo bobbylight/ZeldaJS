@@ -4,7 +4,7 @@ export type Direction = 'DOWN' | 'LEFT' | 'UP' | 'RIGHT';
 
 export class DirectionUtil {
 
-    private static DIRECTIONS: Direction[] = [ 'DOWN', 'LEFT', 'UP', 'RIGHT' ];
+    private static readonly DIRECTIONS: Direction[] = [ 'DOWN', 'LEFT', 'UP', 'RIGHT' ];
 
     static isHorizontal(dir?: Direction | null): boolean {
         return dir === 'LEFT' || dir === 'RIGHT';

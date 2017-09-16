@@ -1,11 +1,12 @@
-import { Character } from './Character';
-import { Actor } from './Actor';
-import { Constants } from './Constants';
-import { DirectionUtil } from './Direction';
-import { Sword } from './Sword';
-import { Screen } from './Screen';
-import { ZeldaGame } from './ZeldaGame';
+import { Character } from '../Character';
+import { Actor } from '../Actor';
+import { Constants } from '../Constants';
+import { DirectionUtil } from '../Direction';
+import { Sword } from '../Sword';
+import { Screen } from '../Screen';
+import { ZeldaGame } from '../ZeldaGame';
 import { SpriteSheet } from 'gtp';
+import { Rupee } from '../item/Rupee';
 declare let game: ZeldaGame;
 
 const STEP_TIMER_MAX: number = 10;
@@ -40,6 +41,7 @@ export abstract class Enemy extends Character {
                 this.done = true;
                 game.audio.playSound('enemyDie');
                 game.addEnemyDiesAnimation(this.x, this.y);
+                game.map.currentScreen.addActor(new Rupee(this.x, this.y, 'blue'));
                 return true;
             }
             game.audio.playSound('enemyHit');

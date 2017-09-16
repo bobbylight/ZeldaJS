@@ -1,6 +1,6 @@
 import { AbstractWalkingEnemy } from './AbstractWalkingEnemy';
-import { Projectile } from './Projectile';
-import { ZeldaGame } from './ZeldaGame';
+import { Projectile } from '../Projectile';
+import { ZeldaGame } from '../ZeldaGame';
 declare let game: ZeldaGame;
 
 const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
@@ -10,7 +10,7 @@ const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
  */
 export class Moblin extends AbstractWalkingEnemy {
 
-    private static _PROJECTILE_THROWING_ODDS: number[] = [ 80, 40 ];
+    private static readonly _PROJECTILE_THROWING_ODDS: number[] = [ 240, 120 ];
 
     constructor(blue: boolean = true) {
         super(4, blue, blue ? 3 : 2);

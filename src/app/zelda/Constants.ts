@@ -2,28 +2,28 @@ export class Constants {
 
     //static TILE_SIZE = 8;//16;
 
-    static CANVAS_WIDTH: number = 256;
-    static CANVAS_HEIGHT: number = 240;
+    static readonly CANVAS_WIDTH: number = 256;
+    static readonly CANVAS_HEIGHT: number = 240;
 
-    static SCREEN_ROW_COUNT: number	= 11;
+    static readonly SCREEN_ROW_COUNT: number	= 11;
 
-    static SCREEN_COL_COUNT: number	= 16;
+    static readonly SCREEN_COL_COUNT: number	= 16;
 
-    static TILE_HEIGHT: number = 16;
+    static readonly TILE_HEIGHT: number = 16;
 
-    static TILE_WIDTH: number = 16;
+    static readonly TILE_WIDTH: number = 16;
 
-    static HUD_HEIGHT: number = 64;
+    static readonly HUD_HEIGHT: number = 64;
 
-    static SCREEN_HEIGHT: number = Constants.SCREEN_ROW_COUNT * Constants.TILE_WIDTH;
+    static readonly SCREEN_HEIGHT: number = Constants.SCREEN_ROW_COUNT * Constants.TILE_WIDTH;
 
-    static SCREEN_HEIGHT_WITH_HUD: number = Constants.SCREEN_HEIGHT + Constants.HUD_HEIGHT;
+    static readonly SCREEN_HEIGHT_WITH_HUD: number = Constants.SCREEN_HEIGHT + Constants.HUD_HEIGHT;
 
-    static SCREEN_WIDTH: number = Constants.SCREEN_COL_COUNT * Constants.TILE_WIDTH;
+    static readonly SCREEN_WIDTH: number = Constants.SCREEN_COL_COUNT * Constants.TILE_WIDTH;
 
-    static MUSIC_OVERWORLD: string = '02-overworld.ogg';
+    static readonly MUSIC_OVERWORLD: string = '02-overworld.ogg';
 
-    static WALKABLE: number[] = [
+    static readonly WALKABLE: number[] = [
         1, 0, 0, 2, 3, 0, 0, 0, 0, 0,
         1, 0, 0, 4, 5, 0, 0, 0, 0, 0,
         1, 0, 0, 2, 3, 0, 0, 0, 0, 0,

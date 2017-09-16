@@ -1,7 +1,7 @@
-import { Constants } from './Constants';
+import { Constants } from '../Constants';
 import { Enemy } from './Enemy';
-import { Screen } from './Screen';
-import { ZeldaGame } from './ZeldaGame';
+import { Screen } from '../Screen';
+import { ZeldaGame } from '../ZeldaGame';
 import { Rectangle } from 'gtp';
 declare let game: ZeldaGame;
 

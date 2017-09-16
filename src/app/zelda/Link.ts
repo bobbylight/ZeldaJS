@@ -1,7 +1,7 @@
 import { Character } from './Character';
 import { Actor, MOVE_AMT } from './Actor';
 import { Animation } from './Animation';
-import { Enemy } from './Enemy';
+import { Enemy } from './enemy/Enemy';
 import { AnimationListener } from './AnimationListener';
 import { DirectionUtil } from './Direction';
 import { Constants } from './Constants';
@@ -21,20 +21,26 @@ const STEP_TIMER_MAX: number = 8;
  */
 export class Link extends Character {
 
+    private rupeeCount: number;
+
     private _maxHealth: number;
     private _health: number;
+    private takingDamageTick: number;
 
     anim: Animation | null;
     step: number;
     _stepTimer: number;
     _adjustToGridCounter: number;
 
-    static FRAME_STILL: number = 0;
-    static FRAME_STEP: number = 1;
-    static FRAME_ACTION: number = 2;
+    static readonly FRAME_STILL: number = 0;
+    static readonly FRAME_STEP: number = 1;
+    static readonly FRAME_ACTION: number = 2;
+
+    static readonly MAX_TAKING_DAMAGE_TICK: number = 60;
 
     constructor() {
         super();
+        this.rupeeCount = 0;
         this._stepTimer = STEP_TIMER_MAX;
         this.hitBox = new Rectangle();
         this.step = 0;
@@ -73,6 +79,8 @@ export class Link extends Character {
                 console.log(`Link's health is now ${this._health}`);
                 game.audio.playSound('linkHurt');
                 this.takingDamage = true;
+                this.takingDamageTick = Link.MAX_TAKING_DAMAGE_TICK;
+                console.log('Taking damage at: ' + new Date().getTime());
                 this._slideTick = Character.MAX_SLIDE_TICK / 2; // Link isn't knocked back as much
                 this._slidingDir = other.dir;
             }
@@ -184,6 +192,10 @@ export class Link extends Character {
         this.setAnimation(this._createStairsUpAnimation(completedCallback));
     }
 
+    getRupeeCount(): number {
+        return this.rupeeCount;
+    }
+
     getHealth(): number {
         return this._health;
     }
@@ -194,7 +206,7 @@ export class Link extends Character {
 
     handleInput(input: InputManager): boolean {
 
-        if (this.frozen || this.takingDamage) {
+        if (this.frozen || this._slidingDir) {
             return false;
         }
 
@@ -248,6 +260,11 @@ export class Link extends Character {
         }
 
         return false;
+    }
+
+    incRupeeCount(count: number) {
+        this.rupeeCount += count;
+        game.audio.playSound('rupee');
     }
 
     isAnimationRunning(): boolean {
@@ -422,6 +439,10 @@ export class Link extends Character {
 
     update() {
 
+        if (this.takingDamage && --this.takingDamageTick === 0) {
+            this.takingDamage = false;
+        }
+
         if (this._slidingDir) {
             this.updateSlide();
             return;
@@ -452,7 +473,6 @@ export class Link extends Character {
         }
 
         if (--this._slideTick === 0) {
-            this.takingDamage = false;
             this._slidingDir = null;
         }
     }

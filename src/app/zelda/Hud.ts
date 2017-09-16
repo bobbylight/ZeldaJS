@@ -23,6 +23,8 @@ export class Hud {
         const wholeHeartCount: number = Math.floor(health / 2);
         const heartCount: number = maxHealth / 2;
 
+        game.drawString(104, 24, link.getRupeeCount());
+
         for (let i: number = 0; i < wholeHeartCount; i++) {
             heart.draw(ctx, x, y);
             x += 8;

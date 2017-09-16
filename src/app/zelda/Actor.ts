@@ -43,7 +43,7 @@ export abstract class Actor {
     /**
      * Initializes this actor based on a JSON representation of it.
      * @param json The JSON representation of the actor.
-     * @returns {zelda.Actor} This actor.
+     * @returns {Actor} This actor.
      */
     fromJson(json: ActorData): Actor {
         this.dir = json.dir;

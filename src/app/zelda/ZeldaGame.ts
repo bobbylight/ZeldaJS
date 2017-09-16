@@ -45,7 +45,8 @@ export class ZeldaGame extends Game {
         return anim;
     }
 
-    drawString(x: number, y: number, text: string|number,
+    // TODO: Convert to a gtp BitmapFont
+    drawString(x: number, y: number, text: string | number,
                ctx: CanvasRenderingContext2D = game.canvas.getContext('2d')!) {
 
         const str: string = text.toString(); // Allow us to pass in stuff like numerics

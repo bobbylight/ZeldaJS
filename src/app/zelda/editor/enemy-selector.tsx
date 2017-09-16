@@ -5,7 +5,7 @@ import { EnemyGroup, EnemyInfo } from '../EnemyGroup';
 import { LabelValuePair } from './label-value-pair';
 import EditEnemyRowModal from './edit-enemy-row-modal';
 import { ModifiableTableEventHandler } from './modifiable-table/modifiable-table-event-handler';
-import { Enemy } from '../Enemy';
+import { Enemy } from '../enemy/Enemy';
 
 interface EnemySelectorProps {
     game: ZeldaGame;
