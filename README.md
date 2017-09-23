@@ -50,9 +50,10 @@ The source code lives in `src/`, and is built into `build/web/`.
   - Use of sword (Z key)
   - Basic enemies that can die
   - Link takes damage from enemies and projectiles, and can die
+  - Enemies drop rupees and hearts
 * Editor
   - Screen design, single tile per cell (no burnable bushes, bombable walls, etc.)
-  - Select enemy group per screen
+  - Select enemies per screen
   - Enter and exit caves events
 
 ### Coming next (in no particular order):
@@ -60,8 +61,5 @@ The source code lives in `src/`, and is built into `build/web/`.
 * More accurate Link getting hit colors
 * More accurate enemy spawning
 * Expanded map
-* Define enemies for each screen in the editor
 * Lynels
 * Gibdos
-* Rupee item drop
-* Heart item drop

@@ -107,7 +107,14 @@ export class ZeldaGame extends Game {
         return false;
     }
 
-    setMap(name: string, destScreen: Position, destPos: Position) {
+    resumeMusic() {
+        const music: string | null | undefined = this.map.currentScreenMusic;
+        if (music && music !== 'none') {
+            game.audio.playMusic(music, true);
+        }
+    }
+
+    setMap(name: string, destScreen: Position, destPos: Position, immediatelyStartMusic: boolean = true) {
 
         if (!/\.map$/.test(name)) {
             name += '.map';
@@ -117,7 +124,9 @@ export class ZeldaGame extends Game {
         this.map.setCurrentScreen(destScreen.row, destScreen.col);
         this.link.setLocation(destPos.col * 16, destPos.row * 16);
 
-        game.audio.playMusic(this.map.currentScreenMusic, true);
+        if (immediatelyStartMusic) {
+            this.resumeMusic();
+        }
     }
 
     startNewGame() {

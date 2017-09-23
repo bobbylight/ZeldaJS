@@ -2,7 +2,6 @@ import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps 
 import { State } from '../state';
 import { currentScreenChanged } from '../actions';
 import MainContent from '../main-content';
-import { ZeldaGame } from '../../ZeldaGame';
 
 const mapStateToProps: MapStateToProps<any, any> = (state: State, ownProps?: any): any => {
     return {
@@ -14,8 +13,8 @@ const mapStateToProps: MapStateToProps<any, any> = (state: State, ownProps?: any
 
 const mapDispatchToProps: MapDispatchToProps<any, any> = (dispatch: Dispatch<number>, ownProps?: any): any => {
     return {
-        currentScreenChanged: (game: ZeldaGame) => {
-            dispatch(currentScreenChanged(game));
+        currentScreenChanged: () => {
+            dispatch(currentScreenChanged());
         }
     };
 };

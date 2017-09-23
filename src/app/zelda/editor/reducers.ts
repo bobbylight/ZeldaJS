@@ -4,6 +4,8 @@ import { State } from './state';
 import { ZeldaGame } from '../ZeldaGame';
 import { Constants } from '../Constants';
 import { Map } from '../Map';
+import { Screen } from '../Screen';
+declare let game: ZeldaGame;
 
 // Initialize the game declared in zelda.ts
 // TODO: Do game initialization in a service?
@@ -21,20 +23,23 @@ const gameReducer: Reducer<ZeldaGame> = (state: ZeldaGame = (window as any).game
     return state;
 };
 
-const mapChangedReducer: Reducer<Map | null> = (state: Map | null = null, action: Action<Map>) => {
+const mapChangedReducer: Reducer<Map> = (state: Map = game.map || null, action: Action<Map>) => {
+    if (action.type === 'CURRENT_SCREEN_CHANGED') {
+        return action.payload!;
+    }
     return state;
 };
 
 const currentScreenRowReducer: Reducer<number> = (state: number = 0, action: Action<Map>) => {
     if (action.type === 'CURRENT_SCREEN_CHANGED') {
-        return action.payload ? action.payload.currentScreenRow : 0;
+        return action.payload!.currentScreenRow;
     }
     return state;
 };
 
 const currentScreenColReducer: Reducer<number> = (state: number = 0, action: Action<Map>) => {
     if (action.type === 'CURRENT_SCREEN_CHANGED') {
-        return action.payload ? action.payload.currentScreenCol : 0;
+        return action.payload!.currentScreenCol;
     }
     return state;
 };

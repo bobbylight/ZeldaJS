@@ -112,6 +112,7 @@ export class Screen {
             this.events = json.events.map((eventData: EventData) => { return EventLoader.load(eventData); });
         }
 
+        this.music = json.music;
         return this;
     }
 
@@ -287,12 +288,14 @@ export class Screen {
             });
         }
 
+        screenData.music = this.music || undefined; // Don't add a value if this.music === null
         return screenData;
     }
 
     toString(): string {
         return '[Screen: ' +
-                'enemyGroup=' + this.enemyGroup +
+                `enemyGroup=${this.enemyGroup}` +
+                `music=${this.music}` +
                 ']';
     }
 
@@ -355,4 +358,5 @@ export interface ScreenData {
     //actors: ActorData[];
     enemyGroup: EnemyGroupData | undefined | null;
     events?: EventData[] | undefined | null;
+    music?: string | undefined | null;
 }

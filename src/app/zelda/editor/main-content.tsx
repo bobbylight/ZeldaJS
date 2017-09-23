@@ -10,12 +10,13 @@ import EventEditor from './event-editor';
 import VisibleEnemySelector from './containers/visible-enemy-selector';
 import ActionablePanel from './actionable-panel/actionable-panel';
 import { ActionablePanelAction } from './actionable-panel/actionable-panel-action';
+import VisibleScreenMisc from './containers/visible-screen-misc';
 
 interface MainContentProps {
     game: ZeldaGame;
     currentScreenRow: number;
     currentScreenCol: number;
-    currentScreenChanged: (game: ZeldaGame) => void;
+    currentScreenChanged: () => void;
 }
 
 interface MainContentState {
@@ -114,7 +115,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
 
     private _setCurrentScreen(row: number, col: number) {
         this.props.game.map.setCurrentScreen(row, col);
-        this.props.currentScreenChanged(this.props.game);
+        this.props.currentScreenChanged();
     }
 
     render() {
@@ -160,19 +161,23 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                     <div className="col-md-4">
 
                         <Tabs id="tabSet1" defaultActiveKey={0} className="panel panel-default">
+
                             <Tab eventKey={0} title="Tile Palette">
                                 <VisibleTilePalette/>
                             </Tab>
 
                             <Tab eventKey={1} title="Events">
-
                                 <div className="panel-body">
                                     <EventEditor game={this.props.game}
                                                  events={this.props.game.map.currentScreen.events} />
                                 </div>
-
                             </Tab>
 
+                            <Tab eventKey={2} title="Misc">
+                                <div className="panel-body">
+                                    <VisibleScreenMisc/>
+                                </div>
+                            </Tab>
                         </Tabs>
 
                         <div className="panel panel-default">

@@ -31,7 +31,7 @@ export class ChangeScreenWarpEvent extends Event<ChangeScreenWarpData> implement
     }
 
     execute(): boolean {
-        game.setMap(this.destMap, this.destScreen, this.destPos);
+        game.setMap(this.destMap, this.destScreen, this.destPos, false);
         if (this._animate) {
             game.link.exitCave(this);
         }

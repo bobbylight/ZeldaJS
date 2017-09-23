@@ -7,6 +7,7 @@ import { Screen } from '../Screen';
 import { ZeldaGame } from '../ZeldaGame';
 import { SpriteSheet } from 'gtp';
 import { Rupee } from '../item/Rupee';
+import { Heart } from '../item/Heart';
 declare let game: ZeldaGame;
 
 const STEP_TIMER_MAX: number = 10;
@@ -41,7 +42,7 @@ export abstract class Enemy extends Character {
                 this.done = true;
                 game.audio.playSound('enemyDie');
                 game.addEnemyDiesAnimation(this.x, this.y);
-                game.map.currentScreen.addActor(new Rupee(this.x, this.y, 'blue'));
+                game.map.currentScreen.addActor(new Heart(this.x, this.y));
                 return true;
             }
             game.audio.playSound('enemyHit');

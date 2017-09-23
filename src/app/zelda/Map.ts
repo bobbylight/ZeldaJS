@@ -113,7 +113,7 @@ export class Map {
      * @see music
      */
     get currentScreenMusic(): string | null | undefined {
-        return this.currentScreen.hasOwnProperty('music') ? this.currentScreen.music : this.music;
+        return this.currentScreen.music ? this.currentScreen.music : this.music;
     }
 
     get currentScreenRow(): number {

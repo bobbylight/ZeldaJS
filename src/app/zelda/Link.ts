@@ -188,7 +188,10 @@ export class Link extends Character {
     }
 
     exitCave(completedCallback: AnimationListener) {
-        game.audio.playSound('stairs', false, () => { console.log('sound done'); });
+        game.audio.playSound('stairs', false, () => {
+            console.log('sound done');
+            game.resumeMusic();
+        });
         this.setAnimation(this._createStairsUpAnimation(completedCallback));
     }
 
@@ -260,6 +263,11 @@ export class Link extends Character {
         }
 
         return false;
+    }
+
+    incHealth(count: number = 2) {
+        this._health = Math.min(this._health + count, this._maxHealth);
+        game.audio.playSound('heart');
     }
 
     incRupeeCount(count: number) {

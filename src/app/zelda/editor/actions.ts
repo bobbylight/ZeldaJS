@@ -1,7 +1,7 @@
 import { Action } from 'redux-actions';
 import { ZeldaGame } from '../ZeldaGame';
-import { Screen } from '../Screen';
 import { Map } from '../Map';
+declare let game: ZeldaGame;
 
 export type ACTION_TYPE = 'SCREEN_MODIFIED' | 'TILE_SELECTED' | 'CURRENT_SCREEN_CHANGED';
 
@@ -19,7 +19,7 @@ export const tileSelected: (index: number) => Action<number> = (index: number): 
     };
 };
 
-export const currentScreenChanged: (game: ZeldaGame) => Action<Map> = (game: ZeldaGame): Action<Map> => {
+export const currentScreenChanged: () => Action<Map> = (): Action<Map> => {
     return {
         type: 'CURRENT_SCREEN_CHANGED',
         payload: game.map

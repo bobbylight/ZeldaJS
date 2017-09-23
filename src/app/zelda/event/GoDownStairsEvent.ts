@@ -35,6 +35,7 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
     }
 
     execute(): boolean {
+        game.audio.stopMusic();
         if (this._animate) {
             game.link.enterCave(this);
         }
