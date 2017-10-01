@@ -80,15 +80,15 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
 
         switch (newGroup) {
             case 'octoroks':
-                enemies.push({ type: 'Octorok', args: [ true ], count: 2 });
+                enemies.push({ type: 'Octorok', args: [ 'blue' ], count: 2 });
                 enemies.push({ type: 'Octorok', count: 2 });
                 break;
             case 'moblins':
-                enemies.push({ type: 'Moblin', args: [ true ], count: 2 });
+                enemies.push({ type: 'Moblin', args: [ 'blue' ], count: 2 });
                 enemies.push({ type: 'Moblin', count: 2 });
                 break;
             case 'tektites':
-                enemies.push({ type: 'Tektite', args: [ true ], count: 2 });
+                enemies.push({ type: 'Tektite', args: [ 'blue' ], count: 2 });
                 enemies.push({ type: 'Tektite', count: 2 });
                 break;
         }

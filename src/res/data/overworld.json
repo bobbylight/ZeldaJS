@@ -1745,7 +1745,13 @@
           [ 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 0, 0, 21, 21 ] ],
         "enemyGroup": {
           "spawnStyle": "random",
-          "enemies": []
+          "enemies": [
+            {
+              "type": "Octorok",
+              "args": [],
+              "count": 3
+            }
+          ]
         }
       },
       {
@@ -2023,7 +2029,7 @@
             {
               "type": "Tektite",
               "args": [
-                true
+                "blue"
               ],
               "count": 2
             },
@@ -2052,7 +2058,7 @@
             {
               "type": "Octorok",
               "args": [
-                true
+                "blue"
               ],
               "count": 2
             },
@@ -2106,7 +2112,7 @@
             {
               "type": "Moblin",
               "args": [
-                true
+                "blue"
               ],
               "count": 2
             },
@@ -2827,6 +2833,6 @@
     "name": "overworld"
   },
   "music": "overworldMusic",
-  "row": 8,
-  "col": 6
+  "row": 6,
+  "col": 5
 }

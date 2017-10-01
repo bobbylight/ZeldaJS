@@ -1,5 +1,5 @@
 import { Constants } from '../Constants';
-import { Enemy } from './Enemy';
+import { Enemy, EnemyStrength } from './Enemy';
 import { Screen } from '../Screen';
 import { ZeldaGame } from '../ZeldaGame';
 import { Rectangle } from 'gtp';
@@ -12,8 +12,6 @@ const TOP_MARGIN_ROWS: number = 2;
  */
 export class Tektite extends Enemy {
 
-    private _blue: boolean;
-
     private _paused: boolean;
     private _pauseOrJumpTime: number;
     private _maxPauseTime: number = 60;
@@ -21,21 +19,16 @@ export class Tektite extends Enemy {
     private _curJumpAscentTime: number;
     private _curJumpDescentTime: number;
 
-    constructor(blue: boolean = false) {
-        super(blue ? 5 : 4, true); //2 : 1, true);
-        this._blue = blue;
+    constructor(strength: EnemyStrength = 'red') {
+        super(strength, strength === 'blue' ? 5 : 4, true); //2 : 1, true);
         this.hitBox = new Rectangle();
 
         this._paused = true;
         this._pauseOrJumpTime = 0;
     }
 
-    get blue(): boolean {
-        return this._blue;
-    }
-
     paint(ctx: CanvasRenderingContext2D) {
-        this.paintImpl(ctx, this.step + 8, this._blue ? 4 : 0);
+        this.paintImpl(ctx, this.step + 8, this.strength === 'blue' ? 4 : 0);
     }
 
     private _calculateJumpParameters() {

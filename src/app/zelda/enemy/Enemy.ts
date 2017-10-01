@@ -6,14 +6,16 @@ import { Sword } from '../Sword';
 import { Screen } from '../Screen';
 import { ZeldaGame } from '../ZeldaGame';
 import { SpriteSheet } from 'gtp';
-import { Rupee } from '../item/Rupee';
-import { Heart } from '../item/Heart';
+import { AbstractItem } from '../item/AbstractItem';
 declare let game: ZeldaGame;
 
 const STEP_TIMER_MAX: number = 10;
 
+export type EnemyStrength = 'red' | 'blue';
+
 export abstract class Enemy extends Character {
 
+    strength: EnemyStrength;
     private _maxHealth: number;
     protected _health: number;
 
@@ -21,8 +23,10 @@ export abstract class Enemy extends Character {
     private _stepTimer: number;
     private _alwaysFacesForward: boolean;
 
-    constructor(health: number = 1, alwaysFacesForward: boolean = false) {
+    constructor(strength: EnemyStrength = 'red',
+                health: number = 1, alwaysFacesForward: boolean = false) {
         super();
+        this.strength = strength;
         this._maxHealth = this._health = health;
 
         this._step = 0;
@@ -42,7 +46,10 @@ export abstract class Enemy extends Character {
                 this.done = true;
                 game.audio.playSound('enemyDie');
                 game.addEnemyDiesAnimation(this.x, this.y);
-                game.map.currentScreen.addActor(new Heart(this.x, this.y));
+                const item: AbstractItem | null = game.itemDropStrategy.itemDropped(this);
+                if (item) {
+                    game.map.currentScreen.addActor(item);
+                }
                 return true;
             }
             game.audio.playSound('enemyHit');
@@ -52,6 +59,11 @@ export abstract class Enemy extends Character {
         }
 
         return false;
+    }
+
+    get enemyName(): string {
+        // "name" isn't technically a field of Function until es6
+        return this.strength + (this.constructor as any).name;
     }
 
     get health(): number {

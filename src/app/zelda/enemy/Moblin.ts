@@ -1,6 +1,7 @@
 import { AbstractWalkingEnemy } from './AbstractWalkingEnemy';
 import { Projectile } from '../Projectile';
 import { ZeldaGame } from '../ZeldaGame';
+import { EnemyStrength } from './Enemy';
 declare let game: ZeldaGame;
 
 const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
@@ -12,8 +13,8 @@ export class Moblin extends AbstractWalkingEnemy {
 
     private static readonly _PROJECTILE_THROWING_ODDS: number[] = [ 240, 120 ];
 
-    constructor(blue: boolean = true) {
-        super(4, blue, blue ? 3 : 2);
+    constructor(strength: EnemyStrength = 'red') {
+        super(4, strength, strength === 'blue' ? 3 : 2);
     }
 
     protected getChangeDirTimerMax(): number {
@@ -21,7 +22,7 @@ export class Moblin extends AbstractWalkingEnemy {
     }
 
     protected getSpeed(): number {
-        return 0.5; //this.blue ? 1 : 0.5;
+        return 0.5; //this.strength === 'blue' ? 1 : 0.5;
     }
 
     /**
@@ -32,7 +33,7 @@ export class Moblin extends AbstractWalkingEnemy {
      * @returns {boolean} Whether this enemy should start throwing a projectile.
      */
     private shouldThrowProjectile(): boolean {
-        return game.randomInt(Moblin._PROJECTILE_THROWING_ODDS[this.blue ? 1 : 0]) === 0;
+        return game.randomInt(Moblin._PROJECTILE_THROWING_ODDS[this.strength === 'blue' ? 1 : 0]) === 0;
     }
 
     protected throwProjectile() {

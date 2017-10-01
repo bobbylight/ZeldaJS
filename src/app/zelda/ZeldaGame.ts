@@ -4,16 +4,19 @@ import { Animation } from './Animation';
 import { Map } from './Map';
 import { Position } from './Position';
 import { Game, SpriteSheet } from 'gtp';
+import { ItemDropStrategy } from './item/ItemDropStrategy';
 declare let game: ZeldaGame;
 
 export class ZeldaGame extends Game {
 
     map: Map;
     link: Link;
+    itemDropStrategy: ItemDropStrategy;
     private animations: Animation[];
 
     constructor(args?: any) {
         super(args);
+        this.itemDropStrategy = new ItemDropStrategy();
         this.animations = [];
     }
 

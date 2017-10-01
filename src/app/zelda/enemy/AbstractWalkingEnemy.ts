@@ -1,7 +1,7 @@
 import { DirectionUtil } from '../Direction';
 import { Constants } from '../Constants';
 import { Actor } from '../Actor';
-import { Enemy } from './Enemy';
+import { Enemy, EnemyStrength } from './Enemy';
 import { ZeldaGame } from '../ZeldaGame';
 import { Rectangle } from 'gtp';
 declare let game: ZeldaGame;
@@ -12,15 +12,13 @@ declare let game: ZeldaGame;
  */
 export abstract class AbstractWalkingEnemy extends Enemy {
 
-    private _blue: boolean;
     private _changeDirTimer: number;
     private _ssRowOffset: number;
     protected pausedBeforeThrowingProjectile: number;
 
-    constructor(ssRowOffset: number, blue: boolean = false, health: number = 1) {
-        super(health);
+    constructor(ssRowOffset: number, strength: EnemyStrength = 'red', health: number = 1) {
+        super(strength, health);
         this._ssRowOffset = ssRowOffset;
-        this._blue = blue;
         this.hitBox = new Rectangle();
         this._changeDirTimer = this.getChangeDirTimerMax();
         this.pausedBeforeThrowingProjectile = -1;
@@ -38,10 +36,6 @@ export abstract class AbstractWalkingEnemy extends Enemy {
         }
 
         return super.collidedWith(other);
-    }
-
-    get blue(): boolean {
-        return this._blue;
     }
 
     protected abstract getChangeDirTimerMax(): number;
@@ -94,7 +88,7 @@ export abstract class AbstractWalkingEnemy extends Enemy {
     }
 
     paint(ctx: CanvasRenderingContext2D) {
-        this.paintImpl(ctx, this.step + this._ssRowOffset, this._blue ? 4 : 0);
+        this.paintImpl(ctx, this.step + this._ssRowOffset, this.strength === 'blue' ? 4 : 0);
     }
 
     /**

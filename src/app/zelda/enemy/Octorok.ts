@@ -1,6 +1,7 @@
 import { Projectile } from '../Projectile';
 import { AbstractWalkingEnemy } from './AbstractWalkingEnemy';
 import { ZeldaGame } from '../ZeldaGame';
+import { EnemyStrength } from './Enemy';
 declare let game: ZeldaGame;
 
 const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
@@ -12,8 +13,8 @@ export class Octorok extends AbstractWalkingEnemy {
 
     private static readonly _PROJECTILE_THROWING_ODDS: ReadonlyArray<number> = Object.freeze([ 240, 120 ]);
 
-    constructor(blue: boolean = false) {
-        super(0, blue, blue ? 5 : 4); //2 : 1);
+    constructor(strength: EnemyStrength = 'red') {
+        super(0, strength, strength === 'blue' ? 5 : 4); //2 : 1);
     }
 
     protected getChangeDirTimerMax(): number {
@@ -21,7 +22,7 @@ export class Octorok extends AbstractWalkingEnemy {
     }
 
     protected getSpeed(): number {
-        return this.blue ? 1 : 0.5;
+        return this.strength === 'blue' ? 1 : 0.5;
     }
 
     /**
@@ -32,7 +33,7 @@ export class Octorok extends AbstractWalkingEnemy {
      * @returns {boolean} Whether this enemy should start throwing a projectile.
      */
     private shouldThrowProjectile(): boolean {
-        return game.randomInt(Octorok._PROJECTILE_THROWING_ODDS[this.blue ? 1 : 0]) === 0;
+        return game.randomInt(Octorok._PROJECTILE_THROWING_ODDS[this.strength === 'blue' ? 1 : 0]) === 0;
     }
 
     protected throwProjectile() {
