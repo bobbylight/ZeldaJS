@@ -1745,13 +1745,7 @@
           [ 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 0, 0, 21, 21 ] ],
         "enemyGroup": {
           "spawnStyle": "random",
-          "enemies": [
-            {
-              "type": "Octorok",
-              "args": [],
-              "count": 3
-            }
-          ]
+          "enemies": []
         }
       },
       {
@@ -2833,6 +2827,6 @@
     "name": "overworld"
   },
   "music": "overworldMusic",
-  "row": 6,
-  "col": 5
+  "row": 8,
+  "col": 6
 }

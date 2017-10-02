@@ -4,6 +4,7 @@ import { EnemyInfo } from '../EnemyGroup';
 import { LabelValuePair } from './label-value-pair';
 import { ChangeEvent } from 'react';
 import Select, { SelectOnChangeEvent } from './select';
+import { EnemyStrength } from '../enemy/Enemy';
 
 /**
  * Properties passed to the modal dialog.
@@ -14,6 +15,7 @@ interface EditEnemyRowModalProps {
     title: string;
     enemyChoices: LabelValuePair<string>[];
     selectedEnemy?: string | null;
+    initialSelectedStrength: EnemyStrength;
     initialEnemyCount: number;
     okCallback: Function;
     visible: boolean;
@@ -23,7 +25,9 @@ interface EditEnemyRowModalProps {
  * The internal state of the modal dialog.
  */
 interface EditEnemyRowModalState {
+    strengthChoices: EnemyStrength[];
     selectedEnemy: string;
+    selectedStrength: EnemyStrength;
     enemyCount: number;
 }
 
@@ -41,6 +45,7 @@ export default class EditEnemyRowModal extends React.Component<EditEnemyRowModal
 
         this.enemyCountChanged = this.enemyCountChanged.bind(this);
         this.enemyChoiceChanged = this.enemyChoiceChanged.bind(this);
+        this.enemyStrengthChanged = this.enemyStrengthChanged.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onCancel = this.onCancel.bind(this);
     }
@@ -48,8 +53,10 @@ export default class EditEnemyRowModal extends React.Component<EditEnemyRowModal
     componentWillMount() {
 
         this.setState({
+            strengthChoices: [ 'red', 'blue' ],
             // Assertion of non-null value is safe here
             selectedEnemy: this.props.selectedEnemy || this.props.enemyChoices[0].value!,
+            selectedStrength: this.props.initialSelectedStrength,
             enemyCount: this.props.initialEnemyCount
         });
     }
@@ -58,9 +65,13 @@ export default class EditEnemyRowModal extends React.Component<EditEnemyRowModal
         this.setState({ enemyCount: parseInt(e.target.value, 10) });
     }
 
-    enemyChoiceChanged(result: /*string*/ SelectOnChangeEvent<string>) {
-        console.log(`Enemy selected: ${JSON.stringify(result)}`);
-        this.setState({ selectedEnemy: result.newValue! });
+    private enemyChoiceChanged(e: /*string*/ SelectOnChangeEvent<string>) {
+        console.log(`Enemy selected: ${JSON.stringify(e)}`);
+        this.setState({ selectedEnemy: e.newValue! });
+    }
+
+    private enemyStrengthChanged(e: SelectOnChangeEvent<EnemyStrength>) {
+        this.setState({ selectedStrength: e.newValue! });
     }
 
     private createSelectedEnemyInfo(): EnemyInfo {
@@ -71,9 +82,15 @@ export default class EditEnemyRowModal extends React.Component<EditEnemyRowModal
         conversions.octoroks = 'Octorok';
         conversions.tektites = 'Tektite';
 
+        const args: string[] = [];
+        // Don't push strength if it's the lowest (red), to save a little size in our JSON
+        if (this.state.selectedStrength !== 'red') {
+            args.push(this.state.selectedStrength);
+        }
+
         return {
             type: conversions[this.state.selectedEnemy],
-            args: [],
+            args: args,
             count: this.state.enemyCount
         };
     }
@@ -130,6 +147,13 @@ export default class EditEnemyRowModal extends React.Component<EditEnemyRowModal
                                         <Select choices={this.props.enemyChoices}
                                                 initialValue={this.props.selectedEnemy}
                                                 onChange={this.enemyChoiceChanged}/>
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label>Color (Strength)</label>
+                                        <Select choices={this.state.strengthChoices}
+                                                initialValue={this.state.selectedStrength}
+                                                onChange={this.enemyStrengthChanged}/>
                                     </div>
 
                                     <div className="form-group error">

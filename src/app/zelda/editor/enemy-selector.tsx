@@ -123,6 +123,7 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
                         title={this.state.modalTitle}
                         enemyChoices={this.state.choices}
                         selectedEnemy={null}
+                        initialSelectedStrength="red"
                         initialEnemyCount={this.props.enemyGroup.enemies.length}
                         okCallback={this.addOrEditRowOkCallback}
                         visible={this.state.editRowModalVisible}/>
