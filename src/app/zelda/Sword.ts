@@ -5,6 +5,9 @@ import { ZeldaGame } from './ZeldaGame';
 import { Rectangle, SpriteSheet } from 'gtp';
 declare let game: ZeldaGame;
 
+/**
+ * A sword Link is in the middle of swinging.
+ */
 export class Sword extends Actor {
 
     private frame: number;

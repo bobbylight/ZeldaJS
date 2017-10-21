@@ -35,7 +35,9 @@ export class LoadingState extends BaseState {
                     { id: 'blueHeart',  x: 0, y: 8, s: 8 },
 
                     { id: 'yellowRupee', x: 72, y: 0, w: 8, h: 16 },
-                    { id: 'blueRupee',   x: 72, y: 16, w: 8, h: 16 }
+                    { id: 'blueRupee',   x: 72, y: 16, w: 8, h: 16 },
+
+                    { id: 'bomb', x: 136, y: 0, w: 8, h: 14 }
                 ]
             };
 
@@ -68,6 +70,9 @@ export class LoadingState extends BaseState {
                 game.assets.addSound('shield', 'res/sounds/LOZ_Shield.wav');
                 game.assets.addSound('rupee', 'res/sounds/LOZ_Get_Rupee.wav');
                 game.assets.addSound('heart', 'res/sounds/LOZ_Get_Heart.wav');
+                game.assets.addSound('bombDrop', 'res/sounds/LOZ_Bomb_Drop.wav');
+                game.assets.addSound('bombBlow', 'res/sounds/LOZ_Bomb_Blow.wav');
+                game.assets.addSound('getItem', 'res/sounds/LOZ_Get_Item.wav');
                 //game.assets.addImage('sprites', 'res/sprite_tiles.png', true);
                 //game.assets.addSpriteSheet('mapTiles', 'res/map_tiles.png', 8,8, 0,0);
                 //game.assets.addSpriteSheet('points', 'res/points.png', 18,9, 0,0);

@@ -12,6 +12,7 @@ import { InputManager, Keys, Rectangle, SpriteSheet } from 'gtp';
 import FadeOutInState from 'gtp/lib/gtp/FadeOutInState';
 import { TitleState } from './TitleState';
 import { Projectile } from './Projectile';
+import { Bomb } from './Bomb';
 declare let game: ZeldaGame;
 
 const STEP_TIMER_MAX: number = 8;
@@ -22,6 +23,9 @@ const STEP_TIMER_MAX: number = 8;
 export class Link extends Character {
 
     private rupeeCount: number;
+
+    private bombCount: number;
+    private maxBombCount: number;
 
     private _maxHealth: number;
     private _health: number;
@@ -41,6 +45,8 @@ export class Link extends Character {
     constructor() {
         super();
         this.rupeeCount = 0;
+        this.bombCount = 99;
+        this.maxBombCount = 99;
         this._stepTimer = STEP_TIMER_MAX;
         this.hitBox = new Rectangle();
         this.step = 0;
@@ -195,6 +201,10 @@ export class Link extends Character {
         this.setAnimation(this._createStairsUpAnimation(completedCallback));
     }
 
+    getBombCount(): number {
+        return this.bombCount;
+    }
+
     getRupeeCount(): number {
         return this.rupeeCount;
     }
@@ -216,6 +226,10 @@ export class Link extends Character {
         // Action buttons should take priority over moving
         else if (input.isKeyDown(Keys.KEY_Z)) {
             this._swingSword();
+        }
+
+        else if (input.isKeyDown(Keys.KEY_X)) {
+            this.useItem();
         }
 
         else if (input.up()) {
@@ -263,6 +277,11 @@ export class Link extends Character {
         }
 
         return false;
+    }
+
+    incBombCount(count: number = 4) {
+        this.bombCount = Math.min(this.bombCount + count, this.maxBombCount);
+        game.audio.playSound('getItem');
     }
 
     incHealth(count: number = 2) {
@@ -487,5 +506,19 @@ export class Link extends Character {
 
     updateWalkingStep() {
         this._touchStepTimer();
+    }
+
+    private useItem() {
+
+        if (this.bombCount > 0) {
+
+            this.bombCount--;
+            game.audio.playSound('bombDrop');
+
+            const bomb: Bomb = new Bomb();
+            game.map.currentScreen.addActor(bomb);
+            this.frozen = true;
+            this.step = Link.FRAME_ACTION;
+        }
     }
 }

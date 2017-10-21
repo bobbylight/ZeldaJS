@@ -25,6 +25,8 @@ export class Hud {
 
         game.drawString(104, 24, link.getRupeeCount());
 
+        game.drawString(104, 48, link.getBombCount());
+
         for (let i: number = 0; i < wholeHeartCount; i++) {
             heart.draw(ctx, x, y);
             x += 8;
