@@ -3,7 +3,7 @@ import { State } from '../state';
 import { tileSelected } from '../actions';
 import TilePalette from '../tile-palette';
 
-const mapStateToProps: MapStateToProps<any, any> = (state: State, ownProps?: any): any => {
+const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProps?: any): any => {
     return {
         game: state.game,
         selectedTileIndex: state.selectedTileIndex

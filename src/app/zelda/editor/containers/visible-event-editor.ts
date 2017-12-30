@@ -2,7 +2,7 @@ import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps 
 import { State } from '../state';
 import EventTable from '../event-editor';
 
-const mapStateToProps: MapStateToProps<any, any> = (state: State, ownProps?: any): any => {
+const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProps?: any): any => {
 
     return {
         game: state.game,

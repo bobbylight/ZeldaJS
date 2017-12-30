@@ -63,8 +63,8 @@ export class ZeldaGame extends Game {
 
         for (let i: number = 0; i < str.length; i++) {
 
-            let ch: string = str[i];
-            let chCharCode: number = str.charCodeAt(i);
+            const ch: string = str[i];
+            const chCharCode: number = str.charCodeAt(i);
             if (ch >= 'A' && ch <= 'Z') {
                 index = fontImage.colCount + (chCharCode - alphaOffs);
             }

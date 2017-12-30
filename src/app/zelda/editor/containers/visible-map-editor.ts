@@ -3,7 +3,7 @@ import { State } from '../state';
 import { screenModified } from '../actions';
 import MapEditor from '../map-editor';
 
-const mapStateToProps: MapStateToProps<any, any> = (state: State, ownProps?: any): any => {
+const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProps?: any): any => {
     return {
         game: state.game,
         selectedTileIndex: state.selectedTileIndex

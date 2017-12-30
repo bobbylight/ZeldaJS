@@ -45,7 +45,7 @@ export default class CodeViewer extends React.Component<CodeViewerProps, CodeVie
 
     copy() {
         console.log('Copy that text!');
-        let range: Range = document.createRange();
+        const range: Range = document.createRange();
         range.selectNodeContents(this.codeDiv);
         window.getSelection().removeAllRanges();
         window.getSelection().addRange(range);

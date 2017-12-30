@@ -3,7 +3,7 @@ import { State } from '../state';
 import { currentScreenChanged } from '../actions';
 import MainContent from '../main-content';
 
-const mapStateToProps: MapStateToProps<any, any> = (state: State, ownProps?: any): any => {
+const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProps?: any): any => {
     return {
         game: state.game,
         currentScreenRow: state.currentScreenRow,

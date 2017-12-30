@@ -2,7 +2,7 @@ import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps 
 import MapPreview, { MapPreviewProps } from '../map-preview';
 import { State } from '../state';
 
-const mapStateToProps: MapStateToProps<any, any> = (state: State, ownProps?: any): MapPreviewProps => {
+const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProps?: any): MapPreviewProps => {
     return {
         game: state.game,
         lastModified: state.lastModified

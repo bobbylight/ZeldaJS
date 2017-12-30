@@ -4,7 +4,6 @@ import { Constants } from '../Constants';
 import { Map } from '../Map';
 import { Screen } from '../Screen';
 import { screenModified } from './actions';
-import { MouseEventHandler } from 'react';
 
 export interface MapEditorProps {
     game: ZeldaGame;
@@ -106,8 +105,8 @@ export default class MapEditor extends React.Component<MapEditorProps, MapEditor
         const armedRow: number = this.state.armedRow;
         const armedCol: number = this.state.armedCol;
         if (armedRow > -1 && armedCol > -1) {
-            let x: number = armedCol * 16 + 16;
-            let y: number = armedRow * 16 + 16;
+            const x: number = armedCol * 16 + 16;
+            const y: number = armedRow * 16 + 16;
             ctx.globalAlpha = 0.5;
             this.props.game.map.tileset.paintTile(ctx, this.props.selectedTileIndex, x, y);
             ctx.globalAlpha = 1;

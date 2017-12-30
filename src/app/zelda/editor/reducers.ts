@@ -9,7 +9,7 @@ declare let game: ZeldaGame;
 
 // Initialize the game declared in zelda.ts
 // TODO: Do game initialization in a service?
-let parent: HTMLDivElement = document.createElement('div');
+const parent: HTMLDivElement = document.createElement('div');
 (window as any).game = new ZeldaGame({
     assetRoot: undefined,
     height: Constants.CANVAS_HEIGHT,

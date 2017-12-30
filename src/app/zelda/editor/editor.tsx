@@ -14,8 +14,8 @@ export class Editor extends React.Component<EditorProps, EditorState> {
 
     state: EditorState = {};
 
-    constructor() {
-        super();
+    constructor(props: EditorProps, context?: any) {
+        super(props, context);
         //this.changeName = this.changeName.bind(this);
     }
 

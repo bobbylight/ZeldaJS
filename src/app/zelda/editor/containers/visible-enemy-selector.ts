@@ -3,7 +3,7 @@ import { State } from '../state';
 import EnemySelector from '../enemy-selector';
 import { EnemyGroup } from '../../EnemyGroup';
 
-const mapStateToProps: MapStateToProps<any, any> = (state: State, ownProps?: any): any => {
+const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProps?: any): any => {
 
     return {
         game: state.game,

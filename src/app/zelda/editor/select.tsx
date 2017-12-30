@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { LabelValuePair } from './label-value-pair';
-import { CSSProperties } from 'react';
 
 /**
  * Note: <code>choices</code> should only be a <code>string[]</code> if <code>t</code> is <code>string</code>!
@@ -115,7 +114,7 @@ export default class Select<T> extends React.Component<SelectProps<T>, SelectSta
                     </li>);
         });
 
-        const style: CSSProperties = {
+        const style: React.CSSProperties = {
             display: this.props.display ? this.props.display : 'inherit'
         };
         const buttonClass: string = `btn btn-${this.props.buttonStyle || 'default'}`;

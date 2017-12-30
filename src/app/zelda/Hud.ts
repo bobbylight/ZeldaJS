@@ -19,7 +19,7 @@ export class Hud {
         const heart: Image = game.assets.get('treasures.fullHeart') as Image;
 
         let x: number = 176;
-        let y: number = 48;
+        const y: number = 48;
         const wholeHeartCount: number = Math.floor(health / 2);
         const heartCount: number = maxHealth / 2;
 

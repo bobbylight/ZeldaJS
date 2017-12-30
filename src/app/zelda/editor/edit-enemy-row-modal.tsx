@@ -2,7 +2,6 @@ import * as React from 'react';
 import { ZeldaGame } from '../ZeldaGame';
 import { EnemyInfo } from '../EnemyGroup';
 import { LabelValuePair } from './label-value-pair';
-import { ChangeEvent } from 'react';
 import Select, { SelectOnChangeEvent } from './select';
 import { EnemyStrength } from '../enemy/Enemy';
 
@@ -61,7 +60,7 @@ export default class EditEnemyRowModal extends React.Component<EditEnemyRowModal
         });
     }
 
-    private enemyCountChanged(e: ChangeEvent<HTMLInputElement>) {
+    private enemyCountChanged(e: React.ChangeEvent<HTMLInputElement>) {
         this.setState({ enemyCount: parseInt(e.target.value, 10) });
     }
 

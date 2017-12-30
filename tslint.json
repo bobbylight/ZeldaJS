@@ -7,11 +7,13 @@
     ],
     "arrow-parens": true,
     "ban": false,
+    "ban-comma-operator": true,
     "class-name": false,
-    "comment-format": [ false ],
+    "comment-format": false, //[ true, "check-space" ],
     //"completed-docs": [ true, "classes", "enums", "functions", "interfaces" ],
     "curly": true,
     "deprecation": true,
+    "encoding": true,
     "eofline": true,
     "forin": false,
     "indent": [
@@ -28,10 +30,7 @@
       130
     ],
     "member-access": false,
-    "member-ordering": [
-      true,
-      "variables-before-functions"
-    ],
+    "member-ordering": false, // TODO: Can we get this working how we want it?
     "new-parens": true,
     "no-angle-bracket-type-assertion": true,
     "no-any": false,
@@ -44,18 +43,27 @@
     "no-construct": true,
     "no-constructor-vars": false,
     "no-debugger": true,
+    "no-duplicate-imports": true,
+    "no-duplicate-super": true,
     "no-duplicate-variable": true,
     "no-empty": false,
+    "no-empty-interface": false, // Possibly explore later
     "no-eval": true,
     "no-for-in-array": true,
+    "no-implicit-dependencies": [ true, "dev" ],
+    "no-import-side-effect": false,
     "no-inferrable-types": false,
     "no-internal-module": false,
     "no-invalid-template-strings": true,
     "no-invalid-this": false,
+    "no-magic-numbers": false,
     "no-mergeable-namespace": true,
+    "no-misused-new": true,
+    "no-namespace": true,
     "no-null-keyword": false,
     "no-parameter-properties": false,
-    "no-require-imports": false,
+    "no-reference": true,
+    "no-require-imports": true,
     "no-shadowed-variable": false, // Our interfaces and injected fields are named the same
     "no-sparse-arrays": true,
     "no-string-literal": true,
@@ -64,6 +72,7 @@
     "no-this-assignment": true,
     "no-trailing-whitespace": true,
     //"no-unbound-method": true,
+    "no-unnecessary-class": false, // Possibly explore later
     "no-unnecessary-qualifier": true,
     "no-unnecessary-type-assertion": true,
     //"no-unsafe-any": true,
@@ -78,14 +87,18 @@
       true,
       "check-open-brace",
       "check-catch",
+      "check-finally",
       "check-whitespace"
     ],
     "only-arrow-functions": true,
-//    "quotemark": [
-//      true,
-//      "single",
-//      "avoid-escape"
-//    ],
+    "prefer-conditional-expression": true,
+    "prefer-const": true,
+    "quotemark": [ // Doesn't work in tsx files
+      true,
+      "single",
+      "jsx-double",
+      "avoid-escape"
+    ],
     "radix": true,
     "restrict-plus-operands": false,
     "semicolon": true,
@@ -115,6 +128,8 @@
         "variable-declaration": "nospace"
       }
     ],
+    "typeof-compare": true,
+    "unified-signatures": true,
     "use-default-type-parameter": true,
     "use-isnan": true,
     "variable-name": [

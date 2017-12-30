@@ -5,7 +5,6 @@ import { Event } from '../event/Event';
 import { LabelValuePair } from './label-value-pair';
 import { ChangeScreenWarpEventGenerator, EventGenerator, GoDownStairsEventGenerator } from './event-generators';
 import { GoDownStairsEvent } from '../event/GoDownStairsEvent';
-import { CSSProperties } from 'react';
 import { Position } from '../Position';
 import { ChangeScreenWarpEvent } from '../event/ChangeScreenWarpEvent';
 
@@ -128,7 +127,7 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
         let markup: JSX.Element;
 
         const eventGenerator: EventGenerator<any> = this.state.selectedEventGenerator;
-        const indentStyle: CSSProperties = {
+        const indentStyle: React.CSSProperties = {
             margin: '0 3rem'
         };
 

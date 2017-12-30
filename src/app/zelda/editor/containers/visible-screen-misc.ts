@@ -2,7 +2,7 @@ import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps 
 import { State } from '../state';
 import ScreenMisc, { ScreenMiscProps } from '../screen-misc';
 
-const mapStateToProps: MapStateToProps<any, any> = (state: State, ownProps?: any): ScreenMiscProps => {
+const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProps?: any): ScreenMiscProps => {
     console.log('Setting to: ' + (state.map ? state.map.currentScreen : null));
     return {
         screen: state.map ? state.map.currentScreen : null

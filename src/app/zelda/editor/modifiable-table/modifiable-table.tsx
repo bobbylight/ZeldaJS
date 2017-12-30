@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { MouseEvent } from 'react';
 import { ModifiableTableEventHandler } from './modifiable-table-event-handler';
 import { ColumnRenderer } from './modifiable-table-column-renderer';
 
@@ -57,7 +56,7 @@ export default class ModifiableTable extends React.Component<ModifiableTableProp
         this.props.eventHandler.addOrEditTableRow(selectedRow, selectedRowData);
     }
 
-    highlightSelectedRow(e: MouseEvent<HTMLTableRowElement>) {
+    highlightSelectedRow(e: React.MouseEvent<HTMLTableRowElement>) {
 
         const rows: NodeListOf<HTMLTableRowElement> = this.tableElem.querySelectorAll('tr');
         for (let i: number = 0; i < rows.length; i++) {
@@ -123,7 +122,7 @@ export default class ModifiableTable extends React.Component<ModifiableTableProp
         this.props.eventHandler.removeTableRow(this.state.selectedRow);
     }
 
-    setPrimary(e: MouseEvent<HTMLTableRowElement>) {
+    setPrimary(e: React.MouseEvent<HTMLTableRowElement>) {
         this.setState({ selectedRow: this.highlightSelectedRow(e) });
         console.log('--- selectedRow === ' + this.state.selectedRow);
     }
