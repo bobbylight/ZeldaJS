@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/bobbylight/ZeldaJS.svg?branch=master)](https://travis-ci.org/bobbylight/ZeldaJS)
 [![Dependency Status](https://img.shields.io/david/bobbylight/ZeldaJS.svg)](https://david-dm.org/bobbylight/ZeldaJS)
 [![Dev Dependency Status](https://img.shields.io/david/dev/bobbylight/ZeldaJS.svg)](https://david-dm.org/bobbylight/ZeldaJS?type=dev)
+[![Coverage Status](https://coveralls.io/repos/github/bobbylight/ZeldaJS/badge.svg?branch=master)](https://coveralls.io/github/bobbylight/ZeldaJS?branch=master)
 
 A WIP clone of the Legend of Zelda.  This will include a very basic editor as well.
 Feel free to [try it out in its current state](http://bobbylight.github.io/ZeldaJS/).
