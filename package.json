@@ -16,6 +16,7 @@
     "start": "electron src/js/electron-main.js",
     "test": "cross-env NODE_ENV=test mocha --recursive --compilers ts:ts-node/register \"src/app/**/*.spec.ts\"",
     "cover": "cross-env NODE_ENV=test nyc npm t",
+    "lint": "tslint --project .",
     "doc": "typedoc --mode file --target ES5 --out doc/ ./src/app"
   },
   "nyc": {

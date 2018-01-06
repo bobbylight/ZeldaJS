@@ -32,7 +32,7 @@ export class Secrets {
     }
 
     reset() {
-        for (let secretName in this.secrets) {
+        for (const secretName in this.secrets) {
             const secret: Secret = this.secrets[secretName];
             if (secret.transient) {
                 secret.value = secret.defaultValue;

@@ -1,6 +1,6 @@
 import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { State } from '../state';
-import EventTable from '../event-editor';
+import EventEditor from '../event-editor';
 
 const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProps?: any): any => {
 
@@ -15,5 +15,5 @@ const mapDispatchToProps: MapDispatchToProps<any, any> = (dispatch: Dispatch<num
     };
 };
 
-const VisibleEventEditor: ComponentClass<any> = connect(mapStateToProps, mapDispatchToProps)(EventTable);
+const VisibleEventEditor: ComponentClass<any> = connect(mapStateToProps, mapDispatchToProps)(EventEditor);
 export default VisibleEventEditor;
