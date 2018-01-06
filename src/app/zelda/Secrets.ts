@@ -19,7 +19,7 @@ export class Secrets {
     get(secret: string, newValue?: boolean): boolean {
 
         if (!this.secrets.hasOwnProperty(secret)) {
-            throw `Unknown flag: ${secret}`;
+            throw new Error(`Unknown flag: ${secret}`);
         }
 
         const value: boolean = this.secrets[secret].value;

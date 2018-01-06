@@ -34,6 +34,7 @@ npm run watch   # Start webpack, watch for changes (prefer "dev")
 npm run build   # Build into build/
 npm run start   # Nothing (for now)
 npm run test    # Run unit tests
+npm run cover   # Run unit tests, generate coverage report in coverage/
 ```
 
 The source code lives in `src/`, and is built into `build/web/`.

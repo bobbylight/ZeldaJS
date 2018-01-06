@@ -13,10 +13,10 @@ loaders.push({
     }
 });
 loaders.push({
-    test: /^((?!\.spec\.ts).)*.ts$/,
+    test: /^\.ts$/,
     enforce: 'post',
     loader: 'istanbul-instrumenter-loader',
-    exclude: /node_modules/
+    exclude: /node_modules|\.spec\.ts/
 });
 
 module.exports = [

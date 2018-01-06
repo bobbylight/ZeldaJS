@@ -8,5 +8,5 @@ build
 npm-debug.log
 size-info.json
 size-info.txt
-reports
-
+coverage
+.nyc_output
