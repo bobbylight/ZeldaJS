@@ -1,5 +1,7 @@
 # ZeldaJS - A Legend of Zelda clone in TypeScript
 [![Build Status](https://travis-ci.org/bobbylight/ZeldaJS.svg?branch=master)](https://travis-ci.org/bobbylight/ZeldaJS)
+[![Dependency Status](https://img.shields.io/david/bobbylight/ZeldaJS.svg)](https://david-dm.org/bobbylight/ZeldaJS)
+[![Dev Dependency Status](https://img.shields.io/david/dev/bobbylight/ZeldaJS.svg)](https://david-dm.org/bobbylight/ZeldaJS?type=dev)
 
 A WIP clone of the Legend of Zelda.  This will include a very basic editor as well.
 Feel free to [try it out in its current state](http://bobbylight.github.io/ZeldaJS/).
@@ -31,7 +33,7 @@ npm run dev     # Start webpack, watch for changes, test at localhost:8080
 npm run watch   # Start webpack, watch for changes (prefer "dev")
 npm run build   # Build into build/
 npm run start   # Nothing (for now)
-npm run test    # Run unit test
+npm run test    # Run unit tests
 ```
 
 The source code lives in `src/`, and is built into `build/web/`.
