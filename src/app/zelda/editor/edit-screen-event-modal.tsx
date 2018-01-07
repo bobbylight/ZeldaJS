@@ -11,7 +11,7 @@ import { ChangeScreenWarpEvent } from '../event/ChangeScreenWarpEvent';
 interface EditScreenEventModalProps {
     game: ZeldaGame;
     submitButtonLabel: string;
-    title: string;
+    verb: string;
     selectedEvent: Event<any> | null;
     okCallback: Function;
     visible: boolean;
@@ -79,7 +79,7 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
             selectedEventGenerator = this.generators[0].value as GoDownStairsEventGenerator;
             selectedEvent = selectedEvent.clone();
         }
-        if (selectedEvent instanceof ChangeScreenWarpEvent) {
+        else if (selectedEvent instanceof ChangeScreenWarpEvent) {
             selectedEventGenerator = this.generators[0].value as ChangeScreenWarpEventGenerator;
             selectedEvent = selectedEvent.clone();
         }
@@ -370,7 +370,7 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <h4 className="modal-title">{this.props.title}</h4>
+                                <h4 className="modal-title">{this.props.verb} Event</h4>
                             </div>
                             <div className="modal-body">
 

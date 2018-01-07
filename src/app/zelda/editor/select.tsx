@@ -90,6 +90,9 @@ export default class Select<T> extends React.Component<SelectProps<T>, SelectSta
         const matches: LabelValuePair<T>[] = choices.filter((lvp: LabelValuePair<T>) => {
             return lvp.value === value;
         });
+        if (!matches.length) {
+            throw new Error(`Specified value is not in the list of choices: ${value}`);
+        }
         return matches[0];
     }
 

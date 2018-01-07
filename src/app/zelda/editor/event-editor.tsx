@@ -18,7 +18,7 @@ interface EventEditorState {
     eventTableRows: EventTableRow[];
     selectedEvent: Event<any> | null;
     selectedEventIndex: number;
-    modalTitle: string;
+    verb: string;
     editRowModalVisible: boolean;
 }
 
@@ -96,7 +96,7 @@ export default class EventEditor extends React.Component<EventEditorProps, Event
         this.setState({
             editRowModalVisible: true,
             selectedEventIndex: index,
-            modalTitle: index === -1 ? 'Add Event' : 'Edit Event<any>',
+            verb: index === -1 ? 'Add' : 'Edit',
             selectedEvent: selectedEvent
         });
     }
@@ -167,8 +167,8 @@ export default class EventEditor extends React.Component<EventEditorProps, Event
                                  eventHandler={this}/>
 
                 <EditScreenEventModal game={this.props.game}
-                                      submitButtonLabel="Add"
-                                      title={this.state.modalTitle}
+                                      submitButtonLabel={this.state.verb === 'Add' ? 'Add' : 'OK'}
+                                      verb={this.state.verb}
                                       selectedEvent={this.state.selectedEvent}
                                       okCallback={this.addOrEditRowOkCallback}
                                       visible={this.state.editRowModalVisible}/>

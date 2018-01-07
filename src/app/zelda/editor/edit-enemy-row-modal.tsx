@@ -60,6 +60,16 @@ export default class EditEnemyRowModal extends React.Component<EditEnemyRowModal
         });
     }
 
+    componentWillReceiveProps(newProps: EditEnemyRowModalProps) {
+
+        // Clear the row selection if the new row set is empty
+        this.setState({
+            selectedEnemy: newProps.selectedEnemy || newProps.enemyChoices[0].value!,
+            selectedStrength: newProps.initialSelectedStrength || 'red',
+            enemyCount: newProps.initialEnemyCount
+        });
+    }
+
     private enemyCountChanged(e: React.ChangeEvent<HTMLInputElement>) {
         this.setState({ enemyCount: parseInt(e.target.value, 10) });
     }
@@ -75,12 +85,6 @@ export default class EditEnemyRowModal extends React.Component<EditEnemyRowModal
 
     private createSelectedEnemyInfo(): EnemyInfo {
 
-        // TODO: Do this the right way
-        const conversions: any = {};
-        conversions.moblins = 'Moblin';
-        conversions.octoroks = 'Octorok';
-        conversions.tektites = 'Tektite';
-
         const args: string[] = [];
         // Don't push strength if it's the lowest (red), to save a little size in our JSON
         if (this.state.selectedStrength !== 'red') {
@@ -88,7 +92,7 @@ export default class EditEnemyRowModal extends React.Component<EditEnemyRowModal
         }
 
         return {
-            type: conversions[this.state.selectedEnemy],
+            type: this.state.selectedEnemy,
             args: args,
             count: this.state.enemyCount
         };

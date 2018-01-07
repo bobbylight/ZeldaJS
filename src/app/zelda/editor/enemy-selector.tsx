@@ -5,7 +5,7 @@ import { EnemyGroup, EnemyInfo } from '../EnemyGroup';
 import { LabelValuePair } from './label-value-pair';
 import EditEnemyRowModal from './edit-enemy-row-modal';
 import { ModifiableTableEventHandler } from './modifiable-table/modifiable-table-event-handler';
-import { Enemy } from '../enemy/Enemy';
+import { Enemy, EnemyStrength } from '../enemy/Enemy';
 
 interface EnemySelectorProps {
     game: ZeldaGame;
@@ -18,6 +18,7 @@ interface EnemySelectorState {
     choices: LabelValuePair<string>[];
     headers: ModifiableTableHeader[];
     modalTitle: string;
+    selectedEnemyInfo: ModifiableTableRow | null;
     editRowModalVisible: boolean;
 }
 
@@ -34,9 +35,9 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
 
         this.setState({
             choices: [
-                { label: 'Octoroks', value: 'octoroks' },
-                { label: 'Moblins', value: 'moblins' },
-                { label: 'Tektites', value: 'tektites' }
+                { label: 'Octorok', value: 'Octorok' },
+                { label: 'Moblin', value: 'Moblin' },
+                { label: 'Tektite', value: 'Tektite' }
             ],
             headers: [
                 { label: 'Enemy', cellKey: 'type' },
@@ -51,6 +52,7 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
         //this.openModal((value: EnemyInfo) => { Utils.hitch(this, this.addOrEditRowOkCallback)(value); });
         this.setState({
             modalTitle: row === -1 ? 'Add Enemy' : 'Edit Enemy',
+            selectedEnemyInfo: rowData,
             editRowModalVisible: true
         });
     }
@@ -79,15 +81,15 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
         const enemies: EnemyInfo[] = [];
 
         switch (newGroup) {
-            case 'octoroks':
+            case 'Octorok':
                 enemies.push({ type: 'Octorok', args: [ 'blue' ], count: 2 });
                 enemies.push({ type: 'Octorok', count: 2 });
                 break;
-            case 'moblins':
+            case 'Moblin':
                 enemies.push({ type: 'Moblin', args: [ 'blue' ], count: 2 });
                 enemies.push({ type: 'Moblin', count: 2 });
                 break;
-            case 'tektites':
+            case 'Tektite':
                 enemies.push({ type: 'Tektite', args: [ 'blue' ], count: 2 });
                 enemies.push({ type: 'Tektite', count: 2 });
                 break;
@@ -103,6 +105,11 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
     render() {
 
         console.log('re-rendering enemy-selector...' + Date.now() + ', ' + this.props.enemyGroup);
+
+        const enemyType: string = this.state.selectedEnemyInfo ? this.state.selectedEnemyInfo.type : null;
+        const enemyStrength: EnemyStrength = this.state.selectedEnemyInfo && this.state.selectedEnemyInfo.args.length ?
+            this.state.selectedEnemyInfo.args[0] : 'red';
+        const enemyCount: number = this.state.selectedEnemyInfo ? this.state.selectedEnemyInfo.count : 1;
 
         return (
 
@@ -122,9 +129,9 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
                         submitButtonLabel="Add"
                         title={this.state.modalTitle}
                         enemyChoices={this.state.choices}
-                        selectedEnemy={null}
-                        initialSelectedStrength="red"
-                        initialEnemyCount={this.props.enemyGroup.enemies.length}
+                        selectedEnemy={enemyType}
+                        initialSelectedStrength={enemyStrength}
+                        initialEnemyCount={enemyCount}
                         okCallback={this.addOrEditRowOkCallback}
                         visible={this.state.editRowModalVisible}/>
             </div>

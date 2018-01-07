@@ -52,6 +52,7 @@ The source code lives in `src/`, and is built into `build/web/`.
   - Moving between screens, smooth screen transitions (though only a portion of the map is implemented)
   - Entering and exiting caves
   - Use of sword (Z key)
+  - Drop bombs, though they do nothing (X key)
   - Basic enemies that can die
   - Link takes damage from enemies and projectiles, and can die
   - Enemies drop rupees and hearts
