@@ -42,7 +42,7 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
             { label: 'Warp on Screen Change', value: new ChangeScreenWarpEventGenerator() }
         ];
 
-        this.maps = [ 'overworld' ];
+        this.maps = [ 'overworld', 'level1-6' ];
         this.rows = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
         this.cols = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];
         this.screenRows = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import ToolBar from './toolbar';
 import { ZeldaGame } from '../ZeldaGame';
 import VisibleMainContent from './containers/VisibleMainContent';
+import VisibleToolBar from './containers/visible-toolbar';
 
 export interface EditorProps {
     game: ZeldaGame;
@@ -26,7 +26,7 @@ export class Editor extends React.Component<EditorProps, EditorState> {
         return (
 
             <div>
-                <ToolBar/>
+                <VisibleToolBar/>
                 <VisibleMainContent/>
             </div>
         );

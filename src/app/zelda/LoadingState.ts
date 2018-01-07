@@ -56,9 +56,11 @@ export class LoadingState extends BaseState {
                 game.assets.addSpriteSheet('enemies', 'res/enemies.png', 16, 16, 1, 1, true);
                 game.assets.addSpriteSheet('enemyDies', 'res/enemyDies.png', 16, 16, 1, 1, true);
                 game.assets.addSpriteSheet('overworld', 'res/overworld.png', 16, 16);
+                game.assets.addSpriteSheet('labyrinths', 'res/level1.png', 16, 16);
                 game.assets.addImageAtlasContents('treaureAtlas', 'res/treasures.png', treasureAtlasInfo);
                 game.assets.addImage('hud', 'res/hud.png');
                 game.assets.addJson('overworldData', 'res/data/overworld.json');
+                game.assets.addJson('level1-6Data', 'res/data/level1-6.json');
                 game.assets.addSound('sword', 'res/sounds/sword.wav');
                 game.assets.addSound('enemyDie', 'res/sounds/kill.wav');
                 game.assets.addSound('enemyHit', 'res/sounds/LOZ_Hit.wav');

@@ -34,9 +34,10 @@ export default class TilePalette extends React.Component<TilePaletteProps, TileP
     repaint() {
 
         const canvas: HTMLCanvasElement = this.canvas;
+        const tilesetName: string = this.props.game!.map.getTilesetName();
 
         const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
-        const ss: SpriteSheet = this.props.game!.assets.get('overworld');
+        const ss: SpriteSheet = this.props.game!.assets.get(tilesetName);
         ss.gtpImage.draw(ctx, 0, 0);
 
         ctx.strokeStyle = 'red';

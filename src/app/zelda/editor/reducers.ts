@@ -16,7 +16,8 @@ const parent: HTMLDivElement = document.createElement('div');
     keyRefreshMillis: 300,
     parent: parent,
     targetFps: 60,
-    width: Constants.CANVAS_WIDTH
+    width: Constants.CANVAS_WIDTH,
+    editMode: true
 });
 
 const gameReducer: Reducer<ZeldaGame> = (state: ZeldaGame = (window as any).game, action: Action<any>) => {

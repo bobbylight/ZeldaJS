@@ -40,15 +40,14 @@ export default class MainContent extends React.Component<MainContentProps, MainC
         game.assets.addSpriteSheet('font', 'res/font.png', 9, 7, 0, 0);
         game.assets.addSpriteSheet('link', 'res/link.png', 16, 16, 1, 1, true);
         game.assets.addSpriteSheet('overworld', 'res/overworld.png', 16, 16);
+        game.assets.addSpriteSheet('labyrinths', 'res/level1.png', 16, 16);
         game.assets.addImage('hud', 'res/hud.png');
         game.assets.addJson('overworldData', 'res/data/overworld.json');
+        game.assets.addJson('level1-6Data', 'res/data/level1-6.json');
 
         game.assets.onLoad(() => {
 
-            //vm.game = game;
-            game.map = new Map();
-            game.map.fromJson(game.assets.get('overworldData'));
-            game.map.showEvents = true;
+            game.startNewGame();
             this._setCurrentScreen(7, 6);
 
             this._installKeyHandlers();

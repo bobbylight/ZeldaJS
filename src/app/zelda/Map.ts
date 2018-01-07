@@ -6,6 +6,7 @@ const HEADER: string = 'ZeldaMap';
 
 export interface MapData {
     header: string;
+    name: string;
     screenData: ScreenData[][];
     tilesetData: TilesetData;
     music: string;
@@ -15,6 +16,7 @@ export interface MapData {
 
 export class Map {
 
+    private name: string;
     private _screens: Screen[][];
     private _tileset: Tileset;
     private _music: string;
@@ -26,8 +28,9 @@ export class Map {
      */
     showEvents: boolean;
 
-    constructor(rowCount: number = 8, colCount: number = 16) {
+    constructor(name: string, rowCount: number = 8, colCount: number = 16) {
 
+        this.name = name;
         this._screens = [];
         for (let row: number = 0; row < rowCount; row++) {
             this._screens.push(this._createEmptyScreenList(colCount));
@@ -130,6 +133,10 @@ export class Map {
         return this._music;
     }
 
+    getName(): string {
+        return this.name;
+    }
+
     get rowCount(): number {
         return this._screens.length;
     }
@@ -142,14 +149,27 @@ export class Map {
         return this._tileset;
     }
 
+    getTilesetName(): string {
+        return this._tileset.name;
+    }
+
     setCurrentScreen(row: number, col: number) {
+
         if (this._curRow && this._curCol) {
             this.currentScreen.exit();
         }
-        this._curRow = row;
-        this._curCol = col;
+
+        if (row < this.rowCount && col < this.colCount) {
+            this._curRow = row;
+            this._curCol = col;
+        }
+        else {
+            this._curRow = this._curCol = 0;
+        }
+
         this.currentScreen.enter();
         return this.currentScreen;
+
     }
 
     toJson(): MapData {
@@ -161,6 +181,7 @@ export class Map {
 
         return {
             header: HEADER,
+            name: this.name,
             screenData: screenRows,
             tilesetData: this._tileset.toJson(),
             music: this._music,

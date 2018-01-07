@@ -7,17 +7,24 @@ import { Game, SpriteSheet } from 'gtp';
 import { ItemDropStrategy } from './item/ItemDropStrategy';
 declare let game: ZeldaGame;
 
+interface MapMap {
+    [ key: string ]: Map;
+}
+
 export class ZeldaGame extends Game {
 
+    maps: MapMap;
     map: Map;
     link: Link;
     itemDropStrategy: ItemDropStrategy;
     private animations: Animation[];
+    private editMode: boolean;
 
     constructor(args?: any) {
         super(args);
         this.itemDropStrategy = new ItemDropStrategy();
         this.animations = [];
+        this.editMode = args.editMode || false;
     }
 
     addEnemyDiesAnimation(x: number, y: number) {
@@ -103,7 +110,17 @@ export class ZeldaGame extends Game {
     }
 
     linkDied() {
-        game.audio.playMusic('linkDies');
+        if (!this.editMode) {
+            game.audio.playMusic('linkDies');
+        }
+    }
+
+    private loadMaps() {
+
+        this.maps = {
+            overworld: new Map('overworld').fromJson(this.assets.get('overworldData')),
+            'level1-6': new Map('level1-6').fromJson(this.assets.get('level1-6Data'))
+        };
     }
 
     get paintHitBoxes(): boolean {
@@ -111,19 +128,17 @@ export class ZeldaGame extends Game {
     }
 
     resumeMusic() {
-        const music: string | null | undefined = this.map.currentScreenMusic;
-        if (music && music !== 'none') {
-            game.audio.playMusic(music, true);
+        if (!this.editMode) {
+            const music: string | null | undefined = this.map.currentScreenMusic;
+            if (music && music !== 'none') {
+                game.audio.playMusic(music, true);
+            }
         }
     }
 
     setMap(name: string, destScreen: Position, destPos: Position, immediatelyStartMusic: boolean = true) {
 
-        if (!/\.map$/.test(name)) {
-            name += '.map';
-        }
-
-        // TODO: Load more than one map, and honor the map name parameter!
+        this.map = this.maps[name];
         this.map.setCurrentScreen(destScreen.row, destScreen.col);
         this.link.setLocation(destPos.col * 16, destPos.row * 16);
 
@@ -132,12 +147,14 @@ export class ZeldaGame extends Game {
         }
     }
 
-    startNewGame() {
-        this.map = new Map();
-        this.map.fromJson(this.assets.get('overworldData'));
+    startNewGame(initLink: boolean = true) {
+        this.loadMaps();
+        this.map = this.maps['overworld'];
         this.map.setCurrentScreen(7, 6);
-        this.link = new Link();
-        this.link.setLocation(100, 100);
+        if (initLink) {
+            this.link = new Link();
+            this.link.setLocation(100, 100);
+        }
     }
 
     updateAnimations() {
