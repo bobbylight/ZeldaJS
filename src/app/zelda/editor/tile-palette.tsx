@@ -1,6 +1,7 @@
 import { ZeldaGame } from '../ZeldaGame';
 import * as React from 'react';
 import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
+import { Constants } from '../Constants';
 
 /**
  * Properties passed to the tile palette component.
@@ -31,25 +32,30 @@ export default class TilePalette extends React.Component<TilePaletteProps, TileP
         this.repaint = this.repaint.bind(this);
     }
 
+    private colCount(): number {
+        return this.props.game!.map.tileset.colCount;
+    }
+
     repaint() {
 
         const canvas: HTMLCanvasElement = this.canvas;
         const tilesetName: string = this.props.game!.map.getTilesetName();
+        const colCount: number = this.colCount();
 
         const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
         const ss: SpriteSheet = this.props.game!.assets.get(tilesetName);
         ss.gtpImage.draw(ctx, 0, 0);
 
         ctx.strokeStyle = 'red';
-        let row: number = Math.floor(this.props.selectedTileIndex / 10);
-        let col: number = this.props.selectedTileIndex % 10;
+        let row: number = Math.floor(this.props.selectedTileIndex / colCount);
+        let col: number = this.props.selectedTileIndex % colCount;
         let x: number = col * 16;
         let y: number = row * 16;
         ctx.strokeRect(x, y, 16, 16);
 
         ctx.strokeStyle = 'blue';
-        row = Math.floor(this.state.armedIndex / 10);
-        col = this.state.armedIndex % 10;
+        row = Math.floor(this.state.armedIndex / colCount);
+        col = this.state.armedIndex % colCount;
         x = col * 16;
         y = row * 16;
         ctx.strokeRect(x, y, 16, 16);
@@ -75,16 +81,27 @@ export default class TilePalette extends React.Component<TilePaletteProps, TileP
     private _computeIndexFromXY(x: number, y: number): number {
         //console.log('--- ' + x + ', ' + y);
         //console.log('--- --- row/col === ' + Math.floor(y / 32) + ', ' + Math.floor(x / 32));
-        return Math.floor(y / 32) * 10 + Math.floor(x / 32);
+        const colCount: number = this.colCount();
+        const tileWidth: number = this.canvas.clientWidth / colCount;
+        const tileHeight: number = this.canvas.clientHeight / this.rowCount();
+        (console as any).log('---> ' + colCount + ', ' + tileWidth + ', ' + tileHeight);
+        return Math.floor(y / tileHeight) * colCount + Math.floor(x / tileWidth);
     }
 
     render() {
 
+        const width: number = this.colCount() * Constants.TILE_WIDTH;
+        const height: number = this.rowCount() * Constants.TILE_HEIGHT;
+
         return (
             <div className="tile-palette">
-                <canvas className="tile-palette-canvas" width="160" height="160"
+                <canvas className="tile-palette-canvas" width={width} height={height}
                         ref={(canvas: HTMLCanvasElement) => { this.canvas = canvas; }} />
             </div>
         );
+    }
+
+    private rowCount(): number {
+        return this.props.game!.map.tileset.rowCount;
     }
 }

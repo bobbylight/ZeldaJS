@@ -4,7 +4,6 @@ import VisibleMapEditor from './containers/visible-map-editor';
 import VisibleMapPreview from './containers/visible-map-preview';
 import VisibleTilePalette from './containers/visible-tile-palette';
 import { ZeldaGame } from '../ZeldaGame';
-import { Map } from '../Map';
 import CodeViewer from './code-viewer';
 import EventEditor from './event-editor';
 import VisibleEnemySelector from './containers/visible-enemy-selector';
