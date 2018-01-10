@@ -6,6 +6,7 @@ import TilePalette from '../tile-palette';
 const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProps?: any): any => {
     return {
         game: state.game,
+        tilesetName: state.game ? state.game.map.getTilesetName() : null,
         selectedTileIndex: state.selectedTileIndex
     };
 };

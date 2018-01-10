@@ -119,7 +119,7 @@ export class ZeldaGame extends Game {
 
         this.maps = {
             overworld: new Map('overworld').fromJson(this.assets.get('overworldData')),
-            'level1-6': new Map('level1-6').fromJson(this.assets.get('level1-6Data'))
+            level1: new Map('level1').fromJson(this.assets.get('level1Data'))
         };
     }
 

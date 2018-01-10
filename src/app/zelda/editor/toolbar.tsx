@@ -29,9 +29,11 @@ export default class ToolBar extends React.Component<ToolBarProps, ToolBarState>
     render() {
 
         const screens: LabelValuePair<string>[] = [
-            { label: 'Overworld', value: 'overworld' },
-            { label: 'Level 1-6', value: 'level1-6' }
+            { label: 'Overworld', value: 'overworld' }
         ];
+        for (let i: number = 1; i <= 1 /*9*/; i++) {
+            screens.push({ label: `Level ${i}`, value: `level${i}` });
+        }
 
         return (
 

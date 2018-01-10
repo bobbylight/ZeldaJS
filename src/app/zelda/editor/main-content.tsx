@@ -42,7 +42,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
         game.assets.addSpriteSheet('labyrinths', 'res/level1.png', 16, 16);
         game.assets.addImage('hud', 'res/hud.png');
         game.assets.addJson('overworldData', 'res/data/overworld.json');
-        game.assets.addJson('level1-6Data', 'res/data/level1-6.json');
+        game.assets.addJson('level1Data', 'res/data/level1.json');
 
         game.assets.onLoad(() => {
 

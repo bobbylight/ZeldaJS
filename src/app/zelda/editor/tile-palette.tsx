@@ -8,6 +8,7 @@ import { Constants } from '../Constants';
  */
 export interface TilePaletteProps {
     game?: ZeldaGame;
+    tilesetName: string;
     selectedTileIndex: number;
     onTileSelected: (selectedTileIndex: number) => void;
 }
@@ -39,7 +40,7 @@ export default class TilePalette extends React.Component<TilePaletteProps, TileP
     repaint() {
 
         const canvas: HTMLCanvasElement = this.canvas;
-        const tilesetName: string = this.props.game!.map.getTilesetName();
+        const tilesetName: string = this.props.tilesetName;
         const colCount: number = this.colCount();
 
         const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
@@ -103,5 +104,14 @@ export default class TilePalette extends React.Component<TilePaletteProps, TileP
 
     private rowCount(): number {
         return this.props.game!.map.tileset.rowCount;
+    }
+
+    componentDidUpdate(prevProps: Readonly<TilePaletteProps>) {
+
+        // We must force a repaint of the canvas's contents if the tileset name changed.
+        if (prevProps && prevProps.tilesetName !== this.props.tilesetName) {
+            (console as any).log('Rerendering tile palette canvas due to shouldComponentUpdate');
+            this.repaint();
+        }
     }
 }
