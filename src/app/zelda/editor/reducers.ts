@@ -48,7 +48,8 @@ const currentScreenColReducer: Reducer<number> = (state: number = 0, action: Act
 const selectedTileIndexReducer: Reducer<number> = (state: number = 1, action: Action<number>) => {
     if (action.type === 'TILE_SELECTED') {
         console.log(`Tile selected: ${action.payload}`);
-        return action.payload ? action.payload : state;
+        const selectedTileIndex: number = typeof action.payload !== 'undefined' ? action.payload : -1;
+        return selectedTileIndex !== -1 ? selectedTileIndex : state;
     }
     return state;
 };
