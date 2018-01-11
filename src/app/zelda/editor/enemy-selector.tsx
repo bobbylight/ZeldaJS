@@ -19,6 +19,7 @@ interface EnemySelectorState {
     headers: ModifiableTableHeader[];
     modalTitle: string;
     selectedEnemyInfo: ModifiableTableRow | null;
+    selectedEnemyInfoIndex: number;
     editRowModalVisible: boolean;
 }
 
@@ -53,15 +54,25 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
         this.setState({
             modalTitle: row === -1 ? 'Add Enemy' : 'Edit Enemy',
             selectedEnemyInfo: rowData,
+            selectedEnemyInfoIndex: row,
             editRowModalVisible: true
         });
     }
 
     addOrEditRowOkCallback(newEnemy: EnemyInfo) {
+
+        const newState: any = { editRowModalVisible: false, selectedEnemyInfoIndex: -1, selectedEnemyInfo: null };
+
         if (newEnemy) {
-            this.props.enemyGroup.add(newEnemy);
+            if (this.state.selectedEnemyInfoIndex === -1) {
+                this.props.enemyGroup.add(newEnemy);
+            }
+            else {
+                this.props.enemyGroup.enemies[this.state.selectedEnemyInfoIndex] = newEnemy;
+            }
         }
-        this.setState({ editRowModalVisible: false });
+
+        this.setState(newState);
     }
 
     moveTableRow(row: number, delta: number) {
@@ -126,7 +137,7 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
                                  eventHandler={this}/>
 
                 <EditEnemyRowModal game={this.props.game}
-                        submitButtonLabel="Add"
+                        submitButtonLabel={this.state.selectedEnemyInfoIndex === -1 ? 'Add' : 'OK'}
                         title={this.state.modalTitle}
                         enemyChoices={this.state.choices}
                         selectedEnemy={enemyType}

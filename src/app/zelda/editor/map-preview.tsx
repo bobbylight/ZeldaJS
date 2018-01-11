@@ -30,6 +30,10 @@ export default class MapPreview extends React.Component<MapPreviewProps, MapPrev
         const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
         ctx.save();
 
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, Constants.SCREEN_WIDTH * Constants.SCREEN_COL_COUNT,
+            Constants.SCREEN_HEIGHT * Constants.SCREEN_ROW_COUNT);
+
         const map: Map = this.props.game!.map;
         for (let row: number = 0; row < map.rowCount; row++) {
 

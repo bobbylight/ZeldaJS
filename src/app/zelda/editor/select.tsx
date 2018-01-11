@@ -46,7 +46,6 @@ export default class Select<T> extends React.Component<SelectProps<T>, SelectSta
     }
 
     componentWillReceiveProps(nextProps: Readonly<SelectProps<T>>) {
-        console.log('-------- componentWillReceiveProps called: ' + JSON.stringify(nextProps));
         this.setState(this.computeState(nextProps));
     }
 
