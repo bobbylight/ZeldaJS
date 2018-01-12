@@ -16,7 +16,7 @@ declare let game: ZeldaGame;
 
 export class Screen {
 
-    private _parent: Map;
+    private readonly _parent: Map;
     private _tiles: number[][];
     private _actors: Actor[];
     enemyGroup: EnemyGroup | undefined | null;

@@ -46,6 +46,7 @@
     "no-duplicate-imports": true,
     "no-duplicate-super": true,
     "no-duplicate-variable": true,
+    "no-dynamic-delete": true,
     "no-empty": false,
     "no-empty-interface": false, // Possibly explore later
     "no-eval": true,
@@ -93,6 +94,7 @@
     "only-arrow-functions": true,
     "prefer-conditional-expression": true,
     "prefer-const": true,
+    "prefer-readonly": true,
     "quotemark": [ // Doesn't work in tsx files
       true,
       "single",
@@ -128,7 +130,6 @@
         "variable-declaration": "nospace"
       }
     ],
-    "typeof-compare": true,
     "unified-signatures": true,
     "use-default-type-parameter": true,
     "use-isnan": true,

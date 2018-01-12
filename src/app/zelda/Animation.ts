@@ -31,7 +31,7 @@ export class Animation {
 
     private _x: number;
     private _y: number;
-    private _frames: Frame[];
+    private readonly _frames: Frame[];
     private _loopingStartFrame: number;
     private _curFrame: number;
     private _lastTime: number;

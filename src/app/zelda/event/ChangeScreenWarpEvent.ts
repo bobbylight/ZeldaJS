@@ -9,7 +9,7 @@ export class ChangeScreenWarpEvent extends Event<ChangeScreenWarpData> implement
 
     static readonly EVENT_TYPE: string = 'changeScreenWarp';
 
-    private _animate: boolean;
+    private readonly _animate: boolean;
     destMap: string;
     destScreen: Position;
     destPos: Position;

@@ -25,12 +25,12 @@ interface EditScreenEventModalState {
 export default class EditScreenEventModal extends React.Component<EditScreenEventModalProps, EditScreenEventModalState> {
 
     private currentlyShowing: boolean;
-    private generators: LabelValuePair<EventGenerator<any>>[];
-    private maps: string[];
-    private rows: number[];
-    private cols: number[];
-    private screenRows: number[];
-    private screenCols: number[];
+    private readonly generators: LabelValuePair<EventGenerator<any>>[];
+    private readonly maps: string[];
+    private readonly rows: number[];
+    private readonly cols: number[];
+    private readonly screenRows: number[];
+    private readonly screenCols: number[];
 
     constructor(props: EditScreenEventModalProps) {
         super(props);

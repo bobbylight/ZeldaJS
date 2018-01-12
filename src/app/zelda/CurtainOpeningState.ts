@@ -6,8 +6,8 @@ declare let game: ZeldaGame;
 
 export class CurtainOpeningState extends State {
 
-    private _mainState: MainGameState;
-    private _delay: Delay;
+    private readonly _mainState: MainGameState;
+    private readonly _delay: Delay;
     private _openAmount: number;
 
     /**

@@ -19,9 +19,9 @@ const RUPEE_COUNTS: { [ key: string ]: number } = {
  */
 export class Rupee extends AbstractItem {
 
-    private type: RupeeDenomination;
-    private rupeeCount: number;
-    private image: Image;
+    private readonly type: RupeeDenomination;
+    private readonly rupeeCount: number;
+    private readonly image: Image;
 
     constructor(x: number, y: number, type: RupeeDenomination = 'yellow') {
 

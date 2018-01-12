@@ -11,8 +11,8 @@ declare let game: ZeldaGame;
  */
 export class Projectile extends Actor {
 
-    private _ssRow: number;
-    private _ssCol: number;
+    private readonly _ssRow: number;
+    private readonly _ssCol: number;
 
     constructor(ssRow: number, ssCol: number, x: number, y: number, dir: Direction) {
 

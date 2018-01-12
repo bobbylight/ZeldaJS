@@ -5,7 +5,7 @@
  */
 export class Secrets {
 
-    private secrets: SecretsData;
+    private readonly secrets: SecretsData;
 
     constructor() {
         this.secrets = {};

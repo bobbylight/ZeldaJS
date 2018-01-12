@@ -18,7 +18,7 @@ export class ZeldaGame extends Game {
     link: Link;
     itemDropStrategy: ItemDropStrategy;
     private animations: Animation[];
-    private editMode: boolean;
+    private readonly editMode: boolean;
 
     constructor(args?: any) {
         super(args);

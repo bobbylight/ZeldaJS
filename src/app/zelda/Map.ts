@@ -16,9 +16,9 @@ export interface MapData {
 
 export class Map {
 
-    private name: string;
-    private _screens: Screen[][];
-    private _tileset: Tileset;
+    private readonly name: string;
+    private readonly _screens: Screen[][];
+    private readonly _tileset: Tileset;
     private _music: string;
     private _curRow: number;
     private _curCol: number;

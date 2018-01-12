@@ -27,7 +27,7 @@ export class Link extends Character {
     private bombCount: number;
     private maxBombCount: number;
 
-    private _maxHealth: number;
+    private readonly _maxHealth: number;
     private _health: number;
     private takingDamageTick: number;
 
@@ -444,6 +444,11 @@ export class Link extends Character {
     setLocation(x: number, y: number) {
         super.setLocation(x, y);
         this._refreshHitBox();
+    }
+
+    setMaxBombCount(count: number) {
+        // Link's bomb are always refilled when the max bomb count is increased.
+        this.bombCount = this.maxBombCount = count;
     }
 
     private _swingSword() {

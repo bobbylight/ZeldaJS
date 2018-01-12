@@ -13,7 +13,7 @@ declare let game: ZeldaGame;
 export abstract class AbstractWalkingEnemy extends Enemy {
 
     private _changeDirTimer: number;
-    private _ssRowOffset: number;
+    private readonly _ssRowOffset: number;
     protected pausedBeforeThrowingProjectile: number;
 
     constructor(ssRowOffset: number, strength: EnemyStrength = 'red', health: number = 1) {

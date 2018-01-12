@@ -12,7 +12,7 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
 
     static readonly EVENT_TYPE: string = 'goDownStairs';
 
-    private _animate: boolean;
+    private readonly _animate: boolean;
     destMap: string;
     destScreen: Position;
     destPos: Position;

@@ -12,7 +12,7 @@ declare let game: ZeldaGame;
 
 export class MainGameState extends BaseState {
 
-    private _hud: Hud;
+    private readonly _hud: Hud;
     private _lastScreen: Screen | undefined | null;
     private _screenSlidingDir: Direction | null;
     private _screenSlidingAmount: number;

@@ -11,8 +11,8 @@ type EnemyClass = 'A' | 'B' | 'C' | 'D' | 'X';
  */
 export class ItemDropStrategy {
 
-    private enemyTypeToEnemyClassMap: { [ name: string ]: EnemyClass };
-    private itemDropTable: { [ enemyClass: string /*EnemyClass*/ ]: (string | null)[] };
+    private readonly enemyTypeToEnemyClassMap: { [ name: string ]: EnemyClass };
+    private readonly itemDropTable: { [ enemyClass: string /*EnemyClass*/ ]: (string | null)[] };
     private counter: number;
 
     constructor() {

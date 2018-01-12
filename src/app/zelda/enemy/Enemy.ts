@@ -16,12 +16,12 @@ export type EnemyStrength = 'red' | 'blue';
 export abstract class Enemy extends Character {
 
     strength: EnemyStrength;
-    private _maxHealth: number;
+    private readonly _maxHealth: number;
     protected _health: number;
 
     private _step: number;
     private _stepTimer: number;
-    private _alwaysFacesForward: boolean;
+    private readonly _alwaysFacesForward: boolean;
 
     constructor(strength: EnemyStrength = 'red',
                 health: number = 1, alwaysFacesForward: boolean = false) {

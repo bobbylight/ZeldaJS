@@ -14,7 +14,7 @@ export class Tektite extends Enemy {
 
     private _paused: boolean;
     private _pauseOrJumpTime: number;
-    private _maxPauseTime: number = 60;
+    private readonly _maxPauseTime: number = 60;
     private _curJumpXInc: number;
     private _curJumpAscentTime: number;
     private _curJumpDescentTime: number;
