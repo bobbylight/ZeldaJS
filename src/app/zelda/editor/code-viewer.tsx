@@ -61,10 +61,12 @@ export default class CodeViewer extends React.Component<CodeViewerProps, CodeVie
             marginRight: '1rem'
         };
 
-        return (
-            <div className="code-viewer">
+        const panelClass: string = 'panel panel-primary';
 
-                <div className="panel panel-default">
+        return (
+            <div className="col-md-12 code-viewer">
+
+                <div className={panelClass}>
 
                     <div className="panel-heading">
                         <h3 className="panel-title">Map JSON</h3>

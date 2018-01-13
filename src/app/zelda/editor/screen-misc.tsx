@@ -39,7 +39,7 @@ export default class ScreenMisc extends React.Component<ScreenMiscProps, ScreenM
         return (
             <div>
                 <div className="form-group">
-                    <label>Song</label>
+                    <label>Music</label>
                     <Select choices={this.songs}
                             initialValue={this.props.screen!.music}
                             onChange={this.songChanged}/>

@@ -131,8 +131,18 @@ export default class MainContent extends React.Component<MainContentProps, MainC
         const actions: ActionablePanelAction[] = [
             { iconClass: 'bolt', title: 'Toggle Event visibility',
                 toggle: true, pressed: this.props.game.map.showEvents,
-                callback: (pressed: boolean) => { this.props.game.map.showEvents = pressed; } }
+                callback: (pressed: boolean) => { this.props.game.map.showEvents = pressed; } },
+            { iconClass: 'bolt', title: 'Menu test',
+                menu: [
+                    {
+                        label: 'One',
+                        action: () => {}
+                    }
+                ]
+            }
         ];
+
+        const panelClass: string = 'panel panel-primary';
 
         return (
 
@@ -142,11 +152,11 @@ export default class MainContent extends React.Component<MainContentProps, MainC
 
                     <div className="col-md-8">
 
-                        <ActionablePanel title={title} actions={actions}>
+                        <ActionablePanel title={title} panelClass="primary" actions={actions}>
                             <VisibleMapEditor/>
                         </ActionablePanel>
 
-                        <div className="panel panel-default">
+                        <div className={panelClass}>
                             <div className="panel-heading">
                                 <h3 className="panel-title">Map Preview</h3>
                             </div>
@@ -158,7 +168,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
 
                     <div className="col-md-4">
 
-                        <Tabs id="tabSet1" defaultActiveKey={0} className="panel panel-default">
+                        <Tabs id="tabSet1" defaultActiveKey={0} className={panelClass}>
 
                             <Tab eventKey={0} title="Tile Palette">
                                 <VisibleTilePalette/>
@@ -178,7 +188,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                             </Tab>
                         </Tabs>
 
-                        <div className="panel panel-default">
+                        <div className={panelClass}>
                             <div className="panel-heading">
                                 <h3 className="panel-title">Enemies</h3>
                             </div>

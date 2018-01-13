@@ -3,10 +3,16 @@
  */
 export interface ActionablePanelAction {
     iconClass: string;
-    toggle: boolean;
+    toggle?: boolean;
     pressed?: boolean | null | undefined;
-    callback: ActionCallback;
+    callback?: ActionCallback;
+    menu?: ActionablePanelMenuItem[];
     title?: string;
+}
+
+export interface ActionablePanelMenuItem {
+    label: string;
+    action: () => void;
 }
 
 /**

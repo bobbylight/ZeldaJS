@@ -4,6 +4,7 @@ import ActionButton from './action-button';
 
 interface ActionablePanelProps {
     title: string;
+    panelClass?: string;
     actions?: ActionablePanelAction[];
     children: any;
 }
@@ -24,8 +25,10 @@ export default class ActionablePanel extends React.Component<ActionablePanelProp
         }) : null;
         const actions: JSX.Element | null = rows ? (<div className="panel-action-buttons">{rows}</div>) : null;
 
+        const panelClass: string  = `actionable-panel panel panel-${this.props.panelClass || 'default'}`;
+
         return (
-            <div className="actionable-panel panel panel-default">
+            <div className={panelClass}>
                 <div className="panel-heading">
                     <h3 className="panel-title">{this.props.title}</h3>
                     {actions ? actions : ''}

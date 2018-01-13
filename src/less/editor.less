@@ -28,11 +28,17 @@ canvas {
     -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
 }
 
-.screen-canvas {
-    /* 256x176 + 16-pixel buffer on all sides */
-    width: 576px;
-    height: 416px;
+.map-editor {
+
+    text-align: center;
+
+    .screen-canvas {
+        /* 256x176 + 16-pixel buffer on all sides */
+        width: 576px;
+        height: 416px;
+    }
 }
+
 .tile-palette {
 
     text-align: center;
@@ -93,33 +99,50 @@ canvas {
         .panel-action-buttons {
             float: right;
             border-left: 1px solid #ddd;
-            // Matches default panel color
-            background: #f5f5f5 linear-gradient(to bottom, #f5f5f5, #e8e8e8);
+
+            //background: #f5f5f5 linear-gradient(to bottom, #f5f5f5, #e8e8e8); // Matches default panel color
 
             .action-button {
 
                 padding: 1rem;
                 cursor: pointer;
+                display: inline-block;
 
                 &:hover {
-                    background: #fbfbfb linear-gradient(to bottom, #fbfbfb, #eeeeee);
+                    //background: #fbfbfb linear-gradient(to bottom, #fbfbfb, #eeeeee); // Matches default panel color
+                    background: #3f86c3 linear-gradient(to bottom, #3f86c3, #266daa); // primary
                 }
                 &:active {
-                    background: #f0f0f0 linear-gradient(to bottom, #f0f0f0, #e3e3e3);
+                    //background: #f0f0f0 linear-gradient(to bottom, #f0f0f0, #e3e3e3); // Matches default panel color
+                    background: #2e75b3 linear-gradient(to bottom, #2e75b3, #155c99); // primary
                 }
 
                 &.action-button-pressed {
 
-                    background: #e0e0ff linear-gradient(to bottom, #e0e0ff, #d3d3f2);
+                    //background: #e0e0ff linear-gradient(to bottom, #e0e0ff, #d3d3f2); // Matches default panel color
+                    background: #1e65a2 linear-gradient(to bottom, #1e65a2, #115895); // primary
 
                     &:hover {
-                        background: #e6e6ff linear-gradient(to bottom, #e6e6ff, #d9d9f8);
+                        //background: #e6e6ff linear-gradient(to bottom, #e6e6ff, #d9d9f8); // Matches default panel color
+                        background: #246ba8 linear-gradient(to bottom, #246ba8, #175e9b); // primary
                     }
                     &:active {
-                        background: #dbdbfa linear-gradient(to bottom, #dbdbfa, #ceceed);
+                        //background: #dbdbfa linear-gradient(to bottom, #dbdbfa, #ceceed); // Matches default panel color
+                        background: #2f66a3 linear-gradient(to bottom, #2f66a3, #064d8a); // primary
                     }
                 }
             }
+        }
+    }
+}
+
+.nav.nav-tabs {
+    background: #3678b4; // Matches primary
+
+    a {
+        color: white; // Matches primary
+        &:hover {
+            color: #23527c; // Matches primary
         }
     }
 }
