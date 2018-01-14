@@ -121,6 +121,12 @@ export class ZeldaGame extends Game {
             overworld: new Map('overworld').fromJson(this.assets.get('overworldData')),
             level1: new Map('level1').fromJson(this.assets.get('level1Data'))
         };
+
+        if (this.editMode) {
+            for (const name in this.maps) {
+                this.maps[name].showEvents = true;
+            }
+        }
     }
 
     get paintHitBoxes(): boolean {

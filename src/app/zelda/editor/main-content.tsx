@@ -135,8 +135,14 @@ export default class MainContent extends React.Component<MainContentProps, MainC
             { iconClass: 'bolt', title: 'Menu test',
                 menu: [
                     {
-                        label: 'One',
-                        action: () => {}
+                        label: 'Dungeon Room',
+                        action: () => {
+                            if (this.props.game.map.getName().indexOf('level') !== 0) {
+                                alert('Converting to a dungeon room is only supported when editing a level');
+                                return;
+                            }
+                            alert('Not yet implemented');
+                        }
                     }
                 ]
             }

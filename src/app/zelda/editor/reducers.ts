@@ -8,7 +8,6 @@ import { Screen } from '../Screen';
 declare let game: ZeldaGame;
 
 // Initialize the game declared in zelda.ts
-// TODO: Do game initialization in a service?
 const parent: HTMLDivElement = document.createElement('div');
 (window as any).game = new ZeldaGame({
     assetRoot: undefined,

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ZeldaGame } from '../ZeldaGame';
-import VisibleMainContent from './containers/VisibleMainContent';
+import VisibleMainContent from './containers/visible-main-content';
 import VisibleToolBar from './containers/visible-toolbar';
 
 export interface EditorProps {

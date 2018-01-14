@@ -36,9 +36,6 @@ export default class ActionButton extends React.Component<ActionButtonProps, Act
         if (this.props.action.callback) {
             this.props.action.callback(newPressedState);
         }
-        else if (this.props.action.menu) {
-
-        }
     }
 
     render() {
@@ -51,7 +48,7 @@ export default class ActionButton extends React.Component<ActionButtonProps, Act
 
             let i: number = 0;
             const menuItems: JSX.Element[] = this.props.action.menu.map((item: ActionablePanelMenuItem) => {
-                return <li key={'action-' + i++}><a href="#">Action</a></li>;
+                return <li key={'action-' + i++}><a onClick={item.action}>{item.label}</a></li>;
             });
             const menu: JSX.Element = <ul className="dropdown-menu" aria-labelledby={buttonId}>
                 {menuItems}
@@ -63,7 +60,7 @@ export default class ActionButton extends React.Component<ActionButtonProps, Act
                          className="dropdown-toggle" onClick={this.handleClick} title={this.props.action.title}>
                         <span className="caret"/>
                     </span>
-                    {menu ? menu : ''}
+                    {menu}
                 </span>
             );
         }
