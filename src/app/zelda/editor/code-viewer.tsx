@@ -3,7 +3,7 @@ import * as React from 'react';
 import { MapData } from '../Map';
 
 import highlighter from 'jshighlight/lib/highlighter';
-import { JsonParser } from 'jshighlight/lib/parsers/json-parser';
+import JsonParser from 'jshighlight/lib/parsers/json-parser';
 
 import '../../../../node_modules/jshighlight/src/styles/jshl-default.css';
 
