@@ -120,13 +120,17 @@ export class Screen {
         return this._tiles[row][col];
     }
 
+    private static isOffScreen(row: number, col: number): boolean {
+        return row < 0 || row >= Constants.SCREEN_ROW_COUNT ||
+            col < 0 || col >= Constants.SCREEN_COL_COUNT;
+    }
+
     isWalkable(actor: Actor, x: number, y: number): boolean {
 
         const row: number = Math.floor(y / 16);
         const col: number = Math.floor(x / 16);
 
-        if (row < 0 || row >= Constants.SCREEN_ROW_COUNT ||
-                col < 0 || col >= Constants.SCREEN_COL_COUNT) {
+        if (Screen.isOffScreen(row, col)) {
             return false;
         }
 
@@ -136,30 +140,7 @@ export class Screen {
         const y0: number = 15 - (y % 16);
 
         if (actor instanceof Link) {
-            let walkabilityStr: string;
-            switch (walkability) {
-                case 1:
-                    walkabilityStr = 'true';
-                    break;
-                case 2:
-                    walkabilityStr = (y0 > 16 - x0).toString();
-                    break;
-                case 3:
-                    walkabilityStr = (y0 > x0).toString();
-                    break;
-                case 4:
-                    walkabilityStr = (y0 < x0).toString();
-                    break;
-                case 5:
-                    walkabilityStr = (y0 < 16 - x0).toString();
-                    break;
-                case 6:
-                    walkabilityStr = (y0 < 8).toString();
-                    break;
-                default:
-                    walkabilityStr = 'false';
-                    break;
-            }
+            Screen.printWalkability(walkability, x0, y0);
         }
 
         return walkability === 1 ||
@@ -204,10 +185,10 @@ export class Screen {
     /**
      * Paints a specific column of this screen.  Used by the tile editor.
      *
-     * @param {CanvasRenderingContext2D} ctx The rendering context.
-     * @param {number} col The column to paint.
-     * @param {number} x The x-index at which to paint.
-     * @param {boolean} paintWalkability Whether to paint a walkability indicator for each tile.
+     * @param ctx The rendering context.
+     * @param col The column to paint.
+     * @param x The x-index at which to paint.
+     * @param paintWalkability Whether to paint a walkability indicator for each tile.
      */
     paintCol(ctx: CanvasRenderingContext2D, col: number, x: number, paintWalkability: boolean = false) {
 
@@ -228,10 +209,10 @@ export class Screen {
     /**
      * Paints a specific row of this screen.  Used by the tile editor.
      *
-     * @param {CanvasRenderingContext2D} ctx The rendering context.
-     * @param {number} row The row to paint.
-     * @param {number} y The y-index at which to paint.
-     * @param {boolean} paintWalkability Whether to paint a walkability indicator for each tile.
+     * @param ctx The rendering context.
+     * @param row The row to paint.
+     * @param y The y-index at which to paint.
+     * @param paintWalkability Whether to paint a walkability indicator for each tile.
      */
     paintRow(ctx: CanvasRenderingContext2D, row: number, y: number, paintWalkability: boolean = false) {
 
@@ -247,6 +228,37 @@ export class Screen {
                 // TODO: Implement me
             }
         }
+    }
+
+    private static printWalkability(walkability: number, x: number, y: number) {
+
+        let walkabilityStr: string;
+
+        switch (walkability) {
+            case 1:
+                walkabilityStr = 'true';
+                break;
+            case 2:
+                walkabilityStr = (y > 16 - x).toString();
+                break;
+            case 3:
+                walkabilityStr = (y > x).toString();
+                break;
+            case 4:
+                walkabilityStr = (y < x).toString();
+                break;
+            case 5:
+                walkabilityStr = (y < 16 - x).toString();
+                break;
+            case 6:
+                walkabilityStr = (y < 8).toString();
+                break;
+            default:
+                walkabilityStr = 'false';
+                break;
+        }
+
+        //console.log(`walkability: ${walkabilityStr}`);
     }
 
     removeLinksSwordActor() {

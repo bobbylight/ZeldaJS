@@ -30,7 +30,7 @@ export class Octorok extends AbstractWalkingEnemy {
      * certain number of ticks occur before re-throwing a projectile; whether the enemy is in a state to even
      * consider throwing a projectile should be handled by callers.
      *
-     * @returns {boolean} Whether this enemy should start throwing a projectile.
+     * @returns Whether this enemy should start throwing a projectile.
      */
     private shouldThrowProjectile(): boolean {
         return game.randomInt(Octorok._PROJECTILE_THROWING_ODDS[this.strength === 'blue' ? 1 : 0]) === 0;

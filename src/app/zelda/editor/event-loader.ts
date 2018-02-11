@@ -9,8 +9,8 @@ export default class EventLoader {
     /**
      * Loads an event from a JSON representation of that event.
      *
-     * @param {EventData} data The JSON data representing the event.
-     * @returns {any} The event.
+     * @param data The JSON data representing the event.
+     * @returns The event.
      */
     static load(data: EventData): Event<any> {
         // Be a little sneaky to call a method by name

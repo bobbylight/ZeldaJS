@@ -12,7 +12,6 @@ export class LoadingState extends BaseState {
 
     /**
      * State that renders while resources are loading.
-     * @constructor
      */
     constructor(args?: Game | BaseStateArgs) {
         super(args);

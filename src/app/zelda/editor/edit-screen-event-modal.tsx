@@ -282,7 +282,7 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
     /**
      * Called when the user selects a new event generator.
      *
-     * @param {SelectOnChangeEvent<EventGenerator<any>>} e The event.
+     * @param e The event.
      */
     eventGeneratorChanged(e: SelectOnChangeEvent<EventGenerator<any>>) {
 

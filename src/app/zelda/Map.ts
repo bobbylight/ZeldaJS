@@ -112,7 +112,7 @@ export class Map {
      * Returns the music to play for a particular screen in this map.  Optional per-screen music will
      * override the map-wide music.
      *
-     * @returns {string} The music to play.
+     * @returns The music to play.
      * @see music
      */
     get currentScreenMusic(): string | null | undefined {
@@ -126,7 +126,7 @@ export class Map {
     /**
      * Returns the standard music to play for this map.  This does not take into account per-screen music.
      *
-     * @returns {string} The music to play.
+     * @returns The music to play.
      * @see currentScreenMusic
      */
     get music(): string {

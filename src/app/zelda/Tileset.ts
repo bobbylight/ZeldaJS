@@ -41,7 +41,7 @@ export class Tileset {
     /**
      * Loads a tile set.
      *
-     * @param {string} name The name of the tileset.  This should be the resource name,
+     * @param name The name of the tileset.  This should be the resource name,
      *        as loaded by the game's resource loader.
      */
     load(name: string) {

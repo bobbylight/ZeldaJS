@@ -43,7 +43,7 @@ export abstract class Actor {
     /**
      * Initializes this actor based on a JSON representation of it.
      * @param json The JSON representation of the actor.
-     * @returns {Actor} This actor.
+     * @returns This actor.
      */
     fromJson(json: ActorData): Actor {
         this.dir = json.dir;
@@ -59,7 +59,7 @@ export abstract class Actor {
      * Returns whether this actor intersects another.
      *
      * @param other The other actor.
-     * @returns {boolean} Whether the two intersect.
+     * @returns Whether the two intersect.
      */
     intersects(other: Actor): boolean {
         return this.hitBox.intersects(other.hitBox);
@@ -68,7 +68,7 @@ export abstract class Actor {
     /**
      * Returns whether this actor is entirely on a specific tile.
      * @param tile The row/column of the tile.
-     * @returns {boolean} Whether this actor is entirely on the tile.
+     * @returns Whether this actor is entirely on the tile.
      */
     isEntirelyOn(tile: Position): boolean {
         const size: number = Constants.TILE_WIDTH; // TILE_HEIGHT is the same
@@ -83,7 +83,7 @@ export abstract class Actor {
      *
      * @param dx An x-offset to apply to the hitbox.
      * @param dy A y-offset to apply to the hitbox.
-     * @returns {boolean} Whether the hitbox is walkable.
+     * @returns Whether the hitbox is walkable.
      */
     protected isHitBoxWalkable(dx: number = 0, dy: number = 0): boolean {
 
@@ -101,7 +101,7 @@ export abstract class Actor {
      * Returns whether this actor is moving upwards and "enough" onto the next tile up that
      * an event can trigger, causing him to walk into it.
      * @param tile The row/column of the tile.
-     * @returns {boolean} Whether this actor is walking onto it, facing upwards.
+     * @returns Whether this actor is walking onto it, facing upwards.
      */
     isWalkingUpOnto(tile: Position): boolean {
 

@@ -8,9 +8,9 @@ export interface ColumnRenderer {
     /**
      * Converts a cell value to a display value.  Other values in the row are provided for context.
      *
-     * @param {any} cellValue The value in the cell.
-     * @param {ModifiableTableRow} rowData The value of all cells in the row.
-     * @returns {any} The value to display.
+     * @param cellValue The value in the cell.
+     * @param rowData The value of all cells in the row.
+     * @returns The value to display.
      */
     (cellValue: any, rowData: ModifiableTableRow): any;
 }

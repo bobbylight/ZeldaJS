@@ -64,9 +64,9 @@ export class ItemDropStrategy {
     /**
      * Creates an item by name.
      *
-     * @param enemy
-     * @param itemName
-     * @returns {AbstractItem|null}
+     * @param enemy The enmy dropping the item.
+     * @param itemName The name of the item to drop.
+     * @returns The item dropped.
      */
     // TODO: Perhaps this could be a factory?
     private createItem(enemy: Enemy, itemName: string): AbstractItem | null {

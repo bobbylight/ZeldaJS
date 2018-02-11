@@ -11,7 +11,6 @@ export class TitleState extends BaseState {
 
     /**
      * State that renders the title screen.
-     * @constructor
      */
     constructor(args?: ZeldaGame | BaseStateArgs) {
         super(args);

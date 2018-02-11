@@ -9,7 +9,6 @@ export class BaseState extends State {
 
     /**
      * Functionality common amongst all states in this game.
-     * @constructor
      */
     constructor(args?: Game | BaseStateArgs) {
         super(args);

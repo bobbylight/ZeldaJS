@@ -118,7 +118,7 @@ export class Animation {
      * Toggles whether this animation should "loop" when it reaches its
      * final frame.
      *
-     * @param {boolean} loop Whether the animation should loop.  If this is
+     * @param loop Whether the animation should loop.  If this is
      *        <code>true</code>, then after rendering the final frame, the
      *        first frame will be rendered and the animation will continue.
      *        If this is <code>false</code>, this animation will be done after
@@ -134,7 +134,7 @@ export class Animation {
      * Starts this animation looping, but instead of looping back to frame
      * 0, it loops back to frame <code>frame</code>.
      *
-     * @param {number} frame The frame to loop "back" to.
+     * @param frame The frame to loop "back" to.
      * @see looping
      */
     set loopingFromFrame(frame: number) {

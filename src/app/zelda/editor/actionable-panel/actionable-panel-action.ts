@@ -23,7 +23,7 @@ export interface ActionCallback {
     /**
      * The callback to call when an action button is clicked.
      *
-     * @param {boolean} depressed Whether the button is depressed.  This will only ever be <code>true</code> if
+     * @param depressed Whether the button is depressed.  This will only ever be <code>true</code> if
      *        this is a toggle button.
      */
     (depressed: boolean): void;

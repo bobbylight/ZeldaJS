@@ -25,8 +25,8 @@ export class EnemyGroup {
     /**
      * Clones this enemy group, optionally flattening it.
      *
-     * @param {boolean} flatten Whether the enemy list should be flattened.
-     * @returns {EnemyGroup}
+     * @param flatten Whether the enemy list should be flattened.
+     * @returns The clone of this enemy group.
      * @see flatten
      */
     clone(flatten: boolean = false): EnemyGroup {
@@ -38,7 +38,7 @@ export class EnemyGroup {
      * Coverts any EnemyInfo instances in this group that contain multiple enemies into multiple EnemyInfo instances
      * representing a single enemy.
      *
-     * @returns {EnemyGroup} This enemy group.
+     * @returns This enemy group.
      */
     flatten(): EnemyGroup {
 
