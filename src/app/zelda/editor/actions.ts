@@ -5,12 +5,13 @@ declare let game: ZeldaGame;
 
 export type ACTION_TYPE = 'SCREEN_MODIFIED' | 'TILE_SELECTED' | 'CURRENT_SCREEN_CHANGED';
 
-export const screenModified: (row: number, col: number) => Action<number> = (row: number, col: number): Action<number> => {
-    return {
-        type: 'SCREEN_MODIFIED',
-        payload: Date.now()
+export const screenModified: (row: number, col: number) => Action<number> =
+    (row: number, col: number): Action<number> => {
+        return {
+            type: 'SCREEN_MODIFIED',
+            payload: Date.now()
+        };
     };
-};
 
 export const tileSelected: (index: number) => Action<number> = (index: number): Action<number> => {
     return {

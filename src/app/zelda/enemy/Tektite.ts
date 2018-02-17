@@ -53,7 +53,8 @@ export class Tektite extends Enemy {
             this._curJumpAscentTime = 20 + game.randomInt(10);
             this._curJumpDescentTime = 10 + game.randomInt(30);
 
-            const afterJumpX: number = this.x + this._curJumpXInc * (this._curJumpAscentTime + 3 + this._curJumpDescentTime);
+            const afterJumpX: number = this.x +
+                this._curJumpXInc * (this._curJumpAscentTime + 3 + this._curJumpDescentTime);
             const afterJumpY: number = this.y - ySpeed * (this._curJumpAscentTime - this._curJumpDescentTime);
 
             success = afterJumpX >= 0 && afterJumpX < (game.getWidth() - thisWidth) &&

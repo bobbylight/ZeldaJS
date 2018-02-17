@@ -56,7 +56,7 @@ export class Bomb extends Actor {
         this.possiblyPaintHitBox(ctx);
 
         if (this.frame < Bomb.MAX_FRAME - 2) { // First two frames, we aren't painted
-            const image: Image = game.assets.get('treasures.bomb') as Image;
+            const image: Image = game.assets.get('treasures.bomb');
             image.draw(ctx, this.x, this.y);
         }
     }

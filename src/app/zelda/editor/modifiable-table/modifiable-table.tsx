@@ -135,26 +135,27 @@ export default class ModifiableTable extends React.Component<ModifiableTableProp
         });
 
         key = 0;
-        const rows: JSX.Element[] = this.props.rows ? this.props.rows.map((row: ModifiableTableRow, rowIndex: number) => {
+        const rows: JSX.Element[] = this.props.rows ?
+            this.props.rows.map((row: ModifiableTableRow, rowIndex: number) => {
 
-            const tds: JSX.Element[] = this.props.headers.map((header: ModifiableTableHeader) => {
-                let value: any = row[header.cellKey];
-                if (header.columnRenderer) {
-                    value = header.columnRenderer(value, row);
+                const tds: JSX.Element[] = this.props.headers.map((header: ModifiableTableHeader) => {
+                    let value: any = row[header.cellKey];
+                    if (header.columnRenderer) {
+                        value = header.columnRenderer(value, row);
+                    }
+                    return ( <td key={key++}>{value}</td> );
+                });
+
+                // Only add class="bg-info" to the selected row, if any
+                const extraProps: any = {};
+                if (this.state.selectedRow === rowIndex) {
+                    extraProps.className = 'bg-info';
                 }
-                return ( <td key={key++}>{value}</td> );
-            });
 
-            // Only add class="bg-info" to the selected row, if any
-            const extraProps: any = {};
-            if (this.state.selectedRow === rowIndex) {
-                extraProps.className = 'bg-info';
-            }
-
-            return (
-                <tr onClick={this.setPrimary} key={key++} {...extraProps}>{tds}</tr>
-            );
-        }) : [];
+                return (
+                    <tr onClick={this.setPrimary} key={key++} {...extraProps}>{tds}</tr>
+                );
+            }) : [];
 
         return (
             <div className="modifiable-table">

@@ -97,7 +97,7 @@ export class Link extends Character {
 
     private _createDyingAnimation(): Animation {
 
-        const sheet: SpriteSheet = game.assets.get('link') as SpriteSheet;
+        const sheet: SpriteSheet = game.assets.get('link');
         const anim: Animation = new Animation(this.x, this.y);
 
         const SPIN_FRAME_TIME: number = 90;
@@ -117,7 +117,7 @@ export class Link extends Character {
         preChirpPlayFrames++;
 
         // TODO: Share with ZeldaGame.createEnemyDiesAnimation()
-        const enemyDiesSheet: SpriteSheet = game.assets.get('enemyDies') as SpriteSheet;
+        const enemyDiesSheet: SpriteSheet = game.assets.get('enemyDies');
         anim.addFrame({ sheet: enemyDiesSheet, index: 0 }, 30);
         anim.addFrame({ sheet: enemyDiesSheet, index: 1 }, 30);
         anim.addFrame({ sheet: enemyDiesSheet, index: 2 }, 30);
@@ -153,7 +153,7 @@ export class Link extends Character {
     private _createStairsDownAnimation(completedCallback: AnimationListener): Animation {
 
         const animation: Animation = new Animation(this.x, this.y);
-        const linkSheet: SpriteSheet = game.assets.get('link') as SpriteSheet;
+        const linkSheet: SpriteSheet = game.assets.get('link');
         const frameMillis: number = 120;
 
         animation.addFrame({ sheet: linkSheet, index: 17 }, frameMillis);
@@ -172,7 +172,7 @@ export class Link extends Character {
     private _createStairsUpAnimation(completedCallback: AnimationListener): Animation {
 
         const animation: Animation = new Animation(this.x, this.y);
-        const linkSheet: SpriteSheet = game.assets.get('link') as SpriteSheet;
+        const linkSheet: SpriteSheet = game.assets.get('link');
         const frameMillis: number = 120;
 
         animation.addFrame({ sheet: linkSheet, index: 19 }, frameMillis);
@@ -415,7 +415,7 @@ export class Link extends Character {
             this.anim.paint(ctx);
         }
         else {
-            const ss: SpriteSheet = game.assets.get('link') as SpriteSheet;
+            const ss: SpriteSheet = game.assets.get('link');
             const row: number = this.step;
             const col: number = DirectionUtil.ordinal(this.dir);
             const index: number = row * 15 + col;

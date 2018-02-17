@@ -157,7 +157,8 @@ export class MainGameState extends BaseState {
                 }
             }
 
-            if (DirectionUtil.isHorizontal(this._screenSlidingDir) && this._screenSlidingAmount === Constants.SCREEN_WIDTH) {
+            if (DirectionUtil.isHorizontal(this._screenSlidingDir)
+                    && this._screenSlidingAmount === Constants.SCREEN_WIDTH) {
                 switch (this._screenSlidingDir) {
                     case 'LEFT':
                         game.link.x = 0;
@@ -171,7 +172,8 @@ export class MainGameState extends BaseState {
                 this._screenSlidingDir = null;
             }
 
-            else if (DirectionUtil.isVertical(this._screenSlidingDir) && this._screenSlidingAmount === Constants.SCREEN_HEIGHT) {
+            else if (DirectionUtil.isVertical(this._screenSlidingDir)
+                    && this._screenSlidingAmount === Constants.SCREEN_HEIGHT) {
                 switch (this._screenSlidingDir) {
                     case 'UP':
                         game.link.y = 0;

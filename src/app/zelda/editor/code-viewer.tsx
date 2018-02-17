@@ -73,7 +73,8 @@ export default class CodeViewer extends React.Component<CodeViewerProps, CodeVie
                     </div>
                     <div className="panel-body">
                         <div style={{ marginBottom: '1rem' }}>
-                            <button className="btn btn-primary" style={buttonStyle} onClick={this.refresh}>Refresh</button>
+                            <button className="btn btn-primary" style={buttonStyle} onClick={this.refresh}>
+                                Refresh</button>
                             <button className="btn btn-default" style={buttonStyle} onClick={this.copy}>Copy</button>
                         </div>
                         <pre ref={(element: HTMLPreElement) => { this.codeDiv = element; }}/>

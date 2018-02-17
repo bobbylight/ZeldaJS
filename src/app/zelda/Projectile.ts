@@ -42,7 +42,7 @@ export class Projectile extends Actor {
 
         this.possiblyPaintHitBox(ctx);
 
-        const ss: SpriteSheet = game.assets.get('enemies') as SpriteSheet;
+        const ss: SpriteSheet = game.assets.get('enemies');
         const index: number = this._ssRow * 15 + this._ssCol;
         ss.drawByIndex(ctx, this.x, this.y, index);
     }

@@ -25,10 +25,10 @@
     "label-position": true,
     "linebreak-style": [ true, "LF" ],
     "match-default-export-name": true,
-    "max-file-line-count": [ true, 760 ],
+    "max-file-line-count": [ true, 700 ],
     "max-line-length": [
       true,
-      130
+      120
     ],
     "member-access": false,
     "member-ordering": false, // TODO: Can we get this working how we want it?
@@ -100,7 +100,7 @@
     "prefer-conditional-expression": true,
     "prefer-const": true,
     "prefer-readonly": true,
-    "quotemark": [ // Doesn't work in tsx files
+    "quotemark": [
       true,
       "single",
       "jsx-double",

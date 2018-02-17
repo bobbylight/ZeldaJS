@@ -18,11 +18,12 @@ export default class ActionablePanel extends React.Component<ActionablePanelProp
     render() {
 
         let i: number = 0;
-        const rows: JSX.Element[] | null = this.props.actions ? this.props.actions.map((action: ActionablePanelAction) => {
-            return (
-                <ActionButton key={'action-' + (i++)} action={action}/>
-            );
-        }) : null;
+        const rows: JSX.Element[] | null = this.props.actions ?
+            this.props.actions.map((action: ActionablePanelAction) => {
+                return (
+                    <ActionButton key={'action-' + (i++)} action={action}/>
+                );
+            }) : null;
         const actions: JSX.Element | null = rows ? (<div className="panel-action-buttons">{rows}</div>) : null;
 
         const panelClass: string  = `actionable-panel panel panel-${this.props.panelClass || 'default'}`;

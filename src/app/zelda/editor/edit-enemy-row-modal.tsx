@@ -161,8 +161,8 @@ export default class EditEnemyRowModal extends React.Component<EditEnemyRowModal
 
                                     <div className="form-group error">
                                         <label htmlFor="enemyCount">Count</label>
-                                        <input type="number" className="form-control" id="enemyCount" placeholder="Count"
-                                               value={this.state.enemyCount}
+                                        <input type="number" className="form-control" id="enemyCount"
+                                               placeholder="Count" value={this.state.enemyCount}
                                                onChange={this.enemyCountChanged} required min="1" max="8" step="1"/>
                                     </div>
                                 </form>
@@ -171,7 +171,8 @@ export default class EditEnemyRowModal extends React.Component<EditEnemyRowModal
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-default" onClick={this.onSubmit}
                                         disabled={false} data-dismiss="modal">{this.props.submitButtonLabel}</button>
-                                <button type="button" className="btn btn-primary" onClick={this.onCancel}>Cancel</button>
+                                <button type="button" className="btn btn-primary" onClick={this.onCancel}>
+                                        Cancel</button>
                             </div>
                         </div>
                     </div>

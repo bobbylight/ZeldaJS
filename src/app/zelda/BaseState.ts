@@ -1,5 +1,6 @@
 import { ZeldaGame } from './ZeldaGame';
 import { State, Game, BaseStateArgs, Utils, InputManager, Keys } from 'gtp';
+import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 declare let game: ZeldaGame;
 
 export class BaseState extends State {
@@ -42,35 +43,37 @@ export class BaseState extends State {
             // Debugging actions
             if (im.isKeyDown(Keys.KEY_Z)) {
 
+                const canvasStyle: CSSStyleDeclaration = game.canvas.style;
+
                 // Increase canvas size
                 if (im.isKeyDown(Keys.KEY_P, true)) {
-                    if (!game.canvas.style.width) {
-                        game.canvas.style.width = game.canvas.width + 'px';
+                    if (!canvasStyle.width) {
+                        canvasStyle.width = game.canvas.width + 'px';
                     }
-                    if (!game.canvas.style.height) {
-                        game.canvas.style.height = game.canvas.height + 'px';
+                    if (!canvasStyle.height) {
+                        canvasStyle.height = game.canvas.height + 'px';
                     }
-                    const styleW: string = game.canvas.style.width;
-                    const styleH: string = game.canvas.style.height;
-                    game.canvas.style.width = (parseInt(styleW.substring(0, styleW.length - 2), 10) + 1) + 'px';
-                    game.canvas.style.height = (parseInt(styleH.substring(0, styleH.length - 2), 10) + 1) + 'px';
-                    game.setStatusMessage('Canvas size now: (' + game.canvas.style.width + ', ' + game.canvas.style.height + ')');
+                    const styleW: string = canvasStyle.width;
+                    const styleH: string = canvasStyle.height;
+                    canvasStyle.width = (parseInt(styleW.substring(0, styleW.length - 2), 10) + 1) + 'px';
+                    canvasStyle.height = (parseInt(styleH.substring(0, styleH.length - 2), 10) + 1) + 'px';
+                    game.setStatusMessage(`Canvas size now: (${canvasStyle.width}, ${canvasStyle.height})`);
                     this._lastConfigKeypressTime = time;
                 }
 
                 // Decrease canvas size
                 else if (im.isKeyDown(Keys.KEY_L, true)) {
-                    if (!game.canvas.style.width) {
-                        game.canvas.style.width = game.canvas.width + 'px';
+                    if (!canvasStyle.width) {
+                        canvasStyle.width = game.canvas.width + 'px';
                     }
-                    if (!game.canvas.style.height) {
-                        game.canvas.style.height = game.canvas.height + 'px';
+                    if (!canvasStyle.height) {
+                        canvasStyle.height = game.canvas.height + 'px';
                     }
-                    const styleW: string = game.canvas.style.width;
-                    const styleH: string = game.canvas.style.height;
-                    game.canvas.style.width = (parseInt(styleW.substring(0, styleW.length - 2), 10) - 1) + 'px';
-                    game.canvas.style.height = (parseInt(styleH.substring(0, styleH.length - 2), 10) - 1) + 'px';
-                    game.setStatusMessage('Canvas size now: (' + game.canvas.style.width + ', ' + game.canvas.style.height + ')');
+                    const styleW: string = canvasStyle.width;
+                    const styleH: string = canvasStyle.height;
+                    canvasStyle.width = (parseInt(styleW.substring(0, styleW.length - 2), 10) - 1) + 'px';
+                    canvasStyle.height = (parseInt(styleH.substring(0, styleH.length - 2), 10) - 1) + 'px';
+                    game.setStatusMessage(`Canvas size now: (${canvasStyle.width}, ${canvasStyle.height})`);
                     this._lastConfigKeypressTime = time;
                 }
 
@@ -81,7 +84,8 @@ export class BaseState extends State {
     }
 
     protected stringWidth(str: string): number {
-        return game.assets.get('font').cellW * str.length;
+        const spriteSheet: SpriteSheet = game.assets.get('font');
+        return spriteSheet.cellW * str.length;
     }
 
 }

@@ -8,7 +8,7 @@ export class Hud {
 
     render(ctx: CanvasRenderingContext2D) {
 
-        const hudMockup: Image = game.assets.get('hud') as Image;
+        const hudMockup: Image = game.assets.get('hud');
         hudMockup.draw(ctx, 0, 0);
 
         const link: Link = game.link;
@@ -16,7 +16,7 @@ export class Hud {
         const maxHealth: number = link.getMaxHealth();
         const oddHealth: boolean = health % 2 === 1;
 
-        const heart: Image = game.assets.get('treasures.fullHeart') as Image;
+        const heart: Image = game.assets.get('treasures.fullHeart');
 
         let x: number = 176;
         const y: number = 48;
@@ -33,23 +33,23 @@ export class Hud {
         }
         let drawnHeartCount: number = wholeHeartCount;
         if (health % 2 === 1) {
-            const halfHeart: Image = game.assets.get('treasures.halfHeart') as Image;
+            const halfHeart: Image = game.assets.get('treasures.halfHeart');
             halfHeart.draw(ctx, x, y);
             x += 8;
             drawnHeartCount++;
         }
 
-        const emptyHeart: Image = game.assets.get('treasures.emptyHeart') as Image;
+        const emptyHeart: Image = game.assets.get('treasures.emptyHeart');
         while (drawnHeartCount < heartCount) {
             emptyHeart.draw(ctx, x, y);
             x += 8;
             drawnHeartCount++;
         }
 
-        this.paintMap(ctx);
+        Hud.paintMap(ctx);
     }
 
-    private paintMap(ctx: CanvasRenderingContext2D) {
+    private static paintMap(ctx: CanvasRenderingContext2D) {
 
         ctx.fillStyle = '#83d313';
         const s: number = 3;

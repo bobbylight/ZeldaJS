@@ -22,7 +22,8 @@ interface EditScreenEventModalState {
     selectedEventGenerator: EventGenerator<any>;
 }
 
-export default class EditScreenEventModal extends React.Component<EditScreenEventModalProps, EditScreenEventModalState> {
+export default class EditScreenEventModal
+        extends React.Component<EditScreenEventModalProps, EditScreenEventModalState> {
 
     private currentlyShowing: boolean;
     private readonly generators: LabelValuePair<EventGenerator<any>>[];
@@ -389,7 +390,8 @@ export default class EditScreenEventModal extends React.Component<EditScreenEven
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-default" onClick={this.onSubmit}
                                         disabled={false} data-dismiss="modal">{this.props.submitButtonLabel}</button>
-                                <button type="button" className="btn btn-primary" onClick={this.onCancel}>Cancel</button>
+                                <button type="button" className="btn btn-primary" onClick={this.onCancel}>
+                                        Cancel</button>
                             </div>
                         </div>
                     </div>
