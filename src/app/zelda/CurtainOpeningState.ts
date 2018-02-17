@@ -1,14 +1,14 @@
 import { Constants } from './Constants';
-import { MainGameState } from './MainGameState';
 import { ZeldaGame } from './ZeldaGame';
 import { State, Delay } from 'gtp';
+import { MainGameState } from './MainGameState';
 declare let game: ZeldaGame;
 
 export class CurtainOpeningState extends State {
 
-    private readonly _mainState: MainGameState;
-    private readonly _delay: Delay;
-    private _openAmount: number;
+    private readonly mainState: MainGameState;
+    private readonly delay: Delay;
+    private openAmount: number;
 
     /**
      * A transition into the main game state that mimics that in LoZ for the NES.  The screen is revealed
@@ -18,21 +18,20 @@ export class CurtainOpeningState extends State {
      */
     constructor(mainState: MainGameState) {
         super();
-        this._mainState = mainState;
-        this._openAmount = 0;
-        this._delay = new Delay({ millis: 70, loop: true, loopCount: 16,
-                callback: () => { this._delayCallback.call(this); } });
+        this.mainState = mainState;
+        this.openAmount = 0;
+        this.delay = new Delay({ millis: 70, loop: true, loopCount: 16, callback: this.delayCallback.bind(this) });
     }
 
-    private _delayCallback() {
-        this._openAmount++;
+    private delayCallback() {
+        this.openAmount++;
     }
 
     render(ctx: CanvasRenderingContext2D) {
 
-        this._mainState.render(ctx);
+        this.mainState.render(ctx);
 
-        const displayedPixelCount: number = this._openAmount * Constants.TILE_WIDTH;
+        const displayedPixelCount: number = this.openAmount * Constants.TILE_WIDTH;
         const coveredPixelCount: number = Constants.SCREEN_WIDTH - displayedPixelCount;
 
         ctx.fillStyle = 'black';
@@ -47,9 +46,9 @@ export class CurtainOpeningState extends State {
 
         super.update(delta);
 
-        this._delay.update(delta);
-        if (this._delay.isDone()) {
-            game.setState(this._mainState);
+        this.delay.update(delta);
+        if (this.delay.isDone()) {
+            game.setState(this.mainState);
         }
     }
 

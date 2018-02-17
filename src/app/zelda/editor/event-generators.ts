@@ -39,7 +39,7 @@ export class GoDownStairsEventGenerator extends EventGenerator<GoDownStairsEvent
     }
 
     generate(): GoDownStairsEvent {
-        return new GoDownStairsEvent(this.tile, true, this.destMap, this.destScreen, this.destPos);
+        return new GoDownStairsEvent(this.tile, this.destMap, this.destScreen, this.destPos, true, true);
     }
 
     toString(): string {

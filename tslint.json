@@ -113,7 +113,7 @@
     "strict-type-predicates": true,
     "trailing-comma": [
       true,
-      { "singleline": "never" }
+      { "singleline": "never", "esSpecCompliant": true }
     ],
     "triple-equals": [
       true,

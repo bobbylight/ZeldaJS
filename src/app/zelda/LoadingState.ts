@@ -65,6 +65,7 @@ export class LoadingState extends BaseState {
                 game.assets.addSound('enemyHit', 'res/sounds/LOZ_Hit.wav');
                 game.assets.addSound('stairs', 'res/sounds/LOZ_Stairs.wav');
                 game.assets.addSound('overworldMusic', 'res/sounds/02-overworld.ogg', 5.234);
+                game.assets.addSound('labyrinthMusic', 'res/sounds/04-labyrinth.ogg');
                 game.assets.addSound('linkDies', 'res/sounds/LOZ_Die.wav');
                 game.assets.addSound('text', 'res/sounds/LOZ_Text.wav');
                 game.assets.addSound('linkHurt', 'res/sounds/LOZ_Hurt.wav');

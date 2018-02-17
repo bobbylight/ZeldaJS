@@ -87,8 +87,8 @@ export default class EditScreenEventModal
         else {
             // Fallback to appease tsc compiler
             selectedEventGenerator = this.generators[0].value as GoDownStairsEventGenerator;
-            selectedEvent = new GoDownStairsEvent(new Position(), true, 'overworld', new Position(),
-                new Position());
+            selectedEvent = new GoDownStairsEvent(new Position(), 'overworld', new Position(),
+                new Position(), true, false);
         }
 
         this.setState({

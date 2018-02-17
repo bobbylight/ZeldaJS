@@ -111,7 +111,7 @@ export class ZeldaGame extends Game {
 
     linkDied() {
         if (!this.editMode) {
-            game.audio.playMusic('linkDies');
+            game.audio.playMusic('linkDies', false);
         }
     }
 
@@ -157,7 +157,7 @@ export class ZeldaGame extends Game {
         this.loadMaps();
         // tslint:disable-next-line:no-string-literal
         this.map = this.maps['overworld'];
-        this.map.setCurrentScreen(7, 6);
+        this.map.setCurrentScreen(3, 6);
         if (initLink) {
             this.link = new Link();
             this.link.setLocation(100, 100);

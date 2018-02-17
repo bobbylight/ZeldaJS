@@ -61,9 +61,14 @@ export class MainGameState extends BaseState {
     }
 
     enter(game: Game) {
+
         super.enter(game);
         //game.inputManager.setResetKeyStateOnPoll(false);
-        game.audio.playMusic(this.getGame().map.currentScreenMusic, true);
+
+        const music: string | null | undefined = this.getGame().map.currentScreenMusic;
+        if (music && music !== 'none') {
+            game.audio.playMusic(music, true);
+        }
         this._screenSlidingAmount = 0;
     }
 
@@ -128,6 +133,8 @@ export class MainGameState extends BaseState {
     }
 
     update(delta: number) {
+
+        this.handleDefaultKeys();
 
         // If Link's in his dying animation, don't update anything
         if (game.link.done) {

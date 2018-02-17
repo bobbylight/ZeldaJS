@@ -3,7 +3,6 @@ import { ZeldaGame } from '../ZeldaGame';
 import { Constants } from '../Constants';
 import { Map } from '../Map';
 import { Screen } from '../Screen';
-import { screenModified } from './actions';
 
 export interface MapEditorProps {
     game: ZeldaGame;

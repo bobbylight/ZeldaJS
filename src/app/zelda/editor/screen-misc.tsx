@@ -27,7 +27,8 @@ export default class ScreenMisc extends React.Component<ScreenMiscProps, ScreenM
         this.songs = [
             { label: '(default)', value: null },
             { label: 'No music', value: 'none' },
-            { label: 'Overworld', value: 'overworldMusic' }
+            { label: 'Overworld', value: 'overworldMusic' },
+            { label: 'Labyrinth', value: 'labyrinthMusic' }
         ];
     }
 

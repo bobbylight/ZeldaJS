@@ -1,6 +1,7 @@
 import { Screen, ScreenData } from './Screen';
 import { Tileset, TilesetData } from './Tileset';
 import { EnemyGroup } from './EnemyGroup';
+import { Constants } from './Constants';
 
 const HEADER: string = 'ZeldaMap';
 
@@ -19,6 +20,7 @@ export class Map {
     private readonly name: string;
     private readonly _screens: Screen[][];
     private readonly _tileset: Tileset;
+    private readonly walkability: number[];
     private _music: string;
     private _curRow: number;
     private _curCol: number;
@@ -35,6 +37,8 @@ export class Map {
         for (let row: number = 0; row < rowCount; row++) {
             this._screens.push(this._createEmptyScreenList(colCount));
         }
+        this.walkability = this.name.match(/level/) ?
+            Constants.WALKABILITY_LEVEL : Constants.WALKABILITY_OVERWORLD;
 
         this._tileset = new Tileset();
         this._tileset.load('overworld');
@@ -151,6 +155,10 @@ export class Map {
 
     getTilesetName(): string {
         return this._tileset.name;
+    }
+
+    getTileTypeWalkability(tileType: number): number {
+        return this.walkability[tileType];
     }
 
     setCurrentScreen(row: number, col: number) {

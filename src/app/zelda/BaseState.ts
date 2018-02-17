@@ -41,17 +41,17 @@ export class BaseState extends State {
             }
 
             // Debugging actions
-            if (im.isKeyDown(Keys.KEY_Z)) {
+            if (im.isKeyDown(Keys.KEY_SHIFT)) {
 
                 const canvasStyle: CSSStyleDeclaration = game.canvas.style;
 
                 // Increase canvas size
                 if (im.isKeyDown(Keys.KEY_P, true)) {
                     if (!canvasStyle.width) {
-                        canvasStyle.width = game.canvas.width + 'px';
+                        canvasStyle.width = game.canvas.clientWidth + 'px';
                     }
                     if (!canvasStyle.height) {
-                        canvasStyle.height = game.canvas.height + 'px';
+                        canvasStyle.height = game.canvas.clientHeight + 'px';
                     }
                     const styleW: string = canvasStyle.width;
                     const styleH: string = canvasStyle.height;
@@ -64,10 +64,10 @@ export class BaseState extends State {
                 // Decrease canvas size
                 else if (im.isKeyDown(Keys.KEY_L, true)) {
                     if (!canvasStyle.width) {
-                        canvasStyle.width = game.canvas.width + 'px';
+                        canvasStyle.width = game.canvas.clientWidth + 'px';
                     }
                     if (!canvasStyle.height) {
-                        canvasStyle.height = game.canvas.height + 'px';
+                        canvasStyle.height = game.canvas.clientHeight + 'px';
                     }
                     const styleW: string = canvasStyle.width;
                     const styleH: string = canvasStyle.height;

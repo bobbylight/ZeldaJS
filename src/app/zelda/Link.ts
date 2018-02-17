@@ -435,8 +435,9 @@ export class Link extends Character {
             animationFrameUpdate(animation: Animation) {
             },
             animationCompleted(animation: Animation) {
-                this.anim = null;
-                this.frozen = false;
+                const link: Link = this as any;
+                link.anim = null;
+                link.frozen = false;
             }
         });
     }

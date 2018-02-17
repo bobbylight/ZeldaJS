@@ -948,7 +948,26 @@
               "count": 1
             }
           ]
-        }
+        },
+        "events": [
+          {
+            "type": "goDownStairs",
+            "tile": {
+              "row": 4,
+              "col": 7
+            },
+            "animate": true,
+            "destMap": "level1",
+            "destScreen": {
+              "row": 0,
+              "col": 0
+            },
+            "destPos": {
+              "row": 5,
+              "col": 7
+            }
+          }
+        ]
       },
       {
         "tiles": [ [ 75, 75, 75, 75, 75, 75, 76, 52, 52, 11, 11, 11, 11, 11, 11, 11 ],

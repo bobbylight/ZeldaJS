@@ -135,7 +135,7 @@ export class Screen {
         }
 
         const tileType: number = this.getTile(row, col);
-        const walkability: number = Constants.WALKABLE[tileType];
+        const walkability: number = this._parent.getTileTypeWalkability(tileType);
         const x0: number = x % 16;
         const y0: number = 15 - (y % 16);
 

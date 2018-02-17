@@ -10,6 +10,7 @@ import VisibleEnemySelector from './containers/visible-enemy-selector';
 import ActionablePanel from './actionable-panel/actionable-panel';
 import { ActionablePanelAction } from './actionable-panel/actionable-panel-action';
 import VisibleScreenMisc from './containers/visible-screen-misc';
+import { Screen } from '../Screen';
 
 interface MainContentProps {
     game: ZeldaGame;
@@ -25,9 +26,29 @@ interface MainContentState {
     selectedTileIndex: number; // TODO: This should be in IState
 }
 
+const LEVEL_ROOM_TEMPLATE: number[][] = [
+    [ 12, 13, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15 ],
+    [ 28, 29, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 26, 30, 31 ],
+    [ 44, 45, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 46, 47 ],
+    [ 60, 61, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 62, 63 ],
+    [ 76, 77, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 78, 79 ],
+    [ 92, 93, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 94, 95 ],
+    [ 108, 109, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 110, 111 ],
+    [ 124, 125, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 126, 127 ],
+    [ 140, 141, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 142, 143 ],
+    [ 156, 157, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 158, 159 ],
+    [ 172, 173, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 174, 175 ]
+];
+
 export default class MainContent extends React.Component<MainContentProps, MainContentState> {
 
     state: MainContentState = { rowCount: 0, colCount: 0, selectedTileIndex: -1, loading: true };
+
+    constructor(props: MainContentProps) {
+        super(props);
+
+        this.convertToDungeonRoom = this.convertToDungeonRoom.bind(this);
+    }
 
     componentDidMount() {
 
@@ -55,6 +76,22 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                 rowCount: game.map.rowCount - 1, colCount: game.map.colCount - 1,
                 selectedTileIndex: 1 });
         });
+    }
+
+    private convertToDungeonRoom() {
+
+        if (this.props.game.map.getName().indexOf('level') !== 0) {
+            alert('Converting to a dungeon room is only supported when editing a level');
+            return;
+        }
+
+        const screen: Screen = this.props.game.map.currentScreen;
+
+        for (let row: number = 0; row < LEVEL_ROOM_TEMPLATE.length; row++) {
+            for (let col: number = 0; col < LEVEL_ROOM_TEMPLATE[row].length; col++) {
+                screen.setTile(row, col, LEVEL_ROOM_TEMPLATE[row][col]);
+            }
+        }
     }
 
     private _installKeyHandlers() {
@@ -136,13 +173,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                 menu: [
                     {
                         label: 'Dungeon Room',
-                        action: () => {
-                            if (this.props.game.map.getName().indexOf('level') !== 0) {
-                                alert('Converting to a dungeon room is only supported when editing a level');
-                                return;
-                            }
-                            alert('Not yet implemented');
-                        }
+                        action: this.convertToDungeonRoom
                     }
                 ]
             }

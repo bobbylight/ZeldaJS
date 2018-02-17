@@ -6,6 +6,21 @@ declare let game: ZeldaGame;
 
 export class Hud {
 
+    private static paintMap(ctx: CanvasRenderingContext2D) {
+
+        ctx.fillStyle = '#83d313';
+        const s: number = 3;
+
+        // Note that the map isn't a perfect grid; there is a 1-pixel area
+        // on the left and bottom of the gray area that is never highlighted
+        // as a screen Link is on.  We could fix that, but this ia a faithful
+        // reproduction
+        const x: number = 17 + game.map.currentScreenCol * (s + 1);
+        const y: number = 24 + game.map.currentScreenRow * (s + 1);
+
+        ctx.fillRect(x, y, s, s);
+    }
+
     render(ctx: CanvasRenderingContext2D) {
 
         const hudMockup: Image = game.assets.get('hud');
@@ -22,6 +37,8 @@ export class Hud {
         const y: number = 48;
         const wholeHeartCount: number = Math.floor(health / 2);
         const heartCount: number = maxHealth / 2;
+
+        this.renderItemInBSlot(ctx);
 
         game.drawString(104, 24, link.getRupeeCount());
 
@@ -49,18 +66,10 @@ export class Hud {
         Hud.paintMap(ctx);
     }
 
-    private static paintMap(ctx: CanvasRenderingContext2D) {
+    private renderItemInBSlot(ctx: CanvasRenderingContext2D) {
 
-        ctx.fillStyle = '#83d313';
-        const s: number = 3;
+        const bomb: Image = game.assets.get('treasures.bomb');
 
-        // Note that the map isn't a perfect grid; there is a 1-pixel area
-        // on the left and bottom of the gray area that is never highlighted
-        // as a screen Link is on.  We could fix that, but this ia a faithful
-        // reproduction
-        const x: number = 17 + game.map.currentScreenCol * (s + 1);
-        const y: number = 24 + game.map.currentScreenRow * (s + 1);
-
-        ctx.fillRect(x, y, s, s);
+        bomb.draw(ctx, 128, 33);
     }
 }

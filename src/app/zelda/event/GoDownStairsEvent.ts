@@ -3,6 +3,8 @@ import { AnimationListener } from '../AnimationListener';
 import { Position, PositionData } from '../Position';
 import { Event, EventData } from './Event';
 import { ZeldaGame } from '../ZeldaGame';
+import { CurtainOpeningState } from '../CurtainOpeningState';
+import { MainGameState } from '../MainGameState';
 declare let game: ZeldaGame;
 
 /**
@@ -12,38 +14,47 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
 
     static readonly EVENT_TYPE: string = 'goDownStairs';
 
-    private readonly _animate: boolean;
     destMap: string;
     destScreen: Position;
     destPos: Position;
+    private readonly animate: boolean;
+    private readonly curtainOpenNextScreen: boolean;
 
-    constructor(tile: Position, animate: boolean, destMap: string, destScreen: Position, destPos: Position) {
+    constructor(tile: Position, destMap: string, destScreen: Position, destPos: Position, animate: boolean,
+                curtainOpenNextScreen: boolean) {
         super(tile);
-        this._animate = animate;
         this.destMap = destMap;
         this.destScreen = destScreen;
         this.destPos = destPos;
+        this.animate = animate;
+        this.curtainOpenNextScreen = curtainOpenNextScreen;
     }
 
     animationCompleted(anim: Animation) {
-        game.setMap(this.destMap, this.destScreen, this.destPos);
+        if (this.curtainOpenNextScreen) {
+            game.setMap(this.destMap, this.destScreen, this.destPos, false);
+            game.setState(new CurtainOpeningState(game.state as MainGameState));
+        }
+        else {
+            game.setMap(this.destMap, this.destScreen, this.destPos);
+        }
     }
 
     clone(): GoDownStairsEvent {
-        return new GoDownStairsEvent(this.getTile().clone(), this._animate, this.destMap, this.destScreen.clone(),
-            this.destPos.clone());
+        return new GoDownStairsEvent(this.getTile().clone(), this.destMap, this.destScreen.clone(),
+            this.destPos.clone(), this.animate, this.curtainOpenNextScreen);
     }
 
     execute(): boolean {
         game.audio.stopMusic();
-        if (this._animate) {
+        if (this.animate) {
             game.link.enterCave(this);
         }
         return false;
     }
 
     getAnimate(): boolean {
-        return this._animate;
+        return this.animate;
     }
 
     shouldOccur(): boolean {
@@ -56,7 +67,7 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
         return {
             type: GoDownStairsEvent.EVENT_TYPE,
             tile: this.tile.toJson(),
-            animate: this._animate,
+            animate: this.animate,
             destMap: this.destMap,
             destScreen: this.destScreen.toJson(),
             destPos: this.destPos.toJson()
