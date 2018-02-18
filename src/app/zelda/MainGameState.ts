@@ -116,6 +116,30 @@ export class MainGameState extends BaseState {
             ctx.restore();
 
             game.link.paint(ctx);
+
+            switch (this._screenSlidingDir) {
+
+                case 'LEFT': // Scrolling "left" so Link goes right
+                    this._lastScreen!.paintTopLayer(ctx);
+                    ctx.translate(Constants.SCREEN_WIDTH, 0);
+                    currentScreen.paintTopLayer(ctx);
+                    break;
+                case 'RIGHT': // Scrolling "right" so Link goes left
+                    this._lastScreen!.paintTopLayer(ctx);
+                    ctx.translate(-Constants.SCREEN_WIDTH, 0);
+                    currentScreen.paintTopLayer(ctx);
+                    break;
+                case 'UP':
+                    this._lastScreen!.paintTopLayer(ctx);
+                    ctx.translate(0, Constants.SCREEN_HEIGHT);
+                    currentScreen.paintTopLayer(ctx);
+                    break;
+                case 'DOWN':
+                    this._lastScreen!.paintTopLayer(ctx);
+                    ctx.translate(0, -Constants.SCREEN_HEIGHT);
+                    currentScreen.paintTopLayer(ctx);
+                    break;
+            }
         }
 
         else {
@@ -123,6 +147,7 @@ export class MainGameState extends BaseState {
             currentScreen.paint(ctx);
             currentScreen.paintActors(ctx);
             game.link.paint(ctx);
+            currentScreen.paintTopLayer(ctx);
 
             game.paintAnimations(ctx);
         }
@@ -143,56 +168,7 @@ export class MainGameState extends BaseState {
         }
 
         if (this._screenSlidingAmount > 0) {
-
-            game.link.updateWalkingStep();
-            this._screenSlidingAmount += MainGameState.SCREEN_SLIDING_INC();
-
-            if (this._screenSlidingAmount % 16 === 0) {
-                switch (this._screenSlidingDir) {
-                    case 'LEFT': // Scrolling "left" so Link goes right
-                        game.link.x += 1;
-                        break;
-                    case 'RIGHT': // Scrolling "right" so Link goes left
-                        game.link.x -= 1;
-                        break;
-                    case 'UP': // Scrolling "up" so Link goes down
-                        game.link.y += 1;
-                        break;
-                    case 'DOWN': // Scrolling "down" so Link goes up
-                        game.link.y -= 1;
-                        break;
-                }
-            }
-
-            if (DirectionUtil.isHorizontal(this._screenSlidingDir)
-                    && this._screenSlidingAmount === Constants.SCREEN_WIDTH) {
-                switch (this._screenSlidingDir) {
-                    case 'LEFT':
-                        game.link.x = 0;
-                        break;
-                    case 'RIGHT':
-                        game.link.x = Constants.SCREEN_WIDTH - Constants.TILE_WIDTH;
-                        break;
-                }
-                this._screenSlidingAmount = 0;
-                this._lastScreen = null;
-                this._screenSlidingDir = null;
-            }
-
-            else if (DirectionUtil.isVertical(this._screenSlidingDir)
-                    && this._screenSlidingAmount === Constants.SCREEN_HEIGHT) {
-                switch (this._screenSlidingDir) {
-                    case 'UP':
-                        game.link.y = 0;
-                        break;
-                    case 'DOWN':
-                        game.link.y = Constants.SCREEN_HEIGHT - Constants.TILE_HEIGHT;
-                        break;
-                }
-                this._screenSlidingAmount = 0;
-                this._lastScreen = null;
-                this._screenSlidingDir = null;
-            }
+            this.updateScreenSlidingImpl();
         }
 
         // Only update enemies, etc. if Link isn't going down a stairwell
@@ -207,5 +183,67 @@ export class MainGameState extends BaseState {
             game.link.handleInput(game.inputManager);
         }
         game.link.update();
+    }
+
+    private updateScreenSlidingImpl() {
+
+        game.link.updateWalkingStep();
+        this._screenSlidingAmount += MainGameState.SCREEN_SLIDING_INC();
+
+        const labyrinth: boolean = game.map.isLabyrinth();
+        const linkMoveAmt: number = labyrinth ? 2 : 1;
+
+        if (this._screenSlidingAmount % 16 === 0) {
+            switch (this._screenSlidingDir) {
+                case 'LEFT': // Scrolling "left" so Link goes right
+                    game.link.x += linkMoveAmt;
+                    break;
+                case 'RIGHT': // Scrolling "right" so Link goes left
+                    game.link.x -= linkMoveAmt;
+                    break;
+                case 'UP': // Scrolling "up" so Link goes down
+                    game.link.y += linkMoveAmt;
+                    break;
+                case 'DOWN': // Scrolling "down" so Link goes up
+                    game.link.y -= linkMoveAmt;
+                    break;
+            }
+        }
+
+        if (DirectionUtil.isHorizontal(this._screenSlidingDir)
+            && this._screenSlidingAmount === Constants.SCREEN_WIDTH) {
+            switch (this._screenSlidingDir) {
+                case 'LEFT':
+                    game.link.x = labyrinth ? Constants.TILE_WIDTH : 0;
+                    break;
+                case 'RIGHT':
+                    game.link.x = Constants.SCREEN_WIDTH - Constants.TILE_WIDTH;
+                    if (labyrinth) {
+                        game.link.x -= Constants.TILE_WIDTH;
+                    }
+                    break;
+            }
+            this._screenSlidingAmount = 0;
+            this._lastScreen = null;
+            this._screenSlidingDir = null;
+        }
+
+        else if (DirectionUtil.isVertical(this._screenSlidingDir)
+            && this._screenSlidingAmount === Constants.SCREEN_HEIGHT) {
+            switch (this._screenSlidingDir) {
+                case 'UP':
+                    game.link.y = labyrinth ? Constants.TILE_HEIGHT : 0;
+                    break;
+                case 'DOWN':
+                    game.link.y = Constants.SCREEN_HEIGHT - Constants.TILE_HEIGHT;
+                    if (labyrinth) {
+                        game.link.y -= Constants.TILE_HEIGHT;
+                    }
+                    break;
+            }
+            this._screenSlidingAmount = 0;
+            this._lastScreen = null;
+            this._screenSlidingDir = null;
+        }
     }
 }

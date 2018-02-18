@@ -44,6 +44,12 @@ export class Screen {
         this._actors.push(actor);
     }
 
+    private containsNonZeroTile(): boolean {
+        return this._tiles.filter((row: number[]) => {
+            return row.filter((n: number) => { return n > 0; }).length > 0;
+        }).length > 0;
+    }
+
     private static _createEmptyTiles(): number[][] {
         const tiles: number[][] = [];
         for (let row: number = 0; row < Constants.SCREEN_ROW_COUNT; row++) {
@@ -125,6 +131,10 @@ export class Screen {
             col < 0 || col >= Constants.SCREEN_COL_COUNT;
     }
 
+    private isUnpopulated(): boolean {
+        return !this.containsNonZeroTile() && !this.enemyGroup && !this.events.length && !this._actors.length;
+    }
+
     isWalkable(actor: Actor, x: number, y: number): boolean {
 
         const row: number = Math.floor(y / 16);
@@ -149,7 +159,9 @@ export class Screen {
             (walkability === 4 && y0 < x0) || // Bottom "/"
             (walkability === 5 && y0 < 16 - x0) || // Bottom "\"
             (walkability === 6 && y0 < 8) || // bottom half of tile
-            (walkability === 7 && y0 >= 8); // top half of tile
+            (walkability === 7 && y0 >= 8) || // top half of tile
+            (walkability === 8 && x0 < 8) || // left half of tile
+            (walkability === 9 && x0 >= 8); // right half of tile
     }
 
     paint(ctx: CanvasRenderingContext2D) {
@@ -161,7 +173,14 @@ export class Screen {
             //p = new Polygon();
         }
 
-        for (let row: number = 0; row < this._tiles.length; row++) {
+        let startRow: number = 0;
+        let lastRow: number = this._tiles.length;
+        if (this._parent.isLabyrinth()) {
+            startRow++;
+            lastRow--;
+        }
+
+        for (let row: number = startRow; row < lastRow; row++) {
             const y: number = row * Constants.TILE_HEIGHT;
             this.paintRow(ctx, row, y, paintWalkability);
         }
@@ -219,7 +238,14 @@ export class Screen {
 
         const tileset: Tileset = this._parent.tileset;
 
-        for (let col: number = 0; col < this._tiles[row].length; col++) {
+        let firstCol: number = 0;
+        let lastCol: number = this._tiles[row].length;
+        if (this._parent.isLabyrinth()) {
+            firstCol++;
+            lastCol--;
+        }
+
+        for (let col: number = firstCol; col < lastCol; col++) {
 
             const x: number = col * Constants.TILE_WIDTH;
             const tile: number = this._tiles[row][col];
@@ -228,6 +254,39 @@ export class Screen {
             if (paintWalkability) {
                 // TODO: Implement me
             }
+        }
+    }
+
+    /**
+     * Paints a layer on top of the standard tile layer.  Used by labyrinths to have Link appear to walk
+     * underneath doorways.
+     *
+     * @param ctx The graphics context.
+     */
+    paintTopLayer(ctx: CanvasRenderingContext2D) {
+
+        const labyrinth: boolean = this._parent.isLabyrinth();
+
+        if (labyrinth) {
+
+            const paintWalkability: boolean = false;
+            let walkabilityColor: string;
+            if (paintWalkability) {
+                walkabilityColor = 'red'; //new Color(192,192,255, 192);
+                //p = new Polygon();
+            }
+
+            // First and last row
+            this.paintRow(ctx, 0, 0, paintWalkability);
+            const row: number = this._tiles.length - 1;
+            const y: number = row * Constants.TILE_HEIGHT;
+            this.paintRow(ctx, row, y, paintWalkability);
+
+            // First and last column
+            this.paintCol(ctx, 0, 0, paintWalkability);
+            const col: number = this._tiles[0].length - 1;
+            const x: number = col * Constants.TILE_WIDTH;
+            this.paintCol(ctx, col, x, paintWalkability);
         }
     }
 
@@ -283,7 +342,11 @@ export class Screen {
         this._tiles[row][col] = tile;
     }
 
-    toJson(): ScreenData {
+    toJson(): ScreenData | null {
+
+        if (this.isUnpopulated()) {
+            return null;
+        }
 
         const actorData: ActorData[] = [];
         this._actors.forEach((actor: Actor) => {

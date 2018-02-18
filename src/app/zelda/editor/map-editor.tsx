@@ -133,6 +133,7 @@ export default class MapEditor extends React.Component<MapEditorProps, MapEditor
 
             ctx.translate(16, 16);
             map.currentScreen.paint(ctx);
+            map.currentScreen.paintTopLayer(ctx);
             ctx.translate(-16, -16);
 
             this.possiblyPaintArmedTile(ctx);

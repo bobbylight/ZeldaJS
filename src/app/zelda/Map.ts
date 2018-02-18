@@ -8,7 +8,7 @@ const HEADER: string = 'ZeldaMap';
 export interface MapData {
     header: string;
     name: string;
-    screenData: ScreenData[][];
+    screenData: (ScreenData | null)[][];
     tilesetData: TilesetData;
     music: string;
     row: number;
@@ -21,6 +21,7 @@ export class Map {
     private readonly _screens: Screen[][];
     private readonly _tileset: Tileset;
     private readonly walkability: number[];
+    private readonly labyrinth: boolean;
     private _music: string;
     private _curRow: number;
     private _curCol: number;
@@ -37,8 +38,8 @@ export class Map {
         for (let row: number = 0; row < rowCount; row++) {
             this._screens.push(this._createEmptyScreenList(colCount));
         }
-        this.walkability = this.name.match(/level/) ?
-            Constants.WALKABILITY_LEVEL : Constants.WALKABILITY_OVERWORLD;
+        this.labyrinth = !!this.name.match(/level/);
+        this.walkability = this.labyrinth ? Constants.WALKABILITY_LEVEL : Constants.WALKABILITY_OVERWORLD;
 
         this._tileset = new Tileset();
         this._tileset.load('overworld');
@@ -81,14 +82,18 @@ export class Map {
     fromJson(json: MapData): Map {
 
         if (HEADER !== json.header) {
-            throw new Error('Invalid map file: bad header: ' + json.header);
+            throw new Error(`Invalid map file: bad header: ${json.header}`);
         }
 
         this._screens.length = 0;
         json.screenData.forEach((rowOfScreensData: ScreenData[]) => {
             const screenRow: Screen[] = [];
             rowOfScreensData.forEach((screenData: ScreenData) => {
-                screenRow.push(new Screen(this).fromJson(screenData));
+                let screen: Screen = new Screen(this);
+                if (screenData) {
+                    screen = screen.fromJson(screenData);
+                }
+                screenRow.push(screen);
             });
             this._screens.push(screenRow);
         });
@@ -161,6 +166,10 @@ export class Map {
         return this.walkability[tileType];
     }
 
+    isLabyrinth(): boolean {
+        return this.labyrinth;
+    }
+
     setCurrentScreen(row: number, col: number) {
 
         if (this._curRow && this._curCol) {
@@ -182,7 +191,7 @@ export class Map {
 
     toJson(): MapData {
 
-        const screenRows: ScreenData[][] = [];
+        const screenRows: (ScreenData | null)[][] = [];
         this._screens.forEach((rowOfScreens: Screen[]) => {
             screenRows.push(rowOfScreens.map((screen: Screen) => { return screen.toJson(); }));
         });

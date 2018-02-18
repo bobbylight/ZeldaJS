@@ -40,6 +40,7 @@ export default class MapPreview extends React.Component<MapPreviewProps, MapPrev
             for (let col: number = 0; col < map.colCount; col++) {
                 const screen: Screen = map.getScreen(row, col);
                 screen.paint(ctx);
+                screen.paintTopLayer(ctx);
                 ctx.translate(Constants.SCREEN_WIDTH, 0);
             }
 
