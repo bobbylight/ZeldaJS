@@ -148,7 +148,8 @@ export class Screen {
             (walkability === 3 && y0 > x0) || // Top "/"
             (walkability === 4 && y0 < x0) || // Bottom "/"
             (walkability === 5 && y0 < 16 - x0) || // Bottom "\"
-            (walkability === 6 && y0 < 8); // bottom half of tile
+            (walkability === 6 && y0 < 8) || // bottom half of tile
+            (walkability === 7 && y0 >= 8); // top half of tile
     }
 
     paint(ctx: CanvasRenderingContext2D) {
