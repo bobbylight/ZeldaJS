@@ -48,8 +48,7 @@ export class MainGameState extends BaseState {
             if (changeScreenWarpEvents.length > 1) {
                 console.error(`More than one ChangeScreenWarpEvent for screen ${screen}!`);
             }
-            const event: ChangeScreenWarpEvent = changeScreenWarpEvents[0] as ChangeScreenWarpEvent;
-            event.execute();
+            changeScreenWarpEvents[0].execute();
             return;
         }
 

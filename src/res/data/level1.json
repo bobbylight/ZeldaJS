@@ -76,7 +76,26 @@
         "enemyGroup": {
           "spawnStyle": "random",
           "enemies": []
-        }
+        },
+        "events": [
+          {
+            "type": "changeScreenWarp",
+            "tile": {
+              "row": 0,
+              "col": 0
+            },
+            "animate": true,
+            "destMap": "overworld",
+            "destScreen": {
+              "row": 3,
+              "col": 6
+            },
+            "destPos": {
+              "row": 4,
+              "col": 7
+            }
+          }
+        ]
       },
       {
         "tiles": [ [ 12, 13, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15 ],
@@ -104,5 +123,5 @@
   },
   "music": "labyrinthMusic",
   "row": 5,
-  "col": 1
+  "col": 2
 }

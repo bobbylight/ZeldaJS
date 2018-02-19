@@ -47,7 +47,10 @@ export default class EditScreenEventModal
         this.rows = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
         this.cols = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];
         this.screenRows = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
-        this.screenCols = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];
+        this.screenCols = [];
+        for (let i: number = 0; i <= 15; i += .5) {
+            this.screenCols.push(i);
+        }
 
         this.changeScreenWarpDestTileColChanged = this.changeScreenWarpDestTileColChanged.bind(this);
         this.changeScreenWarpDestTileRowChanged = this.changeScreenWarpDestTileRowChanged.bind(this);
@@ -81,7 +84,7 @@ export default class EditScreenEventModal
             selectedEvent = selectedEvent.clone();
         }
         else if (selectedEvent instanceof ChangeScreenWarpEvent) {
-            selectedEventGenerator = this.generators[0].value as ChangeScreenWarpEventGenerator;
+            selectedEventGenerator = this.generators[1].value as ChangeScreenWarpEventGenerator;
             selectedEvent = selectedEvent.clone();
         }
         else {

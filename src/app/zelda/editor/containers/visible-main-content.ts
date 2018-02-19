@@ -6,6 +6,7 @@ import MainContent from '../main-content';
 const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProps?: any): any => {
     return {
         game: state.game,
+        map: state.map,
         currentScreenRow: state.currentScreenRow,
         currentScreenCol: state.currentScreenCol
     };

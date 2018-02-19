@@ -5,6 +5,7 @@ import { State } from '../state';
 const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProps?: any): MapPreviewProps => {
     return {
         game: state.game,
+        map: state.map,
         lastModified: state.lastModified
     };
 };

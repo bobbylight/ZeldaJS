@@ -5,6 +5,13 @@ import { AnimationListener } from '../AnimationListener';
 import { Animation } from '../Animation';
 declare let game: ZeldaGame;
 
+/**
+ * An event that denotes that Link is going to warp when moving to a new screen.<p>
+ * Note this event only checks for <em>vertical</em> screen changes.  This is because, in Zelda 1, the only time
+ * Link warps to a new map when changing screens is when moving down.  If we need this class to be more flexible,
+ * and support warping on Link moving north, east or west, we'd likely need to store the "from direction" of the
+ * warp in this class.
+ */
 export class ChangeScreenWarpEvent extends Event<ChangeScreenWarpData> implements AnimationListener {
 
     static readonly EVENT_TYPE: string = 'changeScreenWarp';
@@ -33,6 +40,7 @@ export class ChangeScreenWarpEvent extends Event<ChangeScreenWarpData> implement
     execute(): boolean {
         game.setMap(this.destMap, this.destScreen, this.destPos, false);
         if (this._animate) {
+            game.audio.stopMusic();
             game.link.exitCave(this);
         }
         return false;

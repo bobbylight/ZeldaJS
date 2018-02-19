@@ -11,9 +11,11 @@ import ActionablePanel from './actionable-panel/actionable-panel';
 import { ActionablePanelAction } from './actionable-panel/actionable-panel-action';
 import VisibleScreenMisc from './containers/visible-screen-misc';
 import { Screen } from '../Screen';
+import { Map } from '../Map';
 
 interface MainContentProps {
     game: ZeldaGame;
+    map: Map;
     currentScreenRow: number;
     currentScreenCol: number;
     currentScreenChanged: () => void;
@@ -83,8 +85,8 @@ export default class MainContent extends React.Component<MainContentProps, MainC
         const game: ZeldaGame = nextProps.game;
 
         this.setState({
-            rowCount: game.map.rowCount - 1,
-            colCount: game.map.colCount - 1
+            rowCount: nextProps.map.rowCount - 1,
+            colCount: nextProps.map.colCount - 1
         });
     }
 

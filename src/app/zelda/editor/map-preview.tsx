@@ -6,6 +6,7 @@ import { Screen } from '../Screen';
 
 export interface MapPreviewProps {
     game?: ZeldaGame;
+    map: Map;
     lastModified: number;
 }
 
@@ -21,6 +22,14 @@ export default class MapPreview extends React.Component<MapPreviewProps, MapPrev
 
     constructor(props: MapPreviewProps) {
         super(props);
+    }
+
+    componentWillReceiveProps(nextProps: MapPreviewProps, nextContext: any) {
+
+        // Force a repaint if the map changed
+        if (nextProps.map !== this.props.map) {
+            this.repaint();
+        }
     }
 
     repaint() {
