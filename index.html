@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="ZeldaJS: A clone of Zelda for the NES written in TypeScript">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="css/stylesheet.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/zelda.css">
+
+    <title>ZeldaJS</title>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/bobbylight/ZeldaJS">View on GitHub</a>
+
+        <h1 id="project_title">ZeldaJS</h1>
+        <h2 id="project_tagline">The Legend of Zelda, recreated in TypeScript.</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/bobbylight/ZeldaJS/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/bobbylight/ZeldaJS/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+
+        <h3>
+            <a class="anchor"><span class="octicon octicon-link"></span></a>What is it?
+        </h3>
+        <p>
+            This is a recreation of <a href="https://en.wikipedia.org/wiki/The_Legend_of_Zelda_(video_game)">The Legend of Zelda for the NES</a>
+            in TypeScript.  It aims to be as authentic as possible, warts and all.
+            The feature set currently includes:
+        <ul>
+            <li>Smooth scrolling between screens
+            <li>Use of sword and bombs
+            <li>Enemies that can die
+            <li>Entering new maps (caves and levels)
+        </ul>
+
+        <h3>
+            <a class="anchor"><span class="octicon octicon-link"></span></a>Demo
+        </h3>
+        <div id='gameDiv'>
+            <a href="#" onclick="insertGame(); return false;">
+                <div id='zelda-screenshot-bw'></div>
+                <div id='zelda-screenshot-color'></div>
+            </a>
+        </div>
+        <div class='controls'>
+            Use the arrow keys to move around, Z to use the sword, and X to use a bomb.
+        </div>
+
+        <h3>
+            <a class="anchor" ><span class="octicon octicon-link"></span></a>License
+        </h3>
+        <p>
+            This game is licensed under <a href="https://github.com/bobbylight/ZeldaJS/blob/master/LICENSE.txt">an MIT license</a>.
+            All resources for the game belong to <a href="https://www.nintendo.com/">Nintendo</a>.  Please don't sue, it's a labor
+            of love!
+        </p>
+
+    </section>
+</div>
+
+<!-- FOOTER  -->
+<div id="footer_wrap" class="outer">
+    <footer class="inner">
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+    </footer>
+</div>
+
+<script src='demo/zelda.min.js'></script>
+<script>
+    function insertGame() {
+        init('gameDiv', 'demo/');
+    }
+</script>
+
+</body>
+
+</html>

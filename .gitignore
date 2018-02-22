@@ -1,0 +1,12 @@
+node_modules
+Thumbs.db
+*.iml
+.DS_Store
+.idea
+doc
+build
+npm-debug.log
+size-info.json
+size-info.txt
+coverage
+.nyc_output
