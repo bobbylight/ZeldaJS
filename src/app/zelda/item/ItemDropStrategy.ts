@@ -24,10 +24,13 @@ export class ItemDropStrategy {
             redTektite: 'A',
             redMoblin: 'A',
 
+            blueLynel: 'B',
             blueOctorok: 'B',
             blueMoblin: 'B',
 
-            blueTektite: 'C'
+            blueTektite: 'C',
+
+            redLynel: 'D'
         };
 
         this.itemDropTable = {

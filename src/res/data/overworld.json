@@ -2091,6 +2091,18 @@
               "type": "Moblin",
               "args": [],
               "count": 1
+            },
+            {
+              "type": "Lynel",
+              "args": [],
+              "count": 1
+            },
+            {
+              "type": "Lynel",
+              "args": [
+                "blue"
+              ],
+              "count": 1
             }
           ]
         },
@@ -2853,6 +2865,6 @@
     "name": "overworld"
   },
   "music": "overworldMusic",
-  "row": 3,
+  "row": 7,
   "col": 6
 }

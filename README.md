@@ -66,5 +66,4 @@ The source code lives in `src/`, and is built into `build/web/`.
 * More accurate Link getting hit colors
 * More accurate enemy spawning
 * Expanded map
-* Lynels
 * Gibdos

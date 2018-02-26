@@ -4,7 +4,7 @@ import { State } from './state';
 import { ZeldaGame } from '../ZeldaGame';
 import { Constants } from '../Constants';
 import { Map } from '../Map';
-import { Screen } from '../Screen';
+
 declare let game: ZeldaGame;
 
 // Initialize the game declared in zelda.ts

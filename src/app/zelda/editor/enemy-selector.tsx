@@ -38,7 +38,8 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
             choices: [
                 { label: 'Octorok', value: 'Octorok' },
                 { label: 'Moblin', value: 'Moblin' },
-                { label: 'Tektite', value: 'Tektite' }
+                { label: 'Tektite', value: 'Tektite' },
+                { label: 'Lynel', value: 'Lynel' },
             ],
             headers: [
                 { label: 'Enemy', cellKey: 'type' },
@@ -102,6 +103,9 @@ export default class EnemySelector extends React.Component<EnemySelectorProps, E
                 break;
             case 'Tektite':
                 enemies.push({ type: 'Tektite', args: [ 'blue' ], count: 2 });
+                enemies.push({ type: 'Tektite', count: 2 });
+                break;
+            case 'Lynel':
                 enemies.push({ type: 'Tektite', count: 2 });
                 break;
         }

@@ -1,5 +1,5 @@
-import { Projectile } from '../Projectile';
 import { AbstractWalkingEnemy } from './AbstractWalkingEnemy';
+import { Projectile } from '../Projectile';
 import { ZeldaGame } from '../ZeldaGame';
 import { EnemyStrength } from './Enemy';
 declare let game: ZeldaGame;
@@ -7,14 +7,14 @@ declare let game: ZeldaGame;
 const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
 
 /**
- * An octopus-like creature that can shoot rocks.
+ * Sword-wielding centaur enemies that live on Death Mountain.
  */
-export class Octorok extends AbstractWalkingEnemy {
+export class Lynel extends AbstractWalkingEnemy {
 
-    private static readonly _PROJECTILE_THROWING_ODDS: ReadonlyArray<number> = Object.freeze([ 240, 120 ]);
+    private static readonly _PROJECTILE_THROWING_ODDS: number[] = [ 240, 120 ];
 
     constructor(strength: EnemyStrength = 'red') {
-        super(0, strength, strength === 'blue' ? 2 : 1);
+        super(10, strength, strength === 'blue' ? 4 : 3);
     }
 
     protected getChangeDirTimerMax(): number {
@@ -22,7 +22,7 @@ export class Octorok extends AbstractWalkingEnemy {
     }
 
     protected getSpeed(): number {
-        return this.strength === 'blue' ? 1 : 0.5;
+        return 0.5; //this.strength === 'blue' ? 1 : 0.5;
     }
 
     /**
@@ -33,7 +33,7 @@ export class Octorok extends AbstractWalkingEnemy {
      * @returns Whether this enemy should start throwing a projectile.
      */
     private shouldThrowProjectile(): boolean {
-        return game.randomInt(Octorok._PROJECTILE_THROWING_ODDS[this.strength === 'blue' ? 1 : 0]) === 0;
+        return game.randomInt(Lynel._PROJECTILE_THROWING_ODDS[this.strength === 'blue' ? 1 : 0]) === 0;
     }
 
     protected throwProjectile() {

@@ -20,7 +20,7 @@ export class Tektite extends Enemy {
     private _curJumpDescentTime: number;
 
     constructor(strength: EnemyStrength = 'red') {
-        super(strength, strength === 'blue' ? 5 : 4, true); //2 : 1, true);
+        super(strength, strength === 'blue' ? 2 : 1, true);
         this.hitBox = new Rectangle();
 
         this._paused = true;
