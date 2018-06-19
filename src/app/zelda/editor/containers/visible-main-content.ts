@@ -2,6 +2,8 @@ import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps 
 import { State } from '../state';
 import { currentScreenChanged } from '../actions';
 import MainContent from '../main-content';
+import { Action } from 'redux-actions';
+import { Map } from '../../Map';
 
 const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProps?: any): any => {
     return {
@@ -12,7 +14,7 @@ const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProp
     };
 };
 
-const mapDispatchToProps: MapDispatchToProps<any, any> = (dispatch: Dispatch<number>, ownProps?: any): any => {
+const mapDispatchToProps: MapDispatchToProps<any, any> = (dispatch: Dispatch<Action<Map>>, ownProps?: any): any => {
     return {
         currentScreenChanged: () => {
             dispatch(currentScreenChanged());

@@ -2,6 +2,7 @@ import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps 
 import { State } from '../state';
 import EnemySelector from '../enemy-selector';
 import { EnemyGroup } from '../../EnemyGroup';
+import { Action } from 'redux-actions';
 
 const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProps?: any): any => {
 
@@ -11,7 +12,7 @@ const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProp
     };
 };
 
-const mapDispatchToProps: MapDispatchToProps<any, any> = (dispatch: Dispatch<number>, ownProps?: any): any => {
+const mapDispatchToProps: MapDispatchToProps<any, any> = (dispatch: Dispatch<Action<any>>, ownProps?: any): any => {
     return {
     };
 };

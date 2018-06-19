@@ -1,6 +1,7 @@
 import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { State } from '../state';
 import ScreenMisc, { ScreenMiscProps } from '../screen-misc';
+import { Action } from 'redux-actions';
 
 const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProps?: any): ScreenMiscProps => {
     console.log('Setting to: ' + (state.map ? state.map.currentScreen : null));
@@ -9,7 +10,7 @@ const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProp
     };
 };
 
-const mapDispatchToProps: MapDispatchToProps<any, any> = (dispatch: Dispatch<number>, ownProps?: any): any => {
+const mapDispatchToProps: MapDispatchToProps<any, any> = (dispatch: Dispatch<Action<any>>, ownProps?: any): any => {
     return {
         // onTileSelected: (selectedTileIndex: number) => {
         //     dispatch(tileSelected(selectedTileIndex));

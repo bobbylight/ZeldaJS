@@ -1,6 +1,7 @@
 import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { State } from '../state';
 import EventEditor from '../event-editor';
+import { Action } from 'redux-actions';
 
 const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProps?: any): any => {
 
@@ -10,7 +11,7 @@ const mapStateToProps: MapStateToProps<any, any, State> = (state: State, ownProp
     };
 };
 
-const mapDispatchToProps: MapDispatchToProps<any, any> = (dispatch: Dispatch<number>, ownProps?: any): any => {
+const mapDispatchToProps: MapDispatchToProps<any, any> = (dispatch: Dispatch<Action<any>>, ownProps?: any): any => {
     return {
     };
 };
