@@ -1,25 +1,36 @@
 {
   "name": "zelda-html5",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/bobbylight/ZeldaJS.git"
   },
   "scripts": {
-    "clean": "rimraf build doc",
+    "clean": "rimraf build dist doc",
     "build": "cross-env NODE_ENV=production webpack -p --config webpack/webpack.config.js",
     "watch": "cross-env NODE_ENV=dev webpack --config webpack/webpack.config.js --watch",
     "dev": "cross-env NODE_ENV=dev webpack-dev-server --config ./webpack/webpack.config.js",
     "webpack-analyze": "cross-env NODE_ENV=production webpack -p --config webpack/webpack.config.js --json > size-info.json",
     "webpack-size-view": "webpack-bundle-size-analyzer size-info.json > size-info.txt",
-    "start": "electron src/js/electron-main.js",
     "test": "cross-env NODE_ENV=test mocha --recursive --compilers ts:ts-node/register \"src/app/**/*.spec.ts\"",
     "cover": "cross-env NODE_ENV=test nyc npm test",
     "travis-ci": "cross-env NODE_ENV=test nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "lint": "tslint --project .",
-    "doc": "typedoc --mode file --target ES5 --out doc/ ./src/app"
+    "doc": "typedoc --mode file --target ES5 --out doc/ ./src/app",
+
+    "build-electron": "cross-env NODE_ENV=dev webpack --config webpack/webpack-desktop.config.js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
+  "build": {
+    "appId": "zelda.js",
+    "files": "./build/electron/**/*",
+    "mac": {
+      "category": "my.app.category.type"
+    }
+  },
+  "main": "build/electron/electron-main.js",
   "nyc": {
     "include": [
       "src/app/**/*.ts"
@@ -54,6 +65,7 @@
     "cross-env": "5.1.3",
     "css-loader": "0.28.9",
     "electron": "1.8.2",
+    "electron-builder": "20.2.0",
     "istanbul-instrumenter-loader": "3.0.0",
     "less": "3.0.1",
     "less-loader": "4.0.5",

@@ -1,60 +1,71 @@
 html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
 }
-h1 {
-  margin-top: 0;
-}
-h3 {
-  margin: 0;
-  padding: 0.5rem;
-  text-align: left; /*start;*/
-}
-h4 {
-  margin-bottom: 0;
-}
-#parent {
-  margin-bottom: 3rem;
-}
-.content {
-  width: 600px;
-  margin: 0 auto;
-  text-align: center;
-}
-.panel {
-  border: 1px solid #c0c0c0;
-  border-radius: 5px;
-}
-.panel-header {
-  background: #e0e0e0;
-  border-bottom: 1px solid #c0c0c0;
-}
-.panel-footer {
-  border-top: 1px solid #c0c0c0;
-  padding: 0.2rem 0;
-  margin-top: 2rem;
-  font-size: smaller;
-}
-.info {
-  width: 20rem;
-  margin: 0 auto;
-  text-align: initial;
-}
-#parent canvas {
-  /* Keep pixel art looking good when canvas is scaled up.  */
-  /* In the future, this might be an opt-in feature of GTP. */
-  image-rendering: -moz-crisp-edges; /* Firefox */
-  image-rendering:   -o-crisp-edges; /* Opera */
-  image-rendering: -webkit-optimize-contrast; /* Non-Chrome Webkit, e.g. Safari */
-  image-rendering: pixelated; /* Chrome */
-  image-rendering: crisp-edges;
-  -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
 
-  /* Scale everything up 2x */
-  width: 512px;
-  height: 480px;
+h1 {
+    margin-top: 0;
+}
+
+h3 {
+    margin: 0;
+    padding: 0.5rem;
+    text-align: left; /*start;*/
+}
+
+h4 {
+    margin-bottom: 0;
+}
+
+.content {
+    text-align: center;
+
+    .panel-wrapper {
+
+        .panel {
+            border: 1px solid #c0c0c0;
+            border-radius: 5px;
+            margin: 0 auto;
+            margin-top: 2rem !important;
+            margin-bottom: 2rem !important;
+            width: 600px;
+        }
+
+        .panel-header {
+            background: #e0e0e0;
+            border-bottom: 1px solid #c0c0c0;
+        }
+
+        .info {
+            width: 20rem;
+            margin: 0 auto;
+            text-align: initial;
+        }
+
+        .panel-footer {
+            border-top: 1px solid #c0c0c0;
+            padding: 0.2rem 0;
+            margin-top: 2rem;
+            font-size: smaller;
+        }
+    }
+}
+
+#parent canvas {
+    /* Keep pixel art looking good when canvas is scaled up.  */
+    /* In the future, this might be an opt-in feature of GTP. */
+    image-rendering: -moz-crisp-edges; /* Firefox */
+    image-rendering: -o-crisp-edges; /* Opera */
+    image-rendering: -webkit-optimize-contrast; /* Non-Chrome Webkit, e.g. Safari */
+    image-rendering: pixelated; /* Chrome */
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+
+    /* Scale everything up 2x */
+    width: 512px;
+    height: 480px;
 }

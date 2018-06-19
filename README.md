@@ -41,6 +41,17 @@ npm run cover   # Run unit tests, generate coverage report in coverage/
 The source code lives in `src/`, and is built into `build/web/`.
 `index.html` is the game itself, while `editor.html` is a simple map editor.
 
+## Desktop Build
+A desktop build can be created:
+
+```bash
+npm run build-electron # Builds desktop resources into build/electron
+npm run pack           # Creates unpacked game in dist/
+npm run dist           # Creates unpacked game and installer in dist/
+```
+
+This is still a little rough around the edges, but works, at least on windows.
+
 ## Roadmap
 
 ### Implemented so far:
