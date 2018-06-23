@@ -1,6 +1,8 @@
 {
   "name": "zelda-html5",
   "version": "0.4.0",
+  "author": "Robert Futrell <robert.e.futrell@gmail.com>",
+  "description": "A clone of the Legend of Zelda",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -18,7 +20,6 @@
     "travis-ci": "cross-env NODE_ENV=test nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "lint": "tslint --project .",
     "doc": "typedoc --mode file --target ES5 --out doc/ ./src/app",
-
     "build-electron": "cross-env NODE_ENV=dev webpack --config webpack/webpack-desktop.config.js",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
@@ -26,6 +27,9 @@
   "build": {
     "appId": "zelda.js",
     "files": "./build/electron/**/*",
+    "directories": {
+      "buildResources": "./build/electron"
+    },
     "mac": {
       "category": "my.app.category.type"
     }
@@ -51,39 +55,43 @@
     "all": true
   },
   "devDependencies": {
-    "@types/chai": "4.1.3",
-    "@types/jquery": "3.3.2",
-    "@types/mocha": "5.2.1",
-    "@types/react": "16.3.17",
-    "@types/react-bootstrap": "0.32.9",
+    "@types/chai": "4.1.4",
+    "@types/jquery": "3.3.4",
+    "@types/mocha": "5.2.3",
+    "@types/react": "16.4.1",
+    "@types/react-bootstrap": "0.32.10",
     "@types/react-dom": "16.0.6",
     "@types/react-redux": "6.0.2",
     "@types/redux-actions": "2.3.0",
     "chai": "4.1.2",
-    "copy-webpack-plugin": "4.4.1",
+    "copy-webpack-plugin": "4.5.1",
     "coveralls": "3.0.1",
     "cross-env": "5.2.0",
-    "css-loader": "0.28.9",
-    "electron": "1.8.2",
-    "electron-builder": "20.2.0",
-    "istanbul-instrumenter-loader": "3.0.0",
-    "less": "3.0.1",
-    "less-loader": "4.0.5",
-    "mocha": "5.0.1",
+    "css-loader": "0.28.11",
+    "electron": "2.0.3",
+    "electron-builder": "20.15.1",
+    "file-loader": "1.1.11",
+    "html-webpack-plugin": "3.2.0",
+    "istanbul-instrumenter-loader": "3.0.1",
+    "less": "3.0.4",
+    "less-loader": "4.1.0",
+    "mocha": "5.2.0",
     "nyc": "12.0.2",
+    "raw-loader": "0.5.1",
     "rimraf": "2.6.2",
-    "string-replace-webpack-plugin": "0.1.3",
-    "style-loader": "0.20.2",
-    "ts-loader": "3.5.0",
-    "ts-node": "4.1.0",
-    "tslint": "5.9.1",
-    "tslint-loader": "3.5.3",
+    "style-loader": "0.21.0",
+    "ts-loader": "4.4.1",
+    "ts-node": "7.0.0",
+    "tslint": "5.10.0",
+    "tslint-loader": "3.6.0",
     "typedoc": "0.11.1",
     "typescript": "2.9.2",
-    "url-loader": "0.6.2",
-    "webpack": "3.11.0",
+    "url-loader": "1.0.1",
+    "webpack": "4.12.0",
+    "webpack-auto-inject-version": "1.1.0",
     "webpack-bundle-size-analyzer": "2.7.0",
-    "webpack-dev-server": "2.11.1",
+    "webpack-cli": "3.0.8",
+    "webpack-dev-server": "3.1.4",
     "webpack-target-electron-renderer": "0.4.0"
   },
   "dependencies": {
@@ -92,11 +100,11 @@
     "gtp": "2.0.0",
     "jquery": "3.3.1",
     "jshighlight": "0.3.2",
-    "react": "16.2.0",
+    "react": "16.4.1",
     "react-bootstrap": "0.32.1",
-    "react-dom": "16.2.0",
+    "react-dom": "16.4.1",
     "react-redux": "5.0.7",
-    "redux": "3.7.2",
-    "redux-actions": "2.2.1"
+    "redux": "4.0.0",
+    "redux-actions": "2.4.0"
   }
 }

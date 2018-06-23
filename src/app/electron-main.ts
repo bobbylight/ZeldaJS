@@ -39,7 +39,7 @@ const createMainWindow: () => BrowserWindow = () => {
 
     const window: BrowserWindow = new BrowserWindow({
         autoHideMenuBar: true,
-        icon: '../res/originals/desktop_icon_gxi_icon.ico'
+        icon: 'icon.ico' // Relative to build folder
     });
 
     if (devMode) {

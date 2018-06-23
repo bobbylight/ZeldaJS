@@ -25,6 +25,7 @@ const gameReducer: Reducer<ZeldaGame> = (state: ZeldaGame = (window as any).game
 
 const mapChangedReducer: Reducer<Map> = (state: Map = game.map || null, action: Action<Map>) => {
     if (action.type === 'CURRENT_SCREEN_CHANGED') {
+        console.log('action.payload == ' + action.payload);
         return action.payload!;
     }
     return state;

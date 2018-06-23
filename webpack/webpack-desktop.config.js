@@ -4,7 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
 const devBuild = process.env.NODE_ENV === 'dev';
-console.log('devBuild === ' + devBuild);
+console.log(`Starting webpack build with NODE_ENV: ${process.env.NODE_ENV}`);
 
 // Loaders specific to compiling
 loaders.push({
@@ -32,8 +32,9 @@ module.exports = [
             extensions: ['.js', '.ts', '.tsx'],
             modules: ['src/app', 'src/html', 'src/less', 'node_modules']
         },
+        mode: devBuild ? 'development' : 'production',
         module: {
-            loaders: loaders
+            rules: loaders
         },
         node: {
             __dirname: false,
@@ -50,20 +51,19 @@ module.exports = [
                 [
                     { from: 'src/res', to: 'res', exclude: 'res/originals/**' },
                     { from: 'src/img', to: 'img' },
-                    { from: 'desktop-index.html', context: 'src/html' }
+                    { from: 'desktop-index.html', context: 'src/html' },
+                    { from: 'src/res/originals/desktop_icon_gxi_icon.ico', to: 'icon.ico' }
                 ],
                 {
                     ignore: [ 'originals/*' ]
                 }
-            )
+            ),
+            new webpack.DefinePlugin({
+                'process.env': {
+                    NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+                }
+            })
         ],
-        devtool: devBuild ? 'cheap-module-eval-source-map' : undefined,
-        devServer: {
-            contentBase: './build/electron'
-        }
+        devtool: devBuild ? 'cheap-module-eval-source-map' : undefined
     }
 ];
-
-if (!devBuild) {
-    module.exports[0].plugins.push(new webpack.optimize.UglifyJsPlugin({ sourceMap: true, minimize: true }));
-}

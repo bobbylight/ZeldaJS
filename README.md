@@ -70,7 +70,7 @@ This is still a little rough around the edges, but works, at least on windows.
 * Editor
   - Screen design, single tile per cell (no burnable bushes, bombable walls, etc.)
   - Select enemies per screen
-  - Enter and exit caves events
+  - Enter and exit cave and level events
 
 ### Coming next (in no particular order):
 
