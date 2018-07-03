@@ -191,7 +191,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
             }
         ];
 
-        const panelClass: string = 'panel panel-primary';
+        const panelClass: string = 'card';
 
         return (
 
@@ -206,10 +206,10 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                         </ActionablePanel>
 
                         <div className={panelClass}>
-                            <div className="panel-heading">
-                                <h3 className="panel-title">Map Preview</h3>
+                            <div className="card-header">
+                                <h5 className="card-title">Map Preview</h5>
                             </div>
-                            <div className="panel-body">
+                            <div className="card-body">
                                 <VisibleMapPreview/>
                             </div>
                         </div>
@@ -224,24 +224,24 @@ export default class MainContent extends React.Component<MainContentProps, MainC
                             </Tab>
 
                             <Tab eventKey={1} title="Events">
-                                <div className="panel-body">
+                                <div className="card-body">
                                     <EventEditor game={this.props.game}
                                                  events={this.props.game.map.currentScreen.events} />
                                 </div>
                             </Tab>
 
                             <Tab eventKey={2} title="Misc">
-                                <div className="panel-body">
+                                <div className="card-body">
                                     <VisibleScreenMisc/>
                                 </div>
                             </Tab>
                         </Tabs>
 
                         <div className={panelClass}>
-                            <div className="panel-heading">
-                                <h3 className="panel-title">Enemies</h3>
+                            <div className="card-header bg-primary">
+                                <h5 className="card-title">Enemies</h5>
                             </div>
-                            <div className="panel-body">
+                            <div className="card-body">
                                 <VisibleEnemySelector/>
                             </div>
                         </div>

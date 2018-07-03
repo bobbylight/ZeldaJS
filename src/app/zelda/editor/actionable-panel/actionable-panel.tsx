@@ -24,17 +24,15 @@ export default class ActionablePanel extends React.Component<ActionablePanelProp
                     <ActionButton key={'action-' + (i++)} action={action}/>
                 );
             }) : null;
-        const actions: JSX.Element | null = rows ? (<div className="panel-action-buttons">{rows}</div>) : null;
-
-        const panelClass: string  = `actionable-panel panel panel-${this.props.panelClass || 'default'}`;
+        const actions: JSX.Element | null = rows ? (<div className="card-action-buttons">{rows}</div>) : null;
 
         return (
-            <div className={panelClass}>
-                <div className="panel-heading">
-                    <h3 className="panel-title">{this.props.title}</h3>
+            <div className="actionable-panel card">
+                <div className="card-header">
+                    <h5 className="card-title">{this.props.title}</h5>
                     {actions ? actions : ''}
                 </div>
-                <div className="panel-body">
+                <div className="card-body">
                     {this.props.children}
                 </div>
             </div>

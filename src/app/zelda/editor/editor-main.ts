@@ -4,7 +4,8 @@ import { Provider, Store } from 'react-redux';
 import { Editor } from './editor';
 import { State } from './state';
 import configureStore from './store';
-import 'bootstrap/dist/js/bootstrap';
+import 'popper.js';
+import 'bootstrap';
 
 // Webpack makes you import your HTML and CSS.  WTF?
 //import 'editor.html';

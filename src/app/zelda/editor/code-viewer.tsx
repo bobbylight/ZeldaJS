@@ -61,17 +61,17 @@ export default class CodeViewer extends React.Component<CodeViewerProps, CodeVie
             marginRight: '1rem'
         };
 
-        const panelClass: string = 'panel panel-primary';
+        const panelClass: string = 'card';
 
         return (
             <div className="col-md-12 code-viewer">
 
                 <div className={panelClass}>
 
-                    <div className="panel-heading">
-                        <h3 className="panel-title">Map JSON</h3>
+                    <div className="card-header">
+                        <h5 className="card-title">Map JSON</h5>
                     </div>
-                    <div className="panel-body">
+                    <div className="card-body">
                         <div style={{ marginBottom: '1rem' }}>
                             <button className="btn btn-primary" style={buttonStyle} onClick={this.refresh}>
                                 Refresh</button>

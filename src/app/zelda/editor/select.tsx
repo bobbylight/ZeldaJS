@@ -111,25 +111,23 @@ export default class Select<T> extends React.Component<SelectProps<T>, SelectSta
     render() {
 
         const listItems: JSX.Element[] = this.state.choices.map((lvp: LabelValuePair<T>) => {
-            return (<li role="menuitem" key={lvp.value ? lvp.value.toString() : 'null'}>
-                        <a href="#" onClick={() => { this.onClick(lvp); } }>{lvp.label}</a>
-                    </li>);
+            return (<a className="dropdown-item" href="#" onClick={() => { this.onClick(lvp); } }>{lvp.label}</a>);
         });
 
         const style: React.CSSProperties = {
             display: this.props.display ? this.props.display : 'inherit'
         };
-        const buttonClass: string = `btn btn-${this.props.buttonStyle || 'default'}`;
+        const buttonClass: string = `dropdown-toggle btn btn-${this.props.buttonStyle || 'default'}`;
 
         return (
             <div className="dropdown" style={style}>
                 <button id={this.buttonId} type="button" className={buttonClass}
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {this.getSelectedLabel()} <span className="caret"/>
+                    {this.getSelectedLabel()}
                 </button>
-                <ul className="dropdown-menu" role="menu" aria-labelledby={this.buttonId}>
+                <div className="dropdown-menu" aria-labelledby={this.buttonId}>
                     {listItems}
-                </ul>
+                </div>
             </div>
         );
     }

@@ -1,5 +1,5 @@
 @import url('../../node_modules/bootstrap/dist/css/bootstrap.css');
-@import url('../../node_modules/bootstrap/dist/css/bootstrap-theme.css');
+//@import url('../../node_modules/bootstrap/dist/css/bootstrap-theme.css');
 @import url('../../node_modules/font-awesome/css/font-awesome.css');
 
 html, body {
@@ -14,6 +14,15 @@ html, body {
         height: 30px;
         display: inline;
         margin-right: 1rem;
+    }
+}
+
+.card {
+
+    margin-bottom: 1rem;
+
+    .card-title {
+        margin-bottom: 0; // bootstrap 4 has a 12 pixel bottom margin
     }
 }
 
@@ -86,17 +95,17 @@ canvas {
 }
 
 .actionable-panel {
-    .panel-heading {
+    .card-header {
 
         padding: 0;
         display: flex;
 
-        .panel-title {
+        .card-title {
             padding: 1rem;
             flex: 1;
         }
 
-        .panel-action-buttons {
+        .card-action-buttons {
             float: right;
             border-left: 1px solid #ddd;
 
