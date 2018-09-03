@@ -4,6 +4,7 @@ import { Actor } from '../Actor';
 import { Enemy, EnemyStrength } from './Enemy';
 import { ZeldaGame } from '../ZeldaGame';
 import { Rectangle } from 'gtp';
+import { Projectile } from '../Projectile';
 declare let game: ZeldaGame;
 
 /**
@@ -16,7 +17,7 @@ export abstract class AbstractWalkingEnemy extends Enemy {
     private readonly _ssRowOffset: number;
     protected pausedBeforeThrowingProjectile: number;
 
-    constructor(ssRowOffset: number, strength: EnemyStrength = 'red', health: number = 1) {
+    protected constructor(ssRowOffset: number, strength: EnemyStrength = 'red', health: number = 1) {
         super(strength, health);
         this._ssRowOffset = ssRowOffset;
         this.hitBox = new Rectangle();
@@ -36,6 +37,14 @@ export abstract class AbstractWalkingEnemy extends Enemy {
         }
 
         return super.collidedWith(other);
+    }
+
+    /**
+     * Creates a projectile thrown by this enemy.  The default implementation returns <code>null</code>, denoting
+     * that this enemy does not throw projectiles.
+     */
+    protected createProjectile(): Projectile | null {
+        return null;
     }
 
     protected abstract getChangeDirTimerMax(): number;
@@ -101,7 +110,10 @@ export abstract class AbstractWalkingEnemy extends Enemy {
      * enemy type can throw a projectile.
      */
     protected throwProjectile() {
-        console.error('throwProjectile not overridden!');
+        const projectile: Projectile | null = this.createProjectile();
+        if (projectile) {
+            game.map.currentScreen.addActor(projectile);
+        }
     }
 
     update() {

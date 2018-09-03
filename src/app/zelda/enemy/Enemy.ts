@@ -18,16 +18,18 @@ export abstract class Enemy extends Character {
     strength: EnemyStrength;
     private readonly _maxHealth: number;
     protected _health: number;
+    protected damage: number;
 
     private _step: number;
     private _stepTimer: number;
     private readonly _alwaysFacesForward: boolean;
 
-    constructor(strength: EnemyStrength = 'red',
-                health: number = 1, alwaysFacesForward: boolean = false) {
+    protected constructor(strength: EnemyStrength = 'red',
+                          health: number = 1, alwaysFacesForward: boolean = false) {
         super();
         this.strength = strength;
         this._maxHealth = this._health = health;
+        this.damage = strength === 'red' ? 1 : 2; // Sensible default damage
 
         this._step = 0;
         this._stepTimer = STEP_TIMER_MAX;
@@ -59,6 +61,10 @@ export abstract class Enemy extends Character {
         }
 
         return false;
+    }
+
+    getDamage(): number {
+        return this.damage;
     }
 
     get enemyName(): string {

@@ -75,7 +75,10 @@ export class Link extends Character {
             this.frozen = false;
             this.step = Link.FRAME_STILL;
 
-            if (--this._health === 0) {
+            const damage: number = other.getDamage();
+            this._health = Math.max(0, this._health - damage);
+
+            if (this._health === 0) {
                 game.audio.playSound('linkHurt');
                 this.done = true;
                 this.setAnimation(this._createDyingAnimation());

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render as ReactDOMRender } from 'react-dom';
-import { Provider, Store } from 'react-redux';
+import { Provider } from 'react-redux';
+import { Store } from 'redux';
 import { Editor } from './editor';
 import { State } from './state';
 import configureStore from './store';

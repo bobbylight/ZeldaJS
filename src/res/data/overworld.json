@@ -946,6 +946,18 @@
               "type": "Octorok",
               "args": [],
               "count": 1
+            },
+            {
+              "type": "Lynel",
+              "args": [],
+              "count": 1
+            },
+            {
+              "type": "Moblin",
+              "args": [
+                "blue"
+              ],
+              "count": 1
             }
           ]
         },
@@ -2865,6 +2877,6 @@
     "name": "overworld"
   },
   "music": "overworldMusic",
-  "row": 7,
+  "row": 3,
   "col": 6
 }

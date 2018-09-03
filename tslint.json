@@ -16,6 +16,7 @@
     "deprecation": true,
     "encoding": true,
     "eofline": true,
+    "file-name-casing": [ false ], // TODO: Standardize file name case
     "forin": false,
     "indent": [
       true,
@@ -84,7 +85,6 @@
     //"no-unsafe-any": true,
     "no-unsafe-finally": true,
     "no-unused-expression": true,
-    "no-unused-variable": false, // We allow unused parameters
     "no-use-before-declare": true,
     "no-var-keyword": true,
     "no-var-requires": true,
@@ -112,6 +112,7 @@
     "semicolon": true,
     "strict-boolean-expressions": false,
     "strict-type-predicates": true,
+    "switch-final-break": [ true, "always" ],
     "trailing-comma": [
       true,
       { "singleline": "never", "esSpecCompliant": true }

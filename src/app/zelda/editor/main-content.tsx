@@ -113,6 +113,7 @@ export default class MainContent extends React.Component<MainContentProps, MainC
             let row: number;
             let col: number;
 
+            // tslint:disable-next-line:deprecation
             switch (e.which) {
 
                 case 37:

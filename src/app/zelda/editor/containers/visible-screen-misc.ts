@@ -1,4 +1,6 @@
-import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { ComponentClass } from 'react';
+import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { Dispatch } from 'redux';
 import { State } from '../state';
 import ScreenMisc, { ScreenMiscProps } from '../screen-misc';
 import { Action } from 'redux-actions';

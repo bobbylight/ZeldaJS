@@ -1,4 +1,6 @@
-import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { ComponentClass } from 'react';
+import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { Dispatch } from 'redux';
 import { State } from '../state';
 import EnemySelector from '../enemy-selector';
 import { EnemyGroup } from '../../EnemyGroup';

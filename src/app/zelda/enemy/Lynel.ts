@@ -2,6 +2,7 @@ import { AbstractWalkingEnemy } from './AbstractWalkingEnemy';
 import { Projectile } from '../Projectile';
 import { ZeldaGame } from '../ZeldaGame';
 import { EnemyStrength } from './Enemy';
+import { DirectionUtil } from '../Direction';
 declare let game: ZeldaGame;
 
 const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
@@ -15,6 +16,18 @@ export class Lynel extends AbstractWalkingEnemy {
 
     constructor(strength: EnemyStrength = 'red') {
         super(10, strength, strength === 'blue' ? 4 : 3);
+        this.damage = strength === 'blue' ? 4 : 2;
+    }
+
+    /**
+     * Overridden to throw a sword.
+     */
+    protected createProjectile(): Projectile {
+        const row: number = DirectionUtil.isVertical(this.dir) ? 5 : 4;
+        const col: number = this.dir === 'LEFT' || this.dir === 'UP' ? 12 : 13;
+        const projectile: Projectile = new Projectile(row, col, this.x, this.y, this.dir);
+        projectile.setDamage(2);
+        return projectile;
     }
 
     protected getChangeDirTimerMax(): number {
@@ -34,13 +47,6 @@ export class Lynel extends AbstractWalkingEnemy {
      */
     private shouldThrowProjectile(): boolean {
         return game.randomInt(Lynel._PROJECTILE_THROWING_ODDS[this.strength === 'blue' ? 1 : 0]) === 0;
-    }
-
-    protected throwProjectile() {
-        // TODO: Make more abstract?  A createProjectile() method?
-        const rock: Projectile = new Projectile(0, 12, this.x, this.y, this.dir);
-        game.map.currentScreen.addActor(rock);
-        console.log('adding rock');
     }
 
     update() {

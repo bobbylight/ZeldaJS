@@ -17,6 +17,10 @@ export class Octorok extends AbstractWalkingEnemy {
         super(0, strength, strength === 'blue' ? 2 : 1);
     }
 
+    protected createProjectile(): Projectile {
+        return new Projectile(0, 12, this.x, this.y, this.dir);
+    }
+
     protected getChangeDirTimerMax(): number {
         return CHANGE_DIR_TIMER_MAX;
     }
@@ -34,13 +38,6 @@ export class Octorok extends AbstractWalkingEnemy {
      */
     private shouldThrowProjectile(): boolean {
         return game.randomInt(Octorok._PROJECTILE_THROWING_ODDS[this.strength === 'blue' ? 1 : 0]) === 0;
-    }
-
-    protected throwProjectile() {
-        // TODO: Make more abstract?  A createProjectile() method?
-        const rock: Projectile = new Projectile(0, 12, this.x, this.y, this.dir);
-        game.map.currentScreen.addActor(rock);
-        console.log('adding rock');
     }
 
     update() {

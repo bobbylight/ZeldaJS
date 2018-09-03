@@ -1,4 +1,6 @@
-import { ComponentClass, connect, Dispatch, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { ComponentClass } from 'react';
+import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { Dispatch } from 'redux';
 import { State } from '../state';
 import EventEditor from '../event-editor';
 import { Action } from 'redux-actions';
