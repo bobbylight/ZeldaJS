@@ -36,7 +36,7 @@ export interface SelectOnChangeEvent<T> {
 /**
  * A dropdown component.
  */
-export default class Select<T> extends React.Component<SelectProps<T>, SelectState<T>> {
+export default class Select<T extends {}> extends React.Component<SelectProps<T>, SelectState<T>> {
 
     private buttonId: string;
 

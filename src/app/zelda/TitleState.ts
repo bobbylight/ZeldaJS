@@ -12,7 +12,7 @@ export class TitleState extends BaseState {
     /**
      * State that renders the title screen.
      */
-    constructor(args?: ZeldaGame | BaseStateArgs) {
+    constructor(args?: ZeldaGame | BaseStateArgs<ZeldaGame>) {
         super(args);
     }
 
@@ -53,15 +53,15 @@ export class TitleState extends BaseState {
         let text: string = 'SOUND IS DISABLED AS';
         let x: number = (w - this.stringWidth(text)) / 2;
         let y: number = game.getHeight() - 20 - 9 * 3;
-        this.getGame().drawString(x, y, text);
+        this.game.drawString(x, y, text);
         text = 'YOUR BROWSER DOES NOT';
         x = ( w - this.stringWidth(text)) / 2;
         y += 9;
-        this.getGame().drawString(x, y, text);
+        this.game.drawString(x, y, text);
         text = 'SUPPORT WEB AUDIO';
         x = (w - this.stringWidth(text)) / 2;
         y += 9;
-        this.getGame().drawString(x, y, text);
+        this.game.drawString(x, y, text);
     }
 
     _startGame() {

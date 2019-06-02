@@ -1,9 +1,9 @@
 import { ZeldaGame } from './ZeldaGame';
-import { State, Game, BaseStateArgs, Utils, InputManager, Keys } from 'gtp';
+import { State, BaseStateArgs, Utils, InputManager, Keys } from 'gtp';
 import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 declare let game: ZeldaGame;
 
-export class BaseState extends State {
+export class BaseState extends State<ZeldaGame> {
 
     private _lastConfigKeypressTime: number;
     protected _lastSpriteFrameTime: number;
@@ -11,14 +11,10 @@ export class BaseState extends State {
     /**
      * Functionality common amongst all states in this game.
      */
-    constructor(args?: Game | BaseStateArgs) {
+    constructor(args?: ZeldaGame | BaseStateArgs<ZeldaGame>) {
         super(args);
         this._lastConfigKeypressTime = Utils.timestamp();
         this._lastSpriteFrameTime = 0;
-    }
-
-    protected getGame(): ZeldaGame {
-        return game;
     }
 
     static get INPUT_REPEAT_MILLIS(): number {

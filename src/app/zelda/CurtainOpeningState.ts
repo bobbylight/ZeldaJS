@@ -4,7 +4,7 @@ import { State, Delay } from 'gtp';
 import { MainGameState } from './MainGameState';
 declare let game: ZeldaGame;
 
-export class CurtainOpeningState extends State {
+export class CurtainOpeningState extends State<ZeldaGame> {
 
     private readonly mainState: MainGameState;
     private readonly delay: Delay;

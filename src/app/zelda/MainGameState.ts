@@ -4,7 +4,7 @@ import { BaseState } from './BaseState';
 import { Screen } from './Screen';
 import { Map } from './Map';
 import { ZeldaGame } from './ZeldaGame';
-import { BaseStateArgs, Game } from 'gtp';
+import { BaseStateArgs } from 'gtp';
 import { Hud } from './Hud';
 import { ChangeScreenWarpEvent } from './event/ChangeScreenWarpEvent';
 import { Event } from './event/Event';
@@ -21,7 +21,7 @@ export class MainGameState extends BaseState {
         return 4;
     }
 
-    constructor(args?: Game | BaseStateArgs) {
+    constructor(args?: ZeldaGame | BaseStateArgs<ZeldaGame>) {
         super(args);
         this._hud = new Hud();
     }
@@ -59,12 +59,12 @@ export class MainGameState extends BaseState {
         this._screenSlidingAmount = MainGameState.SCREEN_SLIDING_INC();
     }
 
-    enter(game: Game) {
+    enter(game: ZeldaGame) {
 
         super.enter(game);
         //game.inputManager.setResetKeyStateOnPoll(false);
 
-        const music: string | null | undefined = this.getGame().map.currentScreenMusic;
+        const music: string | null | undefined = this.game.map.currentScreenMusic;
         if (music && music !== 'none') {
             game.audio.playMusic(music, true);
         }

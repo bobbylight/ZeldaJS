@@ -4,6 +4,7 @@ import { TitleState } from './TitleState';
 import { BaseState } from './BaseState';
 import { Game, BaseStateArgs, Utils, FadeOutInState } from 'gtp';
 import { ImageAtlasInfo } from 'gtp/lib/gtp/ImageAtlas';
+import { ZeldaGame } from './ZeldaGame';
 
 export class LoadingState extends BaseState {
 
@@ -13,7 +14,7 @@ export class LoadingState extends BaseState {
     /**
      * State that renders while resources are loading.
      */
-    constructor(args?: Game | BaseStateArgs) {
+    constructor(args?: ZeldaGame | BaseStateArgs<ZeldaGame>) {
         super(args);
     }
 
@@ -95,7 +96,7 @@ export class LoadingState extends BaseState {
 
                     const skipTitle: string | null = Utils.getRequestParam('skipTitle');
                     if (skipTitle !== null) { // Allow empty strings
-                        this.getGame().startNewGame();
+                        this.game.startNewGame();
                         game.setState(new CurtainOpeningState(new MainGameState()));
                     }
                     else {
