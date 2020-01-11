@@ -5,7 +5,8 @@ node_js:
 
 before_script:
     - npm run clean
-    - npm test
+    - npm run test:unit
+    - npm run doc
 script: npm run build
-after_success:
-    - npm run travis-ci
+#after_success:
+#    - npm run travis-ci

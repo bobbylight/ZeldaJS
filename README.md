@@ -21,27 +21,33 @@ npm install
 To get started right away, run:
 
 ```bash
-npm run dev
+npm run serve
 ```
 
 The game will be served from [http://localhost:8080](), and hot deploy any changes.
 
-This game is built with `webpack`.  Development is done with `npm` scripts:
+This game is built with `vue-cli`.  Development is done with `npm` scripts:
 
 ```bash
-npm run clean   # Deletes build/ and doc/ folders
-npm run dev     # Start webpack, watch for changes, test at localhost:8080
-npm run watch   # Start webpack, watch for changes (prefer "dev")
-npm run build   # Build into build/
-npm run start   # Nothing (for now)
-npm run test    # Run unit tests
-npm run cover   # Run unit tests, generate coverage report in coverage/
+npm run clean          # Cleans build directories
+npm run serve          # Runs app for development.  Hot deploys
+npm run build          # Builds the application in dist/
+npm run test:unit      # Runs unit tests
+npm run lint           # Lints files
+npm run travis-ci      # Any extra tasks beyond building to run during CI
+npm run doc            # Generates documentation
+npm run build-electron # Doesn't currently work (broke with move to vue-cli)
+npm run pack           # Doesn't currently work (broke with move to vue-cli)
+npm run dist           # Doesn't currently work (broke with move to vue-cli)
 ```
 
-The source code lives in `src/`, and is built into `build/web/`.
+The source code lives in `src/`, and is built into `dist/`.
 `index.html` is the game itself, while `editor.html` is a simple map editor.
 
 ## Desktop Build
+*Note:* These steps currently don't work.  Need to be fixed after the conversion
+to vue-cli broke them.
+
 A desktop build can be created:
 
 ```bash
