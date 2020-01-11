@@ -25,7 +25,7 @@
     "jsdoc-format": [ true, "check-multiline-start" ],
     "label-position": true,
     "linebreak-style": [ true, "LF" ],
-    "match-default-export-name": true,
+    "match-default-export-name": false, // Vuex doesn't work with this
     "max-file-line-count": [ true, 700 ],
     "max-line-length": [
       true,
@@ -54,7 +54,7 @@
     "no-empty-interface": false, // Possibly explore later
     "no-eval": true,
     "no-for-in-array": true,
-    "no-implicit-dependencies": [ true, "dev" ],
+    "no-implicit-dependencies": [ true, "dev", [ "@" ] ],
     "no-import-side-effect": false, // Importing CSS files violates this
     "no-inferrable-types": false,
     "no-internal-module": false,

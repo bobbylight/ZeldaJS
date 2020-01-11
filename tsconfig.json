@@ -1,29 +1,42 @@
 {
   "compilerOptions": {
-
-    "allowJs": false,
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
-    "alwaysStrict": true,
-    "declaration": false,
-    "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
-    "newLine": "lf",
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    //"noUnusedLocals": true,
-    //"noUnusedParameters": true,
-    "preserveConstEnums": true,
-    "removeComments": false,
-    "strictNullChecks": true,
-
-    "module": "commonjs",
     "target": "es5",
-    "outDir": "src/js/",
-    "sourceMap": true
+    "module": "esnext",
+    //"strict": true,
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true  ,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "types": [
+      "vuetify",
+      "webpack-env",
+      "mocha",
+      "chai"
+    ],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
   },
   "include": [
-    "src/app/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
