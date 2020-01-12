@@ -1,13 +1,10 @@
 <template>
-    <actionable-panel :title="title">
+    <div class="map-editor">
 
-        <div class="map-editor">
-
-            <!-- 256x176 + 16-pixel buffer on all sides -->
-            <canvas class="screen-canvas" width="288" height="208"
-                    ref="canvas"/>
-        </div>
-    </actionable-panel>
+        <!-- 256x176 + 16-pixel buffer on all sides -->
+        <canvas class="screen-canvas" width="288" height="208"
+                ref="canvas"/>
+    </div>
 </template>
 
 <script lang="ts">
@@ -35,33 +32,16 @@ export default class MapEditor extends Vue {
 
     private _mouseDown: boolean = false;
 
-    setArmedTile(e: MouseEvent | null) {
-        const screen: Screen = this.game.map.currentScreen;
-        const selectedTileIndex: number = this.selectedTileIndex;
-        screen.setTile(this.armedRow, this.armedCol, selectedTileIndex);
-        //$rootScope.$broadcast('mapChanged', screen); // TODO: Formalize an event for this and make it specific
-        this.updateLastModified();
-    }
-
-    /**
-     * This is in a separate method so we can debounce it.  Doing a vuex $store.commit() on mouse move
-     * events results in a little lag when the mouse moves quickly.
-     */
-    updateLastModified() {
-        this.$store.commit('updateLastModified');
-    }
-
-    get title(): string {
-        const curRow: number = this.$store.state.currentScreenRow;
-        const curCol: number = this.$store.state.currentScreenCol;
-        const rowCount: number = this.$store.state.game.map ? this.$store.state.game.map.rowCount - 1 : 0;
-        const colCount: number = this.$store.state.game.map ? this.$store.state.game.map.colCount - 1 : 0;
-        return `Screen (${curRow}, ${curCol}) / (${rowCount}, ${colCount})`;
-    }
-
     static inMainScreen(x: number, y: number) {
         return x >= 32 && x < Constants.SCREEN_WIDTH * 2 + 32 &&
             y >= 32 && y < Constants.SCREEN_HEIGHT * 2 + 32;
+    }
+
+    mapChanged(e: MouseEvent | null) {
+        const screen: Screen = this.game.map.currentScreen;
+        const selectedTileIndex: number = this.selectedTileIndex;
+        screen.setTile(this.armedRow, this.armedCol, selectedTileIndex);
+        this.updateLastModified();
     }
 
     private paintScreenAbovePart(ctx: CanvasRenderingContext2D) {
@@ -177,7 +157,7 @@ export default class MapEditor extends Vue {
                 this.armedCol = Math.floor(x / 32);
                 console.log('armed tile: ' + this.armedRow, this.armedCol);
                 if (this._mouseDown) {
-                    this.setArmedTile(null);
+                    this.mapChanged(null);
                 }
             }
             else {
@@ -194,7 +174,7 @@ export default class MapEditor extends Vue {
         canvas.addEventListener('mouseup', mouseUpHandler);
         canvas.addEventListener('mouseleave', mouseUpHandler);
 
-        canvas.addEventListener('click', this.setArmedTile);
+        canvas.addEventListener('click', this.mapChanged);
 
         setInterval(this.paintScreen, 50);
 
@@ -205,6 +185,14 @@ export default class MapEditor extends Vue {
         // Fast mouse moves results in a little lag, so we debounce updates to the
         // lastUpdated value in the store
         this.updateLastModified = debounce(this.updateLastModified, 100);
+    }
+
+    /**
+     * This is in a separate method so we can debounce it.  Doing a vuex $store.commit() on mouse move
+     * events results in a little lag when the mouse moves quickly.
+     */
+    updateLastModified() {
+        this.$store.commit('updateLastModified');
     }
 }
 </script>

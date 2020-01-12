@@ -3,8 +3,9 @@
 
         <v-layout>
             <v-col class="xs8">
-
-                <map-editor :game="game" :selected-tile-index="selectedTileIndex"/>
+                <actionable-panel :title="title">
+                    <map-editor :game="game" :selected-tile-index="selectedTileIndex"/>
+                </actionable-panel>
 
                 <actionable-panel title="Map Preview" v-if="game">
                     <map-preview :game="game" :map="game.map" :last-modified="$store.state.lastModified"/>
@@ -102,6 +103,14 @@ export default class MainContent extends Vue {
     selectedTileIndex: number = 1;
 
     selectedTab: string = 'tab-1';
+
+    get title(): string {
+        const curRow: number = this.$store.state.currentScreenRow;
+        const curCol: number = this.$store.state.currentScreenCol;
+        const rowCount: number = this.$store.state.game.map ? this.$store.state.game.map.rowCount - 1 : 0;
+        const colCount: number = this.$store.state.game.map ? this.$store.state.game.map.colCount - 1 : 0;
+        return `Screen (${curRow}, ${curCol}) / (${rowCount}, ${colCount})`;
+    }
 
     private installKeyHandlers() {
 

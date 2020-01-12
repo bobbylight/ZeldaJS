@@ -4,13 +4,9 @@ import { EditorState } from '@/editor/editor';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Constants } from '@/Constants';
 import { Position } from '@/Position';
+import RowColumnPair from '@/RowColumnPair';
 
 Vue.use(Vuex);
-
-interface Point {
-    row: number;
-    col: number;
-}
 
 // Initialize the game declared in zelda.ts
 const createGame: () => ZeldaGame = () => {
@@ -35,7 +31,7 @@ const store: Store<EditorState> = new Store({
         lastModified: 0
     },
     mutations: {
-        setCurrentScreen(state: EditorState, screen: Point) {
+        setCurrentScreen(state: EditorState, screen: RowColumnPair) {
             state.game.map.setCurrentScreen(screen.row, screen.col);
             state.currentScreen = state.game.map.currentScreen;
             state.currentScreenRow = screen.row;
