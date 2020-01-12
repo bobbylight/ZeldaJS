@@ -41,9 +41,17 @@ const store: Store<EditorState> = new Store({
             state.currentScreen.music = music;
         },
         setMap(state: EditorState, map: string) {
-            const destScreen: Position = new Position(state.game.map.currentScreenRow, state.game.map.currentScreenCol);
-            const destPos: Position = new Position(state.currentScreenRow, state.currentScreenCol);
+
+            const destScreen: Position = new Position(state.currentScreenRow, state.currentScreenCol);
+            const destPos: Position = new Position(0, 0);
             state.game.setMap(map, destScreen, destPos);
+
+            // When moving from a larger map to a smaller one, we may not have been able to preserve
+            // the current screen.  In that case setMap() will have ensured the current screen is
+            // some valid location
+            state.currentScreenRow = state.game.map.currentScreenRow;
+            state.currentScreenCol = state.game.map.currentScreenCol;
+
             state.lastModified = Date.now();
         },
         updateLastModified(state: EditorState) {

@@ -38,7 +38,8 @@
                         <v-tab-item key="tilePalette" value="tab-1">
                             <v-card flat outlined>
                                 <v-card-text>
-                                    <tile-palette :game="game" tileset-name="overworld" :selected-tile-index="selectedTileIndex"
+                                    <tile-palette :game="game" :tileset="game.map.tileset"
+                                                  :selected-tile-index="selectedTileIndex"
                                                   @tileSelected="onTileSelected"/>
                                 </v-card-text>
                             </v-card>

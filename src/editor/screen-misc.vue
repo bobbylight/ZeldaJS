@@ -23,11 +23,15 @@ export default class ScreenMisc extends Vue {
         { text: 'Labyrinth', value: 'labyrinthMusic' }
     ];
 
-    private music: string = this.songs[1].value;
+    private music: string = this.songs[0].value;
+
+    mounted() {
+        // Kick in the pants for initial value
+        this.onScreenChanged(this.screen);
+    }
 
     onMusicChanged(newValue: string) {
         this.$store.commit('setCurrentScreenMusic', newValue);
-        console.log('New music: ' + newValue);
     }
 
     @Watch('screen')
