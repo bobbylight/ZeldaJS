@@ -32,7 +32,7 @@ This game is built with `vue-cli`.  Development is done with `npm` scripts:
 npm run clean          # Cleans build directories
 npm run serve          # Runs app for development.  Hot deploys
 npm run build          # Builds the application in dist/
-npm run test:unit      # Runs unit tests
+npm run test:unit      # Runs unit tests and generates coverage
 npm run lint           # Lints files
 npm run travis-ci      # Any extra tasks beyond building to run during CI
 npm run doc            # Generates documentation
