@@ -14,6 +14,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Constants } from '@/Constants';
+import debounce from 'debounce';
 import { Map } from '../Map';
 import { Prop } from 'vue-property-decorator';
 import { Screen } from '../Screen';
@@ -39,6 +40,14 @@ export default class MapEditor extends Vue {
         const selectedTileIndex: number = this.selectedTileIndex;
         screen.setTile(this.armedRow, this.armedCol, selectedTileIndex);
         //$rootScope.$broadcast('mapChanged', screen); // TODO: Formalize an event for this and make it specific
+        this.updateLastModified();
+    }
+
+    /**
+     * This is in a separate method so we can debounce it.  Doing a vuex $store.commit() on mouse move
+     * events results in a little lag when the mouse moves quickly.
+     */
+    updateLastModified() {
         this.$store.commit('updateLastModified');
     }
 
@@ -192,6 +201,10 @@ export default class MapEditor extends Vue {
         this.$root.$on('focusCanvas', () => {
             canvas.focus();
         });
+
+        // Fast mouse moves results in a little lag, so we debounce updates to the
+        // lastUpdated value in the store
+        this.updateLastModified = debounce(this.updateLastModified, 100);
     }
 }
 </script>

@@ -6,7 +6,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { Prop } from 'vue-property-decorator';
+import { Prop, Watch } from 'vue-property-decorator';
 import { ZeldaGame } from '../ZeldaGame';
 import { Constants } from '../Constants';
 import { Map } from '../Map';
@@ -23,10 +23,6 @@ export default class MapPreview extends Vue {
 
     @Prop({ required: true })
     lastModified: number;
-
-    repaintHandle: any = -1; // "any" to target both node and browser
-
-    private lastLastModified: number;
 
     repaint() {
 
@@ -55,24 +51,15 @@ export default class MapPreview extends Vue {
 
         ctx.restore();
         console.log('Painting complete');
-        this.repaintHandle = 0;
+    }
+
+    @Watch('lastModified')
+    onMapEditorUpdated() {
+        this.repaint();
     }
 
     mounted() {
-
-        // Every 1 second, repaint this widget if the map has been modified.
-        // We unfortunately can't (easily) listen for changes and debounce a repaint
-        // after them...
-        this.repaintHandle = setInterval(() => {
-            if (this.lastModified !== this.lastLastModified) {
-                this.lastLastModified = this.lastModified;
-                this.repaint();
-            }
-        }, 1000);
-    }
-
-    beforeDestroy() {
-        clearInterval(this.repaintHandle);
+        this.repaint();
     }
 
     get canvasStyleHeight(): number {

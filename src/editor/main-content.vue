@@ -15,19 +15,19 @@
 
                 <v-card class="control-group-bottom-margin tabbed-pane-styles" elevation="1">
 
-                    <v-tabs v-model="selectedTab" background-color="primary" dark centered>
+                    <v-tabs v-model="selectedTab" background-color="primary" dark>
 
                         <v-tabs-slider/>
 
-                        <v-tab href="#tab-1">
+                        <v-tab class="editor-tab" href="#tab-1">
                             Tile Palette
                         </v-tab>
 
-                        <v-tab href="#tab-2">
+                        <v-tab class="editor-tab" href="#tab-2">
                             Events
                         </v-tab>
 
-                        <v-tab href="#tab-3">
+                        <v-tab class="editor-tab" href="#tab-3">
                             Misc
                         </v-tab>
                     </v-tabs>
@@ -202,8 +202,15 @@ export default class MainContent extends Vue {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .elevation-1.tabbed-pane-styles {
     box-shadow: none !important;
+}
+
+.editor-tab {
+    // TODO: Match this with that used in the tabbed pane in actionable-panel
+    font-size: 1rem;
+    /*letter-spacing: normal;*/
+    text-transform: none;
 }
 </style>

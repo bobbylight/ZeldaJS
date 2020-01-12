@@ -15,6 +15,7 @@
     "dist": "electron-builder"
   },
   "dependencies": {
+    "debounce": "1.2.0",
     "gtp": "2.0.4",
     "jshighlight": "0.3.2",
     "uuid": "3.3.3",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@types/chai": "4.2.7",
+    "@types/debounce": "1.2.0",
     "@types/mocha": "5.2.7",
     "@vue/cli-plugin-typescript": "4.1.2",
     "@vue/cli-plugin-unit-mocha": "4.1.2",

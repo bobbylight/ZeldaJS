@@ -36,6 +36,8 @@ export default class ActionablePanel extends Vue {
         color: white;
         padding-top: 8px;
         padding-bottom: 8px;
+        font-size: 1rem;
+        /*text-transform: uppercase;*/
     }
 
     .actionable-panel-not-padded {
