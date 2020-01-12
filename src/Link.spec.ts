@@ -1,5 +1,4 @@
 import { Link } from './Link';
-import * as chai from 'chai';
 
 describe('Link', () => {
 
@@ -7,7 +6,7 @@ describe('Link', () => {
 
         const link: Link = new Link();
 
-        chai.assert.equal(link.getHealth(), 6);
-        chai.assert.equal(link.getBombCount(), 99);
+        expect(link.getHealth()).toStrictEqual(6);
+        expect(link.getBombCount()).toStrictEqual(99);
     });
 });

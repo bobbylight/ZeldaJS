@@ -1,5 +1,4 @@
 import { Secrets } from './Secrets';
-import * as chai from 'chai';
 
 describe('Secrets', () => {
 
@@ -11,12 +10,12 @@ describe('Secrets', () => {
             defaultValue: true
         });
 
-        chai.assert.equal(secrets.get('door'), true);
+        expect(secrets.get('door')).toBeTruthy();
     });
 
     it('get() one-arg fails if unknown flag specified', () => {
         const secrets: Secrets = new Secrets();
-        chai.assert.throws(() => { secrets.get('unknown'); });
+        expect(() => { secrets.get('unknown'); }).toThrow();
     });
 
     it('get() two-arg works', () => {
@@ -27,13 +26,13 @@ describe('Secrets', () => {
             defaultValue: true
         });
 
-        chai.assert.equal(secrets.get('door', false), true);
-        chai.assert.equal(secrets.get('door'), false);
+        expect(secrets.get('door', false)).toBeTruthy();
+        expect(secrets.get('door')).toBeFalsy();
     });
 
     it('get() two-arg fails if unknown flag specified', () => {
         const secrets: Secrets = new Secrets();
-        chai.assert.throws(() => { secrets.get('unknown', true); });
+        expect(() => { secrets.get('unknown', true); }).toThrow();
     });
 
     it('reset() works', () => {
@@ -51,7 +50,7 @@ describe('Secrets', () => {
         });
 
         secrets.reset();
-        chai.assert.equal(secrets.get('one'), false, "Secret 'one' transient but not reset");
-        chai.assert.equal(secrets.get('two'), true, "Secret 'true' not transient but was reset");
+        expect(secrets.get('one')).toBeFalsy(); //Secret 'one' transient but not reset
+        expect(secrets.get('two')).toBeTruthy(); //Secret 'true' not transient but was reset
     });
 });

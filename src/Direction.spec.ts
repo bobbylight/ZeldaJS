@@ -1,41 +1,40 @@
 import { DirectionUtil } from './Direction';
-import * as chai from 'chai';
 
 describe('Direction', () => {
 
     it('DirectionUtil.isHorizontal() should work', () => {
-        chai.assert.isOk(DirectionUtil.isHorizontal('LEFT'));
-        chai.assert.isOk(DirectionUtil.isHorizontal('RIGHT'));
-        chai.assert.isNotOk(DirectionUtil.isHorizontal('UP'));
-        chai.assert.isNotOk(DirectionUtil.isHorizontal('DOWN'));
-        chai.assert.isNotOk(DirectionUtil.isHorizontal(null));
-        chai.assert.isNotOk(DirectionUtil.isHorizontal(undefined));
+        expect(DirectionUtil.isHorizontal('LEFT')).toBeTruthy();
+        expect(DirectionUtil.isHorizontal('RIGHT')).toBeTruthy();
+        expect(DirectionUtil.isHorizontal('UP')).toBeFalsy();
+        expect(DirectionUtil.isHorizontal('DOWN')).toBeFalsy();
+        expect(DirectionUtil.isHorizontal(null)).toBeFalsy();
+        expect(DirectionUtil.isHorizontal(undefined)).toBeFalsy();
     });
 
     it('DirectionUtil.isVertical() should work', () => {
-        chai.assert.isNotOk(DirectionUtil.isVertical('LEFT'));
-        chai.assert.isNotOk(DirectionUtil.isVertical('RIGHT'));
-        chai.assert.isOk(DirectionUtil.isVertical('UP'));
-        chai.assert.isOk(DirectionUtil.isVertical('DOWN'));
-        chai.assert.isNotOk(DirectionUtil.isVertical(null));
-        chai.assert.isNotOk(DirectionUtil.isVertical(undefined));
+        expect(DirectionUtil.isVertical('LEFT')).toBeFalsy();
+        expect(DirectionUtil.isVertical('RIGHT')).toBeFalsy();
+        expect(DirectionUtil.isVertical('UP')).toBeTruthy();
+        expect(DirectionUtil.isVertical('DOWN')).toBeTruthy();
+        expect(DirectionUtil.isVertical(null)).toBeFalsy();
+        expect(DirectionUtil.isVertical(undefined)).toBeFalsy();
     });
 
     it('DirectionUtil.opposite() should work', () => {
-        chai.assert.equal(DirectionUtil.opposite('LEFT'), 'RIGHT');
-        chai.assert.equal(DirectionUtil.opposite('RIGHT'), 'LEFT');
-        chai.assert.equal(DirectionUtil.opposite('UP'), 'DOWN');
-        chai.assert.equal(DirectionUtil.opposite('DOWN'), 'UP');
+        expect(DirectionUtil.opposite('LEFT')).toStrictEqual('RIGHT');
+        expect(DirectionUtil.opposite('RIGHT')).toStrictEqual('LEFT');
+        expect(DirectionUtil.opposite('UP')).toStrictEqual('DOWN');
+        expect(DirectionUtil.opposite('DOWN')).toStrictEqual('UP');
     });
 
     it('DirectionUtil.ordinal() should work', () => {
-        chai.assert.equal(DirectionUtil.ordinal('LEFT'), 1);
-        chai.assert.equal(DirectionUtil.ordinal('RIGHT'), 3);
-        chai.assert.equal(DirectionUtil.ordinal('UP'), 2);
-        chai.assert.equal(DirectionUtil.ordinal('DOWN'), 0);
+        expect(DirectionUtil.ordinal('LEFT')).toStrictEqual(1);
+        expect(DirectionUtil.ordinal('RIGHT')).toStrictEqual(3);
+        expect(DirectionUtil.ordinal('UP')).toStrictEqual(2);
+        expect(DirectionUtil.ordinal('DOWN')).toStrictEqual(0);
     });
 
     it('DirectionUtil.randomDir() should work', () => {
-        chai.assert.isDefined(DirectionUtil.randomDir());
+        expect(DirectionUtil.randomDir()).toBeDefined();
     });
 });
