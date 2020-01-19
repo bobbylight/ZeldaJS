@@ -37,7 +37,7 @@ import Component from 'vue-class-component';
 @Component
 export default class NavBar extends Vue {
 
-    selectedMap: string = null;
+    selectedMap: string | null = null;
     maps: any[] = [];
 
     focusCanvas() {

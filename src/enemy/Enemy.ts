@@ -1,12 +1,12 @@
-import { Character } from '../Character';
-import { Actor } from '../Actor';
-import { Constants } from '../Constants';
-import { DirectionUtil } from '../Direction';
-import { Sword } from '../Sword';
-import { Screen } from '../Screen';
-import { ZeldaGame } from '../ZeldaGame';
+import { Character } from '@/Character';
+import { Actor } from '@/Actor';
+import { Constants } from '@/Constants';
+import { DirectionUtil } from '@/Direction';
+import { Sword } from '@/Sword';
+import { Screen } from '@/Screen';
+import { ZeldaGame } from '@/ZeldaGame';
 import { SpriteSheet } from 'gtp';
-import { AbstractItem } from '../item/AbstractItem';
+import { AbstractItem } from '@/item/AbstractItem';
 declare let game: ZeldaGame;
 
 const STEP_TIMER_MAX: number = 10;
@@ -15,26 +15,24 @@ export type EnemyStrength = 'red' | 'blue';
 
 export abstract class Enemy extends Character {
 
-    strength: EnemyStrength;
-    private readonly _maxHealth: number;
-    protected _health: number;
+    private readonly maxHealth: number;
     protected damage: number;
 
     private _step: number;
-    private _stepTimer: number;
-    private readonly _alwaysFacesForward: boolean;
+    private stepTimer: number;
 
-    protected constructor(strength: EnemyStrength = 'red',
-                          health: number = 1, alwaysFacesForward: boolean = false) {
+    protected constructor(public strength: EnemyStrength = 'red',
+                          protected health: number = 1,
+                          private readonly alwaysFacesForward: boolean = false) {
         super();
         this.strength = strength;
-        this._maxHealth = this._health = health;
+        this.maxHealth = this.health;
         this.damage = strength === 'red' ? 1 : 2; // Sensible default damage
 
         this._step = 0;
-        this._stepTimer = STEP_TIMER_MAX;
+        this.stepTimer = STEP_TIMER_MAX;
 
-        this._alwaysFacesForward = alwaysFacesForward;
+        this.alwaysFacesForward = alwaysFacesForward;
     }
 
     collidedWith(other: Actor): boolean {
@@ -44,7 +42,7 @@ export abstract class Enemy extends Character {
         }
 
         if (other instanceof Sword) {
-            if (--this._health === 0) {
+            if (--this.health === 0) {
                 this.done = true;
                 game.audio.playSound('enemyDie');
                 game.addEnemyDiesAnimation(this.x, this.y);
@@ -72,10 +70,6 @@ export abstract class Enemy extends Character {
         return this.strength + (this.constructor as any).name;
     }
 
-    get health(): number {
-        return this._health;
-    }
-
     get step(): number {
         return this._step;
     }
@@ -85,7 +79,7 @@ export abstract class Enemy extends Character {
         this.possiblyPaintHitBox(ctx);
 
         let col: number = colOffset;
-        if (!this._alwaysFacesForward) {
+        if (!this.alwaysFacesForward) {
             col += DirectionUtil.ordinal(this.dir);
         }
 
@@ -118,11 +112,7 @@ export abstract class Enemy extends Character {
     }
 
     resetHealth() {
-        this._health = this._maxHealth;
-    }
-
-    set health(health: number) {
-        this._health = health;
+        this.health = this.maxHealth;
     }
 
     setLocationToSpawnPoint(screen: Screen) {
@@ -137,10 +127,10 @@ export abstract class Enemy extends Character {
     }
 
     protected _touchStepTimer() {
-        this._stepTimer--;
-        if (this._stepTimer === 0) {
+        this.stepTimer--;
+        if (this.stepTimer === 0) {
             this._step = (this._step + 1) % 2;
-            this._stepTimer = STEP_TIMER_MAX;
+            this.stepTimer = STEP_TIMER_MAX;
         }
     }
 }

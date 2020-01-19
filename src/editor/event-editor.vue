@@ -157,10 +157,10 @@ import ModifiableTable, { ModifiableTableHeader } from '@/editor/modifiable-tabl
 export default class EventEditor extends Vue {
 
     @Prop({ required: true })
-    game: ZeldaGame;
+    game!: ZeldaGame;
 
     @Prop({ required: true })
-    value: Event<any>[];
+    value!: Event<any>[];
 
     title: string = '';
     rightAlignButtons: boolean = false;
@@ -360,8 +360,8 @@ export default class EventEditor extends Vue {
         this.rowBeingModified = (newRecord ? this.getInitialValue() :
             JSON.parse(JSON.stringify(this.selectedItems[0]))) as Event<any>;
         this.newGenerator = this.generators.find((g: EventGenerator<any>) => {
-            return g.type === this.rowBeingModified.type;
-        });
+            return g.type === this.rowBeingModified!.type;
+        })!;
         this.showModifyRowDialog = true;
     }
 }

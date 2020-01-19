@@ -148,7 +148,7 @@ export default class MainContent extends Vue {
                     console.log('right');
                     row = this.$store.state.currentScreenRow;
                     col = this.$store.state.currentScreenCol;
-                    if (col < this.game.map.colCount - 1) {
+                    if (col < this.game!.map.colCount - 1) {
                         this.setCurrentScreen(row, col + 1);
                     }
                     e.preventDefault();
@@ -158,7 +158,7 @@ export default class MainContent extends Vue {
                     console.log('down');
                     row = this.$store.state.currentScreenRow;
                     col = this.$store.state.currentScreenCol;
-                    if (row < this.game.map.rowCount - 1) {
+                    if (row < this.game!.map.rowCount - 1) {
                         this.setCurrentScreen(row + 1, col);
                     }
                     e.preventDefault();

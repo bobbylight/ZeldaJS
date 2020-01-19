@@ -27,7 +27,7 @@ export default class MapPreview extends Vue {
     map!: Map;
 
     @Prop({ required: true })
-    lastModified: number;
+    lastModified!: number;
 
     armedScreenRow: number = -1;
     armedScreenCol: number = -1;
@@ -54,7 +54,7 @@ export default class MapPreview extends Vue {
         ctx.fillRect(0, 0, Constants.SCREEN_WIDTH * Constants.SCREEN_COL_COUNT,
             Constants.SCREEN_HEIGHT * Constants.SCREEN_ROW_COUNT);
 
-        const map: Map = this.game!.map;
+        const map: Map = this.game.map;
         for (let row: number = 0; row < map.rowCount; row++) {
 
             for (let col: number = 0; col < map.colCount; col++) {
@@ -119,7 +119,7 @@ export default class MapPreview extends Vue {
 
     @Watch('currentScreen')
     onCurrentScreenChanged() {
-        this.debouncedRepaint();
+        this.debouncedRepaint!();
     }
 
     private static possiblyOutlineScreen(ctx: CanvasRenderingContext2D, row: number, col: number,

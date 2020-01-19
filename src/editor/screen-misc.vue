@@ -23,7 +23,7 @@ export default class ScreenMisc extends Vue {
         { text: 'Labyrinth', value: 'labyrinthMusic' }
     ];
 
-    private music: string = this.songs[0].value;
+    private music: string | null = this.songs[0].value;
 
     mounted() {
         // Kick in the pants for initial value

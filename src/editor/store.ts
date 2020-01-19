@@ -38,7 +38,7 @@ const store: Store<EditorState> = new Store({
             state.currentScreenCol = screen.col;
         },
         setCurrentScreenMusic(state: EditorState, music: string | null) {
-            state.currentScreen.music = music;
+            state.currentScreen!.music = music;
         },
         setMap(state: EditorState, map: string) {
 

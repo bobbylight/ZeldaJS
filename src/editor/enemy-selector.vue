@@ -133,7 +133,7 @@ export default class EnemySelector extends Vue {
     game!: ZeldaGame;
 
     @Prop({ required: true })
-    value: EnemyGroup;
+    value!: EnemyGroup;
 
     title: string = '';
     rightAlignButtons: boolean = false;

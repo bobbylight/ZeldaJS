@@ -24,7 +24,7 @@ export default class ActionablePanel extends Vue {
     title!: string;
 
     @Prop({ default: true })
-    padded: boolean;
+    padded!: boolean;
 }
 </script>
 

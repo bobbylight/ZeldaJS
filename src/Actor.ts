@@ -28,6 +28,8 @@ export abstract class Actor {
         this.done = false;
 
         // Almost all characters are 1 tile in size; those that aren't can override
+        this.x = 0;
+        this.y = 0;
         this.w = Constants.TILE_WIDTH;
         this.h = Constants.TILE_HEIGHT;
     }
