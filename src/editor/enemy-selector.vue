@@ -124,7 +124,7 @@ import { ZeldaGame } from '../ZeldaGame';
 import { EnemyGroup, EnemyInfo } from '../EnemyGroup';
 import { Enemy, EnemyStrength } from '../enemy/Enemy';
 import { ModifiableTableHeader } from './modifiable-table.vue';
-import uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({ components: { } })
 export default class EnemySelector extends Vue {

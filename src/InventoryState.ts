@@ -2,7 +2,7 @@ import { BaseState } from './BaseState';
 import { CurtainOpeningState } from './CurtainOpeningState';
 import { MainGameState } from './MainGameState';
 import { ZeldaGame } from './ZeldaGame';
-import { BaseStateArgs, Game, Image, InputManager } from 'gtp';
+import { BaseStateArgs, Game, InputManager } from 'gtp';
 import { InventorySlideState } from '@/InventorySlideState';
 declare let game: ZeldaGame;
 
