@@ -4,10 +4,12 @@ import { BaseState } from './BaseState';
 import { Screen } from './Screen';
 import { Map } from './Map';
 import { ZeldaGame } from './ZeldaGame';
-import { BaseStateArgs } from 'gtp';
+import { BaseStateArgs, Keys } from 'gtp';
 import { Hud } from './Hud';
 import { ChangeScreenWarpEvent } from './event/ChangeScreenWarpEvent';
 import { Event } from './event/Event';
+import { InventoryState } from '@/InventoryState';
+import { InventorySlideState } from '@/InventorySlideState';
 declare let game: ZeldaGame;
 
 export class MainGameState extends BaseState {
@@ -181,7 +183,13 @@ export class MainGameState extends BaseState {
         if (this._screenSlidingAmount === 0) {
             game.link.handleInput(game.inputManager);
         }
-        game.link.update();
+
+        if (this.game.inputManager.enter(true)) {
+            game.setState(new InventorySlideState(new InventoryState(), this));
+        }
+        else {
+            game.link.update();
+        }
     }
 
     private updateScreenSlidingImpl() {
