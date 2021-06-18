@@ -6,7 +6,7 @@
     "clean": "rimraf build dist doc coverage",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit src/*.spec.ts",
+    "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "travis-ci": "cat coverage/lcov.info | coveralls",
     "doc": "typedoc --mode file --target ES5 --out doc/ ./src",
@@ -15,14 +15,14 @@
     "dist": "electron-builder"
   },
   "dependencies": {
-    "debounce": "1.2.0",
-    "gtp": "2.0.4",
+    "debounce": "1.2.1",
+    "gtp": "2.0.5",
     "jshighlight": "0.3.2",
-    "uuid": "8.1.0",
-    "vue": "2.6.11",
-    "vue-property-decorator": "8.5.0",
-    "vuetify": "2.3.0",
-    "vuex": "3.4.0"
+    "uuid": "8.3.2",
+    "vue": "2.6.14",
+    "vue-property-decorator": "9.1.2",
+    "vuetify": "2.5.4",
+    "vuex": "3.6.2"
   },
   "devDependencies": {
     "@types/debounce": "1.2.0",
@@ -40,10 +40,10 @@
     "sass-loader": "8.0.2",
     "ts-jest": "26.1.0",
     "typedoc": "0.17.7",
-    "typescript": "3.9.5",
-    "vue-class-component": "7.2.3",
+    "typescript": "4.3.4",
+    "vue-class-component": "7.2.6",
     "vue-cli-plugin-vuetify": "2.0.5",
-    "vue-template-compiler": "2.6.11",
-    "vuetify-loader": "1.5.0"
+    "vue-template-compiler": "2.6.14",
+    "vuetify-loader": "1.7.2"
   }
 }

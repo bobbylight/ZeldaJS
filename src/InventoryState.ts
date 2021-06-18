@@ -8,8 +8,6 @@ declare let game: ZeldaGame;
 
 export class InventoryState extends BaseState {
 
-    private _lastKeypressTime: number;
-
     /**
      * State that renders the title screen.
      */
