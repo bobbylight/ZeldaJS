@@ -34,4 +34,4 @@ jobs:
     - name: Generate documentation
       run: npm run doc
     - name: Run tests
-      run: npm test:unit
+      run: npm run test:unit
