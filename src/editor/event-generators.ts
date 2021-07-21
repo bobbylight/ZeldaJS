@@ -7,7 +7,6 @@ import { ChangeScreenWarpEvent } from '../event/ChangeScreenWarpEvent';
  * Generates an event of some type.
  */
 export abstract class EventGenerator<E extends Event<any>> {
-
     readonly type: string;
     protected tile: Position;
     protected destMap: string;
@@ -35,7 +34,6 @@ export abstract class EventGenerator<E extends Event<any>> {
  * Generates "go down stairs" value.
  */
 export class GoDownStairsEventGenerator extends EventGenerator<GoDownStairsEvent> {
-
     constructor() {
         super(GoDownStairsEvent.EVENT_TYPE);
         this.setTile(new Position());
@@ -52,7 +50,6 @@ export class GoDownStairsEventGenerator extends EventGenerator<GoDownStairsEvent
 }
 
 export class ChangeScreenWarpEventGenerator extends EventGenerator<ChangeScreenWarpEvent> {
-
     constructor() {
         super(ChangeScreenWarpEvent.EVENT_TYPE);
         this.setTile(new Position());

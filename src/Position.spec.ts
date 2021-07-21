@@ -1,7 +1,6 @@
 import { Position, PositionData } from './Position';
 
 describe('Position', () => {
-
     it('empty constructor works', () => {
         const pos: Position = new Position();
         expect(pos.row).toStrictEqual(0);

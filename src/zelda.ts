@@ -9,7 +9,6 @@ import { CanvasResizer, StretchMode } from 'gtp';
 import './app.less';
 
 (window as any).init = (parent: HTMLElement, assetRoot?: string) => {
-
     const gameWindow: any = window as any;
     gameWindow.game = new ZeldaGame({
         assetRoot: assetRoot,
@@ -24,7 +23,6 @@ import './app.less';
 
     const userAgent: string = navigator.userAgent.toLowerCase();
     if (userAgent.indexOf('electron/') > -1) {
-
         const canvas: HTMLCanvasElement = gameWindow.game.canvas;
 
         window.addEventListener('resize', () => {

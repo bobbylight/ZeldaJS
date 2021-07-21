@@ -1,9 +1,7 @@
 import { Secrets } from './Secrets';
 
 describe('Secrets', () => {
-
     it('get() one-arg works', () => {
-
         const secrets: Secrets = new Secrets();
         secrets.add('door', {
             value: true,
@@ -15,11 +13,12 @@ describe('Secrets', () => {
 
     it('get() one-arg fails if unknown flag specified', () => {
         const secrets: Secrets = new Secrets();
-        expect(() => { secrets.get('unknown'); }).toThrow();
+        expect(() => {
+            secrets.get('unknown'); 
+        }).toThrow();
     });
 
     it('get() two-arg works', () => {
-
         const secrets: Secrets = new Secrets();
         secrets.add('door', {
             value: true,
@@ -32,11 +31,12 @@ describe('Secrets', () => {
 
     it('get() two-arg fails if unknown flag specified', () => {
         const secrets: Secrets = new Secrets();
-        expect(() => { secrets.get('unknown', true); }).toThrow();
+        expect(() => {
+            secrets.get('unknown', true); 
+        }).toThrow();
     });
 
     it('reset() works', () => {
-
         const secrets: Secrets = new Secrets();
 
         secrets.add('one', {
@@ -50,7 +50,7 @@ describe('Secrets', () => {
         });
 
         secrets.reset();
-        expect(secrets.get('one')).toBeFalsy(); //Secret 'one' transient but not reset
-        expect(secrets.get('two')).toBeTruthy(); //Secret 'true' not transient but was reset
+        expect(secrets.get('one')).toBeFalsy(); // Secret 'one' transient but not reset
+        expect(secrets.get('two')).toBeTruthy(); // Secret 'true' not transient but was reset
     });
 });

@@ -3,8 +3,7 @@ import { Utils } from 'gtp';
 export type Direction = 'DOWN' | 'LEFT' | 'UP' | 'RIGHT';
 
 export class DirectionUtil {
-
-    private static readonly DIRECTIONS: Direction[] = [ 'DOWN', 'LEFT', 'UP', 'RIGHT' ];
+    private static readonly DIRECTIONS: Direction[] = ['DOWN', 'LEFT', 'UP', 'RIGHT'];
 
     static isHorizontal(dir?: Direction | null): boolean {
         return dir === 'LEFT' || dir === 'RIGHT';
@@ -15,7 +14,6 @@ export class DirectionUtil {
     }
 
     static opposite(dir: Direction): Direction {
-
         let opposite: Direction = 'UP';
 
         switch (dir) {

@@ -3,7 +3,6 @@ import { Position, PositionData } from '@/Position';
 let count: number = 0;
 
 export abstract class Event<T extends EventData> {
-
     readonly type: string;
     readonly id: string;
     tile: Position;
@@ -13,7 +12,7 @@ export abstract class Event<T extends EventData> {
     readonly animate: boolean;
 
     constructor(type: string, tile: Position, destMap: string, destScreen: Position, destPos: Position,
-                animate: boolean) {
+        animate: boolean) {
         this.type = type;
         count++;
         this.id = count.toString(10);

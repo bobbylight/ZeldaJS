@@ -4,7 +4,6 @@
  * <code>reset()</code> is called.
  */
 export class Secrets {
-
     private readonly secrets: SecretsData;
 
     constructor() {
@@ -17,7 +16,6 @@ export class Secrets {
     }
 
     get(secret: string, newValue?: boolean): boolean {
-
         if (!this.secrets.hasOwnProperty(secret)) {
             throw new Error(`Unknown flag: ${secret}`);
         }

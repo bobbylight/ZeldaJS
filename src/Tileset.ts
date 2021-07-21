@@ -6,7 +6,6 @@ declare let game: ZeldaGame;
  * A set of tiles used by a map.
  */
 export class Tileset {
-
     private _name: string;
     private _tiles: SpriteSheet;
 
@@ -32,7 +31,7 @@ export class Tileset {
     }
 
     isDoorway(tile: number): boolean {
-        if ('overworld' === this._name) {
+        if (this._name === 'overworld') {
             return tile === 61; // The single "door" tile
         }
         return false;

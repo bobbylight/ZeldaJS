@@ -12,7 +12,6 @@ interface MapMap {
 }
 
 export class ZeldaGame extends Game {
-
     maps: MapMap;
     map: Map;
     link: Link;
@@ -57,8 +56,7 @@ export class ZeldaGame extends Game {
 
     // TODO: Convert to a gtp BitmapFont
     drawString(x: number, y: number, text: string | number,
-               ctx: CanvasRenderingContext2D = game.canvas.getContext('2d')!) {
-
+        ctx: CanvasRenderingContext2D = game.canvas.getContext('2d')!) {
         const str: string = text.toString(); // Allow us to pass in stuff like numerics
 
         // Note we have a gtp.SpriteSheet, not a gtp.BitmapFont, so our
@@ -69,7 +67,6 @@ export class ZeldaGame extends Game {
         let index: number;
 
         for (let i: number = 0; i < str.length; i++) {
-
             const ch: string = str[i];
             const chCharCode: number = str.charCodeAt(i);
             if (ch >= 'A' && ch <= 'Z') {
@@ -101,7 +98,7 @@ export class ZeldaGame extends Game {
                 }
             }
             fontImage.drawByIndex(ctx, x, y, index);
-            x += 9; //CHAR_WIDTH
+            x += 9; // CHAR_WIDTH
         }
     }
 
@@ -116,7 +113,6 @@ export class ZeldaGame extends Game {
     }
 
     private loadMaps() {
-
         this.maps = {
             overworld: new Map('overworld').fromJson(this.assets.get('overworldData')),
             level1: new Map('level1').fromJson(this.assets.get('level1Data'))
@@ -143,7 +139,6 @@ export class ZeldaGame extends Game {
     }
 
     setMap(name: string, destScreen: Position, destPos: Position, immediatelyStartMusic: boolean = true) {
-
         this.map = this.maps[name];
         this.map.setCurrentScreen(destScreen.row, destScreen.col);
         this.link.setLocation(destPos.col * 16, destPos.row * 16);
@@ -156,7 +151,7 @@ export class ZeldaGame extends Game {
     startNewGame(initLink: boolean = true) {
         this.loadMaps();
         // tslint:disable-next-line:no-string-literal
-        this.map = this.maps['overworld'];
+        this.map = this.maps.overworld;
         this.map.setCurrentScreen(3, 6);
         if (initLink) {
             this.link = new Link();

@@ -16,7 +16,6 @@ export interface MapData {
 }
 
 export class Map {
-
     private readonly name: string;
     private readonly _screens: Screen[][];
     private readonly _tileset: Tileset;
@@ -32,7 +31,6 @@ export class Map {
     showEvents: boolean;
 
     constructor(name: string, rowCount: number = 8, colCount: number = 16) {
-
         this.name = name;
         this._screens = [];
         for (let row: number = 0; row < rowCount; row++) {
@@ -80,7 +78,6 @@ export class Map {
     }
 
     fromJson(json: MapData): Map {
-
         if (HEADER !== json.header) {
             throw new Error(`Invalid map file: bad header: ${json.header}`);
         }
@@ -171,7 +168,6 @@ export class Map {
     }
 
     setCurrentScreen(row: number, col: number) {
-
         if (this._curRow && this._curCol) {
             this.currentScreen.exit();
         }
@@ -186,14 +182,14 @@ export class Map {
 
         this.currentScreen.enter();
         return this.currentScreen;
-
     }
 
     toJson(): MapData {
-
         const screenRows: (ScreenData | null)[][] = [];
         this._screens.forEach((rowOfScreens: Screen[]) => {
-            screenRows.push(rowOfScreens.map((screen: Screen) => { return screen.toJson(); }));
+            screenRows.push(rowOfScreens.map((screen: Screen) => {
+                return screen.toJson(); 
+            }));
         });
 
         return {
@@ -206,5 +202,4 @@ export class Map {
             col: this._curCol
         };
     }
-
 }

@@ -10,13 +10,11 @@ type EnemyClass = 'A' | 'B' | 'C' | 'D' | 'X';
  * http://www.zeldaspeedruns.com/loz/generalknowledge/item-drops-chart
  */
 export class ItemDropStrategy {
-
     private readonly enemyTypeToEnemyClassMap: { [ name: string ]: EnemyClass };
-    private readonly itemDropTable: { [ enemyClass: string /*EnemyClass*/ ]: (string | null)[] };
+    private readonly itemDropTable: { [ enemyClass: string /* EnemyClass */ ]: (string | null)[] };
     private counter: number;
 
     constructor() {
-
         this.counter = 0;
 
         this.enemyTypeToEnemyClassMap = {
@@ -34,15 +32,14 @@ export class ItemDropStrategy {
         };
 
         this.itemDropTable = {
-            'A': [ 'rupee', 'heart', 'rupee', null, 'rupee', 'heart', 'heart', 'rupee', 'rupee', 'heart' ],
-            'B': [ null, 'rupee', null, 'rupee', 'heart', null, 'rupee', null, 'heart', 'heart' ],
-            'C': [ 'rupee', 'heart', 'rupee', 'blueRupee', 'heart', null, 'rupee', 'rupee', 'rupee', 'blueRupee' ],
-            'D': [ 'heart', null, 'rupee', 'heart', null, 'heart', 'heart', 'heart', 'rupee', 'heart' ]
+            A: ['rupee', 'heart', 'rupee', null, 'rupee', 'heart', 'heart', 'rupee', 'rupee', 'heart'],
+            B: [null, 'rupee', null, 'rupee', 'heart', null, 'rupee', null, 'heart', 'heart'],
+            C: ['rupee', 'heart', 'rupee', 'blueRupee', 'heart', null, 'rupee', 'rupee', 'rupee', 'blueRupee'],
+            D: ['heart', null, 'rupee', 'heart', null, 'heart', 'heart', 'heart', 'rupee', 'heart']
         };
     }
 
     itemDropped(enemy: Enemy): AbstractItem | null {
-
         let item: AbstractItem | null = null;
         console.log(enemy.enemyName);
 
@@ -73,11 +70,9 @@ export class ItemDropStrategy {
      */
     // TODO: Perhaps this could be a factory?
     private createItem(enemy: Enemy, itemName: string): AbstractItem | null {
-
         let item: AbstractItem | null = null;
 
         switch (itemName) {
-
             case 'heart':
                 item = new Heart(enemy.x, enemy.y);
                 break;

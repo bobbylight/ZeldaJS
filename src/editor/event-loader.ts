@@ -5,7 +5,6 @@ import { GoDownStairsEvent, GoDownStairsEventData } from '../event/GoDownStairsE
 import { ChangeScreenWarpData, ChangeScreenWarpEvent } from '../event/ChangeScreenWarpEvent';
 
 export default class EventLoader {
-
     /**
      * Loads an event from a JSON representation of that event.
      *
@@ -13,13 +12,12 @@ export default class EventLoader {
      * @returns The event.
      */
     static load(data: EventData): Event<any> {
-        // Be a little sneaky to call a method by name
+    // Be a little sneaky to call a method by name
         const classObj: any = EventLoader;
         return (classObj[data.type] as Function).call(this, data);
     }
 
     private static changeScreenWarp(data: EventData): ChangeScreenWarpEvent {
-
         const eventData: ChangeScreenWarpData = data as GoDownStairsEventData;
 
         const generator: ChangeScreenWarpEventGenerator = new ChangeScreenWarpEventGenerator();
@@ -29,7 +27,6 @@ export default class EventLoader {
     }
 
     private static goDownStairs(data: EventData): GoDownStairsEvent {
-
         const eventData: GoDownStairsEventData = data as GoDownStairsEventData;
 
         const generator: GoDownStairsEventGenerator = new GoDownStairsEventGenerator();

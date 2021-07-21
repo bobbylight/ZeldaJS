@@ -10,13 +10,11 @@ declare let game: ZeldaGame;
  * A projectile thrown by an enemy, such as a rock or arrow.
  */
 export class Projectile extends Actor {
-
     private readonly ssRow: number;
     private readonly ssCol: number;
     private damage: number;
 
     constructor(ssRow: number, ssCol: number, x: number, y: number, dir: Direction) {
-
         super();
         this.ssRow = ssRow;
         this.ssCol = ssCol;
@@ -31,7 +29,6 @@ export class Projectile extends Actor {
     }
 
     collidedWith(other: Actor): boolean {
-
         if (other instanceof Link) {
             this.done = true;
             return true;
@@ -45,7 +42,6 @@ export class Projectile extends Actor {
     }
 
     paint(ctx: CanvasRenderingContext2D) {
-
         this.possiblyPaintHitBox(ctx);
 
         const ss: SpriteSheet = game.assets.get('enemies');
@@ -58,7 +54,6 @@ export class Projectile extends Actor {
     }
 
     update() {
-
         const SPEED: number = 2.5;
 
         switch (this.dir) {

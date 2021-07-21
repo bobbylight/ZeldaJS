@@ -155,7 +155,6 @@ import ModifiableTable, { ModifiableTableHeader } from '@/editor/modifiable-tabl
 
 @Component({ components: { ModifiableTable } })
 export default class EventEditor extends Vue {
-
     @Prop({ required: true })
     game!: ZeldaGame;
 
@@ -169,14 +168,14 @@ export default class EventEditor extends Vue {
     itemKey: string = 'id';
     validationFunc: any = null;
 
-    rows: number[] = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
-    cols: number[] = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];
-    screenRows: number[] = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
+    rows: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    cols: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+    screenRows: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     screenCols: number[] = [];
 
     headers: ModifiableTableHeader[] = [
         { text: 'Type', value: 'type' },
-        { text: 'Description', value: 'desc'}
+        { text: 'Description', value: 'desc' }
     ];
 
     deleteDialog: boolean = false;
@@ -211,9 +210,7 @@ export default class EventEditor extends Vue {
     }
 
     descColumnRenderer(cellValue: Event<any>): string {
-
         if (cellValue instanceof GoDownStairsEvent) {
-
             const sourceTile: Position = cellValue.getTile();
             const map: string = cellValue.destMap;
             const screen: Position = cellValue.destScreen;
@@ -221,8 +218,8 @@ export default class EventEditor extends Vue {
 
             return `(${sourceTile.row}, ${sourceTile.col}) to ${map}, screen (${screen.row}, ${screen.col}), ` +
                 `pos (${destPos.row}, ${destPos.col})`;
-        } else if (cellValue instanceof ChangeScreenWarpEvent) {
-
+        }
+        else if (cellValue instanceof ChangeScreenWarpEvent) {
             const map: string = cellValue.destMap;
             const screen: Position = cellValue.destScreen;
             const destPos: Position = cellValue.destPos;
@@ -251,7 +248,6 @@ export default class EventEditor extends Vue {
     }
 
     isSaveButtonDisabled(): boolean {
-
         if (!this.rowBeingModified) {
             return true;
         }
@@ -261,14 +257,12 @@ export default class EventEditor extends Vue {
     }
 
     mounted() {
-
-        for (let i: number = 0; i <= 15; i += .5) {
+        for (let i: number = 0; i <= 15; i += 0.5) {
             this.screenCols.push(i);
         }
     }
 
     moveTableRow(row: number, delta: number) {
-
         const newValue: Event<any>[] = this.allItems.slice();
 
         const temp: Event<any> = newValue[row + delta];
@@ -288,7 +282,6 @@ export default class EventEditor extends Vue {
     }
 
     onDeleteItem() {
-
         const selectedKey: any = (this.rowBeingModified as any)[this.itemKey];
 
         const newDataList: Event<any>[] = this.value.filter((v: Event<any>) => {
@@ -308,7 +301,6 @@ export default class EventEditor extends Vue {
     }
 
     onSave() {
-
         const newDataList: Event<any>[] = this.value.slice();
         const index: number = newDataList.findIndex((item: Event<any>) => {
             return (item as any)[this.itemKey] === this.modifiedItemKey;
@@ -324,7 +316,7 @@ export default class EventEditor extends Vue {
             newDataList.splice(index, 1, event);
         }
         else {
-            // Generate a key if it isn't a natural key that the user had to enter
+        // Generate a key if it isn't a natural key that the user had to enter
             (event as any)[this.itemKey] = Date.now().toString(10);
             newDataList.push(event);
         }
@@ -345,20 +337,18 @@ export default class EventEditor extends Vue {
     }
 
     private refreshRowBeingModified() {
-
-        this.rowBeingModified = (this.selectedItems.length > 0 ?
-            JSON.parse(JSON.stringify(this.selectedItems[0])) : this.getInitialValue()) as Event<any>;
+        this.rowBeingModified = (this.selectedItems.length > 0
+            ? JSON.parse(JSON.stringify(this.selectedItems[0])) : this.getInitialValue()) as Event<any>;
         this.saveDisabled = this.isSaveButtonDisabled();
     }
 
     showAddOrEditModal(newRecord: boolean) {
-
         // Remember the key of the item being edited, or null if this is for a new item
         this.modifiedItemKey = newRecord ? null : (this.selectedItems[0] as any)[this.itemKey] as string;
 
         // Clone the record to pass to the callback
-        this.rowBeingModified = (newRecord ? this.getInitialValue() :
-            JSON.parse(JSON.stringify(this.selectedItems[0]))) as Event<any>;
+        this.rowBeingModified = (newRecord ? this.getInitialValue()
+            : JSON.parse(JSON.stringify(this.selectedItems[0]))) as Event<any>;
         this.newGenerator = this.generators.find((g: EventGenerator<any>) => {
             return g.type === this.rowBeingModified!.type;
         })!;

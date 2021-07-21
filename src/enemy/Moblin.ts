@@ -11,8 +11,7 @@ const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
  * A dog/pig-like enemy, commonly found in wooded areas.
  */
 export class Moblin extends AbstractWalkingEnemy {
-
-    private static readonly _PROJECTILE_THROWING_ODDS: number[] = [ 240, 120 ];
+    private static readonly _PROJECTILE_THROWING_ODDS: number[] = [240, 120];
 
     constructor(strength: EnemyStrength = 'red') {
         super(4, strength, strength === 'blue' ? 3 : 2);
@@ -32,7 +31,7 @@ export class Moblin extends AbstractWalkingEnemy {
     }
 
     protected getSpeed(): number {
-        return 0.5; //this.strength === 'blue' ? 1 : 0.5;
+        return 0.5; // this.strength === 'blue' ? 1 : 0.5;
     }
 
     /**
@@ -47,7 +46,6 @@ export class Moblin extends AbstractWalkingEnemy {
     }
 
     update() {
-
         if (!this._slidingDir && this.shouldThrowProjectile()) {
             this.pausedBeforeThrowingProjectile = 30;
         }

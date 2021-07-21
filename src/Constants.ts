@@ -1,6 +1,5 @@
 export class Constants {
-
-    //static TILE_SIZE = 8;//16;
+    // static TILE_SIZE = 8;//16;
 
     static readonly CANVAS_WIDTH: number = 256;
     static readonly CANVAS_HEIGHT: number = 240;

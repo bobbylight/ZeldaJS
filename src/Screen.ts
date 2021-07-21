@@ -15,7 +15,6 @@ import EventLoader from './editor/event-loader';
 declare let game: ZeldaGame;
 
 export class Screen {
-
     private readonly _parent: Map;
     private _tiles: number[][];
     private _actors: Actor[];
@@ -26,7 +25,6 @@ export class Screen {
     music?: string | null;
 
     constructor(parent: Map, enemyGroup?: EnemyGroup | null, tiles?: number[][]) {
-
         this._parent = parent;
 
         if (!tiles) {
@@ -46,7 +44,9 @@ export class Screen {
 
     private containsNonZeroTile(): boolean {
         return this._tiles.filter((row: number[]) => {
-            return row.filter((n: number) => { return n > 0; }).length > 0;
+            return row.filter((n: number) => {
+                return n > 0; 
+            }).length > 0;
         }).length > 0;
     }
 
@@ -63,9 +63,7 @@ export class Screen {
     }
 
     enter() {
-
         if (this.enemyGroup) {
-
             if (this._firstTimeThrough) {
                 this.enemyGroup.enemies.forEach((enemyInfo: EnemyInfo) => {
                     const count: number = enemyInfo.count || 1;
@@ -75,12 +73,10 @@ export class Screen {
                         this._actors.push(enemy);
                     }
                 });
-                //this.enemyGroup.clear();
+                // this.enemyGroup.clear();
                 this._firstTimeThrough = false;
             }
-
             else {
-
                 // First N enemies in the enemy list respawn; see:
                 // https://www.gamefaqs.com/boards/563433-the-legend-of-zelda/73732540?jumpto=9
 
@@ -97,25 +93,25 @@ export class Screen {
     }
 
     exit() {
-
         // Clear out any "temporary" actors, such as projectiles
         this._actors = this._actors.filter((actor: Actor): boolean => {
             return !(actor instanceof Projectile);
         });
-        //this._actors = [];
+        // this._actors = [];
     }
 
     fromJson(json: ScreenData): Screen {
-
         this._tiles = json.tiles;
         this._actors.length = 0;
-        //json.actors.forEach((actorData: ActorData) => {
+        // json.actors.forEach((actorData: ActorData) => {
         //    this._actors.push(new Actor().fromJson(actorData));
-        //});
+        // });
         this._setEnemyGroup(new EnemyGroup().fromJson(json.enemyGroup));
 
         if (json.events) {
-            this.events = json.events.map((eventData: EventData) => { return EventLoader.load(eventData); });
+            this.events = json.events.map((eventData: EventData) => {
+                return EventLoader.load(eventData); 
+            });
         }
 
         this.music = json.music;
@@ -136,7 +132,6 @@ export class Screen {
     }
 
     isWalkable(actor: Actor, x: number, y: number): boolean {
-
         const row: number = Math.floor(y / 16);
         const col: number = Math.floor(x / 16);
 
@@ -165,12 +160,11 @@ export class Screen {
     }
 
     paint(ctx: CanvasRenderingContext2D) {
-
         const paintWalkability: boolean = false;
         let walkabilityColor: string;
         if (paintWalkability) {
-            walkabilityColor = 'red'; //new Color(192,192,255, 192);
-            //p = new Polygon();
+            walkabilityColor = 'red'; // new Color(192,192,255, 192);
+        // p = new Polygon();
         }
 
         let startRow: number = 0;
@@ -211,14 +205,12 @@ export class Screen {
      * @param paintWalkability Whether to paint a walkability indicator for each tile.
      */
     paintCol(ctx: CanvasRenderingContext2D, col: number, x: number, paintWalkability: boolean = false) {
-
         const tileset: Tileset = this._parent.tileset;
 
         for (let row: number = 0; row < this._tiles.length; row++) {
-
             const y: number = row * Constants.TILE_HEIGHT;
             const tile: number = this._tiles[row][col];
-            tileset.paintTile(ctx, tile, x,  y);
+            tileset.paintTile(ctx, tile, x, y);
 
             if (paintWalkability) {
                 // TODO: Implement me
@@ -235,7 +227,6 @@ export class Screen {
      * @param paintWalkability Whether to paint a walkability indicator for each tile.
      */
     paintRow(ctx: CanvasRenderingContext2D, row: number, y: number, paintWalkability: boolean = false) {
-
         const tileset: Tileset = this._parent.tileset;
 
         let firstCol: number = 0;
@@ -246,7 +237,6 @@ export class Screen {
         }
 
         for (let col: number = firstCol; col < lastCol; col++) {
-
             const x: number = col * Constants.TILE_WIDTH;
             const tile: number = this._tiles[row][col];
             tileset.paintTile(ctx, tile, x, y);
@@ -264,16 +254,14 @@ export class Screen {
      * @param ctx The graphics context.
      */
     paintTopLayer(ctx: CanvasRenderingContext2D) {
-
         const labyrinth: boolean = this._parent.isLabyrinth();
 
         if (labyrinth) {
-
             const paintWalkability: boolean = false;
             let walkabilityColor: string;
             if (paintWalkability) {
-                walkabilityColor = 'red'; //new Color(192,192,255, 192);
-                //p = new Polygon();
+                walkabilityColor = 'red'; // new Color(192,192,255, 192);
+                // p = new Polygon();
             }
 
             // First and last row
@@ -291,7 +279,6 @@ export class Screen {
     }
 
     private static printWalkability(walkability: number, x: number, y: number) {
-
         let walkabilityStr: string;
 
         switch (walkability) {
@@ -318,7 +305,7 @@ export class Screen {
                 break;
         }
 
-        //console.log(`walkability: ${walkabilityStr}`);
+        // console.log(`walkability: ${walkabilityStr}`);
     }
 
     removeLinksSwordActor() {
@@ -343,7 +330,6 @@ export class Screen {
     }
 
     toJson(): ScreenData | null {
-
         if (this.isUnpopulated()) {
             return null;
         }
@@ -355,7 +341,7 @@ export class Screen {
 
         const screenData: ScreenData = {
             tiles: this._tiles,
-            //actors: actorData,
+            // actors: actorData,
             enemyGroup: this.enemyGroup ? this.enemyGroup.toJson() : null
         };
         if (this.events && this.events.length) {
@@ -381,7 +367,6 @@ export class Screen {
     }
 
     private _updateActions() {
-
         // TODO: Optimize me
         const remainingEvents: Event<any>[] = [];
 
@@ -401,7 +386,6 @@ export class Screen {
     }
 
     private _updateActors() {
-
         const actors: Actor[] = this._actors.slice();
         actors.push(game.link);
 
@@ -431,7 +415,7 @@ export class Screen {
 
 export interface ScreenData {
     tiles: number[][];
-    //actors: ActorData[];
+    // actors: ActorData[];
     enemyGroup: EnemyGroupData | undefined | null;
     events?: EventData[] | undefined | null;
     music?: string | undefined | null;

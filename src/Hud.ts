@@ -5,9 +5,7 @@ import { Link } from './Link';
 declare let game: ZeldaGame;
 
 export class Hud {
-
     private static paintMap(ctx: CanvasRenderingContext2D) {
-
         ctx.fillStyle = '#83d313';
         const s: number = 3;
 
@@ -22,7 +20,6 @@ export class Hud {
     }
 
     render(ctx: CanvasRenderingContext2D) {
-
         const hudMockup: Image = game.assets.get('hud');
         hudMockup.draw(ctx, 0, 0);
 
@@ -67,7 +64,6 @@ export class Hud {
     }
 
     private renderItemInBSlot(ctx: CanvasRenderingContext2D) {
-
         const bomb: Image = game.assets.get('treasures.bomb');
 
         bomb.draw(ctx, 128, 33);

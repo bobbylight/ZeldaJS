@@ -6,7 +6,6 @@ import { BaseStateArgs, Game, Image, InputManager } from 'gtp';
 declare let game: ZeldaGame;
 
 export class TitleState extends BaseState {
-
     private _lastKeypressTime: number;
 
     /**
@@ -17,7 +16,6 @@ export class TitleState extends BaseState {
     }
 
     enter() {
-
         super.enter(game);
 
         game.canvas.addEventListener('touchstart', this.handleStart, false);
@@ -34,7 +32,6 @@ export class TitleState extends BaseState {
     }
 
     render(ctx: CanvasRenderingContext2D) {
-
         this.game.clearScreen();
 
         // Title banner
@@ -47,7 +44,6 @@ export class TitleState extends BaseState {
     }
 
     private _renderNoSoundMessage() {
-
         const w: number = game.getWidth();
 
         let text: string = 'SOUND IS DISABLED AS';
@@ -55,7 +51,7 @@ export class TitleState extends BaseState {
         let y: number = game.getHeight() - 20 - 9 * 3;
         this.game.drawString(x, y, text);
         text = 'YOUR BROWSER DOES NOT';
-        x = ( w - this.stringWidth(text)) / 2;
+        x = (w - this.stringWidth(text)) / 2;
         y += 9;
         this.game.drawString(x, y, text);
         text = 'SUPPORT WEB AUDIO';
@@ -70,18 +66,15 @@ export class TitleState extends BaseState {
     }
 
     update(delta: number) {
-
         this.handleDefaultKeys();
 
         const playTime: number = game.playTime;
         if (playTime > this._lastKeypressTime + BaseState.INPUT_REPEAT_MILLIS + 100) {
-
             const im: InputManager = game.inputManager;
 
             if (im.enter(true)) {
                 this._startGame();
             }
         }
-
     }
 }

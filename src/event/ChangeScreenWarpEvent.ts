@@ -13,7 +13,6 @@ declare let game: ZeldaGame;
  * warp in this class.
  */
 export class ChangeScreenWarpEvent extends Event<ChangeScreenWarpData> implements AnimationListener {
-
     static readonly EVENT_TYPE: string = 'changeScreenWarp';
 
     constructor(tile: Position, destMap: string, destScreen: Position, destPos: Position, animate: boolean) {
@@ -44,7 +43,6 @@ export class ChangeScreenWarpEvent extends Event<ChangeScreenWarpData> implement
     }
 
     toJson(): ChangeScreenWarpData {
-
         return {
             type: this.type,
             tile: this.tile.toJson(),
@@ -60,5 +58,4 @@ export class ChangeScreenWarpEvent extends Event<ChangeScreenWarpData> implement
     }
 }
 
-export interface ChangeScreenWarpData extends EventData {
-}
+export type ChangeScreenWarpData = EventData;

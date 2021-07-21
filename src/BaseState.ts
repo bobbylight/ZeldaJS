@@ -4,7 +4,6 @@ import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 declare let game: ZeldaGame;
 
 export class BaseState extends State<ZeldaGame> {
-
     private _lastConfigKeypressTime: number;
     protected _lastSpriteFrameTime: number;
 
@@ -22,15 +21,13 @@ export class BaseState extends State<ZeldaGame> {
     }
 
     protected handleDefaultKeys() {
-
         // We use a timestamp instead of game.playTime since game.playTime gets
         // reset, which messes us up
         const time: number = Utils.timestamp(); // this.game.playTime;
         const im: InputManager = this.game.inputManager;
 
         if (time > (this._lastConfigKeypressTime + BaseState.INPUT_REPEAT_MILLIS)) {
-
-            // Audio stuff
+        // Audio stuff
             if (im.isKeyDown(Keys.KEY_M, true)) {
                 game.toggleMuted();
                 this._lastConfigKeypressTime = time;
@@ -38,7 +35,6 @@ export class BaseState extends State<ZeldaGame> {
 
             // Debugging actions
             if (im.isKeyDown(Keys.KEY_SHIFT)) {
-
                 const canvasStyle: CSSStyleDeclaration = game.canvas.style;
 
                 // Increase canvas size
@@ -72,16 +68,12 @@ export class BaseState extends State<ZeldaGame> {
                     game.setStatusMessage(`Canvas size now: (${canvasStyle.width}, ${canvasStyle.height})`);
                     this._lastConfigKeypressTime = time;
                 }
-
             }
-
         }
-
     }
 
     protected stringWidth(str: string): number {
         const spriteSheet: SpriteSheet = game.assets.get('font');
         return spriteSheet.cellW * str.length;
     }
-
 }

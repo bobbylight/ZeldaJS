@@ -12,7 +12,6 @@ declare let game: ZeldaGame;
  * change-direction behavior can be customized.
  */
 export abstract class AbstractWalkingEnemy extends Enemy {
-
     private _changeDirTimer: number;
     private readonly _ssRowOffset: number;
     protected pausedBeforeThrowingProjectile: number;
@@ -30,7 +29,6 @@ export abstract class AbstractWalkingEnemy extends Enemy {
     }
 
     collidedWith(other: Actor): boolean {
-
         // An enemy hit when pausing before throwing a projectile won't throw it
         if (this.pausedBeforeThrowingProjectile > -1) {
             this.pausedBeforeThrowingProjectile = -1;
@@ -52,7 +50,6 @@ export abstract class AbstractWalkingEnemy extends Enemy {
     protected abstract getSpeed(): number;
 
     moveX(inc: number) {
-
         if (this.x % 16 === 0 && this._changeDirTimer <= 0 && game.randomInt(8) === 0) {
             this._changeDirection();
             return;
@@ -74,7 +71,6 @@ export abstract class AbstractWalkingEnemy extends Enemy {
     }
 
     moveY(inc: number) {
-
         if (this.x % 16 === 0 && this.y % 16 === 0 && this._changeDirTimer <= 0 &&
             game.randomInt(8) === 0) {
             this._changeDirection();
@@ -117,7 +113,6 @@ export abstract class AbstractWalkingEnemy extends Enemy {
     }
 
     update() {
-
         if (this._slidingDir) {
             this.updateSlide();
             return;
@@ -155,7 +150,6 @@ export abstract class AbstractWalkingEnemy extends Enemy {
 
     // TODO: Share with Link?
     protected updateSlide() {
-
         const speed: number = 4;
         switch (this._slidingDir) {
             case 'UP':

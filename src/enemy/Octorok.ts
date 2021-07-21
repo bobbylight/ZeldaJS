@@ -10,8 +10,7 @@ const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
  * An octopus-like creature that can shoot rocks.
  */
 export class Octorok extends AbstractWalkingEnemy {
-
-    private static readonly _PROJECTILE_THROWING_ODDS: ReadonlyArray<number> = Object.freeze([ 240, 120 ]);
+    private static readonly _PROJECTILE_THROWING_ODDS: ReadonlyArray<number> = Object.freeze([240, 120]);
 
     constructor(strength: EnemyStrength = 'red') {
         super(0, strength, strength === 'blue' ? 2 : 1);
@@ -41,7 +40,6 @@ export class Octorok extends AbstractWalkingEnemy {
     }
 
     update() {
-
         if (!this._slidingDir && this.shouldThrowProjectile()) {
             this.pausedBeforeThrowingProjectile = 30;
         }

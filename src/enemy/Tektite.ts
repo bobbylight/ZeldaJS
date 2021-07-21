@@ -11,7 +11,6 @@ const TOP_MARGIN_ROWS: number = 2;
  * A spider-like enemy that jumps around.
  */
 export class Tektite extends Enemy {
-
     private _paused: boolean;
     private _pauseOrJumpTime: number;
     private readonly _maxPauseTime: number = 60;
@@ -32,7 +31,6 @@ export class Tektite extends Enemy {
     }
 
     private _calculateJumpParameters() {
-
         const xSpeed: number = 0.5;
         const ySpeed: number = 1;
         const thisWidth: number = 16;
@@ -40,7 +38,6 @@ export class Tektite extends Enemy {
 
         let success: boolean = false;
         while (!success) {
-
             if (this.x < 32) { // Too close to left-hand side
                 this._curJumpXInc = xSpeed;
             }
@@ -77,7 +74,6 @@ export class Tektite extends Enemy {
     }
 
     update() {
-
         if (this._slidingDir) {
             if (--this._slideTick === 0) {
                 this.takingDamage = false;
@@ -89,7 +85,6 @@ export class Tektite extends Enemy {
         this._touchStepTimer();
 
         if (this._paused) {
-
             this._pauseOrJumpTime++;
             if (this._pauseOrJumpTime === this._maxPauseTime) {
                 this._paused = false;
@@ -97,7 +92,6 @@ export class Tektite extends Enemy {
             }
         }
         else {
-
             this._pauseOrJumpTime++;
 
             this.x += this._curJumpXInc;

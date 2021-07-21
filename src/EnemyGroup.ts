@@ -9,7 +9,6 @@ export interface EnemyInfo {
 }
 
 export class EnemyGroup {
-
     spawnStyle: string; // TODO: String literal type when gulp-typescript moves up to 1.8
     enemies: EnemyInfo[];
 
@@ -45,7 +44,6 @@ export class EnemyGroup {
      * @returns This enemy group.
      */
     flatten(): EnemyGroup {
-
         const flattenedEnemies: EnemyInfo[] = [];
 
         this.enemies.forEach((enemyGroup: EnemyInfo) => {
@@ -55,7 +53,8 @@ export class EnemyGroup {
                     id: uuidv4(),
                     type: enemyGroup.type,
                     strength: enemyGroup.strength,
-                    count: 1 });
+                    count: 1
+                });
             }
         });
 
@@ -64,9 +63,7 @@ export class EnemyGroup {
     }
 
     fromJson(json?: EnemyGroupData | null): EnemyGroup {
-
         if (json) { // Some maps may be empty
-
             this.spawnStyle = json.spawnStyle;
             this.enemies = json.enemies;
 

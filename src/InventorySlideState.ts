@@ -4,7 +4,6 @@ import { State, Delay } from 'gtp';
 declare let game: ZeldaGame;
 
 export class InventorySlideState extends State<ZeldaGame> {
-
     private readonly topState: State<ZeldaGame>;
     private readonly bottomState: State<ZeldaGame>;
     private readonly down: boolean;
@@ -32,7 +31,6 @@ export class InventorySlideState extends State<ZeldaGame> {
     }
 
     render(ctx: CanvasRenderingContext2D) {
-
         const dir: number = this.down ? -1 : 1;
 
         const displayedPixelCount: number = this.downAmount * (Constants.CANVAS_HEIGHT / 10);
@@ -46,7 +44,6 @@ export class InventorySlideState extends State<ZeldaGame> {
     }
 
     update(delta: number) {
-
         super.update(delta);
 
         this.delay.update(delta);
@@ -54,5 +51,4 @@ export class InventorySlideState extends State<ZeldaGame> {
             game.setState(this.down ? this.topState : this.topState);
         }
     }
-
 }

@@ -21,7 +21,6 @@ const STEP_TIMER_MAX: number = 8;
  * The hero of the game.
  */
 export class Link extends Character {
-
     private rupeeCount: number;
 
     private bombCount: number;
@@ -56,14 +55,12 @@ export class Link extends Character {
     }
 
     collidedWith(other: Actor): boolean {
-
         if (this.takingDamage) {
             return false;
         }
 
         if (other instanceof Enemy || other instanceof Projectile) {
-
-            // Projectiles reflect off of Link's shield
+        // Projectiles reflect off of Link's shield
             if (!this.frozen && other instanceof Projectile) {
                 if (DirectionUtil.opposite(other.dir) === this.dir) {
                     game.audio.playSound('shield');
@@ -99,7 +96,6 @@ export class Link extends Character {
     }
 
     private _createDyingAnimation(): Animation {
-
         const sheet: SpriteSheet = game.assets.get('link');
         const anim: Animation = new Animation(this.x, this.y);
 
@@ -154,7 +150,6 @@ export class Link extends Character {
     }
 
     private _createStairsDownAnimation(completedCallback: AnimationListener): Animation {
-
         const animation: Animation = new Animation(this.x, this.y);
         const linkSheet: SpriteSheet = game.assets.get('link');
         const frameMillis: number = 120;
@@ -173,7 +168,6 @@ export class Link extends Character {
     }
 
     private _createStairsUpAnimation(completedCallback: AnimationListener): Animation {
-
         const animation: Animation = new Animation(this.x, this.y);
         const linkSheet: SpriteSheet = game.assets.get('link');
         const frameMillis: number = 120;
@@ -192,7 +186,9 @@ export class Link extends Character {
     }
 
     enterCave(completedCallback: AnimationListener) {
-        game.audio.playSound('stairs', false, () => { console.log('sound done'); });
+        game.audio.playSound('stairs', false, () => {
+            console.log('sound done'); 
+        });
         this.setAnimation(this._createStairsDownAnimation(completedCallback));
     }
 
@@ -221,7 +217,6 @@ export class Link extends Character {
     }
 
     handleInput(input: InputManager): boolean {
-
         if (this.frozen || this._slidingDir) {
             return false;
         }
@@ -230,11 +225,9 @@ export class Link extends Character {
         else if (input.isKeyDown(Keys.KEY_Z)) {
             this._swingSword();
         }
-
         else if (input.isKeyDown(Keys.KEY_X)) {
             this.useItem();
         }
-
         else if (input.up()) {
             this.moveY(-MOVE_AMT);
             if (this.dir !== 'UP') {
@@ -245,7 +238,6 @@ export class Link extends Character {
             }
             return true;
         }
-
         else if (input.down()) {
             this.moveY(MOVE_AMT);
             if (this.dir !== 'DOWN') {
@@ -256,7 +248,6 @@ export class Link extends Character {
             }
             return true;
         }
-
         else if (input.left()) {
             this.moveX(-MOVE_AMT);
             if (this.dir !== 'LEFT') {
@@ -267,7 +258,6 @@ export class Link extends Character {
             }
             return true;
         }
-
         else if (input.right()) {
             this.moveX(MOVE_AMT);
             if (this.dir !== 'RIGHT') {
@@ -322,7 +312,6 @@ export class Link extends Character {
     }
 
     moveX(inc: number) {
-
         const tempX: number = this.x + inc;
         this.hitBox.set(tempX + 2, this.y + 8, this.w - 2 * 2, 8);
 
@@ -340,9 +329,8 @@ export class Link extends Character {
         // TODO: This isn't right...
         const tileH: number = Constants.TILE_HEIGHT;
         const offset: number = this.y % tileH;
-        //console.log(this.x + ', ' + offset);
+        // console.log(this.x + ', ' + offset);
         if (offset !== 0) {
-
             const AMT: number = 3;
 
             if (offset <= AMT) {
@@ -365,7 +353,6 @@ export class Link extends Character {
     }
 
     moveY(inc: number) {
-
         const tempY: number = this.y + inc;
         this.hitBox.set(this.x + 2, tempY + 8, this.w - 2 * 2, 8);
 
@@ -383,9 +370,8 @@ export class Link extends Character {
         // TODO: This isn't right...
         const tileW: number = Constants.TILE_WIDTH;
         const offset: number = this.x % tileW;
-        //console.log(offset);
+        // console.log(offset);
         if (offset !== 0) {
-
             const AMT: number = 3;
 
             if (offset <= AMT) {
@@ -406,9 +392,8 @@ export class Link extends Character {
     }
 
     paint(ctx: CanvasRenderingContext2D) {
-
         // Cheap hack since Game always paints Link, even when he's dead
-        if (this.done && !this.anim ) {
+        if (this.done && !this.anim) {
             return;
         }
 
@@ -455,7 +440,6 @@ export class Link extends Character {
     }
 
     private _swingSword() {
-
         game.audio.playSound('sword');
 
         const sword: Sword = new Sword();
@@ -473,7 +457,6 @@ export class Link extends Character {
     }
 
     update() {
-
         if (this.takingDamage && --this.takingDamageTick === 0) {
             this.takingDamage = false;
         }
@@ -490,7 +473,6 @@ export class Link extends Character {
 
     // TODO: Share with AbstractWalkingEnemy?
     protected updateSlide() {
-
         const speed: number = 4;
         switch (this._slidingDir) {
             case 'UP':
@@ -517,9 +499,7 @@ export class Link extends Character {
     }
 
     private useItem() {
-
         if (this.bombCount > 0) {
-
             this.bombCount--;
             game.audio.playSound('bombDrop');
 

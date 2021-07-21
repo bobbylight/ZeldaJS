@@ -19,7 +19,6 @@ import { debounce } from 'debounce';
 
 @Component
 export default class MapPreview extends Vue {
-
     @Prop({ required: true })
     game!: ZeldaGame;
 
@@ -44,7 +43,6 @@ export default class MapPreview extends Vue {
     }
 
     repaint() {
-
         const canvas: HTMLCanvasElement = this.$refs.canvas as HTMLCanvasElement;
 
         const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
@@ -56,9 +54,7 @@ export default class MapPreview extends Vue {
 
         const map: Map = this.game.map;
         for (let row: number = 0; row < map.rowCount; row++) {
-
             for (let col: number = 0; col < map.colCount; col++) {
-
                 const screen: Screen = map.getScreen(row, col);
                 screen.paint(ctx);
                 screen.paintTopLayer(ctx);
@@ -98,7 +94,6 @@ export default class MapPreview extends Vue {
     }
 
     private mouseEventToScreen(e: MouseEvent): RowColumnPair {
-
         // e = Mouse click event.
         const rect: DOMRect = (e.target as HTMLCanvasElement).getBoundingClientRect();
         const x: number = e.clientX - rect.left;
@@ -123,7 +118,7 @@ export default class MapPreview extends Vue {
     }
 
     private static possiblyOutlineScreen(ctx: CanvasRenderingContext2D, row: number, col: number,
-                                  targetRow: number, targetCol: number, style: string) {
+        targetRow: number, targetCol: number, style: string) {
         if (row === targetRow && col === targetCol) {
             ctx.strokeStyle = style;
             ctx.lineWidth = 10;
@@ -132,7 +127,6 @@ export default class MapPreview extends Vue {
     }
 
     updateArmedScreen(e: MouseEvent) {
-
         const { row, col } = this.mouseEventToScreen(e);
 
         // Only repaint if armed screen changes since the repaint is expensive

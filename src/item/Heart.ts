@@ -10,7 +10,6 @@ declare let game: ZeldaGame;
  * Adds a single heart to Link's health.
  */
 export class Heart extends AbstractItem {
-
     constructor(x: number, y: number) {
         super();
         this.x = x;
@@ -20,7 +19,6 @@ export class Heart extends AbstractItem {
     }
 
     collidedWith(other: Actor): boolean {
-
         if (other instanceof Link) {
             this.done = true;
             game.link.incHealth();

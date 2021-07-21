@@ -1,7 +1,7 @@
 # This is the top-most EditorConfig file
 root = true
 
-[*.{ts,tsx,yml,less}]
+[*.{ts,tsx,vue,yml,less}]
 indent_style=space
 indent_size=4
 trim_trailing_whitespace=true

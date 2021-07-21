@@ -5,7 +5,6 @@ import { MainGameState } from './MainGameState';
 declare let game: ZeldaGame;
 
 export class CurtainOpeningState extends State<ZeldaGame> {
-
     private readonly mainState: MainGameState;
     private readonly delay: Delay;
     private openAmount: number;
@@ -28,7 +27,6 @@ export class CurtainOpeningState extends State<ZeldaGame> {
     }
 
     render(ctx: CanvasRenderingContext2D) {
-
         this.mainState.render(ctx);
 
         const displayedPixelCount: number = this.openAmount * Constants.TILE_WIDTH;
@@ -43,7 +41,6 @@ export class CurtainOpeningState extends State<ZeldaGame> {
     }
 
     update(delta: number) {
-
         super.update(delta);
 
         this.delay.update(delta);
@@ -51,5 +48,4 @@ export class CurtainOpeningState extends State<ZeldaGame> {
             game.setState(this.mainState);
         }
     }
-
 }

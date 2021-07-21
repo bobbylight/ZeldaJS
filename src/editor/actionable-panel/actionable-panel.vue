@@ -19,7 +19,6 @@ import { Prop } from 'vue-property-decorator';
 
 @Component
 export default class ActionablePanel extends Vue {
-
     @Prop({ required: true })
     title!: string;
 

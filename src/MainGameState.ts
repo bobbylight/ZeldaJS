@@ -13,7 +13,6 @@ import { InventorySlideState } from '@/InventorySlideState';
 declare let game: ZeldaGame;
 
 export class MainGameState extends BaseState {
-
     private readonly _hud: Hud;
     private _lastScreen: Screen | undefined | null;
     private _screenSlidingDir: Direction | null;
@@ -29,7 +28,6 @@ export class MainGameState extends BaseState {
     }
 
     changeScreenHorizontally(inc: number) {
-
         const map: Map = game.map;
         this._lastScreen = map.currentScreen;
         map.changeScreensHorizontally(inc);
@@ -39,7 +37,6 @@ export class MainGameState extends BaseState {
     }
 
     changeScreenVertically(inc: number) {
-
         const map: Map = game.map;
         const screen: Screen = map.currentScreen;
 
@@ -62,9 +59,8 @@ export class MainGameState extends BaseState {
     }
 
     enter(game: ZeldaGame) {
-
         super.enter(game);
-        //game.inputManager.setResetKeyStateOnPoll(false);
+        // game.inputManager.setResetKeyStateOnPoll(false);
 
         const music: string | null | undefined = this.game.map.currentScreenMusic;
         if (music && music !== 'none') {
@@ -74,16 +70,13 @@ export class MainGameState extends BaseState {
     }
 
     render(ctx: CanvasRenderingContext2D) {
-
         ctx.save();
         ctx.translate(0, 64);
 
         const currentScreen: Screen = game.map.currentScreen;
 
         if (this._screenSlidingDir) {
-
             switch (this._screenSlidingDir) {
-
                 case 'LEFT': // Scrolling "left" so Link goes right
                     ctx.translate(-this._screenSlidingAmount, 0);
                     this._lastScreen!.paint(ctx);
@@ -119,7 +112,6 @@ export class MainGameState extends BaseState {
             game.link.paint(ctx);
 
             switch (this._screenSlidingDir) {
-
                 case 'LEFT': // Scrolling "left" so Link goes right
                     this._lastScreen!.paintTopLayer(ctx);
                     ctx.translate(Constants.SCREEN_WIDTH, 0);
@@ -142,9 +134,8 @@ export class MainGameState extends BaseState {
                     break;
             }
         }
-
         else {
-            // Not moving between maps
+        // Not moving between maps
             currentScreen.paint(ctx);
             currentScreen.paintActors(ctx);
             game.link.paint(ctx);
@@ -159,7 +150,6 @@ export class MainGameState extends BaseState {
     }
 
     update(delta: number) {
-
         this.handleDefaultKeys();
 
         // If Link's in his dying animation, don't update anything
@@ -193,7 +183,6 @@ export class MainGameState extends BaseState {
     }
 
     private updateScreenSlidingImpl() {
-
         game.link.updateWalkingStep();
         this._screenSlidingAmount += MainGameState.SCREEN_SLIDING_INC();
 
@@ -217,8 +206,8 @@ export class MainGameState extends BaseState {
             }
         }
 
-        if (DirectionUtil.isHorizontal(this._screenSlidingDir)
-            && this._screenSlidingAmount === Constants.SCREEN_WIDTH) {
+        if (DirectionUtil.isHorizontal(this._screenSlidingDir) &&
+            this._screenSlidingAmount === Constants.SCREEN_WIDTH) {
             switch (this._screenSlidingDir) {
                 case 'LEFT':
                     game.link.x = labyrinth ? Constants.TILE_WIDTH : 0;
@@ -234,9 +223,8 @@ export class MainGameState extends BaseState {
             this._lastScreen = null;
             this._screenSlidingDir = null;
         }
-
-        else if (DirectionUtil.isVertical(this._screenSlidingDir)
-            && this._screenSlidingAmount === Constants.SCREEN_HEIGHT) {
+        else if (DirectionUtil.isVertical(this._screenSlidingDir) &&
+            this._screenSlidingAmount === Constants.SCREEN_HEIGHT) {
             switch (this._screenSlidingDir) {
                 case 'UP':
                     game.link.y = labyrinth ? Constants.TILE_HEIGHT : 0;

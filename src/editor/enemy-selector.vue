@@ -128,7 +128,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Component({ components: { } })
 export default class EnemySelector extends Vue {
-
     @Prop({ required: true })
     game!: ZeldaGame;
 
@@ -146,7 +145,7 @@ export default class EnemySelector extends Vue {
         { text: 'Octorok', value: 'Octorok' },
         { text: 'Moblin', value: 'Moblin' },
         { text: 'Tektite', value: 'Tektite' },
-        { text: 'Lynel', value: 'Lynel' },
+        { text: 'Lynel', value: 'Lynel' }
     ];
 
     enemyStrengths: any[] = [
@@ -175,7 +174,6 @@ export default class EnemySelector extends Vue {
     }
 
     set allItems(items: EnemyInfo[]) {
-
         // Update our entire EnemyGroup prop, which will in turn refresh our
         // 'allItems' generated prop
         const newValue: EnemyGroup = this.value.clone();
@@ -192,7 +190,6 @@ export default class EnemySelector extends Vue {
     }
 
     selectedEnemyGroupChanged(newGroup: string) {
-
         const enemies: EnemyInfo[] = [];
 
         switch (newGroup) {
@@ -213,14 +210,13 @@ export default class EnemySelector extends Vue {
                 break;
         }
 
-        //this.curScreen.enemyGroup = new EnemyGroup('random', enemies);
+        // this.curScreen.enemyGroup = new EnemyGroup('random', enemies);
 
         // Go through generated property setter since our data is more than just an array
         this.allItems = enemies;
     }
 
     isSaveButtonDisabled(): boolean {
-
         if (!this.rowBeingModified) {
             return true;
         }
@@ -230,7 +226,6 @@ export default class EnemySelector extends Vue {
     }
 
     onSave() {
-
         const newDataList: EnemyInfo[] = this.value.enemies.slice();
         const index: number = newDataList.findIndex((item: EnemyInfo) => {
             return (item as any)[this.itemKey] === this.modifiedItemKey;
@@ -242,7 +237,7 @@ export default class EnemySelector extends Vue {
             newDataList.splice(index, 1, value);
         }
         else {
-            // Generate a key if it isn't a natural key that the user had to enter
+        // Generate a key if it isn't a natural key that the user had to enter
             (value as any)[this.itemKey] = uuidv4();
             newDataList.push(value);
         }
@@ -278,7 +273,6 @@ export default class EnemySelector extends Vue {
     }
 
     onDeleteItem() {
-
         const selectedKey: any = (this.rowBeingModified as any)[this.itemKey];
 
         const newDataList: EnemyInfo[] = this.value.enemies.filter((v: EnemyInfo) => {
@@ -294,20 +288,18 @@ export default class EnemySelector extends Vue {
     }
 
     private refreshRowBeingModified() {
-
-        this.rowBeingModified = (this.selectedItems.length > 0 ?
-            JSON.parse(JSON.stringify(this.selectedItems[0])) : this.getInitialValue()) as EnemyInfo;
+        this.rowBeingModified = (this.selectedItems.length > 0
+            ? JSON.parse(JSON.stringify(this.selectedItems[0])) : this.getInitialValue()) as EnemyInfo;
         this.saveDisabled = this.isSaveButtonDisabled();
     }
 
     showAddOrEditModal(newRecord: boolean) {
-
         // Remember the key of the item being edited, or null if this is for a new item
         this.modifiedItemKey = newRecord ? null : (this.selectedItems[0] as any)[this.itemKey] as string;
 
         // Clone the record to pass to the callback
-        this.rowBeingModified = (newRecord ? this.getInitialValue() :
-            JSON.parse(JSON.stringify(this.selectedItems[0]))) as EnemyInfo;
+        this.rowBeingModified = (newRecord ? this.getInitialValue()
+            : JSON.parse(JSON.stringify(this.selectedItems[0]))) as EnemyInfo;
         this.showModifyRowDialog = true;
     }
 }

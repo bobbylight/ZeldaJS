@@ -98,8 +98,10 @@ import { Component, Prop, Watch } from 'vue-property-decorator';
 // Being a precompiled library, we must explicitly import our
 // peer dependency (Vuetify) dependencies.
 // https://github.com/vuetifyjs/vuetify-loader/issues/70
-import { VBtn, VCard, VCardActions, VCardText, VCardTitle, VContainer, VDataTable, VDialog, VIcon, VRow, VSpacer,
-    VToolbar } from 'vuetify/lib';
+import {
+    VBtn, VCard, VCardActions, VCardText, VCardTitle, VContainer, VDataTable, VDialog, VIcon, VRow, VSpacer,
+    VToolbar
+} from 'vuetify/lib';
 
 /**
  * Valid fields for a header in a modifiable table.
@@ -129,10 +131,23 @@ export interface ModifiableTableRowValidationFunction<T> {
  * A table that allows the user to create, edit, delete, and optionally sort
  * records.
  */
-@Component({ components: { VBtn, VCard, VCardActions, VCardText, VCardTitle, VContainer, VDataTable, VDialog,
-        VIcon, VRow, VSpacer, VToolbar } })
+@Component({
+    components: {
+        VBtn,
+        VCard,
+        VCardActions,
+        VCardText,
+        VCardTitle,
+        VContainer,
+        VDataTable,
+        VDialog,
+        VIcon,
+        VRow,
+        VSpacer,
+        VToolbar
+    }
+})
 export default class ModifiableTable<T> extends Vue {
-
     @Prop({ required: true })
     value!: T[]; // Named "value" for v-model support
 
@@ -177,7 +192,6 @@ export default class ModifiableTable<T> extends Vue {
     }
 
     isSaveButtonDisabled(): boolean {
-
         if (!this.rowBeingModified) {
             return true;
         }
@@ -202,7 +216,6 @@ export default class ModifiableTable<T> extends Vue {
     }
 
     onDeleteItem() {
-
         const selectedKey: any = (this.rowBeingModified as any)[this.itemKey];
 
         const newDataList: T[] = this.value.filter((v: T) => {
@@ -220,7 +233,6 @@ export default class ModifiableTable<T> extends Vue {
     }
 
     onSave() {
-
         const newDataList: T[] = this.value.slice();
         const index: number = newDataList.findIndex((item: T) => {
             return (item as any)[this.itemKey] === this.modifiedItemKey;
@@ -229,7 +241,7 @@ export default class ModifiableTable<T> extends Vue {
             newDataList.splice(index, 1, this.rowBeingModified!);
         }
         else {
-            // Generate a key if it isn't a natural key that the user had to enter
+        // Generate a key if it isn't a natural key that the user had to enter
             (this.rowBeingModified as any)[this.itemKey] = Date.now().toString(10);
             newDataList.push(this.rowBeingModified!);
         }
@@ -253,14 +265,12 @@ export default class ModifiableTable<T> extends Vue {
     }
 
     private refreshRowBeingModified() {
-
-        this.rowBeingModified = (this.selectedItems.length > 0 ?
-            JSON.parse(JSON.stringify(this.selectedItems[0])) : {}) as T;
+        this.rowBeingModified = (this.selectedItems.length > 0
+            ? JSON.parse(JSON.stringify(this.selectedItems[0])) : {}) as T;
         this.saveDisabled = this.isSaveButtonDisabled();
     }
 
     showAddOrEditModal(newRecord: boolean) {
-
         // Remember the key of the item being edited, or null if this is for a new item
         this.modifiedItemKey = newRecord ? null : (this.selectedItems[0] as any)[this.itemKey] as string;
 

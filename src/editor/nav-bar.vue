@@ -36,7 +36,6 @@ import Component from 'vue-class-component';
 
 @Component
 export default class NavBar extends Vue {
-
     selectedMap: string | null = null;
     maps: any[] = [];
 
@@ -47,9 +46,8 @@ export default class NavBar extends Vue {
     }
 
     mounted() {
-
         this.maps.push({ text: 'Overworld', value: 'overworld' });
-        for (let i: number = 1; i <= 1 /*9*/; i++) {
+        for (let i: number = 1; i <= 1; i++) {
             this.maps.push({ text: `Level ${i}`, value: `level${i}` });
         }
 
@@ -57,7 +55,6 @@ export default class NavBar extends Vue {
     }
 
     onSelectedMapChanged(newValue: string) {
-
         // Cheap way to broadcast an event to other components
         // Find a better way to do this, but the interested canvas is a distant sibling.
         (this.$refs.select as HTMLSelectElement).blur();
@@ -77,11 +74,11 @@ export default class NavBar extends Vue {
     preventFocus(e: FocusEvent) {
         e.preventDefault();
         if (e.relatedTarget) {
-            // Revert focus back to previous blurring element
+        // Revert focus back to previous blurring element
             (e.relatedTarget as HTMLElement).focus();
         }
         else {
-            // No previous focus target, blur instead
+        // No previous focus target, blur instead
             (e.currentTarget as HTMLElement).blur();
         }
     }

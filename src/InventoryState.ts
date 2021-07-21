@@ -7,7 +7,6 @@ import { InventorySlideState } from '@/InventorySlideState';
 declare let game: ZeldaGame;
 
 export class InventoryState extends BaseState {
-
     /**
      * State that renders the title screen.
      */
@@ -16,7 +15,6 @@ export class InventoryState extends BaseState {
     }
 
     enter() {
-
         super.enter(game);
     }
 
@@ -24,7 +22,6 @@ export class InventoryState extends BaseState {
     }
 
     render(ctx: CanvasRenderingContext2D) {
-
         this.game.clearScreen();
 
         this.game.drawString(40, 40, 'INVENTORY GOES HERE', ctx);
@@ -36,7 +33,6 @@ export class InventoryState extends BaseState {
     }
 
     update(delta: number) {
-
         this.handleDefaultKeys();
 
         const im: InputManager = game.inputManager;
@@ -44,6 +40,5 @@ export class InventoryState extends BaseState {
         if (im.enter(true)) {
             game.setState(new InventorySlideState(new MainGameState(this.game), this, false));
         }
-
     }
 }

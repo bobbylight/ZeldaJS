@@ -9,7 +9,6 @@ declare let game: ZeldaGame;
  * A bomb Link has dropped, waiting to explode.
  */
 export class Bomb extends Actor {
-
     private frame: number;
 
     private static readonly MAX_FRAME: number = 60;
@@ -52,7 +51,6 @@ export class Bomb extends Actor {
     }
 
     paint(ctx: CanvasRenderingContext2D) {
-
         this.possiblyPaintHitBox(ctx);
 
         if (this.frame < Bomb.MAX_FRAME - 2) { // First two frames, we aren't painted
@@ -62,7 +60,6 @@ export class Bomb extends Actor {
     }
 
     update() {
-
         const link: Link = game.link;
         this.frame--;
 

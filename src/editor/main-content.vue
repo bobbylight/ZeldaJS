@@ -94,11 +94,19 @@ import ActionablePanel from '@/editor/actionable-panel/actionable-panel.vue';
 import CodeViewer from '@/editor/code-viewer.vue';
 import EnemySelector from '@/editor/enemy-selector.vue';
 
-@Component({ components: {
-        EnemySelector, ActionablePanel, CodeViewer, EventEditor, MapEditor,
-        MapPreview, ScreenMisc, TilePalette } })
+@Component({
+    components: {
+        EnemySelector,
+        ActionablePanel,
+        CodeViewer,
+        EventEditor,
+        MapEditor,
+        MapPreview,
+        ScreenMisc,
+        TilePalette
+    }
+})
 export default class MainContent extends Vue {
-
     name: string = 'bob';
     game: ZeldaGame | null = null;
     selectedTileIndex: number = 1;
@@ -114,15 +122,12 @@ export default class MainContent extends Vue {
     }
 
     private installKeyHandlers() {
-
         document.addEventListener('keydown', (e: KeyboardEvent) => {
-
             let row: number;
             let col: number;
 
             // tslint:disable-next-line:deprecation
             switch (e.which) {
-
                 case 37:
                     console.log('left');
                     row = this.$store.state.currentScreenRow;
@@ -163,7 +168,6 @@ export default class MainContent extends Vue {
                     }
                     e.preventDefault();
                     break;
-
             }
         });
     }
@@ -183,9 +187,7 @@ export default class MainContent extends Vue {
         game.assets.addJson('level1Data', 'res/data/level1.json');
 
         game.assets.onLoad(() => {
-
             this.$nextTick(() => {
-
                 game.startNewGame();
                 this.game = game;
 
@@ -193,10 +195,10 @@ export default class MainContent extends Vue {
             });
 
             this.installKeyHandlers();
-            //
-            // this.setState({ loading: false,
-            //     rowCount: game.map.rowCount - 1, colCount: game.map.colCount - 1,
-            //     selectedTileIndex: 1 });
+        //
+        // this.setState({ loading: false,
+        //     rowCount: game.map.rowCount - 1, colCount: game.map.colCount - 1,
+        //     selectedTileIndex: 1 });
         });
     }
 
@@ -207,7 +209,7 @@ export default class MainContent extends Vue {
 
     private setCurrentScreen(row: number, col: number) {
         this.$store.commit('setCurrentScreen', { row, col });
-        //this.currentScreenChanged();
+        // this.currentScreenChanged();
     }
 }
 </script>

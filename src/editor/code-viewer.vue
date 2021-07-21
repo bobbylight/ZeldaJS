@@ -25,7 +25,6 @@ import '../../node_modules/jshighlight/src/styles/jshl-default.css';
 
 @Component({ components: { } })
 export default class CodeViewer extends Vue {
-
     @Prop({ required: true })
     game!: ZeldaGame;
 
@@ -35,12 +34,12 @@ export default class CodeViewer extends Vue {
 
         const json: MapData = this.game.map.toJson();
         let jsonStr: string = JSON.stringify(json, null, 2);
-        //console.log(jsonStr);
-        //jsonStr = jsonStr.replace(/\[((\r?\n +\d+,)+(\r?\n +\d+))\]/g, '[$1]');
+        // console.log(jsonStr);
+        // jsonStr = jsonStr.replace(/\[((\r?\n +\d+,)+(\r?\n +\d+))\]/g, '[$1]');
         jsonStr = jsonStr.replace(/( +)"tiles": \[(?:[ \d,\n\[\]]+)\][, \n]+\]/g, (match: string, p1: string) => {
             return match.replace(/ +/g, ' ').replace(/\n/g, '').replace(/\], \[/g, ']\,\n' + p1 + '  [');
         });
-        //jsonStr = jsonStr.replace(/\n/g, '');
+        // jsonStr = jsonStr.replace(/\n/g, '');
 
         const codeDiv: HTMLPreElement = this.$refs.codeDiv as HTMLPreElement;
         codeDiv.innerHTML = highlighter.highlight(new JsonParser(), jsonStr);
@@ -56,8 +55,8 @@ export default class CodeViewer extends Vue {
         window.getSelection()!.addRange(range);
         const success: boolean = document.execCommand('copy');
         console.log('Successful - ' + success);
-        //range.setStart(element.get(0), 0);
-        //range.setEnd(element.get(0), 1);
+        // range.setStart(element.get(0), 0);
+        // range.setEnd(element.get(0), 1);
     }
 }
 </script>

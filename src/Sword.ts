@@ -9,7 +9,6 @@ declare let game: ZeldaGame;
  * A sword Link is in the middle of swinging.
  */
 export class Sword extends Actor {
-
     private frame: number;
 
     constructor() {
@@ -50,7 +49,6 @@ export class Sword extends Actor {
     }
 
     paint(ctx: CanvasRenderingContext2D) {
-
         this.possiblyPaintHitBox(ctx);
 
         if (this.frame >= 0 && this.frame < 14) { // First two frames, we aren't painted
@@ -63,7 +61,6 @@ export class Sword extends Actor {
     }
 
     update() {
-
         const link: Link = game.link;
         this.frame--;
 
@@ -84,7 +81,6 @@ export class Sword extends Actor {
                     break;
             }
         }
-
         else if (this.frame === 0) {
             link.frozen = false;
             link.step = Link.FRAME_STILL;
@@ -111,6 +107,5 @@ export class Sword extends Actor {
         else {
             this.hitBox.set(0, 0, 0, 0);
         }
-
     }
 }

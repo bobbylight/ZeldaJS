@@ -11,13 +11,12 @@ declare let game: ZeldaGame;
  * Occurs when Link steps on a stairwell or doorway on the overworld map.
  */
 export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements AnimationListener {
-
     static readonly EVENT_TYPE: string = 'goDownStairs';
 
     private readonly curtainOpenNextScreen: boolean;
 
     constructor(tile: Position, destMap: string, destScreen: Position, destPos: Position, animate: boolean,
-                curtainOpenNextScreen: boolean) {
+        curtainOpenNextScreen: boolean) {
         super(GoDownStairsEvent.EVENT_TYPE, tile, destMap, destScreen, destPos, animate);
         this.curtainOpenNextScreen = curtainOpenNextScreen;
     }
@@ -47,11 +46,10 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
 
     shouldOccur(): boolean {
         return game.link.isWalkingUpOnto(this.tile) && game.link.dir === 'UP';
-        //return game.link.isEntirelyOn(this.tile) && game.link.dir === 'UP';
+        // return game.link.isEntirelyOn(this.tile) && game.link.dir === 'UP';
     }
 
     toJson(): GoDownStairsEventData {
-
         return {
             type: this.type,
             tile: this.tile.toJson(),
@@ -67,5 +65,4 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
     }
 }
 
-export interface GoDownStairsEventData extends EventData {
-}
+export type GoDownStairsEventData = EventData;

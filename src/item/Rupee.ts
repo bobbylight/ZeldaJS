@@ -18,13 +18,11 @@ const RUPEE_COUNTS: { [ key: string ]: number } = {
  * Rupees, dropped by an enemy for example.  Adds some number of rupees into Link's wallet.
  */
 export class Rupee extends AbstractItem {
-
     private readonly type: RupeeDenomination;
     private readonly rupeeCount: number;
     private readonly image: Image;
 
     constructor(x: number, y: number, type: RupeeDenomination = 'yellow') {
-
         super();
         this.x = x;
         this.y = y;
@@ -37,7 +35,6 @@ export class Rupee extends AbstractItem {
     }
 
     collidedWith(other: Actor): boolean {
-
         if (other instanceof Link) {
             this.done = true;
             game.link.incRupeeCount(this.rupeeCount);

@@ -7,7 +7,6 @@ import { ImageAtlasInfo } from 'gtp/lib/gtp/ImageAtlas';
 import { ZeldaGame } from './ZeldaGame';
 
 export class LoadingState extends BaseState {
-
     assetsLoaded: boolean;
     _loadingImage: any;
 
@@ -19,23 +18,21 @@ export class LoadingState extends BaseState {
     }
 
     update(delta: number) {
-
         this.handleDefaultKeys();
 
         if (!this.assetsLoaded) {
-
             const treasureAtlasInfo: ImageAtlasInfo = {
                 prefix: 'treasures.',
                 firstPixelIsTranslucent: true,
                 images: [
 
-                    { id: 'fullHeart',  x: 0, y: 0, s: 8 },
-                    { id: 'halfHeart',  x: 8, y: 0, s: 8 },
+                    { id: 'fullHeart', x: 0, y: 0, s: 8 },
+                    { id: 'halfHeart', x: 8, y: 0, s: 8 },
                     { id: 'emptyHeart', x: 16, y: 0, s: 8 },
-                    { id: 'blueHeart',  x: 0, y: 8, s: 8 },
+                    { id: 'blueHeart', x: 0, y: 8, s: 8 },
 
                     { id: 'yellowRupee', x: 72, y: 0, w: 8, h: 16 },
-                    { id: 'blueRupee',   x: 72, y: 16, w: 8, h: 16 },
+                    { id: 'blueRupee', x: 72, y: 16, w: 8, h: 16 },
 
                     { id: 'bomb', x: 136, y: 0, w: 8, h: 14 }
                 ]
@@ -47,7 +44,6 @@ export class LoadingState extends BaseState {
             // Load assets used by this state first
             game.assets.addImage('loading', 'res/loadingMessage.png');
             game.assets.onLoad(() => {
-
                 this._loadingImage = game.assets.get('loading');
 
                 game.assets.addImage('title', 'res/title.png');
@@ -76,24 +72,23 @@ export class LoadingState extends BaseState {
                 game.assets.addSound('bombDrop', 'res/sounds/LOZ_Bomb_Drop.wav');
                 game.assets.addSound('bombBlow', 'res/sounds/LOZ_Bomb_Blow.wav');
                 game.assets.addSound('getItem', 'res/sounds/LOZ_Get_Item.wav');
-                //game.assets.addImage('sprites', 'res/sprite_tiles.png', true);
-                //game.assets.addSpriteSheet('mapTiles', 'res/map_tiles.png', 8,8, 0,0);
-                //game.assets.addSpriteSheet('points', 'res/points.png', 18,9, 0,0);
-                //game.assets.addJson('levels', 'res/levelData.json');
-                //game.assets.addSound(pacman.Sounds.CHASING_GHOSTS, 'res/sounds/chasing_ghosts.wav');
-                //game.assets.addSound(pacman.Sounds.CHOMP_1, 'res/sounds/chomp_1.wav');
-                //game.assets.addSound(pacman.Sounds.CHOMP_2, 'res/sounds/chomp_2.wav');
-                //game.assets.addSound(pacman.Sounds.DIES, 'res/sounds/dies.wav');
-                //game.assets.addSound(pacman.Sounds.EATING_FRUIT, 'res/sounds/eating_fruit.wav');
-                //game.assets.addSound(pacman.Sounds.EATING_GHOST, 'res/sounds/eating_ghost.wav');
-                //game.assets.addSound(pacman.Sounds.EXTRA_LIFE, 'res/sounds/extra_life.wav');
-                //game.assets.addSound(pacman.Sounds.EYES_RUNNING, 'res/sounds/eyes_running.wav');
-                //game.assets.addSound(pacman.Sounds.INTERMISSION, 'res/sounds/intermission.wav');
-                //game.assets.addSound(pacman.Sounds.OPENING, 'res/sounds/opening.wav');
-                //game.assets.addSound(pacman.Sounds.SIREN, 'res/sounds/siren.wav');
-                //game.assets.addSound(pacman.Sounds.TOKEN, 'res/sounds/token.wav');
+                // game.assets.addImage('sprites', 'res/sprite_tiles.png', true);
+                // game.assets.addSpriteSheet('mapTiles', 'res/map_tiles.png', 8,8, 0,0);
+                // game.assets.addSpriteSheet('points', 'res/points.png', 18,9, 0,0);
+                // game.assets.addJson('levels', 'res/levelData.json');
+                // game.assets.addSound(pacman.Sounds.CHASING_GHOSTS, 'res/sounds/chasing_ghosts.wav');
+                // game.assets.addSound(pacman.Sounds.CHOMP_1, 'res/sounds/chomp_1.wav');
+                // game.assets.addSound(pacman.Sounds.CHOMP_2, 'res/sounds/chomp_2.wav');
+                // game.assets.addSound(pacman.Sounds.DIES, 'res/sounds/dies.wav');
+                // game.assets.addSound(pacman.Sounds.EATING_FRUIT, 'res/sounds/eating_fruit.wav');
+                // game.assets.addSound(pacman.Sounds.EATING_GHOST, 'res/sounds/eating_ghost.wav');
+                // game.assets.addSound(pacman.Sounds.EXTRA_LIFE, 'res/sounds/extra_life.wav');
+                // game.assets.addSound(pacman.Sounds.EYES_RUNNING, 'res/sounds/eyes_running.wav');
+                // game.assets.addSound(pacman.Sounds.INTERMISSION, 'res/sounds/intermission.wav');
+                // game.assets.addSound(pacman.Sounds.OPENING, 'res/sounds/opening.wav');
+                // game.assets.addSound(pacman.Sounds.SIREN, 'res/sounds/siren.wav');
+                // game.assets.addSound(pacman.Sounds.TOKEN, 'res/sounds/token.wav');
                 game.assets.onLoad(() => {
-
                     const skipTitle: string | null = Utils.getRequestParam('skipTitle');
                     if (skipTitle !== null) { // Allow empty strings
                         this.game.startNewGame();
@@ -103,11 +98,7 @@ export class LoadingState extends BaseState {
                         game.setState(new FadeOutInState(this, new TitleState()));
                     }
                 });
-
             });
-
         }
-
     }
-
 }

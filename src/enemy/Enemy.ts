@@ -14,7 +14,6 @@ const STEP_TIMER_MAX: number = 10;
 export type EnemyStrength = 'red' | 'blue';
 
 export abstract class Enemy extends Character {
-
     private readonly maxHealth: number;
     protected damage: number;
 
@@ -36,7 +35,6 @@ export abstract class Enemy extends Character {
     }
 
     collidedWith(other: Actor): boolean {
-
         if (this.takingDamage) {
             return false;
         }
@@ -75,7 +73,6 @@ export abstract class Enemy extends Character {
     }
 
     protected paintImpl(ctx: CanvasRenderingContext2D, row: number, colOffset: number) {
-
         this.possiblyPaintHitBox(ctx);
 
         let col: number = colOffset;

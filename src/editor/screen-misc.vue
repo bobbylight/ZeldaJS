@@ -15,7 +15,6 @@ import { Watch } from 'vue-property-decorator';
 
 @Component
 export default class ScreenMisc extends Vue {
-
     private readonly songs: any[] = [
         { text: '(default)', value: null },
         { text: 'No music', value: 'none' },

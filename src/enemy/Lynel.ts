@@ -11,8 +11,7 @@ const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
  * Sword-wielding centaur enemies that live on Death Mountain.
  */
 export class Lynel extends AbstractWalkingEnemy {
-
-    private static readonly _PROJECTILE_THROWING_ODDS: number[] = [ 240, 120 ];
+    private static readonly _PROJECTILE_THROWING_ODDS: number[] = [240, 120];
 
     constructor(strength: EnemyStrength = 'red') {
         super(10, strength, strength === 'blue' ? 4 : 3);
@@ -35,7 +34,7 @@ export class Lynel extends AbstractWalkingEnemy {
     }
 
     protected getSpeed(): number {
-        return 0.5; //this.strength === 'blue' ? 1 : 0.5;
+        return 0.5; // this.strength === 'blue' ? 1 : 0.5;
     }
 
     /**
@@ -50,7 +49,6 @@ export class Lynel extends AbstractWalkingEnemy {
     }
 
     update() {
-
         if (!this._slidingDir && this.shouldThrowProjectile()) {
             this.pausedBeforeThrowingProjectile = 30;
         }

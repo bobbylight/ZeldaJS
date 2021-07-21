@@ -2,7 +2,6 @@
  * A row/column pair.
  */
 export class Position {
-
     row: number;
     col: number;
 
@@ -35,7 +34,6 @@ export class Position {
     }
 
     set(row: number | Position, col: number = 0) {
-
         if (row instanceof Position) {
             this.row = row.row;
             this.col = row.col;

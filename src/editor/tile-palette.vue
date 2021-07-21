@@ -19,7 +19,6 @@ import { Tileset } from '@/Tileset';
  */
 @Component
 export default class TilePalette extends Vue {
-
     @Prop({ required: true })
     game: ZeldaGame;
 
@@ -37,8 +36,8 @@ export default class TilePalette extends Vue {
     }
 
     private _computeIndexFromXY(x: number, y: number): number {
-//console.log('--- ' + x + ', ' + y);
-//console.log('--- --- row/col === ' + Math.floor(y / 32) + ', ' + Math.floor(x / 32));
+        // console.log('--- ' + x + ', ' + y);
+        // console.log('--- --- row/col === ' + Math.floor(y / 32) + ', ' + Math.floor(x / 32));
         const canvas: HTMLCanvasElement = this.$refs.canvas as HTMLCanvasElement;
         const colCount: number = this.colCount;
         const tileWidth: number = canvas.clientWidth / colCount;
@@ -51,7 +50,6 @@ export default class TilePalette extends Vue {
     }
 
     repaint() {
-
         if (!this.game) {
             return;
         }
@@ -84,7 +82,6 @@ export default class TilePalette extends Vue {
     }
 
     mounted() {
-
         const canvas: HTMLCanvasElement = this.$refs.canvas as HTMLCanvasElement;
         this.updateCanvasStyle(this.tileset);
 
@@ -109,7 +106,6 @@ export default class TilePalette extends Vue {
 
     @Watch('tileset')
     onTilesetChanged(newValue: Tileset) {
-
         this.updateCanvasStyle(newValue);
 
         this.$nextTick(() => {

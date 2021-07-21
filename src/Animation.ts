@@ -16,7 +16,6 @@ export interface SpriteSheetAndIndex {
  * A frame in an animation.
  */
 class Frame {
-
     sheetAndIndex: SpriteSheetAndIndex;
     time: number;
 
@@ -24,11 +23,9 @@ class Frame {
         this.sheetAndIndex = sheetAndIndex;
         this.time = time;
     }
-
 }
 
 export class Animation {
-
     private _x: number;
     private _y: number;
     private readonly _frames: Frame[];
@@ -150,7 +147,6 @@ export class Animation {
     }
 
     update() {
-
         if (this.done) {
             return;
         }
@@ -170,7 +166,6 @@ export class Animation {
         }
 
         if (this._totalTime > this._frames[this._curFrame].time && !this.done) {
-
             this._totalTime = 0;
             this._curFrame++;
 
@@ -181,7 +176,6 @@ export class Animation {
                 }
                 else {
                     this._setDone();
-                    return;
                 }
             }
             else {

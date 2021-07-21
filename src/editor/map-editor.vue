@@ -20,7 +20,6 @@ import ActionablePanel from '@/editor/actionable-panel/actionable-panel.vue';
 
 @Component({ components: { ActionablePanel } })
 export default class MapEditor extends Vue {
-
     @Prop({ required: true })
     game: ZeldaGame;
 
@@ -115,9 +114,7 @@ export default class MapEditor extends Vue {
     }
 
     paintScreen() {
-
         if (this.game) {
-
             const map: Map = this.game.map;
             const canvas: HTMLCanvasElement = this.$refs.canvas as HTMLCanvasElement;
             const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
@@ -143,10 +140,8 @@ export default class MapEditor extends Vue {
     }
 
     mounted() {
-
         const canvas: HTMLCanvasElement = this.$refs.canvas as HTMLCanvasElement;
         canvas.addEventListener('mousemove', (e: MouseEvent) => {
-
             let x: number = e.offsetX;
             let y: number = e.offsetY;
 

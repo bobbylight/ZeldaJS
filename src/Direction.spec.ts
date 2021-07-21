@@ -1,7 +1,6 @@
 import { DirectionUtil } from './Direction';
 
 describe('Direction', () => {
-
     it('DirectionUtil.isHorizontal() should work', () => {
         expect(DirectionUtil.isHorizontal('LEFT')).toBeTruthy();
         expect(DirectionUtil.isHorizontal('RIGHT')).toBeTruthy();

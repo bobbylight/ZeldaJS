@@ -11,7 +11,6 @@ export const MOVE_AMT: number = 1;
  * A base class for entities with state - Link, enemies, etc.
  */
 export abstract class Actor {
-
     dir: Direction;
     x: number;
     y: number;
@@ -23,7 +22,6 @@ export abstract class Actor {
     done: boolean;
 
     constructor() {
-
         this.dir = 'DOWN';
         this.done = false;
 
@@ -88,7 +86,6 @@ export abstract class Actor {
      * @returns Whether the hitbox is walkable.
      */
     protected isHitBoxWalkable(dx: number = 0, dy: number = 0): boolean {
-
         const hitBox: Rectangle = this.hitBox;
         const x: number = hitBox.x + dx;
         const y: number = hitBox.y + dy;
@@ -96,7 +93,7 @@ export abstract class Actor {
         return game.isWalkable(this, x, y) &&
             game.isWalkable(this, x + hitBox.w - 1, y) &&
             game.isWalkable(this, x + hitBox.w - 1, y + hitBox.h - 1) &&
-            game.isWalkable(this, x,                y + hitBox.h - 1);
+            game.isWalkable(this, x, y + hitBox.h - 1);
     }
 
     /**
@@ -106,7 +103,6 @@ export abstract class Actor {
      * @returns Whether this actor is walking onto it, facing upwards.
      */
     isWalkingUpOnto(tile: Position): boolean {
-
         if (this.dir === 'UP') {
             const size: number = Constants.TILE_HEIGHT;
             const x: number = tile.col * size;
