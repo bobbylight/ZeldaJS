@@ -27,7 +27,7 @@ export default class ActionablePanel extends Vue {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .actionable-panel {
 
     // Better match tabbed panes in size

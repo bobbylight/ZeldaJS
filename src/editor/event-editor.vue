@@ -357,6 +357,6 @@ export default class EventEditor extends Vue {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 
 </style>

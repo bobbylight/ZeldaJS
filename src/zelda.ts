@@ -6,7 +6,7 @@ import { LoadingState } from './LoadingState';
 import { Constants } from './Constants';
 import { CanvasResizer, StretchMode } from 'gtp';
 
-import './app.less';
+import './app.scss';
 
 (window as any).init = (parent: HTMLElement, assetRoot?: string) => {
     const gameWindow: any = window as any;

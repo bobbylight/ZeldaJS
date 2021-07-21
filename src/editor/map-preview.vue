@@ -144,7 +144,7 @@ export default class MapPreview extends Vue {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .map-preview-canvas {
     width: 100%;
     height: 300px;

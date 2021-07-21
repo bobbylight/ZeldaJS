@@ -2,7 +2,7 @@ import Vue from 'vue';
 import vuetify from './plugins/vuetify';
 import App from './editor/app.vue';
 import store from './editor/store';
-import '@/editor/editor.less';
+import '@/editor/editor.scss';
 
 Vue.config.productionTip = false;
 

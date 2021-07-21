@@ -129,7 +129,7 @@ export default class TilePalette extends Vue {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 .tile-palette {
 
     text-align: center;

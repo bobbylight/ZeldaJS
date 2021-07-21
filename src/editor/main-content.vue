@@ -214,7 +214,7 @@ export default class MainContent extends Vue {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .elevation-1.tabbed-pane-styles {
     box-shadow: none !important;
 }

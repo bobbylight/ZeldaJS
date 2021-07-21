@@ -192,7 +192,7 @@ export default class MapEditor extends Vue {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .map-editor {
 
     text-align: center;

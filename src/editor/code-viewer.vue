@@ -61,7 +61,7 @@ export default class CodeViewer extends Vue {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .code-viewer {
 
     button {
