@@ -1,8 +1,8 @@
 # ZeldaJS - A Legend of Zelda clone in TypeScript
-[![Build Status](https://travis-ci.org/bobbylight/ZeldaJS.svg?branch=master)](https://travis-ci.org/bobbylight/ZeldaJS)
+![Build](https://github.com/bobbylight/ZeldaJS/actions/workflows/build.yml/badge.svg)
+![CodeQL](https://github.com/bobbylight/ZeldaJS/actions/workflows/codeql-analysis.yml/badge.svg)
 [![Dependency Status](https://img.shields.io/david/bobbylight/ZeldaJS.svg)](https://david-dm.org/bobbylight/ZeldaJS)
 [![Dev Dependency Status](https://img.shields.io/david/dev/bobbylight/ZeldaJS.svg)](https://david-dm.org/bobbylight/ZeldaJS?type=dev)
-[![Coverage Status](https://coveralls.io/repos/github/bobbylight/ZeldaJS/badge.svg?branch=master)](https://coveralls.io/github/bobbylight/ZeldaJS?branch=master)
 
 A WIP clone of the Legend of Zelda.  This will include a very basic editor as well.
 Feel free to [try it out in its current state](http://bobbylight.github.io/ZeldaJS/).
@@ -34,7 +34,6 @@ npm run serve          # Runs app for development.  Hot deploys
 npm run build          # Builds the application in dist/
 npm run test:unit      # Runs unit tests and generates coverage
 npm run lint           # Lints files
-npm run travis-ci      # Any extra tasks beyond building to run during CI
 npm run doc            # Generates documentation
 npm run build-electron # Doesn't currently work (broke with move to vue-cli)
 npm run pack           # Doesn't currently work (broke with move to vue-cli)

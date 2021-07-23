@@ -150,7 +150,6 @@ export class ZeldaGame extends Game {
 
     startNewGame(initLink: boolean = true) {
         this.loadMaps();
-        // tslint:disable-next-line:no-string-literal
         this.map = this.maps.overworld;
         this.map.setCurrentScreen(3, 6);
         if (initLink) {

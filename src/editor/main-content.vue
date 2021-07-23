@@ -126,7 +126,6 @@ export default class MainContent extends Vue {
             let row: number;
             let col: number;
 
-            // tslint:disable-next-line:deprecation
             switch (e.which) {
                 case 37:
                     console.log('left');
