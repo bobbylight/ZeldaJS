@@ -1,3 +1,8 @@
+// Stopgap to silence an error from our cocktail of dependencies
+// still supporting webpack/vue-cli.
+// https://github.com/vuejs/vue-cli/issues/6840
+process.env.VUE_CLI_TEST = false;
+
 module.exports = {
   "transpileDependencies": [
     "vuetify"
