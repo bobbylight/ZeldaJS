@@ -2,8 +2,6 @@
 ![Build](https://github.com/bobbylight/ZeldaJS/actions/workflows/build.yml/badge.svg)
 ![CodeQL](https://github.com/bobbylight/ZeldaJS/actions/workflows/codeql-analysis.yml/badge.svg)
 [![codecov](https://codecov.io/gh/bobbylight/ZeldaJS/branch/master/graph/badge.svg?token=IT4BJHTZKJ)](https://codecov.io/gh/bobbylight/ZeldaJS)
-[![Dependency Status](https://img.shields.io/david/bobbylight/ZeldaJS.svg)](https://david-dm.org/bobbylight/ZeldaJS)
-[![Dev Dependency Status](https://img.shields.io/david/dev/bobbylight/ZeldaJS.svg)](https://david-dm.org/bobbylight/ZeldaJS?type=dev)
 
 A WIP clone of the Legend of Zelda.  This will include a very basic editor as well.
 Feel free to [try it out in its current state](http://bobbylight.github.io/ZeldaJS/).
