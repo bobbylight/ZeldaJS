@@ -14,17 +14,19 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Component from 'vue-class-component';
-import { Prop } from 'vue-property-decorator';
 
-@Component
-export default class ActionablePanel extends Vue {
-    @Prop({ required: true })
-    title!: string;
+export default Vue.extend({
 
-    @Prop({ default: true })
-    padded!: boolean;
-}
+    name: 'ActionablePanel',
+
+    props: {
+        title: String,
+        padded: {
+            type: Boolean,
+            default: true,
+        },
+    },
+});
 </script>
 
 <style lang="scss" scoped>

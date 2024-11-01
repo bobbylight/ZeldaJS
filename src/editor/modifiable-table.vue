@@ -94,7 +94,6 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
 // Being a precompiled library, we must explicitly import our
 // peer dependency (Vuetify) dependencies.
 // https://github.com/vuetifyjs/vuetify-loader/issues/70
@@ -131,8 +130,10 @@ export interface ModifiableTableRowValidationFunction<T> {
  * A table that allows the user to create, edit, delete, and optionally sort
  * records.
  */
-@Component({
-    components: {
+export default Vue.extend({
+
+    name: 'ModifiableTable',
+    components: [
         VBtn,
         VCard,
         VCardActions,
@@ -144,141 +145,150 @@ export interface ModifiableTableRowValidationFunction<T> {
         VIcon,
         VRow,
         VSpacer,
-        VToolbar
-    }
-})
-export default class ModifiableTable<T> extends Vue {
-    @Prop({ required: true })
-    value!: T[]; // Named "value" for v-model support
+        VToolbar,
+    ],
 
-    @Prop({ required: true })
-    headers!: ModifiableTableHeader[];
+    props: {
+        value: [], // T[], named "value" for v-model support
+        headers: [], // ModifiableTableHeader[]
+        itemKey: {
+            type: String,
+            default: 'id',
+        },
+        itemName: {
+            type: String,
+            default: 'Item',
+        },
+        validationFunc: Function, // ModifiableTableRowValidationFunction<T> | null;
+        title: String,
+        rightAlignButtons: {
+            type: Boolean,
+            default: false,
+        },
+        dense: {
+            type: Boolean,
+            default: false,
+        },
+    },
 
-    @Prop({ default: 'id' })
-    itemKey!: string;
+    data() {
+        return {
+            allItems: [], // T[]
+            selectedItems: [], // T[]
+            deleteDialog: false,
+            showModifyRowDialog: false,
+            rowBeingModified: null, // T | null = null;
+            modifiedItemKey: null, //, string | null = null;
+            saveDisabled: true, //boolean = true;
+        };
+    },
 
-    @Prop({ default: 'Item' })
-    itemName!: string;
+    computed: {
+        deleteDialogTitle(): string {
+            return `Delete ${this.itemName}`;
+        },
 
-    @Prop()
-    validationFunc!: ModifiableTableRowValidationFunction<T> | null;
+        dialogTitle(): string {
+            return (this.selectedItems.length ? 'Edit ' : 'New ') + this.itemName;
+        },
 
-    @Prop({ required: false })
-    title!: string;
+        isSaveButtonDisabled(): boolean {
+            if (!this.rowBeingModified) {
+                return true;
+            }
 
-    @Prop({ default: false })
-    rightAlignButtons!: boolean;
-
-    @Prop({ default: false })
-    dense!: boolean;
-
-    allItems: T[] = [];
-
-    selectedItems: T[] = [];
-
-    deleteDialog: boolean = false;
-
-    showModifyRowDialog: boolean = false;
-    rowBeingModified: T | null = null;
-    modifiedItemKey: string | null = null;
-    saveDisabled: boolean = true;
-
-    get deleteDialogTitle(): string {
-        return `Delete ${this.itemName}`;
-    }
-
-    get dialogTitle(): string {
-        return (this.selectedItems.length ? 'Edit ' : 'New ') + this.itemName;
-    }
-
-    isSaveButtonDisabled(): boolean {
-        if (!this.rowBeingModified) {
-            return true;
-        }
-
-        const origRow: T | null = this.modifiedItemKey ? this.selectedItems[0] : null;
-        return !!this.validationFunc && !this.validationFunc(this.rowBeingModified, origRow, this.allItems);
-    }
+            const origRow: T | null = this.modifiedItemKey ? this.selectedItems[0] : null;
+            return !!this.validationFunc && !this.validationFunc(this.rowBeingModified, origRow, this.allItems);
+        },
+    },
 
     mounted() {
         // Need a gentle nudge the first time through
         this.onValueChanged(this.value);
         this.refreshRowBeingModified();
-    }
+    },
 
-    onCancel() {
-        this.showModifyRowDialog = false;
-        this.refreshRowBeingModified();
-    }
+    methods: {
 
-    onCancelDelete() {
-        this.deleteDialog = false;
-    }
+        onCancel() {
+            this.showModifyRowDialog = false;
+            this.refreshRowBeingModified();
+        },
 
-    onDeleteItem() {
-        const selectedKey: any = (this.rowBeingModified as any)[this.itemKey];
+        onCancelDelete() {
+            this.deleteDialog = false;
+        },
 
-        const newDataList: T[] = this.value.filter((v: T) => {
-            return (v as any)[this.itemKey] !== selectedKey;
-        });
+        onDeleteItem() {
+            const selectedKey: any = (this.rowBeingModified as any)[this.itemKey];
 
-        this.$emit('input', newDataList);
+            const newDataList: T[] = this.value.filter((v: T) => {
+                return (v as any)[this.itemKey] !== selectedKey;
+            });
 
-        this.deleteDialog = false;
-    }
+            this.$emit('input', newDataList);
 
-    @Watch('rowBeingModified', { deep: true })
-    onRowBeingModifiedChanged() {
-        this.saveDisabled = this.isSaveButtonDisabled();
-    }
+            this.deleteDialog = false;
+        },
 
-    onSave() {
-        const newDataList: T[] = this.value.slice();
-        const index: number = newDataList.findIndex((item: T) => {
-            return (item as any)[this.itemKey] === this.modifiedItemKey;
-        });
-        if (index > -1) {
-            newDataList.splice(index, 1, this.rowBeingModified!);
-        }
-        else {
-        // Generate a key if it isn't a natural key that the user had to enter
-            (this.rowBeingModified as any)[this.itemKey] = Date.now().toString(10);
-            newDataList.push(this.rowBeingModified!);
-        }
+        onSave() {
+            const newDataList: T[] = this.value.slice();
+            const index: number = newDataList.findIndex((item: T) => {
+                return (item as any)[this.itemKey] === this.modifiedItemKey;
+            });
+            if (index > -1) {
+                newDataList.splice(index, 1, this.rowBeingModified!);
+            } else {
+                // Generate a key if it isn't a natural key that the user had to enter
+                (this.rowBeingModified as any)[this.itemKey] = Date.now().toString(10);
+                newDataList.push(this.rowBeingModified!);
+            }
 
-        this.$emit('input', newDataList);
+            this.$emit('input', newDataList);
 
-        this.showModifyRowDialog = false;
-        this.selectedItems.length = 0;
-        this.refreshRowBeingModified();
-    }
+            this.showModifyRowDialog = false;
+            this.selectedItems.length = 0;
+            this.refreshRowBeingModified();
+        },
 
-    onSelectedItemsChanged() {
-        this.refreshRowBeingModified();
-    }
+        onSelectedItemsChanged() {
+            this.refreshRowBeingModified();
+        },
 
-    @Watch('value')
-    onValueChanged(newItems: any[]) {
-        this.allItems = newItems.slice();
-        this.selectedItems = [];
-        this.rowBeingModified = null;
-    }
+        refreshRowBeingModified() {
+            this.rowBeingModified = (this.selectedItems.length > 0
+                ? JSON.parse(JSON.stringify(this.selectedItems[0])) : {}) as T;
+            this.saveDisabled = this.isSaveButtonDisabled();
+        },
 
-    private refreshRowBeingModified() {
-        this.rowBeingModified = (this.selectedItems.length > 0
-            ? JSON.parse(JSON.stringify(this.selectedItems[0])) : {}) as T;
-        this.saveDisabled = this.isSaveButtonDisabled();
-    }
+        showAddOrEditModal(newRecord: boolean) {
+            // Remember the key of the item being edited, or null if this is for a new item
+            this.modifiedItemKey = newRecord ? null : (this.selectedItems[0] as any)[this.itemKey] as string;
 
-    showAddOrEditModal(newRecord: boolean) {
-        // Remember the key of the item being edited, or null if this is for a new item
-        this.modifiedItemKey = newRecord ? null : (this.selectedItems[0] as any)[this.itemKey] as string;
+            // Clone the record to pass to the callback
+            this.rowBeingModified = (newRecord ? {} : JSON.parse(JSON.stringify(this.selectedItems[0]))) as T;
+            this.showModifyRowDialog = true;
+        },
+    },
 
-        // Clone the record to pass to the callback
-        this.rowBeingModified = (newRecord ? {} : JSON.parse(JSON.stringify(this.selectedItems[0]))) as T;
-        this.showModifyRowDialog = true;
-    }
-}
+    watch: {
+
+        rowBeingModified: {
+            handler() {
+                this.saveDisabled = this.isSaveButtonDisabled();
+            },
+            deep: true,
+        },
+
+        value: {
+            handler(newItems: any[]) {
+                this.allItems = newItems.slice();
+                this.selectedItems = [];
+                this.rowBeingModified = null;
+            }
+        },
+    },
+});
 </script>
 
 <style scoped>

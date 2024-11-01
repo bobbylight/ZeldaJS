@@ -16,7 +16,7 @@
             <v-data-table
                 :dense="dense"
                 :headers="headers"
-                :items="allItems"
+                :items="getAllItems()"
                 item-key="id"
                 :items-per-page="5"
                 :single-select="true"
@@ -118,76 +118,163 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Component from 'vue-class-component';
-import { Prop } from 'vue-property-decorator';
-import { ZeldaGame } from '../ZeldaGame';
 import { EnemyGroup, EnemyInfo } from '../EnemyGroup';
-import { Enemy, EnemyStrength } from '../enemy/Enemy';
-import { ModifiableTableHeader } from './modifiable-table.vue';
+import { Enemy } from '../enemy/Enemy';
 import { v4 as uuidv4 } from 'uuid';
 
-@Component({ components: { } })
-export default class EnemySelector extends Vue {
-    @Prop({ required: true })
-    game!: ZeldaGame;
+export default Vue.extend({
 
-    @Prop({ required: true })
-    value!: EnemyGroup;
+    name: 'EnemySelector',
+    components: {},
 
-    title: string = '';
-    rightAlignButtons: boolean = false;
+    props: {
+        game: Object, // ZeldaGame
+        value: Object, // EnemyGroup
+    },
 
-    itemName: string = 'Enemy Group';
-    itemKey: string = 'id';
-    validationFunc: any = null;
+    data() {
+        return {
+            title: '',
+            rightAlignButtons: false,
+            itemName: 'Enemy Group',
+            itemKey: 'id',
+            validationFunc: null, // any
+            enemyTypes: [
+                { text: 'Octorok', value: 'Octorok' },
+                { text: 'Moblin', value: 'Moblin' },
+                { text: 'Tektite', value: 'Tektite' },
+                { text: 'Lynel', value: 'Lynel' }
+            ],
+            enemyStrengths: [
+                { text: 'Blue (strong)', value: 'blue' },
+                { text: 'Red (weak)', value: 'red' }
+            ],
+            headers: [ // ModifiableTableHeader[]
+                { text: 'Enemy', value: 'type' },
+                { text: 'Strength', value: 'strength' },
+                { text: 'Count', value: 'count' }
+            ],
+            deleteDialog: false,
+            showModifyRowDialog: false,
+            modifiedItemKey: null, // string
+            rowBeingModified: null, // EnemyInfo | null,
+            selectedItems: [], // EnemyInfo[] = [];
+            dense: false, // boolean = false;
+            saveDisabled: false, // boolean = false;
+        };
+    },
 
-    enemyTypes: any[] = [
-        { text: 'Octorok', value: 'Octorok' },
-        { text: 'Moblin', value: 'Moblin' },
-        { text: 'Tektite', value: 'Tektite' },
-        { text: 'Lynel', value: 'Lynel' }
-    ];
+    methods: {
+        getAllItems(): EnemyInfo[] {
+            // Avoid errors from bogus initial data
+            return this.value ? this.value.enemies : [];
+        },
 
-    enemyStrengths: any[] = [
-        { text: 'Blue (strong)', value: 'blue' },
-        { text: 'Red (weak)', value: 'red' }
-    ];
+        setAllItems(items: EnemyInfo[]) {
+            // Update our entire EnemyGroup prop, which will in turn refresh our
+            // 'allItems' generated prop
+            const newValue: EnemyGroup = this.value.clone();
+            newValue.enemies = items;
+            this.$emit('input', newValue);
+        },
 
-    headers: ModifiableTableHeader[] = [
-        { text: 'Enemy', value: 'type' },
-        { text: 'Strength', value: 'strength' },
-        { text: 'Count', value: 'count' }
-    ];
+        onSave() {
+            const newDataList: EnemyInfo[] = this.value.enemies.slice();
+            const index: number = newDataList.findIndex((item: EnemyInfo) => {
+                return (item as any)[this.itemKey] === this.modifiedItemKey;
+            });
 
-    deleteDialog: boolean = false;
+            const value: EnemyInfo = this.rowBeingModified!;
 
-    showModifyRowDialog: boolean = false;
-    modifiedItemKey: string | null = null;
-    rowBeingModified: EnemyInfo | null = null;
-    selectedItems: EnemyInfo[] = [];
-    dense: boolean = false;
-    saveDisabled: boolean = false;
+            if (index > -1) {
+                newDataList.splice(index, 1, value);
+            }
+            else {
+                // Generate a key if it isn't a natural key that the user had to enter
+                (value as any)[this.itemKey] = uuidv4();
+                newDataList.push(value);
+            }
 
-    get allItems(): EnemyInfo[] {
-        // Avoid errors from bogus initial data
-        return this.value ? this.value.enemies : [];
-    }
+            // Go through generated property setter since our data is more than just an array
+            this.setAllItems(newDataList);
 
-    set allItems(items: EnemyInfo[]) {
-        // Update our entire EnemyGroup prop, which will in turn refresh our
-        // 'allItems' generated prop
-        const newValue: EnemyGroup = this.value.clone();
-        newValue.enemies = items;
-        this.$emit('input', newValue);
-    }
+            this.showModifyRowDialog = false;
+            this.selectedItems.length = 0;
+            this.refreshRowBeingModified();
+        },
 
-    get deleteDialogTitle(): string {
-        return `Delete ${this.itemName}`;
-    }
+        onSelectedItemsChanged() {
+            this.refreshRowBeingModified();
+        },
 
-    get dialogTitle(): string {
-        return (this.selectedItems.length ? 'Edit ' : 'New ') + this.itemName;
-    }
+        getInitialValue(): EnemyInfo {
+            return {
+                id: uuidv4(),
+                type: this.enemyTypes[0].value,
+                count: 2,
+                strength: 'red'
+            };
+        },
+
+        onCancel() {
+            this.showModifyRowDialog = false;
+            this.refreshRowBeingModified();
+        },
+
+        onCancelDelete() {
+            this.deleteDialog = false;
+        },
+
+        onDeleteItem() {
+            const selectedKey: any = (this.rowBeingModified as any)[this.itemKey];
+
+            const newDataList: EnemyInfo[] = this.value.enemies.filter((v: EnemyInfo) => {
+                return (v as any)[this.itemKey] !== selectedKey;
+            });
+
+            // Go through generated property setter since our data is more than just an array
+            this.setAllItems(newDataList);
+
+            this.deleteDialog = false;
+            this.selectedItems.length = 0;
+            this.refreshRowBeingModified();
+        },
+
+        refreshRowBeingModified() {
+            this.rowBeingModified = (this.selectedItems.length > 0
+                ? JSON.parse(JSON.stringify(this.selectedItems[0])) : this.getInitialValue()) as EnemyInfo;
+            this.saveDisabled = this.saveButtonDisabled;
+        },
+
+        showAddOrEditModal(newRecord: boolean) {
+            // Remember the key of the item being edited, or null if this is for a new item
+            this.modifiedItemKey = newRecord ? null : (this.selectedItems[0] as any)[this.itemKey] as string;
+
+            // Clone the record to pass to the callback
+            this.rowBeingModified = (newRecord ? this.getInitialValue()
+                : JSON.parse(JSON.stringify(this.selectedItems[0]))) as EnemyInfo;
+            this.showModifyRowDialog = true;
+        }
+    },
+
+    computed: {
+        deleteDialogTitle(): string {
+            return `Delete ${this.itemName}`;
+        },
+
+        dialogTitle(): string {
+            return (this.selectedItems.length ? 'Edit ' : 'New ') + this.itemName;
+        },
+
+        saveButtonDisabled(): boolean {
+            if (!this.rowBeingModified) {
+                return true;
+            }
+
+            const origRow: EnemyInfo | null = this.modifiedItemKey ? this.selectedItems[0] : null;
+            return !!this.validationFunc && !this.validationFunc(this.rowBeingModified, origRow, this.getAllItems());
+        },
+    },
 
     selectedEnemyGroupChanged(newGroup: string) {
         const enemies: EnemyInfo[] = [];
@@ -213,96 +300,9 @@ export default class EnemySelector extends Vue {
         // this.curScreen.enemyGroup = new EnemyGroup('random', enemies);
 
         // Go through generated property setter since our data is more than just an array
-        this.allItems = enemies;
-    }
-
-    isSaveButtonDisabled(): boolean {
-        if (!this.rowBeingModified) {
-            return true;
-        }
-
-        const origRow: EnemyInfo | null = this.modifiedItemKey ? this.selectedItems[0] : null;
-        return !!this.validationFunc && !this.validationFunc(this.rowBeingModified, origRow, this.allItems);
-    }
-
-    onSave() {
-        const newDataList: EnemyInfo[] = this.value.enemies.slice();
-        const index: number = newDataList.findIndex((item: EnemyInfo) => {
-            return (item as any)[this.itemKey] === this.modifiedItemKey;
-        });
-
-        const value: EnemyInfo = this.rowBeingModified!;
-
-        if (index > -1) {
-            newDataList.splice(index, 1, value);
-        }
-        else {
-        // Generate a key if it isn't a natural key that the user had to enter
-            (value as any)[this.itemKey] = uuidv4();
-            newDataList.push(value);
-        }
-
-        // Go through generated property setter since our data is more than just an array
-        this.allItems = newDataList;
-
-        this.showModifyRowDialog = false;
-        this.selectedItems.length = 0;
-        this.refreshRowBeingModified();
-    }
-
-    onSelectedItemsChanged() {
-        this.refreshRowBeingModified();
-    }
-
-    getInitialValue(): EnemyInfo {
-        return {
-            id: uuidv4(),
-            type: this.enemyTypes[0].value,
-            count: 2,
-            strength: 'red'
-        };
-    }
-
-    onCancel() {
-        this.showModifyRowDialog = false;
-        this.refreshRowBeingModified();
-    }
-
-    onCancelDelete() {
-        this.deleteDialog = false;
-    }
-
-    onDeleteItem() {
-        const selectedKey: any = (this.rowBeingModified as any)[this.itemKey];
-
-        const newDataList: EnemyInfo[] = this.value.enemies.filter((v: EnemyInfo) => {
-            return (v as any)[this.itemKey] !== selectedKey;
-        });
-
-        // Go through generated property setter since our data is more than just an array
-        this.allItems = newDataList;
-
-        this.deleteDialog = false;
-        this.selectedItems.length = 0;
-        this.refreshRowBeingModified();
-    }
-
-    private refreshRowBeingModified() {
-        this.rowBeingModified = (this.selectedItems.length > 0
-            ? JSON.parse(JSON.stringify(this.selectedItems[0])) : this.getInitialValue()) as EnemyInfo;
-        this.saveDisabled = this.isSaveButtonDisabled();
-    }
-
-    showAddOrEditModal(newRecord: boolean) {
-        // Remember the key of the item being edited, or null if this is for a new item
-        this.modifiedItemKey = newRecord ? null : (this.selectedItems[0] as any)[this.itemKey] as string;
-
-        // Clone the record to pass to the callback
-        this.rowBeingModified = (newRecord ? this.getInitialValue()
-            : JSON.parse(JSON.stringify(this.selectedItems[0]))) as EnemyInfo;
-        this.showModifyRowDialog = true;
-    }
-}
+        this.setAllItems(enemies);
+    },
+});
 </script>
 
 <style lang="scss" scoped>

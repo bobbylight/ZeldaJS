@@ -82,19 +82,19 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Component from 'vue-class-component';
 import MapEditor from '@/editor/map-editor.vue';
 import { ZeldaGame } from '@/ZeldaGame';
 import ScreenMisc from '@/editor/screen-misc.vue';
 import TilePalette from '@/editor/tile-palette.vue';
 import EventEditor from '@/editor/event-editor.vue';
-import { Event } from '@/event/Event';
 import MapPreview from '@/editor/map-preview.vue';
 import ActionablePanel from '@/editor/actionable-panel/actionable-panel.vue';
 import CodeViewer from '@/editor/code-viewer.vue';
 import EnemySelector from '@/editor/enemy-selector.vue';
 
-@Component({
+export default Vue.extend({
+
+    name: 'MainContent',
     components: {
         EnemySelector,
         ActionablePanel,
@@ -103,73 +103,88 @@ import EnemySelector from '@/editor/enemy-selector.vue';
         MapEditor,
         MapPreview,
         ScreenMisc,
-        TilePalette
-    }
-})
-export default class MainContent extends Vue {
-    name: string = 'bob';
-    game: ZeldaGame | null = null;
-    selectedTileIndex: number = 1;
+        TilePalette,
+    },
 
-    selectedTab: string = 'tab-1';
+    data() {
+        return {
+            game: null, // ZeldaGame | null
+            selectedTileIndex: 1,
+            selectedTab: 'tab-1',
+        };
+    },
 
-    get title(): string {
-        const curRow: number = this.$store.state.currentScreenRow;
-        const curCol: number = this.$store.state.currentScreenCol;
-        const rowCount: number = this.$store.state.game.map ? this.$store.state.game.map.rowCount - 1 : 0;
-        const colCount: number = this.$store.state.game.map ? this.$store.state.game.map.colCount - 1 : 0;
-        return `Screen (${curRow}, ${curCol}) / (${rowCount}, ${colCount})`;
-    }
+    computed: {
+        title(): string {
+            const curRow: number = this.$store.state.currentScreenRow;
+            const curCol: number = this.$store.state.currentScreenCol;
+            const rowCount: number = this.$store.state.game.map ? this.$store.state.game.map.rowCount - 1 : 0;
+            const colCount: number = this.$store.state.game.map ? this.$store.state.game.map.colCount - 1 : 0;
+            return `Screen (${curRow}, ${curCol}) / (${rowCount}, ${colCount})`;
+        },
+    },
 
-    private installKeyHandlers() {
-        document.addEventListener('keydown', (e: KeyboardEvent) => {
-            let row: number;
-            let col: number;
+    methods: {
+        installKeyHandlers() {
+            document.addEventListener('keydown', (e: KeyboardEvent) => {
+                let row: number;
+                let col: number;
 
-            switch (e.which) {
-                case 37:
-                    console.log('left');
-                    row = this.$store.state.currentScreenRow;
-                    col = this.$store.state.currentScreenCol;
-                    if (col > 0) {
-                        this.setCurrentScreen(row, col - 1);
-                    }
-                    e.preventDefault();
-                    e.stopPropagation();
-                    break;
+                switch (e.which) {
+                    case 37:
+                        console.log('left');
+                        row = this.$store.state.currentScreenRow;
+                        col = this.$store.state.currentScreenCol;
+                        if (col > 0) {
+                            this.setCurrentScreen(row, col - 1);
+                        }
+                        e.preventDefault();
+                        e.stopPropagation();
+                        break;
 
-                case 38:
-                    console.log('up');
-                    row = this.$store.state.currentScreenRow;
-                    col = this.$store.state.currentScreenCol;
-                    if (row > 0) {
-                        this.setCurrentScreen(row - 1, col);
-                    }
-                    e.preventDefault();
-                    break;
+                    case 38:
+                        console.log('up');
+                        row = this.$store.state.currentScreenRow;
+                        col = this.$store.state.currentScreenCol;
+                        if (row > 0) {
+                            this.setCurrentScreen(row - 1, col);
+                        }
+                        e.preventDefault();
+                        break;
 
-                case 39:
-                    console.log('right');
-                    row = this.$store.state.currentScreenRow;
-                    col = this.$store.state.currentScreenCol;
-                    if (col < this.game!.map.colCount - 1) {
-                        this.setCurrentScreen(row, col + 1);
-                    }
-                    e.preventDefault();
-                    break;
+                    case 39:
+                        console.log('right');
+                        row = this.$store.state.currentScreenRow;
+                        col = this.$store.state.currentScreenCol;
+                        if (col < this.game!.map.colCount - 1) {
+                            this.setCurrentScreen(row, col + 1);
+                        }
+                        e.preventDefault();
+                        break;
 
-                case 40:
-                    console.log('down');
-                    row = this.$store.state.currentScreenRow;
-                    col = this.$store.state.currentScreenCol;
-                    if (row < this.game!.map.rowCount - 1) {
-                        this.setCurrentScreen(row + 1, col);
-                    }
-                    e.preventDefault();
-                    break;
-            }
-        });
-    }
+                    case 40:
+                        console.log('down');
+                        row = this.$store.state.currentScreenRow;
+                        col = this.$store.state.currentScreenCol;
+                        if (row < this.game!.map.rowCount - 1) {
+                            this.setCurrentScreen(row + 1, col);
+                        }
+                        e.preventDefault();
+                        break;
+                }
+            });
+        },
+
+        onTileSelected(index: number) {
+            (console as any).log('selected tile in palette: ' + index);
+            this.selectedTileIndex = index;
+        },
+
+        setCurrentScreen(row: number, col: number) {
+            this.$store.commit('setCurrentScreen', { row, col });
+            // this.currentScreenChanged();
+        },
+    },
 
     mounted() {
         const game: ZeldaGame = (window as any).game;
@@ -199,18 +214,8 @@ export default class MainContent extends Vue {
         //     rowCount: game.map.rowCount - 1, colCount: game.map.colCount - 1,
         //     selectedTileIndex: 1 });
         });
-    }
-
-    onTileSelected(index: number) {
-        (console as any).log('selected tile in palette: ' + index);
-        this.selectedTileIndex = index;
-    }
-
-    private setCurrentScreen(row: number, col: number) {
-        this.$store.commit('setCurrentScreen', { row, col });
-        // this.currentScreenChanged();
-    }
-}
+    },
+});
 </script>
 
 <style lang="scss" scoped>

@@ -32,18 +32,54 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Component from 'vue-class-component';
 
-@Component
-export default class NavBar extends Vue {
-    selectedMap: string | null = null;
-    maps: any[] = [];
+export default Vue.extend({
 
-    focusCanvas() {
-        // Cheap way to broadcast an event to other components
-        // Find a better way to do this, but the interested canvas is a distant sibling.
-        this.$root.$emit('focusCanvas');
-    }
+    name: 'NavBar',
+
+    data() {
+        return {
+            selectedMap: null, // string | null
+            maps: [], // any[]
+        };
+    },
+
+    methods: {
+        focusCanvas() {
+            // Cheap way to broadcast an event to other components
+            // Find a better way to do this, but the interested canvas is a distant sibling.
+            this.$root.$emit('focusCanvas');
+        },
+
+        onSelectedMapChanged(newValue: string) {
+            // Cheap way to broadcast an event to other components
+            // Find a better way to do this, but the interested canvas is a distant sibling.
+            (this.$refs.select as HTMLSelectElement).blur();
+            this.$root.$emit('focusCanvas');
+
+            this.$store.commit('setMap', newValue);
+        },
+
+        /**
+         * Prevents the select from gaining focus.  If we don't do this, the
+         * user pressing the up or down arrow keys will also navigate through
+         * the select's options, besides just changing screens in the nmap
+         * editor.
+         *
+         * @param e The focus event.
+         */
+        preventFocus(e: FocusEvent) {
+            e.preventDefault();
+            if (e.relatedTarget) {
+                // Revert focus back to previous blurring element
+                (e.relatedTarget as HTMLElement).focus();
+            }
+            else {
+                // No previous focus target, blur instead
+                (e.currentTarget as HTMLElement).blur();
+            }
+        },
+    },
 
     mounted() {
         this.maps.push({ text: 'Overworld', value: 'overworld' });
@@ -52,35 +88,6 @@ export default class NavBar extends Vue {
         }
 
         this.selectedMap = 'overworld'; // TODO: Get the real current map
-    }
-
-    onSelectedMapChanged(newValue: string) {
-        // Cheap way to broadcast an event to other components
-        // Find a better way to do this, but the interested canvas is a distant sibling.
-        (this.$refs.select as HTMLSelectElement).blur();
-        this.$root.$emit('focusCanvas');
-
-        this.$store.commit('setMap', newValue);
-    }
-
-    /**
-     * Prevents the select from gaining focus.  If we don't do this, the
-     * user pressing the up or down arrow keys will also navigate through
-     * the select's options, besides just changing screens in the nmap
-     * editor.
-     *
-     * @param e The focus event.
-     */
-    preventFocus(e: FocusEvent) {
-        e.preventDefault();
-        if (e.relatedTarget) {
-        // Revert focus back to previous blurring element
-            (e.relatedTarget as HTMLElement).focus();
-        }
-        else {
-        // No previous focus target, blur instead
-            (e.currentTarget as HTMLElement).blur();
-        }
-    }
-}
+    },
+});
 </script>
