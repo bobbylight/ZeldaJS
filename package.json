@@ -1,10 +1,11 @@
 {
   "name": "zelda-editor-vue",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "serve": "vite preview --debug",
     "test": "npm run test:unit",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint src/",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@types/debounce": "1.2.0",
     "@types/jest": "27.5.2",
+    "@vitejs/plugin-vue2": "2.3.1",
     "@vue/cli-plugin-typescript": "5.0.8",
     "@vue/cli-plugin-unit-jest": "5.0.8",
     "@vue/cli-plugin-vuex": "5.0.8",
@@ -33,15 +35,13 @@
     "@vue/test-utils": "1.0.3",
     "coveralls": "3.1.0",
     "less": "3.11.3",
-    "less-loader": "6.1.1",
     "rimraf": "3.0.2",
     "sass": "1.26.8",
-    "sass-loader": "8.0.2",
     "ts-jest": "27.1.5",
     "typedoc": "0.17.7",
-    "typescript": "4.3.5",
-    "vue-cli-plugin-vuetify": "2.5.8",
-    "vue-template-compiler": "2.7.16",
-    "vuetify-loader": "1.9.2"
+    "typescript": "3.9.4",
+    "unplugin-vue-components": "0.27.4",
+    "vite": "5.0.10",
+    "vue-template-compiler": "2.7.16"
   }
 }

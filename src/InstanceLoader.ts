@@ -3,8 +3,7 @@ import { EnemyStrength } from '@/enemy/Enemy';
 
 export class InstanceLoader {
     static create<T>(className: string, strength: EnemyStrength = 'red'): T {
-        const instance: T = Object.create((EnemyTypes as any)[className].prototype);
-        (instance as any).constructor.apply(instance, [strength]);
-        return instance;
+        const clazz: any = (EnemyTypes as any)[className];
+        return new (Function.prototype.bind.apply(clazz, [ null, strength ]));
     }
 }

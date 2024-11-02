@@ -31,3 +31,4 @@ import './app.scss';
         }, false);
     }
 };
+(window as any).init('parent');
