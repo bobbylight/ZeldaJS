@@ -5,7 +5,7 @@
         color="primary"
         dark
     >
-        <div class="d-flex align-center">
+        <template v-slot:prepend>
             <v-img
                 alt="Map Creator Logo"
                 class="shrink mr-2"
@@ -14,26 +14,27 @@
                 transition="scale-transition"
                 width="40"
             />
+        </template>
+
+        <v-app-bar-title>
             Zelda Map Creator
-        </div>
+        </v-app-bar-title>
 
-        <v-spacer/>
+        <template v-slot:append>
+            <v-select ref="select" :items="maps" style="max-width: 8rem;" hide-details
+                      v-model="selectedMap" @update:modelValue="onSelectedMapChanged"/>
 
-        <v-select ref="select" :items="maps" style="max-width: 8rem;" hide-details
-                  v-model="selectedMap" @focus="preventFocus" @change="onSelectedMapChanged"/>
-
-        <v-btn
-            href="https://github.com/vuetifyjs/vuetify/releases/latest"
-            target="_blank" text>
-            <span class="mr-2">About</span>
-        </v-btn>
+            <v-btn
+                href="https://github.com/vuetifyjs/vuetify/releases/latest"
+                target="_blank">
+                <span class="mr-2">About</span>
+            </v-btn>
+        </template>
     </v-app-bar>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-
-export default Vue.extend({
+export default {
 
     name: 'NavBar',
 
@@ -46,16 +47,16 @@ export default Vue.extend({
 
     methods: {
         focusCanvas() {
-            // Cheap way to broadcast an event to other components
-            // Find a better way to do this, but the interested canvas is a distant sibling.
-            this.$root.$emit('focusCanvas');
+            // // Cheap way to broadcast an event to other components
+            // // Find a better way to do this, but the interested canvas is a distant sibling.
+            // this.$root.$emit('focusCanvas');
         },
 
         onSelectedMapChanged(newValue: string) {
-            // Cheap way to broadcast an event to other components
-            // Find a better way to do this, but the interested canvas is a distant sibling.
+            // // Cheap way to broadcast an event to other components
+            // // Find a better way to do this, but the interested canvas is a distant sibling.
             (this.$refs.select as HTMLSelectElement).blur();
-            this.$root.$emit('focusCanvas');
+            // this.$root.$emit('focusCanvas');
 
             this.$store.commit('setMap', newValue);
         },
@@ -82,12 +83,12 @@ export default Vue.extend({
     },
 
     mounted() {
-        this.maps.push({ text: 'Overworld', value: 'overworld' });
+        this.maps.push({ title: 'Overworld', value: 'overworld' });
         for (let i: number = 1; i <= 1; i++) {
-            this.maps.push({ text: `Level ${i}`, value: `level${i}` });
+            this.maps.push({ title: `Level ${i}`, value: `level${i}` });
         }
 
         this.selectedMap = 'overworld'; // TODO: Get the real current map
     },
-});
+}
 </script>

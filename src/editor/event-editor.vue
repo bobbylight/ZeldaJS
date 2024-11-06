@@ -7,9 +7,9 @@
                     :dense="dense"
                     :headers="headers"
                     :items="getAllItems()"
-                    item-key="id"
                     :items-per-page="5"
-                    :single-select="true"
+                    :return-object="true"
+                    select-strategy="single"
                     show-select
                     v-model="selectedItems"
                     @input="onSelectedItemsChanged"
@@ -142,7 +142,6 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import { Event } from '../event/Event';
 import { GoDownStairsEvent } from '../event/GoDownStairsEvent';
 import { Position } from '../Position';
@@ -150,7 +149,7 @@ import { ChangeScreenWarpEvent } from '../event/ChangeScreenWarpEvent';
 import { ChangeScreenWarpEventGenerator, EventGenerator, GoDownStairsEventGenerator } from '@/editor/event-generators';
 import ModifiableTable from '@/editor/modifiable-table.vue';
 
-export default Vue.extend({
+export default {
 
     name: 'EventEditor',
     components: {
@@ -159,7 +158,7 @@ export default Vue.extend({
 
     props: {
         game: Object, // ZeldaGame,
-        value: Array, // Event<any>[]
+        modelValue: Array, // Event<any>[]
     },
 
     data() {
@@ -181,8 +180,8 @@ export default Vue.extend({
             screenCols: [], //number[] = [];
 
             headers: [ //: ModifiableTableHeader[] = [
-                { text: 'Type', value: 'type' },
-                { text: 'Description', value: 'desc' }
+                { title: 'Type', value: 'type' },
+                { title: 'Description', value: 'desc' }
             ],
 
             deleteDialog: false,
@@ -197,13 +196,13 @@ export default Vue.extend({
             generators,
 
             generatorSelectItems: [ //any[] = [
-                { text: 'Go Down Stairs', value: generators[0] },
-                { text: 'Warp on Screen Change', value: generators[1] }
+                { title: 'Go Down Stairs', value: generators[0] },
+                { title: 'Warp on Screen Change', value: generators[1] }
             ],
 
             maps: [ //any[] = [
-                { text: 'Overworld', value: 'overworld' },
-                { text: 'Level 1', value: 'level1' }
+                { title: 'Overworld', value: 'overworld' },
+                { title: 'Level 1', value: 'level1' }
             ],
 
             newGenerator: generators[0],
@@ -238,11 +237,11 @@ export default Vue.extend({
         },
 
         getAllItems(): Event<any>[] {
-            return this.value;
+            return this.modelValue;
         },
 
         setAllItems(items: Event<any>[]) {
-            this.$emit('input', items);
+            this.$emit('update:modelValue', items);
         },
 
         isSaveButtonDisabled(): boolean {
@@ -276,11 +275,11 @@ export default Vue.extend({
         onDeleteItem() {
             const selectedKey: any = (this.rowBeingModified as any)[this.itemKey];
 
-            const newDataList: Event<any>[] = this.value.filter((v: Event<any>) => {
+            const newDataList: Event<any>[] = this.modelValue.filter((v: Event<any>) => {
                 return (v as any)[this.itemKey] !== selectedKey;
             });
 
-            this.$emit('input', newDataList);
+            this.$emit('update:modelValue', newDataList);
 
             this.deleteDialog = false;
             this.selectedItems.length = 0;
@@ -288,7 +287,7 @@ export default Vue.extend({
         },
 
         onSave() {
-            const newDataList: Event<any>[] = this.value.slice();
+            const newDataList: Event<any>[] = this.modelValue.slice();
             const index: number = newDataList.findIndex((item: Event<any>) => {
                 return (item as any)[this.itemKey] === this.modifiedItemKey;
             });
@@ -308,7 +307,7 @@ export default Vue.extend({
                 newDataList.push(event);
             }
 
-            this.$emit('input', newDataList);
+            this.$emit('update:modelValue', newDataList);
 
             this.showModifyRowDialog = false;
             this.selectedItems.length = 0;
@@ -368,7 +367,7 @@ export default Vue.extend({
             deep: true,
         },
     },
-});
+}
 </script>
 
 <style lang="scss">

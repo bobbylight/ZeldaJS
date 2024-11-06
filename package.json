@@ -16,32 +16,32 @@
     "pack": "electron-builder --dir"
   },
   "dependencies": {
+    "@mdi/font": "7.4.47",
     "debounce": "1.2.1",
     "gtp": "2.0.5",
     "jshighlight": "0.3.3",
     "uuid": "8.3.2",
-    "vue": "2.7.16",
-    "vuetify": "2.7.2",
-    "vuex": "3.6.2"
+    "vue": "3.5.12",
+    "vuetify": "3.7.3",
+    "vuex": "4.1.0"
   },
   "devDependencies": {
     "@types/debounce": "1.2.0",
     "@types/jest": "27.5.2",
-    "@vitejs/plugin-vue2": "2.3.1",
+    "@vitejs/plugin-vue": "5.1.4",
     "@vue/cli-plugin-typescript": "5.0.8",
     "@vue/cli-plugin-unit-jest": "5.0.8",
     "@vue/cli-plugin-vuex": "5.0.8",
     "@vue/cli-service": "5.0.8",
-    "@vue/test-utils": "1.0.3",
+    "@vue/test-utils": "2.4.6",
     "coveralls": "3.1.0",
     "less": "3.11.3",
     "rimraf": "3.0.2",
     "sass": "1.26.8",
-    "ts-jest": "27.1.5",
     "typedoc": "0.17.7",
-    "typescript": "3.9.4",
+    "typescript": "5.6.3",
     "unplugin-vue-components": "0.27.4",
-    "vite": "5.0.10",
-    "vue-template-compiler": "2.7.16"
+    "vite": "5.4.10",
+    "vite-plugin-vuetify": "2.0.4"
   }
 }

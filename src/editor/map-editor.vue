@@ -8,14 +8,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import { Constants } from '@/Constants';
 import debounce from 'debounce';
 import { Map } from '../Map';
 import { Screen } from '../Screen';
 import ActionablePanel from '@/editor/actionable-panel/actionable-panel.vue';
 
-export default Vue.extend({
+export default {
 
     name: 'MapEditor',
     components: {
@@ -187,15 +186,15 @@ export default Vue.extend({
 
         setInterval(this.paintScreen, 50);
 
-        this.$root.$on('focusCanvas', () => {
-            canvas.focus();
-        });
+        // this.$root.$on('focusCanvas', () => {
+        //     canvas.focus();
+        // });
 
         // Fast mouse moves results in a little lag, so we debounce updates to the
         // lastUpdated value in the store
         this.updateLastModified = debounce(this.updateLastModified, 100);
     },
-});
+}
 </script>
 
 <style lang="scss" scoped>

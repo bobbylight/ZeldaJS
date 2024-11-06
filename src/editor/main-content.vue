@@ -14,11 +14,9 @@
 
             <v-col class="xs4" v-if="$store.state.currentScreen">
 
-                <v-card class="control-group-bottom-margin tabbed-pane-styles" elevation="1">
+                <v-card class="control-group-bottom-margin tabbed-pane-styles" outlined>
 
-                    <v-tabs v-model="selectedTab" background-color="primary" dark>
-
-                        <v-tabs-slider/>
+                    <v-tabs v-model="selectedTab" bg-color="primary">
 
                         <v-tab class="editor-tab" href="#tab-1">
                             Tile Palette
@@ -33,9 +31,9 @@
                         </v-tab>
                     </v-tabs>
 
-                    <v-tabs-items v-model="selectedTab">
+                    <v-tabs-window v-model="selectedTab">
 
-                        <v-tab-item key="tilePalette" value="tab-1">
+                        <v-tabs-window-item key="tilePalette" value="tab-1">
                             <v-card flat outlined>
                                 <v-card-text>
                                     <tile-palette :game="game" :tileset="game.map.tileset"
@@ -43,24 +41,24 @@
                                                   @tileSelected="onTileSelected"/>
                                 </v-card-text>
                             </v-card>
-                        </v-tab-item>
+                        </v-tabs-window-item>
 
-                        <v-tab-item key="eventEditor" value="tab-2">
+                        <v-tabs-window-item key="eventEditor" value="tab-2">
                             <v-card flat outlined>
                                 <v-card-text style="padding: 0">
                                     <event-editor :game="game" v-model="$store.state.currentScreen.events"/>
                                 </v-card-text>
                             </v-card>
-                        </v-tab-item>
+                        </v-tabs-window-item>
 
-                        <v-tab-item key="screenMisc" value="tab-3">
+                        <v-tabs-window-item key="screenMisc" value="tab-3">
                             <v-card flat outlined>
                                 <v-card-text v-if="game">
                                     <screen-misc :screen="game.map.currentScreen"/>
                                 </v-card-text>
                             </v-card>
-                        </v-tab-item>
-                    </v-tabs-items>
+                        </v-tabs-window-item>
+                    </v-tabs-window>
                 </v-card>
 
                 <actionable-panel title="Enemies" :padded="false">
@@ -81,7 +79,6 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import MapEditor from '@/editor/map-editor.vue';
 import { ZeldaGame } from '@/ZeldaGame';
 import ScreenMisc from '@/editor/screen-misc.vue';
@@ -92,7 +89,7 @@ import ActionablePanel from '@/editor/actionable-panel/actionable-panel.vue';
 import CodeViewer from '@/editor/code-viewer.vue';
 import EnemySelector from '@/editor/enemy-selector.vue';
 
-export default Vue.extend({
+export default {
 
     name: 'MainContent',
     components: {
@@ -215,7 +212,7 @@ export default Vue.extend({
         //     selectedTileIndex: 1 });
         });
     },
-});
+}
 </script>
 
 <style lang="scss" scoped>

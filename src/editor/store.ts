@@ -1,12 +1,9 @@
-import Vue from 'vue';
-import Vuex, { Store } from 'vuex';
+import { createStore } from 'vuex';
 import { EditorState } from '@/editor/editor';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Constants } from '@/Constants';
 import { Position } from '@/Position';
 import RowColumnPair from '@/RowColumnPair';
-
-Vue.use(Vuex);
 
 // Initialize the game declared in zelda.ts
 const createGame: () => ZeldaGame = () => {
@@ -22,7 +19,7 @@ const createGame: () => ZeldaGame = () => {
     });
 };
 
-const store: Store<EditorState> = new Store({
+const store: Store<EditorState> = createStore({
     state: {
         game: createGame(),
         currentScreen: null,

@@ -6,7 +6,6 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 import { Constants } from '@/Constants';
 import { Tileset } from '@/Tileset';
@@ -14,7 +13,7 @@ import { Tileset } from '@/Tileset';
 /**
  * A component that allows the user to select a tile to paint onto the current screen.
  */
-export default Vue.extend({
+export default {
 
     name: 'TilePalette',
 
@@ -48,7 +47,6 @@ export default Vue.extend({
             return this.colCount * Constants.TILE_WIDTH;
         },
     },
-
 
     methods: {
 
@@ -134,7 +132,7 @@ export default Vue.extend({
             });
         },
     },
-});
+}
 </script>
 
 <style lang="scss">

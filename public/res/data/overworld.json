@@ -2063,6 +2063,7 @@
             },
             {
               "type": "Tektite",
+              "strength": "red",
               "count": 2
             }
           ]
@@ -2152,6 +2153,7 @@
             },
             {
               "type": "Moblin",
+              "strength": "red",
               "count": 2
             }
           ]

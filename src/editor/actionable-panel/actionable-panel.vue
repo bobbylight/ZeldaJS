@@ -2,7 +2,7 @@
 
     <v-card class="actionable-panel control-group-bottom-margin" outlined>
 
-        <v-card-title class="primary actionable-panel-title">
+        <v-card-title class="bg-primary actionable-panel-title">
             {{title}}
         </v-card-title>
 
@@ -13,9 +13,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-
-export default Vue.extend({
+export default {
 
     name: 'ActionablePanel',
 
@@ -26,7 +24,7 @@ export default Vue.extend({
             default: true,
         },
     },
-});
+}
 </script>
 
 <style lang="scss" scoped>

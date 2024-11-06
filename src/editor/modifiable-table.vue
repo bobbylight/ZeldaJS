@@ -93,15 +93,6 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-// Being a precompiled library, we must explicitly import our
-// peer dependency (Vuetify) dependencies.
-// https://github.com/vuetifyjs/vuetify-loader/issues/70
-import {
-    VBtn, VCard, VCardActions, VCardText, VCardTitle, VContainer, VDataTable, VDialog, VIcon, VRow, VSpacer,
-    VToolbar
-} from 'vuetify/lib';
-
 /**
  * Valid fields for a header in a modifiable table.
  */
@@ -130,23 +121,9 @@ export interface ModifiableTableRowValidationFunction<T> {
  * A table that allows the user to create, edit, delete, and optionally sort
  * records.
  */
-export default Vue.extend({
+export default {
 
     name: 'ModifiableTable',
-    components: [
-        VBtn,
-        VCard,
-        VCardActions,
-        VCardText,
-        VCardTitle,
-        VContainer,
-        VDataTable,
-        VDialog,
-        VIcon,
-        VRow,
-        VSpacer,
-        VToolbar,
-    ],
 
     props: {
         value: [], // T[], named "value" for v-model support
@@ -288,7 +265,7 @@ export default Vue.extend({
             }
         },
     },
-});
+}
 </script>
 
 <style scoped>

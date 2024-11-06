@@ -3,7 +3,7 @@
     <div class="col-md-12 code-viewer">
 
         <div style="margin-bottom: 1rem;">
-            <v-btn class="primary" @click="refresh">Refresh</v-btn>
+            <v-btn color="primary" @click="refresh">Refresh</v-btn>
             <v-btn @click="copy">Copy</v-btn>
         </div>
 
@@ -12,7 +12,6 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import { MapData } from '../Map';
 
 import highlighter from 'jshighlight/lib/highlighter';
@@ -20,7 +19,7 @@ import JsonParser from 'jshighlight/lib/parsers/json-parser';
 
 import '../../node_modules/jshighlight/src/styles/jshl-default.css';
 
-export default Vue.extend({
+export default {
 
     name: 'CodeViewer',
     components: {},
@@ -62,7 +61,7 @@ export default Vue.extend({
             // range.setEnd(element.get(0), 1);
         }
     },
-});
+}
 </script>
 
 <style lang="scss" scoped>

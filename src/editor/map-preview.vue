@@ -7,14 +7,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import { Constants } from '@/Constants';
 import { Map } from '@/Map';
 import { Screen } from '@/Screen';
 import RowColumnPair from '@/RowColumnPair';
 import { debounce } from 'debounce';
 
-export default Vue.extend({
+export default {
 
     name: 'MapPreview',
 
@@ -145,7 +144,7 @@ export default Vue.extend({
         this.debouncedRepaint = debounce(this.repaint, 100);
         this.repaint();
     },
-});
+}
 </script>
 
 <style lang="scss" scoped>

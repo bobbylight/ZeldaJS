@@ -2,26 +2,25 @@
     <div>
         <div>
             <label>Music</label>
-            <v-select :items="songs" v-model="music" @change="onMusicChanged"/>
+            <v-select :items="songs" v-model="music" @update:modelValue="onMusicChanged"/>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import { Screen } from '@/Screen';
 
-export default Vue.extend({
+export default {
 
     name: 'ScreenMisc',
 
     data() {
         return {
             songs: [
-                {text: '(default)', value: null},
-                {text: 'No music', value: 'none'},
-                {text: 'Overworld', value: 'overworldMusic'},
-                {text: 'Labyrinth', value: 'labyrinthMusic'}
+                {title: '(default)', value: null},
+                {title: 'No music', value: 'none'},
+                {title: 'Overworld', value: 'overworldMusic'},
+                {title: 'Labyrinth', value: 'labyrinthMusic'}
             ],
             music: null,//this.songs[0].value,
         };
@@ -50,7 +49,7 @@ export default Vue.extend({
             return this.$store.state.currentScreen;
         },
     },
-});
+}
 </script>
 
 <style lang="scss">

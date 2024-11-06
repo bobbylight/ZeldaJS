@@ -3,18 +3,17 @@
 
         <nav-bar/>
 
-        <v-content>
+        <v-main>
             <main-content/>
-        </v-content>
+        </v-main>
     </v-app>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import NavBar from '@/editor/nav-bar.vue';
 import MainContent from '@/editor/main-content.vue';
 
-export default Vue.extend({
+export default {
     name: 'App',
 
     components: {
@@ -25,5 +24,5 @@ export default Vue.extend({
     data: () => ({
     //
     })
-});
+}
 </script>

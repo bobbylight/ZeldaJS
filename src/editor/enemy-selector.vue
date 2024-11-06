@@ -17,9 +17,9 @@
                 :dense="dense"
                 :headers="headers"
                 :items="getAllItems()"
-                item-key="id"
                 :items-per-page="5"
-                :single-select="true"
+                :return-object="true"
+                select-strategy="single"
                 show-select
                 v-model="selectedItems"
                 @input="onSelectedItemsChanged"
@@ -117,19 +117,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import { EnemyGroup, EnemyInfo } from '../EnemyGroup';
 import { Enemy } from '../enemy/Enemy';
 import { v4 as uuidv4 } from 'uuid';
 
-export default Vue.extend({
+export default {
 
     name: 'EnemySelector',
     components: {},
 
     props: {
         game: Object, // ZeldaGame
-        value: Object, // EnemyGroup
+        modelValue: Object, // EnemyGroup
     },
 
     data() {
@@ -140,19 +139,19 @@ export default Vue.extend({
             itemKey: 'id',
             validationFunc: null, // any
             enemyTypes: [
-                { text: 'Octorok', value: 'Octorok' },
-                { text: 'Moblin', value: 'Moblin' },
-                { text: 'Tektite', value: 'Tektite' },
-                { text: 'Lynel', value: 'Lynel' }
+                { title: 'Octorok', value: 'Octorok' },
+                { title: 'Moblin', value: 'Moblin' },
+                { title: 'Tektite', value: 'Tektite' },
+                { title: 'Lynel', value: 'Lynel' }
             ],
             enemyStrengths: [
-                { text: 'Blue (strong)', value: 'blue' },
-                { text: 'Red (weak)', value: 'red' }
+                { title: 'Blue (strong)', value: 'blue' },
+                { title: 'Red (weak)', value: 'red' }
             ],
             headers: [ // ModifiableTableHeader[]
-                { text: 'Enemy', value: 'type' },
-                { text: 'Strength', value: 'strength' },
-                { text: 'Count', value: 'count' }
+                { title: 'Enemy', value: 'type' },
+                { title: 'Strength', value: 'strength' },
+                { title: 'Count', value: 'count' }
             ],
             deleteDialog: false,
             showModifyRowDialog: false,
@@ -167,19 +166,19 @@ export default Vue.extend({
     methods: {
         getAllItems(): EnemyInfo[] {
             // Avoid errors from bogus initial data
-            return this.value ? this.value.enemies : [];
+            return this.modelValue ? this.modelValue.enemies : [];
         },
 
         setAllItems(items: EnemyInfo[]) {
             // Update our entire EnemyGroup prop, which will in turn refresh our
             // 'allItems' generated prop
-            const newValue: EnemyGroup = this.value.clone();
-            newValue.enemies = items;
-            this.$emit('input', newValue);
+            const newModelValue: EnemyGroup = this.modelValue.clone();
+            newModelValue.enemies = items;
+            this.$emit('update:modelValue', newModelValue);
         },
 
         onSave() {
-            const newDataList: EnemyInfo[] = this.value.enemies.slice();
+            const newDataList: EnemyInfo[] = this.modelValue.enemies.slice();
             const index: number = newDataList.findIndex((item: EnemyInfo) => {
                 return (item as any)[this.itemKey] === this.modifiedItemKey;
             });
@@ -228,7 +227,7 @@ export default Vue.extend({
         onDeleteItem() {
             const selectedKey: any = (this.rowBeingModified as any)[this.itemKey];
 
-            const newDataList: EnemyInfo[] = this.value.enemies.filter((v: EnemyInfo) => {
+            const newDataList: EnemyInfo[] = this.modelValue.enemies.filter((v: EnemyInfo) => {
                 return (v as any)[this.itemKey] !== selectedKey;
             });
 
@@ -302,7 +301,7 @@ export default Vue.extend({
         // Go through generated property setter since our data is more than just an array
         this.setAllItems(enemies);
     },
-});
+}
 </script>
 
 <style lang="scss" scoped>
