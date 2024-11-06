@@ -1,4 +1,4 @@
-import { createStore } from 'vuex';
+import { createStore, Store } from 'vuex';
 import { EditorState } from '@/editor/editor';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Constants } from '@/Constants';

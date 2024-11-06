@@ -11,7 +11,7 @@ import { Constants } from '@/Constants';
 import { Map } from '@/Map';
 import { Screen } from '@/Screen';
 import RowColumnPair from '@/RowColumnPair';
-import { debounce } from 'debounce';
+import debounce from 'debounce';
 
 export default {
 
