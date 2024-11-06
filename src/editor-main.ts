@@ -7,4 +7,4 @@ import '@/editor/editor.scss';
 const app = createApp(App)
     .use(store)
     .use(vuetify);
-    app.mount('#app');
+app.mount('#app');

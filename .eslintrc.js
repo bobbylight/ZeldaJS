@@ -33,7 +33,6 @@ module.exports = {
         "@typescript-eslint/no-inferrable-types": 0,
         "@typescript-eslint/no-non-null-assertion": 0,
         "@typescript-eslint/no-unused-vars": 0,
-        "@typescript-eslint/semi": [ "error" ],
         "brace-style": [ "error", "stroustrup" ],
         indent: [ "error", 4, { "SwitchCase": 1 } ],
         "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",

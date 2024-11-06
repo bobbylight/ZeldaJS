@@ -4,6 +4,10 @@ import { Position } from '../Position';
 import { GoDownStairsEvent, GoDownStairsEventData } from '../event/GoDownStairsEvent';
 import { ChangeScreenWarpData, ChangeScreenWarpEvent } from '../event/ChangeScreenWarpEvent';
 
+interface EventDataHandler {
+    (data: EventData): Event<any>;
+}
+
 export default class EventLoader {
     /**
      * Loads an event from a JSON representation of that event.
@@ -12,9 +16,9 @@ export default class EventLoader {
      * @returns The event.
      */
     static load(data: EventData): Event<any> {
-    // Be a little sneaky to call a method by name
+        // Be a little sneaky to call a method by name
         const classObj: any = EventLoader;
-        return (classObj[data.type] as Function).call(this, data);
+        return (classObj[data.type] as EventDataHandler).call(this, data);
     }
 
     private static changeScreenWarp(data: EventData): ChangeScreenWarpEvent {
