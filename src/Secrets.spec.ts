@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { Secrets } from './Secrets';
 
 describe('Secrets', () => {
@@ -14,7 +15,7 @@ describe('Secrets', () => {
     it('get() one-arg fails if unknown flag specified', () => {
         const secrets: Secrets = new Secrets();
         expect(() => {
-            secrets.get('unknown'); 
+            secrets.get('unknown');
         }).toThrow();
     });
 
@@ -32,7 +33,7 @@ describe('Secrets', () => {
     it('get() two-arg fails if unknown flag specified', () => {
         const secrets: Secrets = new Secrets();
         expect(() => {
-            secrets.get('unknown', true); 
+            secrets.get('unknown', true);
         }).toThrow();
     });
 

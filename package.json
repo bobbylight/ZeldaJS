@@ -3,14 +3,14 @@
   "version": "0.7.0",
   "private": true,
   "scripts": {
+    "clean": "rimraf build dist doc coverage",
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "serve": "vite preview --debug",
-    "test": "npm run test:unit",
-    "test:unit": "vue-cli-service test:unit",
+    "test": "vitest --coverage src/",
     "lint": "eslint --ext .ts src/",
+    "tsc": "tsc --noEmit",
     "build-electron": "cross-env NODE_ENV=dev webpack --config webpack/webpack-desktop.config.js",
-    "clean": "rimraf build dist doc coverage",
     "dist": "electron-builder",
     "doc": "typedoc --mode file --target ES5 --out doc/ ./src",
     "pack": "electron-builder --dir"
@@ -30,6 +30,7 @@
     "@typescript-eslint/eslint-plugin": "8.13.0",
     "@typescript-eslint/parser": "8.13.0",
     "@vitejs/plugin-vue": "5.1.4",
+    "@vitest/coverage-v8": "2.1.4",
     "coveralls": "3.1.0",
     "eslint": "8.57.1",
     "less": "3.11.3",
@@ -40,6 +41,7 @@
     "unplugin-vue-components": "0.27.4",
     "vite": "5.4.10",
     "vite-plugin-vuetify": "2.0.4",
+    "vitest": "2.1.4",
     "vue-eslint-parser": "9.4.3"
   }
 }
