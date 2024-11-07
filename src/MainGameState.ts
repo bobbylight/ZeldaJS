@@ -4,7 +4,7 @@ import { BaseState } from './BaseState';
 import { Screen } from './Screen';
 import { Map } from './Map';
 import { ZeldaGame } from './ZeldaGame';
-import { BaseStateArgs, Keys } from 'gtp';
+import { BaseStateArgs } from 'gtp';
 import { Hud } from './Hud';
 import { ChangeScreenWarpEvent } from './event/ChangeScreenWarpEvent';
 import { Event } from './event/Event';

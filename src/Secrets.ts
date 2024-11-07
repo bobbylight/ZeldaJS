@@ -16,7 +16,7 @@ export class Secrets {
     }
 
     get(secret: string, newValue?: boolean): boolean {
-        if (!this.secrets.hasOwnProperty(secret)) {
+        if (!Object.prototype.hasOwnProperty.call(this.secrets, secret)) {
             throw new Error(`Unknown flag: ${secret}`);
         }
 

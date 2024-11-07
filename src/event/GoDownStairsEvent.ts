@@ -1,6 +1,6 @@
 import { Animation } from '../Animation';
 import { AnimationListener } from '../AnimationListener';
-import { Position, PositionData } from '../Position';
+import { Position } from '../Position';
 import { Event, EventData } from './Event';
 import { ZeldaGame } from '../ZeldaGame';
 import { CurtainOpeningState } from '../CurtainOpeningState';

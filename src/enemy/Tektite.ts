@@ -98,6 +98,7 @@ export class Tektite extends Enemy {
             if (this._pauseOrJumpTime < this._curJumpAscentTime) {
                 this.y -= 1;
             }
+            // eslint-disable-next-line no-empty
             else if (this._pauseOrJumpTime < this._curJumpAscentTime + 3) {
             }
             else if (this._pauseOrJumpTime < this._curJumpAscentTime + 3 + this._curJumpDescentTime) {
