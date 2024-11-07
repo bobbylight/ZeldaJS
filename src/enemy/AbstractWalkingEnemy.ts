@@ -28,7 +28,7 @@ export abstract class AbstractWalkingEnemy extends Enemy {
         this.dir = DirectionUtil.randomDir();
     }
 
-    collidedWith(other: Actor): boolean {
+    override collidedWith(other: Actor): boolean {
         // An enemy hit when pausing before throwing a projectile won't throw it
         if (this.pausedBeforeThrowingProjectile > -1) {
             this.pausedBeforeThrowingProjectile = -1;

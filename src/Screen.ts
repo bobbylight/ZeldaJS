@@ -45,7 +45,7 @@ export class Screen {
     private containsNonZeroTile(): boolean {
         return this._tiles.filter((row: number[]) => {
             return row.filter((n: number) => {
-                return n > 0; 
+                return n > 0;
             }).length > 0;
         }).length > 0;
     }
@@ -110,7 +110,7 @@ export class Screen {
 
         if (json.events) {
             this.events = json.events.map((eventData: EventData) => {
-                return EventLoader.load(eventData); 
+                return EventLoader.load(eventData);
             });
         }
 
@@ -161,11 +161,6 @@ export class Screen {
 
     paint(ctx: CanvasRenderingContext2D) {
         const paintWalkability: boolean = false;
-        let walkabilityColor: string;
-        if (paintWalkability) {
-            walkabilityColor = 'red'; // new Color(192,192,255, 192);
-        // p = new Polygon();
-        }
 
         let startRow: number = 0;
         let lastRow: number = this._tiles.length;
@@ -258,11 +253,6 @@ export class Screen {
 
         if (labyrinth) {
             const paintWalkability: boolean = false;
-            let walkabilityColor: string;
-            if (paintWalkability) {
-                walkabilityColor = 'red'; // new Color(192,192,255, 192);
-                // p = new Polygon();
-            }
 
             // First and last row
             this.paintRow(ctx, 0, 0, paintWalkability);
@@ -279,32 +269,32 @@ export class Screen {
     }
 
     private static printWalkability(walkability: number, x: number, y: number) {
-        let walkabilityStr: string;
-
-        switch (walkability) {
-            case 1:
-                walkabilityStr = 'true';
-                break;
-            case 2:
-                walkabilityStr = (y > 16 - x).toString();
-                break;
-            case 3:
-                walkabilityStr = (y > x).toString();
-                break;
-            case 4:
-                walkabilityStr = (y < x).toString();
-                break;
-            case 5:
-                walkabilityStr = (y < 16 - x).toString();
-                break;
-            case 6:
-                walkabilityStr = (y < 8).toString();
-                break;
-            default:
-                walkabilityStr = 'false';
-                break;
-        }
-
+        // let walkabilityStr: string;
+        //
+        // switch (walkability) {
+        //     case 1:
+        //         walkabilityStr = 'true';
+        //         break;
+        //     case 2:
+        //         walkabilityStr = (y > 16 - x).toString();
+        //         break;
+        //     case 3:
+        //         walkabilityStr = (y > x).toString();
+        //         break;
+        //     case 4:
+        //         walkabilityStr = (y < x).toString();
+        //         break;
+        //     case 5:
+        //         walkabilityStr = (y < 16 - x).toString();
+        //         break;
+        //     case 6:
+        //         walkabilityStr = (y < 8).toString();
+        //         break;
+        //     default:
+        //         walkabilityStr = 'false';
+        //         break;
+        // }
+        //
         // console.log(`walkability: ${walkabilityStr}`);
     }
 

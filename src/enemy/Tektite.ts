@@ -62,7 +62,7 @@ export class Tektite extends Enemy {
         this._pauseOrJumpTime = 0;
     }
 
-    setLocationToSpawnPoint(screen: Screen) {
+    override setLocationToSpawnPoint(screen: Screen) {
         while (true) {
             const x: number = game.randomInt(Constants.SCREEN_COL_COUNT) * 16;
             const y: number = (TOP_MARGIN_ROWS + game.randomInt(Constants.SCREEN_ROW_COUNT - TOP_MARGIN_ROWS)) * 16;

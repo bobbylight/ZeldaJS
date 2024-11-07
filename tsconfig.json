@@ -1,16 +1,31 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true  ,
+    "declaration": false,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "jsx": "preserve",
+    "newLine": "lf",
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noPropertyAccessFromIndexSignature": false, //true,
+    "noUnusedLocals": true,
+    "strict": true,
+    "strictPropertyInitialization": false, // TODO
+
     "target": "es6",
     "module": "es2020",
     //"strict": true,
     "strictNullChecks": true,
-    "jsx": "preserve",
-    "importHelpers": true,
     "moduleResolution": "node",
-    "experimentalDecorators": true  ,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
+
     "sourceMap": true,
     "baseUrl": ".",
     "types": [

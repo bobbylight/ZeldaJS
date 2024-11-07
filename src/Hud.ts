@@ -26,7 +26,6 @@ export class Hud {
         const link: Link = game.link;
         const health: number = link.getHealth();
         const maxHealth: number = link.getMaxHealth();
-        const oddHealth: boolean = health % 2 === 1;
 
         const heart: Image = game.assets.get('treasures.fullHeart');
 

@@ -30,7 +30,7 @@ export class InventorySlideState extends State<ZeldaGame> {
         this.downAmount++;
     }
 
-    render(ctx: CanvasRenderingContext2D) {
+    override render(ctx: CanvasRenderingContext2D) {
         const dir: number = this.down ? -1 : 1;
 
         const displayedPixelCount: number = this.downAmount * (Constants.CANVAS_HEIGHT / 10);
@@ -43,7 +43,7 @@ export class InventorySlideState extends State<ZeldaGame> {
         ctx.resetTransform();
     }
 
-    update(delta: number) {
+    override update(delta: number) {
         super.update(delta);
 
         this.delay.update(delta);

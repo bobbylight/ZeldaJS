@@ -17,7 +17,7 @@ export class LoadingState extends BaseState {
         super(args);
     }
 
-    update(delta: number) {
+    override update(delta: number) {
         this.handleDefaultKeys();
 
         if (!this.assetsLoaded) {

@@ -20,7 +20,7 @@ export class Moblin extends AbstractWalkingEnemy {
     /**
      * Overridden to throw an arrow.
      */
-    protected createProjectile(): Projectile {
+    protected override createProjectile(): Projectile {
         const row: number = DirectionUtil.isVertical(this.dir) ? 5 : 4;
         const col: number = this.dir === 'LEFT' || this.dir === 'UP' ? 12 : 13;
         return new Projectile(row, col, this.x, this.y, this.dir);
@@ -45,7 +45,7 @@ export class Moblin extends AbstractWalkingEnemy {
         return game.randomInt(Moblin._PROJECTILE_THROWING_ODDS[this.strength === 'blue' ? 1 : 0]) === 0;
     }
 
-    update() {
+    override update() {
         if (!this._slidingDir && this.shouldThrowProjectile()) {
             this.pausedBeforeThrowingProjectile = 30;
         }

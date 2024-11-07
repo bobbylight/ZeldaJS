@@ -14,14 +14,14 @@ export class InventoryState extends BaseState {
         super(args);
     }
 
-    enter() {
+    override enter() {
         super.enter(game);
     }
 
-    leaving(game: Game) {
+    override leaving(game: Game) {
     }
 
-    render(ctx: CanvasRenderingContext2D) {
+    override render(ctx: CanvasRenderingContext2D) {
         this.game.clearScreen();
 
         this.game.drawString(40, 40, 'INVENTORY GOES HERE', ctx);
@@ -32,7 +32,7 @@ export class InventoryState extends BaseState {
         game.setState(new CurtainOpeningState(new MainGameState()));
     }
 
-    update(delta: number) {
+    override update(delta: number) {
         this.handleDefaultKeys();
 
         const im: InputManager = game.inputManager;

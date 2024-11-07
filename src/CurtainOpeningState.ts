@@ -26,7 +26,7 @@ export class CurtainOpeningState extends State<ZeldaGame> {
         this.openAmount++;
     }
 
-    render(ctx: CanvasRenderingContext2D) {
+    override render(ctx: CanvasRenderingContext2D) {
         this.mainState.render(ctx);
 
         const displayedPixelCount: number = this.openAmount * Constants.TILE_WIDTH;
@@ -40,7 +40,7 @@ export class CurtainOpeningState extends State<ZeldaGame> {
         ctx.fillRect(Constants.SCREEN_WIDTH - coveredPixelCount / 2, y, coveredPixelCount / 2, h);
     }
 
-    update(delta: number) {
+    override update(delta: number) {
         super.update(delta);
 
         this.delay.update(delta);

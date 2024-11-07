@@ -16,7 +16,7 @@ export class Octorok extends AbstractWalkingEnemy {
         super(0, strength, strength === 'blue' ? 2 : 1);
     }
 
-    protected createProjectile(): Projectile {
+    protected override createProjectile(): Projectile {
         return new Projectile(0, 12, this.x, this.y, this.dir);
     }
 
@@ -39,7 +39,7 @@ export class Octorok extends AbstractWalkingEnemy {
         return game.randomInt(Octorok._PROJECTILE_THROWING_ODDS[this.strength === 'blue' ? 1 : 0]) === 0;
     }
 
-    update() {
+    override update() {
         if (!this._slidingDir && this.shouldThrowProjectile()) {
             this.pausedBeforeThrowingProjectile = 30;
         }

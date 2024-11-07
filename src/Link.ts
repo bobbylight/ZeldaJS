@@ -187,7 +187,7 @@ export class Link extends Character {
 
     enterCave(completedCallback: AnimationListener) {
         game.audio.playSound('stairs', false, () => {
-            console.log('sound done'); 
+            console.log('sound done');
         });
         this.setAnimation(this._createStairsDownAnimation(completedCallback));
     }
@@ -423,13 +423,15 @@ export class Link extends Character {
             animationFrameUpdate(animation: Animation) {
             },
             animationCompleted(animation: Animation) {
+                // @ts-ignore - scope is defined in "scope" arg
                 this.anim = null;
+                // @ts-ignore - scope is defined in "scope" arg
                 this.frozen = false;
             }
         });
     }
 
-    setLocation(x: number, y: number) {
+    override setLocation(x: number, y: number) {
         super.setLocation(x, y);
         this._refreshHitBox();
     }

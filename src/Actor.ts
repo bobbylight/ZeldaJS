@@ -112,7 +112,6 @@ export abstract class Actor {
             // Note that, to support the "two adjacent doors" scenario, like the Level 6 entrance, we
             // only check whether either edge of the hit box will move into the next tile.  The standard
             // walkability check should prevent moving up if appropriate.
-            const checkAmount: number = 2;
             const x1: number = this.hitBox.x;
             const y1: number = this.hitBox.y + this.hitBox.h - 1;
             const x2: number = this.hitBox.x + this.hitBox.w - 1;

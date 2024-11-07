@@ -58,7 +58,7 @@ export class MainGameState extends BaseState {
         this._screenSlidingAmount = MainGameState.SCREEN_SLIDING_INC();
     }
 
-    enter(game: ZeldaGame) {
+    override enter(game: ZeldaGame) {
         super.enter(game);
         // game.inputManager.setResetKeyStateOnPoll(false);
 
@@ -69,7 +69,7 @@ export class MainGameState extends BaseState {
         this._screenSlidingAmount = 0;
     }
 
-    render(ctx: CanvasRenderingContext2D) {
+    override render(ctx: CanvasRenderingContext2D) {
         ctx.save();
         ctx.translate(0, 64);
 
@@ -149,7 +149,7 @@ export class MainGameState extends BaseState {
         this._hud.render(ctx);
     }
 
-    update(delta: number) {
+    override update(delta: number) {
         this.handleDefaultKeys();
 
         // If Link's in his dying animation, don't update anything

@@ -15,14 +15,14 @@ export class TitleState extends BaseState {
         super(args);
     }
 
-    enter() {
+    override enter() {
         super.enter(game);
 
         game.canvas.addEventListener('touchstart', this.handleStart, false);
         this._lastKeypressTime = game.playTime;
     }
 
-    leaving(game: Game) {
+    override leaving(game: Game) {
         game.canvas.removeEventListener('touchstart', this.handleStart, false);
     }
 
@@ -31,7 +31,7 @@ export class TitleState extends BaseState {
         this._startGame();
     }
 
-    render(ctx: CanvasRenderingContext2D) {
+    override render(ctx: CanvasRenderingContext2D) {
         this.game.clearScreen();
 
         // Title banner
@@ -65,7 +65,7 @@ export class TitleState extends BaseState {
         game.setState(new CurtainOpeningState(new MainGameState()));
     }
 
-    update(delta: number) {
+    override update(delta: number) {
         this.handleDefaultKeys();
 
         const playTime: number = game.playTime;

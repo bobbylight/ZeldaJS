@@ -83,9 +83,9 @@ export class Map {
         }
 
         this._screens.length = 0;
-        json.screenData.forEach((rowOfScreensData: ScreenData[]) => {
+        json.screenData.forEach((rowOfScreensData: (ScreenData | null)[]) => {
             const screenRow: Screen[] = [];
-            rowOfScreensData.forEach((screenData: ScreenData) => {
+            rowOfScreensData.forEach((screenData: ScreenData | null) => {
                 let screen: Screen = new Screen(this);
                 if (screenData) {
                     screen = screen.fromJson(screenData);
@@ -188,7 +188,7 @@ export class Map {
         const screenRows: (ScreenData | null)[][] = [];
         this._screens.forEach((rowOfScreens: Screen[]) => {
             screenRows.push(rowOfScreens.map((screen: Screen) => {
-                return screen.toJson(); 
+                return screen.toJson();
             }));
         });
 
