@@ -18,15 +18,15 @@
 
                     <v-tabs v-model="selectedTab" bg-color="primary">
 
-                        <v-tab class="editor-tab" href="#tab-1">
+                        <v-tab class="editor-tab" value="tab-1">
                             Tile Palette
                         </v-tab>
 
-                        <v-tab class="editor-tab" href="#tab-2">
+                        <v-tab class="editor-tab" value="tab-2">
                             Events
                         </v-tab>
 
-                        <v-tab class="editor-tab" href="#tab-3">
+                        <v-tab class="editor-tab" value="tab-3">
                             Misc
                         </v-tab>
                     </v-tabs>
