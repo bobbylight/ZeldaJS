@@ -7,7 +7,7 @@ import { ZeldaGame } from './ZeldaGame';
 import { BaseStateArgs } from 'gtp';
 import { Hud } from './Hud';
 import { ChangeScreenWarpEvent } from './event/ChangeScreenWarpEvent';
-import { Event } from './event/Event';
+import { Event, EventData } from './event/Event';
 import { InventoryState } from '@/InventoryState';
 import { InventorySlideState } from '@/InventorySlideState';
 declare let game: ZeldaGame;
@@ -40,7 +40,7 @@ export class MainGameState extends BaseState {
         const map: Map = game.map;
         const screen: Screen = map.currentScreen;
 
-        const changeScreenWarpEvents: Event<any>[] = screen.events.filter((e: Event<any>) => {
+        const changeScreenWarpEvents: Event<EventData>[] = screen.events.filter((e: Event<EventData>) => {
             return e instanceof ChangeScreenWarpEvent;
         });
         if (changeScreenWarpEvents.length) {
