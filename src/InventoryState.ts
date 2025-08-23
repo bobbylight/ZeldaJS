@@ -23,7 +23,7 @@ export class InventoryState extends BaseState {
         this.game.drawString(40, 40, 'INVENTORY GOES HERE', ctx);
     }
 
-    _startGame() {
+    startGame() {
         game.startNewGame();
         game.setState(new CurtainOpeningState(new MainGameState()));
     }

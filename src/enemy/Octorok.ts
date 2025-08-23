@@ -10,7 +10,7 @@ const CHANGE_DIR_TIMER_MAX = 120; // 2 seconds
  * An octopus-like creature that can shoot rocks.
  */
 export class Octorok extends AbstractWalkingEnemy {
-    private static readonly _PROJECTILE_THROWING_ODDS: readonly number[] = Object.freeze([240, 120]);
+    private static readonly PROJECTILE_THROWING_ODDS: readonly number[] = Object.freeze([240, 120]);
 
     constructor(strength: EnemyStrength = 'red') {
         super(0, strength, strength === 'blue' ? 2 : 1);
@@ -36,11 +36,11 @@ export class Octorok extends AbstractWalkingEnemy {
      * @returns Whether this enemy should start throwing a projectile.
      */
     private shouldThrowProjectile(): boolean {
-        return game.randomInt(Octorok._PROJECTILE_THROWING_ODDS[this.strength === 'blue' ? 1 : 0]) === 0;
+        return game.randomInt(Octorok.PROJECTILE_THROWING_ODDS[this.strength === 'blue' ? 1 : 0]) === 0;
     }
 
     override update() {
-        if (!this._slidingDir && this.shouldThrowProjectile()) {
+        if (!this.slidingDir && this.shouldThrowProjectile()) {
             this.pausedBeforeThrowingProjectile = 30;
         }
 

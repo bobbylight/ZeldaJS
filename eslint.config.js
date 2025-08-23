@@ -46,9 +46,22 @@ export default [
             "no-unused-vars": 0,
             "@typescript-eslint/adjacent-overload-signatures": 0,
             "@typescript-eslint/explicit-module-boundary-types": 0, // We don't want to specify ": void" everywhere
+            "@typescript-eslint/naming-convention": [
+                "error",
+                { selector: ["class", "enum", "interface", "typeAlias"], format: ["PascalCase"] },
+                { selector: "classicAccessor", format: ["camelCase", "UPPER_CASE"], leadingUnderscore: "forbid" },
+                { selector: "classProperty", modifiers: ["readonly"], format: ["camelCase", "UPPER_CASE"], leadingUnderscore: "forbid" },
+                { selector: "default", format: ["camelCase"] },
+                { selector: "enumMember", format: ["UPPER_CASE"] },
+                { selector: "import", format: ["camelCase", "PascalCase"] },
+                { selector: "objectLiteralProperty", format: ["camelCase", "UPPER_CASE"], leadingUnderscore: "forbid" },
+                { selector: "typeParameter", format: ["PascalCase"] },
+                { selector: "variable", modifiers: ["const"], format: ["camelCase", "UPPER_CASE"] },
+            ],
             "@typescript-eslint/no-empty-function": 0,
             "@typescript-eslint/no-unnecessary-condition": ["error", { "allowConstantLoopConditions": true }],
             "@typescript-eslint/no-unused-vars": 0,
+            "@typescript-eslint/prefer-readonly": "error",
             "@typescript-eslint/restrict-template-expressions": ["error", {
                 // Unfortunately we must enumerate all types with toString() implementations
                 "allow": [

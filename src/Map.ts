@@ -17,13 +17,13 @@ export interface MapData {
 
 export class Map {
     private readonly name: string;
-    private readonly _screens: Screen[][];
-    private readonly _tileset: Tileset;
+    private readonly screens: Screen[][];
+    private readonly tileset: Tileset;
     private readonly walkability: number[];
     private readonly labyrinth: boolean;
-    private _music: string;
-    private _curRow: number;
-    private _curCol: number;
+    private music: string;
+    private curRow: number;
+    private curCol: number;
 
     /**
      * A debug flag that, if set, causes value to be shown when rendering.
@@ -32,28 +32,28 @@ export class Map {
 
     constructor(name: string, rowCount = 8, colCount = 16) {
         this.name = name;
-        this._screens = [];
+        this.screens = [];
         for (let row = 0; row < rowCount; row++) {
-            this._screens.push(this._createEmptyScreenList(colCount));
+            this.screens.push(this.createEmptyScreenList(colCount));
         }
         this.labyrinth = this.name.startsWith('level');
         this.walkability = this.labyrinth ? WALKABILITY_LEVEL : WALKABILITY_OVERWORLD;
 
-        this._tileset = new Tileset();
-        this._tileset.load('overworld');
+        this.tileset = new Tileset();
+        this.tileset.load('overworld');
 
-        this._curRow = this._curCol = 0;
+        this.curRow = this.curCol = 0;
     }
 
     addRow(row: number) {
-        this._screens.splice(row, 0, this._createEmptyScreenList(this.colCount));
+        this.screens.splice(row, 0, this.createEmptyScreenList(this.colCount));
     }
 
     changeScreensHorizontally(inc: number) {
         this.currentScreen.exit();
         // Add a width of the map to prevent '-1' issues
         const colCount: number = this.colCount;
-        this._curCol = (this._curCol + inc + colCount) % colCount;
+        this.curCol = (this.curCol + inc + colCount) % colCount;
         this.currentScreen.enter();
     }
 
@@ -61,18 +61,18 @@ export class Map {
         this.currentScreen.exit();
         // Add a height of the map to prevent '-1' issues
         const rowCount: number = this.rowCount;
-        this._curRow = (this._curRow + inc + rowCount) % rowCount;
+        this.curRow = (this.curRow + inc + rowCount) % rowCount;
         this.currentScreen.enter();
     }
 
-    private static _createDefaultEnemyGroup(): EnemyGroup | null {
+    private static createDefaultEnemyGroup(): EnemyGroup | null {
         return null;
     }
 
-    private _createEmptyScreenList(colCount: number) {
+    private createEmptyScreenList(colCount: number) {
         const colList: Screen[] = [];
         for (let col = 0; col < colCount; col++) {
-            colList.push(new Screen(this, Map._createDefaultEnemyGroup()));
+            colList.push(new Screen(this, Map.createDefaultEnemyGroup()));
         }
         return colList;
     }
@@ -82,7 +82,7 @@ export class Map {
             throw new Error(`Invalid map file: bad header: ${json.header}`);
         }
 
-        this._screens.length = 0;
+        this.screens.length = 0;
         json.screenData.forEach((rowOfScreensData: (ScreenData | null)[]) => {
             const screenRow: Screen[] = [];
             rowOfScreensData.forEach((screenData: ScreenData | null) => {
@@ -92,26 +92,26 @@ export class Map {
                 }
                 screenRow.push(screen);
             });
-            this._screens.push(screenRow);
+            this.screens.push(screenRow);
         });
 
-        this._tileset.fromJson(json.tilesetData);
-        this._music = json.music;
-        this._curRow = json.row;
-        this._curCol = json.col;
+        this.tileset.fromJson(json.tilesetData);
+        this.music = json.music;
+        this.curRow = json.row;
+        this.curCol = json.col;
         return this;
     }
 
     get colCount(): number {
-        return this._screens[0].length;
+        return this.screens[0].length;
     }
 
     get currentScreen(): Screen {
-        return this.getScreen(this._curRow, this._curCol);
+        return this.getScreen(this.curRow, this.curCol);
     }
 
     get currentScreenCol(): number {
-        return this._curCol;
+        return this.curCol;
     }
 
     /**
@@ -126,7 +126,7 @@ export class Map {
     }
 
     get currentScreenRow(): number {
-        return this._curRow;
+        return this.curRow;
     }
 
     /**
@@ -135,8 +135,8 @@ export class Map {
      * @returns The music to play.
      * @see currentScreenMusic
      */
-    get music(): string {
-        return this._music;
+    getMusic(): string {
+        return this.music;
     }
 
     getName(): string {
@@ -144,19 +144,19 @@ export class Map {
     }
 
     get rowCount(): number {
-        return this._screens.length;
+        return this.screens.length;
     }
 
     getScreen(row: number, col: number) {
-        return this._screens[row][col];
+        return this.screens[row][col];
     }
 
-    get tileset(): Tileset {
-        return this._tileset;
+    getTileset(): Tileset {
+        return this.tileset;
     }
 
     getTilesetName(): string {
-        return this._tileset.name;
+        return this.tileset.getName();
     }
 
     getTileTypeWalkability(tileType: number): number {
@@ -168,16 +168,16 @@ export class Map {
     }
 
     setCurrentScreen(row: number, col: number) {
-        if (this._curRow && this._curCol) {
+        if (this.curRow && this.curCol) {
             this.currentScreen.exit();
         }
 
         if (row < this.rowCount && col < this.colCount) {
-            this._curRow = row;
-            this._curCol = col;
+            this.curRow = row;
+            this.curCol = col;
         }
         else {
-            this._curRow = this._curCol = 0;
+            this.curRow = this.curCol = 0;
         }
 
         this.currentScreen.enter();
@@ -186,7 +186,7 @@ export class Map {
 
     toJson(): MapData {
         const screenRows: (ScreenData | null)[][] = [];
-        this._screens.forEach((rowOfScreens: Screen[]) => {
+        this.screens.forEach((rowOfScreens: Screen[]) => {
             screenRows.push(rowOfScreens.map((screen: Screen) => {
                 return screen.toJson();
             }));
@@ -196,10 +196,10 @@ export class Map {
             header: HEADER,
             name: this.name,
             screenData: screenRows,
-            tilesetData: this._tileset.toJson(),
-            music: this._music,
-            row: this._curRow,
-            col: this._curCol
+            tilesetData: this.tileset.toJson(),
+            music: this.music,
+            row: this.curRow,
+            col: this.curCol
         };
     }
 }

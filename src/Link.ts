@@ -26,14 +26,14 @@ export class Link extends Character {
     private bombCount: number;
     private maxBombCount: number;
 
-    private readonly _maxHealth: number;
-    private _health: number;
+    private readonly maxHealth: number;
+    private health: number;
     private takingDamageTick: number;
 
     anim: Animation | null;
     step: number;
-    _stepTimer: number;
-    _adjustToGridCounter: number;
+    stepTimer: number;
+    adjustToGridCounter: number;
 
     static readonly FRAME_STILL: number = 0;
     static readonly FRAME_STEP: number = 1;
@@ -46,12 +46,12 @@ export class Link extends Character {
         this.rupeeCount = 0;
         this.bombCount = 99;
         this.maxBombCount = 99;
-        this._stepTimer = STEP_TIMER_MAX;
+        this.stepTimer = STEP_TIMER_MAX;
         this.hitBox = new Rectangle();
         this.step = 0;
-        this._adjustToGridCounter = 0;
-        this._maxHealth = 6;
-        this._health = 6;
+        this.adjustToGridCounter = 0;
+        this.maxHealth = 6;
+        this.health = 6;
     }
 
     collidedWith(other: Actor): boolean {
@@ -73,29 +73,29 @@ export class Link extends Character {
             this.step = Link.FRAME_STILL;
 
             const damage: number = other.getDamage();
-            this._health = Math.max(0, this._health - damage);
+            this.health = Math.max(0, this.health - damage);
 
-            if (this._health === 0) {
+            if (this.health === 0) {
                 game.audio.playSound('linkHurt');
                 this.done = true;
-                this.setAnimation(this._createDyingAnimation());
+                this.setAnimation(this.createDyingAnimation());
                 game.linkDied();
             }
             else {
-                console.log(`Link's health is now ${this._health}`);
+                console.log(`Link's health is now ${this.health}`);
                 game.audio.playSound('linkHurt');
                 this.takingDamage = true;
                 this.takingDamageTick = Link.MAX_TAKING_DAMAGE_TICK;
                 console.log(`Taking damage at: ${new Date().getTime()}`);
-                this._slideTick = Character.MAX_SLIDE_TICK / 2; // Link isn't knocked back as much
-                this._slidingDir = other.dir;
+                this.slideTick = Character.MAX_SLIDE_TICK / 2; // Link isn't knocked back as much
+                this.slidingDir = other.dir;
             }
         }
 
         return false;
     }
 
-    private _createDyingAnimation(): Animation {
+    private createDyingAnimation(): Animation {
         const sheet: SpriteSheet = game.assets.get('link');
         const anim: Animation = new Animation(this.x, this.y);
 
@@ -149,7 +149,7 @@ export class Link extends Character {
         return anim;
     }
 
-    private _createStairsDownAnimation(completedCallback: AnimationListener): Animation {
+    private createStairsDownAnimation(completedCallback: AnimationListener): Animation {
         const animation: Animation = new Animation(this.x, this.y);
         const linkSheet: SpriteSheet = game.assets.get('link');
         const frameMillis = 120;
@@ -167,7 +167,7 @@ export class Link extends Character {
         return animation;
     }
 
-    private _createStairsUpAnimation(completedCallback: AnimationListener): Animation {
+    private createStairsUpAnimation(completedCallback: AnimationListener): Animation {
         const animation: Animation = new Animation(this.x, this.y);
         const linkSheet: SpriteSheet = game.assets.get('link');
         const frameMillis = 120;
@@ -189,7 +189,7 @@ export class Link extends Character {
         game.audio.playSound('stairs', false, () => {
             console.log('sound done');
         });
-        this.setAnimation(this._createStairsDownAnimation(completedCallback));
+        this.setAnimation(this.createStairsDownAnimation(completedCallback));
     }
 
     exitCave(completedCallback: AnimationListener) {
@@ -197,7 +197,7 @@ export class Link extends Character {
             console.log('sound done');
             game.resumeMusic();
         });
-        this.setAnimation(this._createStairsUpAnimation(completedCallback));
+        this.setAnimation(this.createStairsUpAnimation(completedCallback));
     }
 
     getBombCount(): number {
@@ -209,21 +209,21 @@ export class Link extends Character {
     }
 
     getHealth(): number {
-        return this._health;
+        return this.health;
     }
 
     getMaxHealth(): number {
-        return this._maxHealth;
+        return this.maxHealth;
     }
 
     handleInput(input: InputManager): boolean {
-        if (this.frozen || this._slidingDir) {
+        if (this.frozen || this.slidingDir) {
             return false;
         }
 
         // Action buttons should take priority over moving
         else if (input.isKeyDown(Keys.KEY_Z)) {
-            this._swingSword();
+            this.swingSword();
         }
         else if (input.isKeyDown(Keys.KEY_X)) {
             this.useItem();
@@ -234,7 +234,7 @@ export class Link extends Character {
                 this.dir = 'UP';
             }
             else {
-                this._touchStepTimer();
+                this.touchStepTimer();
             }
             return true;
         }
@@ -244,7 +244,7 @@ export class Link extends Character {
                 this.dir = 'DOWN';
             }
             else {
-                this._touchStepTimer();
+                this.touchStepTimer();
             }
             return true;
         }
@@ -254,7 +254,7 @@ export class Link extends Character {
                 this.dir = 'LEFT';
             }
             else {
-                this._touchStepTimer();
+                this.touchStepTimer();
             }
             return true;
         }
@@ -264,7 +264,7 @@ export class Link extends Character {
                 this.dir = 'RIGHT';
             }
             else {
-                this._touchStepTimer();
+                this.touchStepTimer();
             }
             return true;
         }
@@ -278,7 +278,7 @@ export class Link extends Character {
     }
 
     incHealth(count = 2) {
-        this._health = Math.min(this._health + count, this._maxHealth);
+        this.health = Math.min(this.health + count, this.maxHealth);
         game.audio.playSound('heart');
     }
 
@@ -291,7 +291,7 @@ export class Link extends Character {
         return !!this.anim;
     }
 
-    private _isMovingHorizontally(hitBox: Rectangle): number {
+    private isMovingHorizontally(hitBox: Rectangle): number {
         if (hitBox.x < 0) {
             return -1;
         }
@@ -301,7 +301,7 @@ export class Link extends Character {
         return 0;
     }
 
-    private _isMovingVertically(hitBox: Rectangle): number {
+    private isMovingVertically(hitBox: Rectangle): number {
         if (hitBox.y < 0) {
             return -1;
         }
@@ -315,7 +315,7 @@ export class Link extends Character {
         const tempX: number = this.x + inc;
         this.hitBox.set(tempX + 2, this.y + 8, this.w - 2 * 2, 8);
 
-        const movingHorizontally: number = this._isMovingHorizontally(this.hitBox);
+        const movingHorizontally: number = this.isMovingHorizontally(this.hitBox);
         if (movingHorizontally !== 0) {
             this.x = tempX;
             const mgs: MainGameState = game.state as MainGameState;
@@ -334,29 +334,29 @@ export class Link extends Character {
             const AMT = 3;
 
             if (offset <= AMT) {
-                if (this.isHitBoxWalkable(0, -1) && ++this._adjustToGridCounter === 1) {
+                if (this.isHitBoxWalkable(0, -1) && ++this.adjustToGridCounter === 1) {
                     console.log(`Adjusting up: ${offset}`);
                     this.y -= 1;
-                    this._adjustToGridCounter = 0;
+                    this.adjustToGridCounter = 0;
                 }
             }
             else if (this.isHitBoxWalkable(0, 1) && offset >= tileH - AMT) {
-                if (++this._adjustToGridCounter === 1) {
+                if (++this.adjustToGridCounter === 1) {
                     console.log(`Adjusting down: ${offset}`);
                     this.y += 1;
-                    this._adjustToGridCounter = 0;
+                    this.adjustToGridCounter = 0;
                 }
             }
         }
 
-        this._refreshHitBox();
+        this.refreshHitBox();
     }
 
     moveY(inc: number) {
         const tempY: number = this.y + inc;
         this.hitBox.set(this.x + 2, tempY + 8, this.w - 2 * 2, 8);
 
-        const movingVertically: number = this._isMovingVertically(this.hitBox);
+        const movingVertically: number = this.isMovingVertically(this.hitBox);
         if (movingVertically !== 0) {
             this.y = tempY;
             const mgs: MainGameState = game.state as MainGameState;
@@ -375,20 +375,20 @@ export class Link extends Character {
             const AMT = 3;
 
             if (offset <= AMT) {
-                if (this.isHitBoxWalkable(-1, 0) && ++this._adjustToGridCounter === 1) {
+                if (this.isHitBoxWalkable(-1, 0) && ++this.adjustToGridCounter === 1) {
                     this.x -= 1;
-                    this._adjustToGridCounter = 0;
+                    this.adjustToGridCounter = 0;
                 }
             }
             else if (offset >= tileW - AMT) {
-                if (this.isHitBoxWalkable(1, 0) && ++this._adjustToGridCounter === 1) {
+                if (this.isHitBoxWalkable(1, 0) && ++this.adjustToGridCounter === 1) {
                     this.x += 1;
-                    this._adjustToGridCounter = 0;
+                    this.adjustToGridCounter = 0;
                 }
             }
         }
 
-        this._refreshHitBox();
+        this.refreshHitBox();
     }
 
     paint(ctx: CanvasRenderingContext2D) {
@@ -411,7 +411,7 @@ export class Link extends Character {
         }
     }
 
-    private _refreshHitBox() {
+    private refreshHitBox() {
         this.hitBox.set(this.x + 2, this.y + 8, this.w - 2 * 2, 8);
     }
 
@@ -433,7 +433,7 @@ export class Link extends Character {
 
     override setLocation(x: number, y: number) {
         super.setLocation(x, y);
-        this._refreshHitBox();
+        this.refreshHitBox();
     }
 
     setMaxBombCount(count: number) {
@@ -441,7 +441,7 @@ export class Link extends Character {
         this.bombCount = this.maxBombCount = count;
     }
 
-    private _swingSword() {
+    private swingSword() {
         game.audio.playSound('sword');
 
         const sword: Sword = new Sword();
@@ -450,11 +450,11 @@ export class Link extends Character {
         this.step = Link.FRAME_ACTION;
     }
 
-    private _touchStepTimer() {
-        this._stepTimer--;
-        if (this._stepTimer === 0) {
+    private touchStepTimer() {
+        this.stepTimer--;
+        if (this.stepTimer === 0) {
             this.step = (this.step + 1) % 2;
-            this._stepTimer = STEP_TIMER_MAX;
+            this.stepTimer = STEP_TIMER_MAX;
         }
     }
 
@@ -463,7 +463,7 @@ export class Link extends Character {
             this.takingDamage = false;
         }
 
-        if (this._slidingDir) {
+        if (this.slidingDir) {
             this.updateSlide();
             return;
         }
@@ -476,7 +476,7 @@ export class Link extends Character {
     // TODO: Share with AbstractWalkingEnemy?
     protected updateSlide() {
         const speed = 4;
-        switch (this._slidingDir) {
+        switch (this.slidingDir) {
             case 'UP':
                 this.moveY(-speed);
                 break;
@@ -491,13 +491,13 @@ export class Link extends Character {
                 break;
         }
 
-        if (--this._slideTick === 0) {
-            this._slidingDir = null;
+        if (--this.slideTick === 0) {
+            this.slidingDir = null;
         }
     }
 
     updateWalkingStep() {
-        this._touchStepTimer();
+        this.touchStepTimer();
     }
 
     private useItem() {

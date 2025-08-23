@@ -6,14 +6,14 @@ import { Game, Image, InputManager } from 'gtp';
 declare let game: ZeldaGame;
 
 export class TitleState extends BaseState {
-    private _lastKeypressTime: number;
+    private lastKeypressTime: number;
     private boundHandleStart: () => void;
 
     override enter() {
         super.enter(game);
         this.boundHandleStart = this.handleStart.bind(this);
         game.canvas.addEventListener('touchstart', this.boundHandleStart, false);
-        this._lastKeypressTime = game.playTime;
+        this.lastKeypressTime = game.playTime;
     }
 
     override leaving(game: Game) {
@@ -22,7 +22,7 @@ export class TitleState extends BaseState {
 
     handleStart() {
         console.log('Yee, touch detected!');
-        this._startGame();
+        this.startGame();
     }
 
     override render(ctx: CanvasRenderingContext2D) {
@@ -33,11 +33,11 @@ export class TitleState extends BaseState {
         title.draw(ctx, 0, 0);
 
         if (!game.audio.isInitialized()) {
-            this._renderNoSoundMessage();
+            this.renderNoSoundMessage();
         }
     }
 
-    private _renderNoSoundMessage() {
+    private renderNoSoundMessage() {
         const w: number = game.getWidth();
 
         let text = 'SOUND IS DISABLED AS';
@@ -54,7 +54,7 @@ export class TitleState extends BaseState {
         this.game.drawString(x, y, text);
     }
 
-    _startGame() {
+    startGame() {
         game.startNewGame();
         game.setState(new CurtainOpeningState(new MainGameState()));
     }
@@ -63,11 +63,11 @@ export class TitleState extends BaseState {
         this.handleDefaultKeys();
 
         const playTime: number = game.playTime;
-        if (playTime > this._lastKeypressTime + BaseState.INPUT_REPEAT_MILLIS + 100) {
+        if (playTime > this.lastKeypressTime + BaseState.INPUT_REPEAT_MILLIS + 100) {
             const im: InputManager = game.inputManager;
 
             if (im.enter(true)) {
-                this._startGame();
+                this.startGame();
             }
         }
     }

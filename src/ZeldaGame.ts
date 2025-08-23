@@ -170,7 +170,7 @@ export class ZeldaGame extends Game {
             const newAnims: Animation[] = [];
             this.animations.forEach((anim: Animation) => {
                 anim.update();
-                if (!anim.done) {
+                if (!anim.isDone()) {
                     newAnims.push(anim);
                 }
             });
