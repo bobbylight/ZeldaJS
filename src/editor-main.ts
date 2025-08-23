@@ -2,7 +2,7 @@ import { Component, createApp } from 'vue';
 import vuetify from './editor/vuetify-plugin';
 import App from './editor/app.vue';
 import store from './editor/store';
-import '@/editor/editor.scss';
+import '@/editor/editor.css';
 
 const app = createApp(App as Component)
     .use(store)
