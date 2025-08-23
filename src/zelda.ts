@@ -6,7 +6,7 @@ import { LoadingState } from './LoadingState';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from './Constants';
 import { CanvasResizer, StretchMode } from 'gtp';
 
-import './app.scss';
+import './app.css';
 
 declare global {
     interface Window {
