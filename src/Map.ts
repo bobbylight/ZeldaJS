@@ -3,7 +3,7 @@ import { Tileset, TilesetData } from './Tileset';
 import { EnemyGroup } from './EnemyGroup';
 import { WALKABILITY_LEVEL, WALKABILITY_OVERWORLD } from './Constants';
 
-const HEADER: string = 'ZeldaMap';
+const HEADER = 'ZeldaMap';
 
 export interface MapData {
     header: string;
@@ -30,10 +30,10 @@ export class Map {
      */
     showEvents: boolean;
 
-    constructor(name: string, rowCount: number = 8, colCount: number = 16) {
+    constructor(name: string, rowCount = 8, colCount = 16) {
         this.name = name;
         this._screens = [];
-        for (let row: number = 0; row < rowCount; row++) {
+        for (let row = 0; row < rowCount; row++) {
             this._screens.push(this._createEmptyScreenList(colCount));
         }
         this.labyrinth = this.name.startsWith('level');
@@ -71,7 +71,7 @@ export class Map {
 
     private _createEmptyScreenList(colCount: number) {
         const colList: Screen[] = [];
-        for (let col: number = 0; col < colCount; col++) {
+        for (let col = 0; col < colCount; col++) {
             colList.push(new Screen(this, Map._createDefaultEnemyGroup()));
         }
         return colList;

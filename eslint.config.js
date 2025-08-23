@@ -47,7 +47,6 @@ export default [
             "@typescript-eslint/adjacent-overload-signatures": 0,
             "@typescript-eslint/explicit-module-boundary-types": 0, // We don't want to specify ": void" everywhere
             "@typescript-eslint/no-empty-function": 0,
-            "@typescript-eslint/no-inferrable-types": 0,
             "@typescript-eslint/no-unnecessary-condition": ["error", { "allowConstantLoopConditions": true }],
             "@typescript-eslint/no-unused-vars": 0,
             "@typescript-eslint/restrict-template-expressions": ["error", {

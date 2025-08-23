@@ -36,7 +36,7 @@ export class Animation {
     private _done: boolean;
     private _listeners: AnimationListener[];
 
-    constructor(x: number = 0, y: number = 0) {
+    constructor(x = 0, y = 0) {
         this._x = x;
         this._y = y;
         this._frames = [];

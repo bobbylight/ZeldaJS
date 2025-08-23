@@ -16,7 +16,7 @@ export abstract class AbstractWalkingEnemy extends Enemy {
     private readonly _ssRowOffset: number;
     protected pausedBeforeThrowingProjectile: number;
 
-    protected constructor(ssRowOffset: number, strength: EnemyStrength = 'red', health: number = 1) {
+    protected constructor(ssRowOffset: number, strength: EnemyStrength = 'red', health = 1) {
         super(strength, health);
         this._ssRowOffset = ssRowOffset;
         this.hitBox = new Rectangle();
@@ -150,7 +150,7 @@ export abstract class AbstractWalkingEnemy extends Enemy {
 
     // TODO: Share with Link?
     protected updateSlide() {
-        const speed: number = 4;
+        const speed = 4;
         switch (this._slidingDir) {
             case 'UP':
                 this.moveY(-speed);

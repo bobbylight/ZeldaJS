@@ -54,7 +54,7 @@ export class Projectile extends Actor {
     }
 
     update() {
-        const SPEED: number = 2.5;
+        const SPEED = 2.5;
 
         switch (this.dir) {
             case 'DOWN':

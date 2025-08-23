@@ -15,7 +15,7 @@ import { Projectile } from './Projectile';
 import { Bomb } from './Bomb';
 declare let game: ZeldaGame;
 
-const STEP_TIMER_MAX: number = 8;
+const STEP_TIMER_MAX = 8;
 
 /**
  * The hero of the game.
@@ -99,10 +99,10 @@ export class Link extends Character {
         const sheet: SpriteSheet = game.assets.get('link');
         const anim: Animation = new Animation(this.x, this.y);
 
-        const SPIN_FRAME_TIME: number = 90;
-        let preChirpPlayFrames: number = 0;
+        const SPIN_FRAME_TIME = 90;
+        let preChirpPlayFrames = 0;
 
-        let spinTime: number = 1500;
+        let spinTime = 1500;
         while (spinTime > 0) {
             anim.addFrame({ sheet: sheet, index: 0 }, SPIN_FRAME_TIME);
             anim.addFrame({ sheet: sheet, index: 1 }, SPIN_FRAME_TIME);
@@ -130,7 +130,7 @@ export class Link extends Character {
         anim.addFrame({ sheet: enemyDiesSheet, index: 2 }, 30);
         anim.addFrame({ sheet: enemyDiesSheet, index: 3 }, 30);
 
-        let dieChirpPlayed: boolean = false;
+        let dieChirpPlayed = false;
 
         anim.addListener({
 
@@ -152,7 +152,7 @@ export class Link extends Character {
     private _createStairsDownAnimation(completedCallback: AnimationListener): Animation {
         const animation: Animation = new Animation(this.x, this.y);
         const linkSheet: SpriteSheet = game.assets.get('link');
-        const frameMillis: number = 120;
+        const frameMillis = 120;
 
         animation.addFrame({ sheet: linkSheet, index: 17 }, frameMillis);
         animation.addFrame({ sheet: linkSheet, index: 4 }, frameMillis);
@@ -170,7 +170,7 @@ export class Link extends Character {
     private _createStairsUpAnimation(completedCallback: AnimationListener): Animation {
         const animation: Animation = new Animation(this.x, this.y);
         const linkSheet: SpriteSheet = game.assets.get('link');
-        const frameMillis: number = 120;
+        const frameMillis = 120;
 
         animation.addFrame({ sheet: linkSheet, index: 19 }, frameMillis);
         animation.addFrame({ sheet: linkSheet, index: 20 }, frameMillis);
@@ -272,12 +272,12 @@ export class Link extends Character {
         return false;
     }
 
-    incBombCount(count: number = 4) {
+    incBombCount(count = 4) {
         this.bombCount = Math.min(this.bombCount + count, this.maxBombCount);
         game.audio.playSound('getItem');
     }
 
-    incHealth(count: number = 2) {
+    incHealth(count = 2) {
         this._health = Math.min(this._health + count, this._maxHealth);
         game.audio.playSound('heart');
     }
@@ -331,7 +331,7 @@ export class Link extends Character {
         const offset: number = this.y % tileH;
         // console.log(this.x + ', ' + offset);
         if (offset !== 0) {
-            const AMT: number = 3;
+            const AMT = 3;
 
             if (offset <= AMT) {
                 if (this.isHitBoxWalkable(0, -1) && ++this._adjustToGridCounter === 1) {
@@ -372,7 +372,7 @@ export class Link extends Character {
         const offset: number = this.x % tileW;
         // console.log(offset);
         if (offset !== 0) {
-            const AMT: number = 3;
+            const AMT = 3;
 
             if (offset <= AMT) {
                 if (this.isHitBoxWalkable(-1, 0) && ++this._adjustToGridCounter === 1) {
@@ -475,7 +475,7 @@ export class Link extends Character {
 
     // TODO: Share with AbstractWalkingEnemy?
     protected updateSlide() {
-        const speed: number = 4;
+        const speed = 4;
         switch (this._slidingDir) {
             case 'UP':
                 this.moveY(-speed);

@@ -5,7 +5,7 @@ import { ZeldaGame } from '../ZeldaGame';
 import { Rectangle } from 'gtp';
 declare let game: ZeldaGame;
 
-const TOP_MARGIN_ROWS: number = 2;
+const TOP_MARGIN_ROWS = 2;
 
 /**
  * A spider-like enemy that jumps around.
@@ -31,12 +31,12 @@ export class Tektite extends Enemy {
     }
 
     private _calculateJumpParameters() {
-        const xSpeed: number = 0.5;
-        const ySpeed: number = 1;
-        const thisWidth: number = 16;
-        const thisHeight: number = 16;
+        const xSpeed = 0.5;
+        const ySpeed = 1;
+        const thisWidth = 16;
+        const thisHeight = 16;
 
-        let success: boolean = false;
+        let success = false;
         while (!success) {
             if (this.x < 32) { // Too close to left-hand side
                 this._curJumpXInc = xSpeed;

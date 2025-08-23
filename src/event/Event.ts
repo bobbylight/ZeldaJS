@@ -1,6 +1,6 @@
 import { Position, PositionData } from '@/Position';
 
-let count: number = 0;
+let count = 0;
 
 export abstract class Event<T extends EventData> {
     readonly type: string;

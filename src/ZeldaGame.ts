@@ -65,7 +65,7 @@ export class ZeldaGame extends Game {
         const numericOffs: number = '0'.charCodeAt(0);
         let index: number;
 
-        for (let i: number = 0; i < str.length; i++) {
+        for (let i = 0; i < str.length; i++) {
             const ch: string = str[i];
             const chCharCode: number = str.charCodeAt(i);
             if (ch >= 'A' && ch <= 'Z') {
@@ -145,7 +145,7 @@ export class ZeldaGame extends Game {
         }
     }
 
-    setMap(name: string, destScreen: Position, destPos: Position, immediatelyStartMusic: boolean = true) {
+    setMap(name: string, destScreen: Position, destPos: Position, immediatelyStartMusic = true) {
         this.map = this.maps[name];
         this.map.setCurrentScreen(destScreen.row, destScreen.col);
         this.link.setLocation(destPos.col * 16, destPos.row * 16);
@@ -155,7 +155,7 @@ export class ZeldaGame extends Game {
         }
     }
 
-    startNewGame(initLink: boolean = true) {
+    startNewGame(initLink = true) {
         this.loadMaps();
         this.map = this.maps.overworld;
         this.map.setCurrentScreen(3, 6);

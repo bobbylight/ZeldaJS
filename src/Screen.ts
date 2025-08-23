@@ -50,9 +50,9 @@ export class Screen {
 
     private static _createEmptyTiles(): number[][] {
         const tiles: number[][] = [];
-        for (let row: number = 0; row < SCREEN_ROW_COUNT; row++) {
+        for (let row = 0; row < SCREEN_ROW_COUNT; row++) {
             const rowData: number[] = [];
-            for (let col: number = 0; col < SCREEN_COL_COUNT; col++) {
+            for (let col = 0; col < SCREEN_COL_COUNT; col++) {
                 rowData.push(0);
             }
             tiles.push(rowData);
@@ -65,7 +65,7 @@ export class Screen {
             if (this._firstTimeThrough) {
                 this.enemyGroup.enemies.forEach((enemyInfo: EnemyInfo) => {
                     const count: number = enemyInfo.count ?? 1;
-                    for (let i: number = 0; i < count; i++) {
+                    for (let i = 0; i < count; i++) {
                         const enemy: Enemy = InstanceLoader.create<Enemy>(enemyInfo.type, enemyInfo.strength);
                         enemy.setLocationToSpawnPoint(this);
                         this._actors.push(enemy);
@@ -80,7 +80,7 @@ export class Screen {
 
                 const count: number = this._actors.length; // Assuming here that "actors" is remaining enemies
                 this._actors = [];
-                for (let i: number = 0; i < count; i++) {
+                for (let i = 0; i < count; i++) {
                     const enemyInfo: EnemyInfo = this.flattenedEnemyGroup.enemies[i];
                     const enemy: Enemy = InstanceLoader.create(enemyInfo.type, enemyInfo.strength);
                     enemy.setLocationToSpawnPoint(this);
@@ -158,9 +158,9 @@ export class Screen {
     }
 
     paint(ctx: CanvasRenderingContext2D) {
-        const paintWalkability: boolean = false;
+        const paintWalkability = false;
 
-        let startRow: number = 0;
+        let startRow = 0;
         let lastRow: number = this._tiles.length;
         if (this._parent.isLabyrinth()) {
             startRow++;
@@ -197,10 +197,10 @@ export class Screen {
      * @param x The x-index at which to paint.
      * @param paintWalkability Whether to paint a walkability indicator for each tile.
      */
-    paintCol(ctx: CanvasRenderingContext2D, col: number, x: number, paintWalkability: boolean = false) {
+    paintCol(ctx: CanvasRenderingContext2D, col: number, x: number, paintWalkability = false) {
         const tileset: Tileset = this._parent.tileset;
 
-        for (let row: number = 0; row < this._tiles.length; row++) {
+        for (let row = 0; row < this._tiles.length; row++) {
             const y: number = row * TILE_HEIGHT;
             const tile: number = this._tiles[row][col];
             tileset.paintTile(ctx, tile, x, y);
@@ -219,10 +219,10 @@ export class Screen {
      * @param y The y-index at which to paint.
      * @param paintWalkability Whether to paint a walkability indicator for each tile.
      */
-    paintRow(ctx: CanvasRenderingContext2D, row: number, y: number, paintWalkability: boolean = false) {
+    paintRow(ctx: CanvasRenderingContext2D, row: number, y: number, paintWalkability = false) {
         const tileset: Tileset = this._parent.tileset;
 
-        let firstCol: number = 0;
+        let firstCol = 0;
         let lastCol: number = this._tiles[row].length;
         if (this._parent.isLabyrinth()) {
             firstCol++;
@@ -250,7 +250,7 @@ export class Screen {
         const labyrinth: boolean = this._parent.isLabyrinth();
 
         if (labyrinth) {
-            const paintWalkability: boolean = false;
+            const paintWalkability = false;
 
             // First and last row
             this.paintRow(ctx, 0, 0, paintWalkability);
@@ -297,7 +297,7 @@ export class Screen {
     }
 
     removeLinksSwordActor() {
-        for (let i: number = 0; i < this._actors.length; i++) {
+        for (let i = 0; i < this._actors.length; i++) {
             const actor: Actor = this._actors[i];
             if (actor instanceof Sword) {
                 this._actors.splice(i, 1);
@@ -376,7 +376,7 @@ export class Screen {
 
         // Handle collisions between actors.  This is really crude, but due
         // to the low number of actors per screen, this works
-        for (let i: number = 0; i < actors.length; i++) {
+        for (let i = 0; i < actors.length; i++) {
             const actor1: Actor = actors[i];
             for (let j: number = i + 1; j < actors.length; j++) {
                 const actor2: Actor = actors[j];
@@ -387,7 +387,7 @@ export class Screen {
             }
         }
 
-        for (let i: number = 0; i < this._actors.length; i++) {
+        for (let i = 0; i < this._actors.length; i++) {
             const actor: Actor = this._actors[i];
             actor.update();
             if (actor.done) {

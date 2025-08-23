@@ -40,7 +40,7 @@ export class TitleState extends BaseState {
     private _renderNoSoundMessage() {
         const w: number = game.getWidth();
 
-        let text: string = 'SOUND IS DISABLED AS';
+        let text = 'SOUND IS DISABLED AS';
         let x: number = (w - this.stringWidth(text)) / 2;
         let y: number = game.getHeight() - 20 - 9 * 3;
         this.game.drawString(x, y, text);

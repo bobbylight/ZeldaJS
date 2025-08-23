@@ -5,7 +5,7 @@ import { Position } from './Position';
 import { Rectangle } from 'gtp';
 declare let game: ZeldaGame;
 
-export const MOVE_AMT: number = 1;
+export const MOVE_AMT = 1;
 
 /**
  * A base class for entities with state - Link, enemies, etc.
@@ -85,7 +85,7 @@ export abstract class Actor {
      * @param dy A y-offset to apply to the hitbox.
      * @returns Whether the hitbox is walkable.
      */
-    protected isHitBoxWalkable(dx: number = 0, dy: number = 0): boolean {
+    protected isHitBoxWalkable(dx = 0, dy = 0): boolean {
         const hitBox: Rectangle = this.hitBox;
         const x: number = hitBox.x + dx;
         const y: number = hitBox.y + dy;

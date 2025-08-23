@@ -17,7 +17,7 @@ export class InventorySlideState extends State<ZeldaGame> {
      * @param bottomState The state to transition to when the animation is complete.
      * @param down Whether to slide down vs. up.
      */
-    constructor(topState: State<ZeldaGame>, bottomState: State<ZeldaGame>, down: boolean = true) {
+    constructor(topState: State<ZeldaGame>, bottomState: State<ZeldaGame>, down = true) {
         super();
         this.topState = topState;
         this.bottomState = bottomState;

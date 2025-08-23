@@ -7,7 +7,7 @@ declare let game: ZeldaGame;
 export class Hud {
     private static paintMap(ctx: CanvasRenderingContext2D) {
         ctx.fillStyle = '#83d313';
-        const s: number = 3;
+        const s = 3;
 
         // Note that the map isn't a perfect grid; there is a 1-pixel area
         // on the left and bottom of the gray area that is never highlighted
@@ -29,8 +29,8 @@ export class Hud {
 
         const heart: Image = game.assets.get('treasures.fullHeart');
 
-        let x: number = 176;
-        const y: number = 48;
+        let x = 176;
+        const y = 48;
         const wholeHeartCount: number = Math.floor(health / 2);
         const heartCount: number = maxHealth / 2;
 
@@ -40,7 +40,7 @@ export class Hud {
 
         game.drawString(104, 48, link.getBombCount());
 
-        for (let i: number = 0; i < wholeHeartCount; i++) {
+        for (let i = 0; i < wholeHeartCount; i++) {
             heart.draw(ctx, x, y);
             x += 8;
         }
