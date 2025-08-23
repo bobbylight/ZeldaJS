@@ -6,16 +6,16 @@ declare let game: ZeldaGame;
 export class BaseState extends State<ZeldaGame> {
     static readonly INPUT_REPEAT_MILLIS: number = 200;
 
-    private _lastConfigKeypressTime: number;
-    protected _lastSpriteFrameTime: number;
+    private lastConfigKeypressTime: number;
+    protected lastSpriteFrameTime: number;
 
     /**
      * Functionality common amongst all states in this game.
      */
     constructor(args?: ZeldaGame | BaseStateArgs<ZeldaGame>) {
         super(args);
-        this._lastConfigKeypressTime = Utils.timestamp();
-        this._lastSpriteFrameTime = 0;
+        this.lastConfigKeypressTime = Utils.timestamp();
+        this.lastSpriteFrameTime = 0;
     }
 
     protected handleDefaultKeys() {
@@ -24,11 +24,11 @@ export class BaseState extends State<ZeldaGame> {
         const time: number = Utils.timestamp(); // this.game.playTime;
         const im: InputManager = this.game.inputManager;
 
-        if (time > (this._lastConfigKeypressTime + BaseState.INPUT_REPEAT_MILLIS)) {
+        if (time > (this.lastConfigKeypressTime + BaseState.INPUT_REPEAT_MILLIS)) {
         // Audio stuff
             if (im.isKeyDown(Keys.KEY_M, true)) {
                 game.toggleMuted();
-                this._lastConfigKeypressTime = time;
+                this.lastConfigKeypressTime = time;
             }
 
             // Debugging actions
@@ -48,7 +48,7 @@ export class BaseState extends State<ZeldaGame> {
                     canvasStyle.width = `${parseInt(styleW.substring(0, styleW.length - 2), 10) + 1}px`;
                     canvasStyle.height = `${parseInt(styleH.substring(0, styleH.length - 2), 10) + 1}px`;
                     game.setStatusMessage(`Canvas size now: (${canvasStyle.width}, ${canvasStyle.height})`);
-                    this._lastConfigKeypressTime = time;
+                    this.lastConfigKeypressTime = time;
                 }
 
                 // Decrease canvas size
@@ -64,7 +64,7 @@ export class BaseState extends State<ZeldaGame> {
                     canvasStyle.width = `${parseInt(styleW.substring(0, styleW.length - 2), 10) - 1}px`;
                     canvasStyle.height = `${parseInt(styleH.substring(0, styleH.length - 2), 10) - 1}px`;
                     game.setStatusMessage(`Canvas size now: (${canvasStyle.width}, ${canvasStyle.height})`);
-                    this._lastConfigKeypressTime = time;
+                    this.lastConfigKeypressTime = time;
                 }
             }
         }

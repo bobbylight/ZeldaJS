@@ -17,7 +17,7 @@ export abstract class Enemy extends Character {
     private readonly maxHealth: number;
     protected damage: number;
 
-    private _step: number;
+    private step: number;
     private stepTimer: number;
 
     protected constructor(public strength: EnemyStrength = 'red',
@@ -28,7 +28,7 @@ export abstract class Enemy extends Character {
         this.maxHealth = this.health;
         this.damage = strength === 'red' ? 1 : 2; // Sensible default damage
 
-        this._step = 0;
+        this.step = 0;
         this.stepTimer = STEP_TIMER_MAX;
 
         this.alwaysFacesForward = alwaysFacesForward;
@@ -52,8 +52,8 @@ export abstract class Enemy extends Character {
             }
             game.audio.playSound('enemyHit');
             this.takingDamage = true;
-            this._slideTick = Character.MAX_SLIDE_TICK;
-            this._slidingDir = other.dir;
+            this.slideTick = Character.MAX_SLIDE_TICK;
+            this.slidingDir = other.dir;
         }
 
         return false;
@@ -67,8 +67,8 @@ export abstract class Enemy extends Character {
         return this.strength + this.constructor.name;
     }
 
-    get step(): number {
-        return this._step;
+    getStep(): number {
+        return this.step;
     }
 
     protected paintImpl(ctx: CanvasRenderingContext2D, row: number, colOffset: number) {
@@ -79,8 +79,8 @@ export abstract class Enemy extends Character {
             col += ordinal(this.dir);
         }
 
-        if (this._slideTick > 0) {
-            switch (this._slideTick % 5) {
+        if (this.slideTick > 0) {
+            switch (this.slideTick % 5) {
                 case 0:
                     col %= 4;
                     break;
@@ -122,10 +122,10 @@ export abstract class Enemy extends Character {
         }
     }
 
-    protected _touchStepTimer() {
+    protected touchStepTimer() {
         this.stepTimer--;
         if (this.stepTimer === 0) {
-            this._step = (this._step + 1) % 2;
+            this.step = (this.step + 1) % 2;
             this.stepTimer = STEP_TIMER_MAX;
         }
     }

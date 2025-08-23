@@ -7,12 +7,12 @@ import { Direction } from './Direction';
 export abstract class Character extends Actor {
     static readonly MAX_SLIDE_TICK: number = 30;
 
-    protected _slideTick: number;
-    protected _slidingDir: Direction | null;
+    protected slideTick: number;
+    protected slidingDir: Direction | null;
 
     constructor() {
         super();
-        this._slideTick = 0;
-        this._slidingDir = null;
+        this.slideTick = 0;
+        this.slidingDir = null;
     }
 }

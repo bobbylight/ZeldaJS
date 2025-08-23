@@ -15,40 +15,40 @@ import loadEvent from './editor/event-loader';
 declare let game: ZeldaGame;
 
 export class Screen {
-    private readonly _parent: Map;
-    private _tiles: number[][];
-    private _actors: Actor[];
+    private readonly parent: Map;
+    private tiles: number[][];
+    private actors: Actor[];
     enemyGroup: EnemyGroup | undefined | null;
     private flattenedEnemyGroup: EnemyGroup; // TODO: Can we flatten iff we know we're in the game, not the editor?
-    private _firstTimeThrough: boolean;
+    private firstTimeThrough: boolean;
     events: Event<EventData>[];
     music?: string | null;
 
     constructor(parent: Map, enemyGroup?: EnemyGroup | null, tiles?: number[][]) {
-        this._parent = parent;
+        this.parent = parent;
 
-        tiles ??= Screen._createEmptyTiles();
-        this._tiles = tiles;
+        tiles ??= Screen.createEmptyTiles();
+        this.tiles = tiles;
 
-        this._actors = [];
-        this._setEnemyGroup(enemyGroup);
-        this._firstTimeThrough = true;
+        this.actors = [];
+        this.setEnemyGroup(enemyGroup);
+        this.firstTimeThrough = true;
         this.events = [];
     }
 
     addActor(actor: Actor) {
-        this._actors.push(actor);
+        this.actors.push(actor);
     }
 
     private containsNonZeroTile(): boolean {
-        return this._tiles.filter((row: number[]) => {
+        return this.tiles.filter((row: number[]) => {
             return row.filter((n: number) => {
                 return n > 0;
             }).length > 0;
         }).length > 0;
     }
 
-    private static _createEmptyTiles(): number[][] {
+    private static createEmptyTiles(): number[][] {
         const tiles: number[][] = [];
         for (let row = 0; row < SCREEN_ROW_COUNT; row++) {
             const rowData: number[] = [];
@@ -62,29 +62,29 @@ export class Screen {
 
     enter() {
         if (this.enemyGroup) {
-            if (this._firstTimeThrough) {
+            if (this.firstTimeThrough) {
                 this.enemyGroup.enemies.forEach((enemyInfo: EnemyInfo) => {
                     const count: number = enemyInfo.count ?? 1;
                     for (let i = 0; i < count; i++) {
                         const enemy: Enemy = InstanceLoader.create<Enemy>(enemyInfo.type, enemyInfo.strength);
                         enemy.setLocationToSpawnPoint(this);
-                        this._actors.push(enemy);
+                        this.actors.push(enemy);
                     }
                 });
                 // this.enemyGroup.clear();
-                this._firstTimeThrough = false;
+                this.firstTimeThrough = false;
             }
             else {
                 // First N enemies in the enemy list respawn; see:
                 // https://www.gamefaqs.com/boards/563433-the-legend-of-zelda/73732540?jumpto=9
 
-                const count: number = this._actors.length; // Assuming here that "actors" is remaining enemies
-                this._actors = [];
+                const count: number = this.actors.length; // Assuming here that "actors" is remaining enemies
+                this.actors = [];
                 for (let i = 0; i < count; i++) {
                     const enemyInfo: EnemyInfo = this.flattenedEnemyGroup.enemies[i];
                     const enemy: Enemy = InstanceLoader.create(enemyInfo.type, enemyInfo.strength);
                     enemy.setLocationToSpawnPoint(this);
-                    this._actors.push(enemy);
+                    this.actors.push(enemy);
                 }
             }
         }
@@ -92,19 +92,19 @@ export class Screen {
 
     exit() {
         // Clear out any "temporary" actors, such as projectiles
-        this._actors = this._actors.filter((actor: Actor): boolean => {
+        this.actors = this.actors.filter((actor: Actor): boolean => {
             return !(actor instanceof Projectile);
         });
         // this._actors = [];
     }
 
     fromJson(json: ScreenData): this {
-        this._tiles = json.tiles;
-        this._actors.length = 0;
+        this.tiles = json.tiles;
+        this.actors.length = 0;
         // json.actors.forEach((actorData: ActorData) => {
         //    this._actors.push(new Actor().fromJson(actorData));
         // });
-        this._setEnemyGroup(new EnemyGroup().fromJson(json.enemyGroup));
+        this.setEnemyGroup(new EnemyGroup().fromJson(json.enemyGroup));
 
         if (json.events) {
             this.events = json.events.map((eventData: EventData) => {
@@ -117,7 +117,7 @@ export class Screen {
     }
 
     getTile(row: number, col: number): number {
-        return this._tiles[row][col];
+        return this.tiles[row][col];
     }
 
     private static isOffScreen(row: number, col: number): boolean {
@@ -126,7 +126,7 @@ export class Screen {
     }
 
     private isUnpopulated(): boolean {
-        return !this.containsNonZeroTile() && !this.enemyGroup && !this.events.length && !this._actors.length;
+        return !this.containsNonZeroTile() && !this.enemyGroup && !this.events.length && !this.actors.length;
     }
 
     isWalkable(actor: Actor, x: number, y: number): boolean {
@@ -138,7 +138,7 @@ export class Screen {
         }
 
         const tileType: number = this.getTile(row, col);
-        const walkability: number = this._parent.getTileTypeWalkability(tileType);
+        const walkability: number = this.parent.getTileTypeWalkability(tileType);
         const x0: number = x % 16;
         const y0: number = 15 - (y % 16);
 
@@ -161,8 +161,8 @@ export class Screen {
         const paintWalkability = false;
 
         let startRow = 0;
-        let lastRow: number = this._tiles.length;
-        if (this._parent.isLabyrinth()) {
+        let lastRow: number = this.tiles.length;
+        if (this.parent.isLabyrinth()) {
             startRow++;
             lastRow--;
         }
@@ -172,7 +172,7 @@ export class Screen {
             this.paintRow(ctx, row, y, paintWalkability);
         }
 
-        if (this._parent.showEvents) {
+        if (this.parent.showEvents) {
             this.events.forEach((event: Event<EventData>) => {
                 const tile: Position = event.getTile();
                 const x: number = tile.col * TILE_WIDTH;
@@ -184,7 +184,7 @@ export class Screen {
     }
 
     paintActors(ctx: CanvasRenderingContext2D) {
-        this._actors.forEach((actor: Actor) => {
+        this.actors.forEach((actor: Actor) => {
             actor.paint(ctx);
         });
     }
@@ -198,11 +198,11 @@ export class Screen {
      * @param paintWalkability Whether to paint a walkability indicator for each tile.
      */
     paintCol(ctx: CanvasRenderingContext2D, col: number, x: number, paintWalkability = false) {
-        const tileset: Tileset = this._parent.tileset;
+        const tileset: Tileset = this.parent.getTileset();
 
-        for (let row = 0; row < this._tiles.length; row++) {
+        for (let row = 0; row < this.tiles.length; row++) {
             const y: number = row * TILE_HEIGHT;
-            const tile: number = this._tiles[row][col];
+            const tile: number = this.tiles[row][col];
             tileset.paintTile(ctx, tile, x, y);
 
             if (paintWalkability) {
@@ -220,18 +220,18 @@ export class Screen {
      * @param paintWalkability Whether to paint a walkability indicator for each tile.
      */
     paintRow(ctx: CanvasRenderingContext2D, row: number, y: number, paintWalkability = false) {
-        const tileset: Tileset = this._parent.tileset;
+        const tileset: Tileset = this.parent.getTileset();
 
         let firstCol = 0;
-        let lastCol: number = this._tiles[row].length;
-        if (this._parent.isLabyrinth()) {
+        let lastCol: number = this.tiles[row].length;
+        if (this.parent.isLabyrinth()) {
             firstCol++;
             lastCol--;
         }
 
         for (let col: number = firstCol; col < lastCol; col++) {
             const x: number = col * TILE_WIDTH;
-            const tile: number = this._tiles[row][col];
+            const tile: number = this.tiles[row][col];
             tileset.paintTile(ctx, tile, x, y);
 
             if (paintWalkability) {
@@ -247,20 +247,20 @@ export class Screen {
      * @param ctx The graphics context.
      */
     paintTopLayer(ctx: CanvasRenderingContext2D) {
-        const labyrinth: boolean = this._parent.isLabyrinth();
+        const labyrinth: boolean = this.parent.isLabyrinth();
 
         if (labyrinth) {
             const paintWalkability = false;
 
             // First and last row
             this.paintRow(ctx, 0, 0, paintWalkability);
-            const row: number = this._tiles.length - 1;
+            const row: number = this.tiles.length - 1;
             const y: number = row * TILE_HEIGHT;
             this.paintRow(ctx, row, y, paintWalkability);
 
             // First and last column
             this.paintCol(ctx, 0, 0, paintWalkability);
-            const col: number = this._tiles[0].length - 1;
+            const col: number = this.tiles[0].length - 1;
             const x: number = col * TILE_WIDTH;
             this.paintCol(ctx, col, x, paintWalkability);
         }
@@ -297,16 +297,16 @@ export class Screen {
     }
 
     removeLinksSwordActor() {
-        for (let i = 0; i < this._actors.length; i++) {
-            const actor: Actor = this._actors[i];
+        for (let i = 0; i < this.actors.length; i++) {
+            const actor: Actor = this.actors[i];
             if (actor instanceof Sword) {
-                this._actors.splice(i, 1);
+                this.actors.splice(i, 1);
                 break;
             }
         }
     }
 
-    private _setEnemyGroup(enemyGroup?: EnemyGroup | null) {
+    private setEnemyGroup(enemyGroup?: EnemyGroup | null) {
         this.enemyGroup = enemyGroup;
         if (this.enemyGroup) {
             this.flattenedEnemyGroup = this.enemyGroup.clone(true);
@@ -314,7 +314,7 @@ export class Screen {
     }
 
     setTile(row: number, col: number, tile: number) {
-        this._tiles[row][col] = tile;
+        this.tiles[row][col] = tile;
     }
 
     toJson(): ScreenData | null {
@@ -323,12 +323,12 @@ export class Screen {
         }
 
         const actorData: ActorData[] = [];
-        this._actors.forEach((actor: Actor) => {
+        this.actors.forEach((actor: Actor) => {
             actorData.push(actor.toJson());
         });
 
         const screenData: ScreenData = {
-            tiles: this._tiles,
+            tiles: this.tiles,
             // actors: actorData,
             enemyGroup: this.enemyGroup ? this.enemyGroup.toJson() : null
         };
@@ -347,11 +347,11 @@ export class Screen {
     }
 
     update() {
-        this._updateActors();
-        this._updateActions();
+        this.updateActors();
+        this.updateActions();
     }
 
-    private _updateActions() {
+    private updateActions() {
         // TODO: Optimize me
         const remainingEvents: Event<EventData>[] = [];
 
@@ -370,8 +370,8 @@ export class Screen {
         this.events = remainingEvents;
     }
 
-    private _updateActors() {
-        const actors: Actor[] = this._actors.slice();
+    private updateActors() {
+        const actors: Actor[] = this.actors.slice();
         actors.push(game.link);
 
         // Handle collisions between actors.  This is really crude, but due
@@ -387,11 +387,11 @@ export class Screen {
             }
         }
 
-        for (let i = 0; i < this._actors.length; i++) {
-            const actor: Actor = this._actors[i];
+        for (let i = 0; i < this.actors.length; i++) {
+            const actor: Actor = this.actors[i];
             actor.update();
             if (actor.done) {
-                this._actors.splice(i, 1);
+                this.actors.splice(i, 1);
                 i--;
             }
         }

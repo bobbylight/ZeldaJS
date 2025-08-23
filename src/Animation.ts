@@ -26,38 +26,38 @@ class Frame {
 }
 
 export class Animation {
-    private _x: number;
-    private _y: number;
-    private readonly _frames: Frame[];
-    private _loopingStartFrame: number;
-    private _curFrame: number;
-    private _lastTime: number;
-    private _totalTime: number;
-    private _done: boolean;
-    private _listeners: AnimationListener[];
+    private x: number;
+    private y: number;
+    private readonly frames: Frame[];
+    private loopingStartFrame: number;
+    private curFrame: number;
+    private lastTime: number;
+    private totalTime: number;
+    private done: boolean;
+    private listeners: AnimationListener[];
 
     constructor(x = 0, y = 0) {
-        this._x = x;
-        this._y = y;
-        this._frames = [];
-        this._loopingStartFrame = -1;
-        this._totalTime = -1;
-        this._lastTime = 0;
-        this._done = false;
-        this._listeners = [];
-        this._curFrame = 0;
+        this.x = x;
+        this.y = y;
+        this.frames = [];
+        this.loopingStartFrame = -1;
+        this.totalTime = -1;
+        this.lastTime = 0;
+        this.done = false;
+        this.listeners = [];
+        this.curFrame = 0;
     }
 
     addFrame(sheetAndIndex: SpriteSheetAndIndex, frameTime: number) {
-        this._frames.push(new Frame(sheetAndIndex, frameTime));
+        this.frames.push(new Frame(sheetAndIndex, frameTime));
     }
 
     addListener(listener: AnimationListener) {
-        this._listeners.push(listener);
+        this.listeners.push(listener);
     }
 
-    private _fireFrameUpdate() {
-        this._listeners.forEach((listener: AnimationListener) => {
+    private fireFrameUpdate() {
+        this.listeners.forEach((listener: AnimationListener) => {
             if (listener.animationFrameUpdate) {
                 listener.animationFrameUpdate.call(listener.scope ?? listener, this);
             }
@@ -65,48 +65,48 @@ export class Animation {
     }
 
     get frame(): number {
-        return this._curFrame;
+        return this.curFrame;
     }
 
     get frameCount(): number {
-        return this._frames.length;
+        return this.frames.length;
     }
 
     get height(): number {
-        return this.done ? 0 : this._frames[this._curFrame].sheetAndIndex.sheet.cellH;
+        return this.done ? 0 : this.frames[this.curFrame].sheetAndIndex.sheet.cellH;
     }
 
     get width(): number {
-        return this.done ? 0 : this._frames[this._curFrame].sheetAndIndex.sheet.cellW;
+        return this.done ? 0 : this.frames[this.curFrame].sheetAndIndex.sheet.cellW;
     }
 
-    get x(): number {
-        return this._x;
+    getX(): number {
+        return this.x;
     }
 
-    get y(): number {
-        return this._y;
-    }
-
-    get done(): boolean {
-        return this._done;
+    getY(): number {
+        return this.y;
     }
 
     get looping(): boolean {
-        return this._loopingStartFrame > -1;
+        return this.loopingStartFrame > -1;
+    }
+
+    isDone(): boolean {
+        return this.done;
     }
 
     paint(ctx: CanvasRenderingContext2D) {
-        const sheetAndIndex: SpriteSheetAndIndex = this._frames[this._curFrame].sheetAndIndex;
-        sheetAndIndex.sheet.drawByIndex(ctx, this._x, this._y, sheetAndIndex.index);
+        const sheetAndIndex: SpriteSheetAndIndex = this.frames[this.curFrame].sheetAndIndex;
+        sheetAndIndex.sheet.drawByIndex(ctx, this.x, this.y, sheetAndIndex.index);
     }
 
-    private _setDone() {
-        this._done = true;
-        this._listeners.forEach((listener: AnimationListener) => {
+    private setDone() {
+        this.done = true;
+        this.listeners.forEach((listener: AnimationListener) => {
             listener.animationCompleted.call(listener.scope ?? listener, this);
         });
-        this._listeners = [];
+        this.listeners = [];
     }
 
     /**
@@ -122,7 +122,7 @@ export class Animation {
      * @see setLoopingFromFrame
      */
     set looping(loop: boolean) {
-        this._loopingStartFrame = loop ? 0 : -1;
+        this.loopingStartFrame = loop ? 0 : -1;
     }
 
     /**
@@ -133,15 +133,15 @@ export class Animation {
      * @see looping
      */
     set loopingFromFrame(frame: number) {
-        this._loopingStartFrame = frame;
+        this.loopingStartFrame = frame;
     }
 
-    set x(x: number) {
-        this._x = x;
+    setX(x: number) {
+        this.x = x;
     }
 
-    set y(y: number) {
-        this._y = y;
+    setY(y: number) {
+        this.y = y;
     }
 
     update() {
@@ -149,35 +149,35 @@ export class Animation {
             return;
         }
 
-        if (this._totalTime === -1) {
-            this._totalTime = 0;
+        if (this.totalTime === -1) {
+            this.totalTime = 0;
         }
         else {
             const curTime: number = game.playTime;
-            if (this._lastTime === 0) {
-                this._lastTime = curTime;
+            if (this.lastTime === 0) {
+                this.lastTime = curTime;
             }
             else {
-                this._totalTime += (curTime - this._lastTime);
-                this._lastTime = curTime;
+                this.totalTime += (curTime - this.lastTime);
+                this.lastTime = curTime;
             }
         }
 
-        if (this._totalTime > this._frames[this._curFrame].time) {
-            this._totalTime = 0;
-            this._curFrame++;
+        if (this.totalTime > this.frames[this.curFrame].time) {
+            this.totalTime = 0;
+            this.curFrame++;
 
-            if (this._curFrame === this._frames.length) {
-                if (this._loopingStartFrame > -1) {
-                    this._curFrame = this._loopingStartFrame;
-                    this._fireFrameUpdate();
+            if (this.curFrame === this.frames.length) {
+                if (this.loopingStartFrame > -1) {
+                    this.curFrame = this.loopingStartFrame;
+                    this.fireFrameUpdate();
                 }
                 else {
-                    this._setDone();
+                    this.setDone();
                 }
             }
             else {
-                this._fireFrameUpdate();
+                this.fireFrameUpdate();
             }
         }
     }

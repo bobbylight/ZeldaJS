@@ -6,8 +6,8 @@ declare let game: ZeldaGame;
  * A set of tiles used by a map.
  */
 export class Tileset {
-    private _name: string;
-    private _tiles: SpriteSheet;
+    private name: string;
+    private tiles: SpriteSheet;
 
     fromJson(json: TilesetData): this {
         this.load(json.name);
@@ -15,23 +15,23 @@ export class Tileset {
     }
 
     get colCount(): number {
-        return this._tiles.colCount;
+        return this.tiles.colCount;
     }
 
     get imageCount(): number {
-        return this._tiles.size;
+        return this.tiles.size;
     }
 
-    get name(): string {
-        return this._name;
+    getName(): string {
+        return this.name;
     }
 
     get rowCount(): number {
-        return this._tiles.rowCount;
+        return this.tiles.rowCount;
     }
 
     isDoorway(tile: number): boolean {
-        if (this._name === 'overworld') {
+        if (this.name === 'overworld') {
             return tile === 61; // The single "door" tile
         }
         return false;
@@ -44,17 +44,17 @@ export class Tileset {
      *        as loaded by the game's resource loader.
      */
     load(name: string) {
-        this._name = name;
-        this._tiles = game.assets.get(name);
+        this.name = name;
+        this.tiles = game.assets.get(name);
     }
 
     paintTile(ctx: CanvasRenderingContext2D, tile: number, x: number, y: number) {
-        this._tiles.drawByIndex(ctx, x, y, tile);
+        this.tiles.drawByIndex(ctx, x, y, tile);
     }
 
     toJson(): TilesetData {
         return {
-            name: this._name
+            name: this.name
         };
     }
 }

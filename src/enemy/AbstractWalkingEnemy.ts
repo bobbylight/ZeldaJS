@@ -12,19 +12,19 @@ declare let game: ZeldaGame;
  * change-direction behavior can be customized.
  */
 export abstract class AbstractWalkingEnemy extends Enemy {
-    private _changeDirTimer: number;
-    private readonly _ssRowOffset: number;
+    private changeDirTimer: number;
+    private readonly ssRowOffset: number;
     protected pausedBeforeThrowingProjectile: number;
 
     protected constructor(ssRowOffset: number, strength: EnemyStrength = 'red', health = 1) {
         super(strength, health);
-        this._ssRowOffset = ssRowOffset;
+        this.ssRowOffset = ssRowOffset;
         this.hitBox = new Rectangle();
-        this._changeDirTimer = this.getChangeDirTimerMax();
+        this.changeDirTimer = this.getChangeDirTimerMax();
         this.pausedBeforeThrowingProjectile = -1;
     }
 
-    protected _changeDirection() {
+    protected changeDirection() {
         this.dir = randomDir();
     }
 
@@ -50,8 +50,8 @@ export abstract class AbstractWalkingEnemy extends Enemy {
     protected abstract getSpeed(): number;
 
     moveX(inc: number) {
-        if (this.x % 16 === 0 && this._changeDirTimer <= 0 && game.randomInt(8) === 0) {
-            this._changeDirection();
+        if (this.x % 16 === 0 && this.changeDirTimer <= 0 && game.randomInt(8) === 0) {
+            this.changeDirection();
             return;
         }
 
@@ -59,21 +59,21 @@ export abstract class AbstractWalkingEnemy extends Enemy {
         this.hitBox.set(tempX, this.y, this.w, this.h);
 
         if (this.hitBox.x < 0 || (this.hitBox.x + this.hitBox.w) >= SCREEN_WIDTH &&
-            !this._slidingDir) {
-            this._changeDirection();
+            !this.slidingDir) {
+            this.changeDirection();
         }
         else if (this.isHitBoxWalkable()) {
             this.x = tempX;
         }
-        else if (!this._slidingDir) { // Not sliding, just walked into a wall
-            this._changeDirection();
+        else if (!this.slidingDir) { // Not sliding, just walked into a wall
+            this.changeDirection();
         }
     }
 
     moveY(inc: number) {
-        if (this.x % 16 === 0 && this.y % 16 === 0 && this._changeDirTimer <= 0 &&
+        if (this.x % 16 === 0 && this.y % 16 === 0 && this.changeDirTimer <= 0 &&
             game.randomInt(8) === 0) {
-            this._changeDirection();
+            this.changeDirection();
             return;
         }
 
@@ -81,19 +81,19 @@ export abstract class AbstractWalkingEnemy extends Enemy {
         this.hitBox.set(this.x, tempY, this.w, this.h);
 
         if (this.hitBox.y < 0 || (this.hitBox.y + this.hitBox.h) >= SCREEN_HEIGHT &&
-            !this._slidingDir) {
-            this._changeDirection();
+            !this.slidingDir) {
+            this.changeDirection();
         }
         else if (this.isHitBoxWalkable()) {
             this.y = tempY;
         }
-        else if (!this._slidingDir) { // Not sliding, just walked into a wall
-            this._changeDirection();
+        else if (!this.slidingDir) { // Not sliding, just walked into a wall
+            this.changeDirection();
         }
     }
 
     paint(ctx: CanvasRenderingContext2D) {
-        this.paintImpl(ctx, this.step + this._ssRowOffset, this.strength === 'blue' ? 4 : 0);
+        this.paintImpl(ctx, this.getStep() + this.ssRowOffset, this.strength === 'blue' ? 4 : 0);
     }
 
     /**
@@ -113,12 +113,12 @@ export abstract class AbstractWalkingEnemy extends Enemy {
     }
 
     update() {
-        if (this._slidingDir) {
+        if (this.slidingDir) {
             this.updateSlide();
             return;
         }
 
-        this._touchStepTimer();
+        this.touchStepTimer();
 
         if (this.pausedBeforeThrowingProjectile > -1) {
             this.pausedBeforeThrowingProjectile--;
@@ -145,13 +145,13 @@ export abstract class AbstractWalkingEnemy extends Enemy {
                 break;
         }
 
-        this._changeDirTimer--;
+        this.changeDirTimer--;
     }
 
     // TODO: Share with Link?
     protected updateSlide() {
         const speed = 4;
-        switch (this._slidingDir) {
+        switch (this.slidingDir) {
             case 'UP':
                 this.moveY(-speed);
                 break;
@@ -166,9 +166,9 @@ export abstract class AbstractWalkingEnemy extends Enemy {
                 break;
         }
 
-        if (--this._slideTick === 0) {
+        if (--this.slideTick === 0) {
             this.takingDamage = false;
-            this._slidingDir = null;
+            this.slidingDir = null;
         }
     }
 }
