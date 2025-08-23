@@ -113,9 +113,7 @@ export interface ModifiableTableHeader {
  * A callback function to validate that a user's input for a row is complete
  * and valid.
  */
-export interface ModifiableTableRowValidationFunction<T> {
-    (newRowData: T, origRowData: T | null, allRecords: T[]): boolean;
-}
+export type ModifiableTableRowValidationFunction<T> = (newRowData: T, origRowData: T | null, allRecords: T[]) => boolean;
 
 /**
  * A table that allows the user to create, edit, delete, and optionally sort
@@ -214,11 +212,12 @@ export default {
                 return (item as any)[this.itemKey] === this.modifiedItemKey;
             });
             if (index > -1) {
-                newDataList.splice(index, 1, this.rowBeingModified!);
-            } else {
+                newDataList.splice(index, 1, this.rowBeingModified);
+            }
+            else {
                 // Generate a key if it isn't a natural key that the user had to enter
                 (this.rowBeingModified as any)[this.itemKey] = Date.now().toString(10);
-                newDataList.push(this.rowBeingModified!);
+                newDataList.push(this.rowBeingModified);
             }
 
             this.$emit('input', newDataList);

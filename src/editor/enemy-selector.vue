@@ -183,7 +183,7 @@ export default {
                 return (item as any)[this.itemKey] === this.modifiedItemKey;
             });
 
-            const value: EnemyInfo = this.rowBeingModified!;
+            const value: EnemyInfo = this.rowBeingModified;
 
             if (index > -1) {
                 newDataList.splice(index, 1, value);
