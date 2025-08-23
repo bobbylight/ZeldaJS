@@ -9,7 +9,7 @@ import { SpriteSheet } from 'gtp';
 import { AbstractItem } from '@/item/AbstractItem';
 declare let game: ZeldaGame;
 
-const STEP_TIMER_MAX: number = 10;
+const STEP_TIMER_MAX = 10;
 
 export type EnemyStrength = 'red' | 'blue';
 
@@ -21,8 +21,8 @@ export abstract class Enemy extends Character {
     private stepTimer: number;
 
     protected constructor(public strength: EnemyStrength = 'red',
-                          protected health: number = 1,
-                          private readonly alwaysFacesForward: boolean = false) {
+                          protected health = 1,
+                          private readonly alwaysFacesForward = false) {
         super();
         this.strength = strength;
         this.maxHealth = this.health;

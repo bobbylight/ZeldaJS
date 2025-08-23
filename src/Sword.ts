@@ -53,7 +53,7 @@ export class Sword extends Actor {
 
         if (this.frame >= 0 && this.frame < 14) { // First two frames, we aren't painted
             const ss: SpriteSheet = game.assets.get('link');
-            const row: number = 3;
+            const row = 3;
             const col: number = ordinal(this.dir);
             const index: number = row * 15 + col;
             ss.drawByIndex(ctx, this.x, this.y, index);

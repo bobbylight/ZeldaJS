@@ -1,17 +1,17 @@
 // static TILE_SIZE = 8;//16;
 
-export const CANVAS_WIDTH: number = 256;
-export const CANVAS_HEIGHT: number = 240;
+export const CANVAS_WIDTH = 256;
+export const CANVAS_HEIGHT = 240;
 
-export const SCREEN_ROW_COUNT: number	= 11;
+export const SCREEN_ROW_COUNT	= 11;
 
-export const SCREEN_COL_COUNT: number	= 16;
+export const SCREEN_COL_COUNT	= 16;
 
-export const TILE_HEIGHT: number = 16;
+export const TILE_HEIGHT = 16;
 
-export const TILE_WIDTH: number = 16;
+export const TILE_WIDTH = 16;
 
-export const HUD_HEIGHT: number = 64;
+export const HUD_HEIGHT = 64;
 
 export const SCREEN_HEIGHT: number = SCREEN_ROW_COUNT * TILE_WIDTH;
 
@@ -19,9 +19,9 @@ export const SCREEN_HEIGHT_WITH_HUD: number = SCREEN_HEIGHT + HUD_HEIGHT;
 
 export const SCREEN_WIDTH: number = SCREEN_COL_COUNT * TILE_WIDTH;
 
-export const MUSIC_OVERWORLD: string = '02-overworld.ogg';
+export const MUSIC_OVERWORLD = '02-overworld.ogg';
 
-export const MUSIC_LEVEL: string = '04-labyrinth.ogg';
+export const MUSIC_LEVEL = '04-labyrinth.ogg';
 
 export const WALKABILITY_LEVEL: number[] = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

@@ -5,7 +5,7 @@ export class Position {
     row: number;
     col: number;
 
-    constructor(row: number | PositionData = 0, col: number = 0) {
+    constructor(row: number | PositionData = 0, col = 0) {
         if (typeof row === 'number') {
             this.row = row;
             this.col = col;
@@ -33,7 +33,7 @@ export class Position {
         this.set(data.row, data.col);
     }
 
-    set(row: number | Position, col: number = 0) {
+    set(row: number | Position, col = 0) {
         if (row instanceof Position) {
             this.row = row.row;
             this.col = row.col;

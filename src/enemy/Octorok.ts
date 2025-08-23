@@ -4,7 +4,7 @@ import { ZeldaGame } from '../ZeldaGame';
 import { EnemyStrength } from './Enemy';
 declare let game: ZeldaGame;
 
-const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
+const CHANGE_DIR_TIMER_MAX = 120; // 2 seconds
 
 /**
  * An octopus-like creature that can shoot rocks.

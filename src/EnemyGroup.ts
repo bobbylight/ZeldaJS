@@ -12,7 +12,7 @@ export class EnemyGroup {
     spawnStyle: string; // TODO: String literal type when gulp-typescript moves up to 1.8
     enemies: EnemyInfo[];
 
-    constructor(spawnStyle: string = 'random', enemies: EnemyInfo[] = []) {
+    constructor(spawnStyle = 'random', enemies: EnemyInfo[] = []) {
         this.spawnStyle = spawnStyle;
         this.enemies = enemies;
     }
@@ -32,7 +32,7 @@ export class EnemyGroup {
      * @returns The clone of this enemy group.
      * @see flatten
      */
-    clone(flatten: boolean = false): EnemyGroup {
+    clone(flatten = false): EnemyGroup {
         const newEnemyGroup: EnemyGroup = new EnemyGroup(this.spawnStyle, this.enemies);
         return flatten ? newEnemyGroup.flatten() : newEnemyGroup;
     }
@@ -48,7 +48,7 @@ export class EnemyGroup {
 
         this.enemies.forEach((enemyGroup: EnemyInfo) => {
             const count: number = enemyGroup.count ?? 1;
-            for (let i: number = 0; i < count; i++) {
+            for (let i = 0; i < count; i++) {
                 flattenedEnemies.push({
                     id: uuidv4(),
                     type: enemyGroup.type,
