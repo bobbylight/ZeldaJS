@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { Constants } from '@/Constants';
+import { SCREEN_COL_COUNT, SCREEN_HEIGHT, SCREEN_ROW_COUNT, SCREEN_WIDTH } from '@/Constants';
 import debounce from 'debounce';
 import { Map } from '../Map';
 import { Screen } from '../Screen';
@@ -36,8 +36,8 @@ export default {
 
     methods: {
         inMainScreen(x: number, y: number) {
-            return x >= 32 && x < Constants.SCREEN_WIDTH * 2 + 32 &&
-                y >= 32 && y < Constants.SCREEN_HEIGHT * 2 + 32;
+            return x >= 32 && x < SCREEN_WIDTH * 2 + 32 &&
+                y >= 32 && y < SCREEN_HEIGHT * 2 + 32;
         },
 
         mapChanged(e: MouseEvent | null) {
@@ -52,12 +52,12 @@ export default {
             if (map && map.currentScreenRow > 0) {
                 ctx.translate(16, 0);
                 const screen: Screen = map.getScreen(map.currentScreenRow - 1, map.currentScreenCol);
-                screen.paintRow(ctx, Constants.SCREEN_ROW_COUNT - 1, 0);
+                screen.paintRow(ctx, SCREEN_ROW_COUNT - 1, 0);
                 ctx.translate(-16, 0);
             }
             else {
                 ctx.fillStyle = 'darkgray';
-                ctx.fillRect(16, 0, Constants.SCREEN_WIDTH, 16);
+                ctx.fillRect(16, 0, SCREEN_WIDTH, 16);
             }
         },
 
@@ -66,13 +66,13 @@ export default {
             if (map && map.currentScreenCol < map.colCount - 1) {
                 ctx.translate(0, 16);
                 const screen: Screen = map.getScreen(map.currentScreenRow, map.currentScreenCol + 1);
-                screen.paintCol(ctx, 0, Constants.SCREEN_WIDTH + 16);
+                screen.paintCol(ctx, 0, SCREEN_WIDTH + 16);
                 ctx.translate(0, -16);
             }
             else {
                 ctx.fillStyle = 'darkgray';
-                const x: number = Constants.SCREEN_WIDTH + 16;
-                ctx.fillRect(x, 16, 16, Constants.SCREEN_HEIGHT);
+                const x: number = SCREEN_WIDTH + 16;
+                ctx.fillRect(x, 16, 16, SCREEN_HEIGHT);
             }
         },
 
@@ -81,13 +81,13 @@ export default {
             if (map && map.currentScreenRow < map.rowCount - 1) {
                 ctx.translate(16, 0);
                 const screen: Screen = map.getScreen(map.currentScreenRow + 1, map.currentScreenCol);
-                screen.paintRow(ctx, 0, Constants.SCREEN_HEIGHT + 16);
+                screen.paintRow(ctx, 0, SCREEN_HEIGHT + 16);
                 ctx.translate(-16, 0);
             }
             else {
                 ctx.fillStyle = 'darkgray';
-                const y: number = Constants.SCREEN_HEIGHT + 16;
-                ctx.fillRect(16, y, Constants.SCREEN_WIDTH, 16);
+                const y: number = SCREEN_HEIGHT + 16;
+                ctx.fillRect(16, y, SCREEN_WIDTH, 16);
             }
         },
 
@@ -96,12 +96,12 @@ export default {
             if (map && map.currentScreenCol > 0) {
                 ctx.translate(0, 16);
                 const screen: Screen = map.getScreen(map.currentScreenRow, map.currentScreenCol - 1);
-                screen.paintCol(ctx, Constants.SCREEN_COL_COUNT - 1, 0);
+                screen.paintCol(ctx, SCREEN_COL_COUNT - 1, 0);
                 ctx.translate(0, -16);
             }
             else {
                 ctx.fillStyle = 'darkgray';
-                ctx.fillRect(0, 16, 16, Constants.SCREEN_HEIGHT);
+                ctx.fillRect(0, 16, 16, SCREEN_HEIGHT);
             }
         },
 

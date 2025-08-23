@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { Constants } from '@/Constants';
+import { SCREEN_COL_COUNT, SCREEN_HEIGHT, SCREEN_ROW_COUNT, SCREEN_WIDTH } from '@/Constants';
 import { Map } from '@/Map';
 import { Screen } from '@/Screen';
 import RowColumnPair from '@/RowColumnPair';
@@ -45,8 +45,8 @@ export default {
             ctx.save();
 
             ctx.fillStyle = 'white';
-            ctx.fillRect(0, 0, Constants.SCREEN_WIDTH * Constants.SCREEN_COL_COUNT,
-                Constants.SCREEN_HEIGHT * Constants.SCREEN_ROW_COUNT);
+            ctx.fillRect(0, 0, SCREEN_WIDTH * SCREEN_COL_COUNT,
+                SCREEN_HEIGHT * SCREEN_ROW_COUNT);
 
             const map: Map = this.game.map;
             for (let row: number = 0; row < map.rowCount; row++) {
@@ -60,11 +60,11 @@ export default {
                     this.possiblyOutlineScreen(ctx, row, col, currentScreenRow, currentScreenCol, 'red');
                     this.possiblyOutlineScreen(ctx, row, col, this.armedScreenRow, this.armedScreenCol, 'blue');
 
-                    ctx.translate(Constants.SCREEN_WIDTH, 0);
+                    ctx.translate(SCREEN_WIDTH, 0);
                 }
 
-                const xToZero: number = -Constants.SCREEN_WIDTH * map.colCount;
-                ctx.translate(xToZero, Constants.SCREEN_HEIGHT);
+                const xToZero: number = -SCREEN_WIDTH * map.colCount;
+                ctx.translate(xToZero, SCREEN_HEIGHT);
             }
 
             ctx.restore();
@@ -81,8 +81,8 @@ export default {
             const canvasWidth: number = canvas.clientWidth;
             const canvasHeight: number = canvas.clientHeight;
 
-            const virtualScreenWidth: number = canvasWidth / Constants.SCREEN_COL_COUNT;
-            const virtualScreenHeight: number = canvasHeight / Constants.SCREEN_ROW_COUNT;
+            const virtualScreenWidth: number = canvasWidth / SCREEN_COL_COUNT;
+            const virtualScreenHeight: number = canvasHeight / SCREEN_ROW_COUNT;
 
             const row: number = Math.floor(y / virtualScreenHeight);
             const col: number = Math.floor(x / virtualScreenWidth);
@@ -95,7 +95,7 @@ export default {
             if (row === targetRow && col === targetCol) {
                 ctx.strokeStyle = style;
                 ctx.lineWidth = 10;
-                ctx.strokeRect(0, 0, Constants.SCREEN_WIDTH - 10, Constants.SCREEN_HEIGHT - 10);
+                ctx.strokeRect(0, 0, SCREEN_WIDTH - 10, SCREEN_HEIGHT - 10);
             }
         },
 
@@ -122,11 +122,11 @@ export default {
         },
 
         canvasStyleHeight(): number {
-            return Constants.SCREEN_HEIGHT * Constants.SCREEN_ROW_COUNT;
+            return SCREEN_HEIGHT * SCREEN_ROW_COUNT;
         },
 
         canvasStyleWidth(): number {
-            return Constants.SCREEN_WIDTH * Constants.SCREEN_COL_COUNT;
+            return SCREEN_WIDTH * SCREEN_COL_COUNT;
         },
     },
 

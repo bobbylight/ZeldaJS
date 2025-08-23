@@ -1,20 +1,20 @@
 import { createStore, Store } from 'vuex';
 import { EditorState } from '@/editor/editor';
 import { ZeldaGame } from '@/ZeldaGame';
-import { Constants } from '@/Constants';
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from '@/Constants';
 import { Position } from '@/Position';
 import RowColumnPair from '@/RowColumnPair';
 
 // Initialize the game declared in zelda.ts
 const createGame: () => ZeldaGame = () => {
     const parent: HTMLDivElement = document.createElement('div');
-    return (window as any).game = new ZeldaGame({
+    return window.game = new ZeldaGame({
         assetRoot: undefined,
-        height: Constants.CANVAS_HEIGHT,
+        height: CANVAS_HEIGHT,
         keyRefreshMillis: 300,
         parent: parent,
         targetFps: 60,
-        width: Constants.CANVAS_WIDTH,
+        width: CANVAS_WIDTH,
         editMode: true
     });
 };

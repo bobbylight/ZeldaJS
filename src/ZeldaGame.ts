@@ -5,11 +5,10 @@ import { Map } from './Map';
 import { Position } from './Position';
 import { Game, SpriteSheet } from 'gtp';
 import { ItemDropStrategy } from './item/ItemDropStrategy';
+import { GameArgs } from 'gtp/lib/gtp/Game';
 declare let game: ZeldaGame;
 
-interface MapMap {
-    [ key: string ]: Map;
-}
+type MapMap = Record<string, Map>;
 
 export class ZeldaGame extends Game {
     maps: MapMap;
@@ -19,11 +18,11 @@ export class ZeldaGame extends Game {
     private animations: Animation[];
     private readonly editMode: boolean;
 
-    constructor(args?: any) {
+    constructor(args?: GameArgs & { editMode?: boolean }) {
         super(args);
         this.itemDropStrategy = new ItemDropStrategy();
         this.animations = [];
-        this.editMode = args.editMode || false;
+        this.editMode = args?.editMode ?? false;
     }
 
     addEnemyDiesAnimation(x: number, y: number) {
@@ -125,7 +124,7 @@ export class ZeldaGame extends Game {
         }
     }
 
-    get paintHitBoxes(): boolean {
+    getPaintHitBoxes(): boolean {
         return false;
     }
 

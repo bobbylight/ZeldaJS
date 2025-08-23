@@ -3,8 +3,8 @@ import { Actor, MOVE_AMT } from './Actor';
 import { Animation } from './Animation';
 import { Enemy } from './enemy/Enemy';
 import { AnimationListener } from './AnimationListener';
-import { DirectionUtil } from './Direction';
-import { Constants } from './Constants';
+import { opposite, ordinal } from './Direction';
+import { SCREEN_COL_COUNT, SCREEN_ROW_COUNT, TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { Sword } from './Sword';
 import { MainGameState } from './MainGameState';
 import { ZeldaGame } from './ZeldaGame';
@@ -62,7 +62,7 @@ export class Link extends Character {
         if (other instanceof Enemy || other instanceof Projectile) {
         // Projectiles reflect off of Link's shield
             if (!this.frozen && other instanceof Projectile) {
-                if (DirectionUtil.opposite(other.dir) === this.dir) {
+                if (opposite(other.dir) === this.dir) {
                     game.audio.playSound('shield');
                     return false;
                 }
@@ -86,7 +86,7 @@ export class Link extends Character {
                 game.audio.playSound('linkHurt');
                 this.takingDamage = true;
                 this.takingDamageTick = Link.MAX_TAKING_DAMAGE_TICK;
-                console.log('Taking damage at: ' + new Date().getTime());
+                console.log(`Taking damage at: ${new Date().getTime()}`);
                 this._slideTick = Character.MAX_SLIDE_TICK / 2; // Link isn't knocked back as much
                 this._slidingDir = other.dir;
             }
@@ -295,7 +295,7 @@ export class Link extends Character {
         if (hitBox.x < 0) {
             return -1;
         }
-        if ((hitBox.x + hitBox.w) >= Constants.TILE_WIDTH * Constants.SCREEN_COL_COUNT) {
+        if ((hitBox.x + hitBox.w) >= TILE_WIDTH * SCREEN_COL_COUNT) {
             return 1;
         }
         return 0;
@@ -305,7 +305,7 @@ export class Link extends Character {
         if (hitBox.y < 0) {
             return -1;
         }
-        if ((hitBox.y + hitBox.h) >= Constants.TILE_HEIGHT * Constants.SCREEN_ROW_COUNT) {
+        if ((hitBox.y + hitBox.h) >= TILE_HEIGHT * SCREEN_ROW_COUNT) {
             return 1;
         }
         return 0;
@@ -327,7 +327,7 @@ export class Link extends Character {
 
         // Snapping to grid
         // TODO: This isn't right...
-        const tileH: number = Constants.TILE_HEIGHT;
+        const tileH: number = TILE_HEIGHT;
         const offset: number = this.y % tileH;
         // console.log(this.x + ', ' + offset);
         if (offset !== 0) {
@@ -335,14 +335,14 @@ export class Link extends Character {
 
             if (offset <= AMT) {
                 if (this.isHitBoxWalkable(0, -1) && ++this._adjustToGridCounter === 1) {
-                    console.log('Adjusting up: ' + offset);
+                    console.log(`Adjusting up: ${offset}`);
                     this.y -= 1;
                     this._adjustToGridCounter = 0;
                 }
             }
             else if (this.isHitBoxWalkable(0, 1) && offset >= tileH - AMT) {
                 if (++this._adjustToGridCounter === 1) {
-                    console.log('Adjusting down: ' + offset);
+                    console.log(`Adjusting down: ${offset}`);
                     this.y += 1;
                     this._adjustToGridCounter = 0;
                 }
@@ -368,7 +368,7 @@ export class Link extends Character {
 
         // Snapping to grid
         // TODO: This isn't right...
-        const tileW: number = Constants.TILE_WIDTH;
+        const tileW: number = TILE_WIDTH;
         const offset: number = this.x % tileW;
         // console.log(offset);
         if (offset !== 0) {
@@ -405,7 +405,7 @@ export class Link extends Character {
         else {
             const ss: SpriteSheet = game.assets.get('link');
             const row: number = this.step;
-            const col: number = DirectionUtil.ordinal(this.dir);
+            const col: number = ordinal(this.dir);
             const index: number = row * 15 + col;
             ss.drawByIndex(ctx, this.x, this.y, index);
         }
@@ -423,9 +423,9 @@ export class Link extends Character {
             animationFrameUpdate(animation: Animation) {
             },
             animationCompleted(animation: Animation) {
-                // @ts-ignore - scope is defined in "scope" arg
+                // @ts-expect-error - scope is defined in "scope" arg
                 this.anim = null;
-                // @ts-ignore - scope is defined in "scope" arg
+                // @ts-expect-error - scope is defined in "scope" arg
                 this.frozen = false;
             }
         });

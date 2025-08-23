@@ -10,8 +10,8 @@ type EnemyClass = 'A' | 'B' | 'C' | 'D' | 'X';
  * http://www.zeldaspeedruns.com/loz/generalknowledge/item-drops-chart
  */
 export class ItemDropStrategy {
-    private readonly enemyTypeToEnemyClassMap: { [ name: string ]: EnemyClass };
-    private readonly itemDropTable: { [ enemyClass: string /* EnemyClass */ ]: (string | null)[] };
+    private readonly enemyTypeToEnemyClassMap: Record<string, EnemyClass | undefined>;
+    private readonly itemDropTable: Record<string /*EnemyClass*/, (string | null)[]>;
     private counter: number;
 
     constructor() {
@@ -43,7 +43,7 @@ export class ItemDropStrategy {
         let item: AbstractItem | null = null;
         console.log(enemy.enemyName);
 
-        let enemyClass: EnemyClass | null = this.enemyTypeToEnemyClassMap[enemy.enemyName];
+        let enemyClass: EnemyClass | undefined = this.enemyTypeToEnemyClassMap[enemy.enemyName];
         if (!enemyClass) {
             console.error(`Enemy class not known to ItemDropStrategy: ${enemy.enemyName}`);
             enemyClass = 'A';

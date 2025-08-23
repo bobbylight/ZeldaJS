@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
-import { Constants } from '@/Constants';
+import { TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
 import { Tileset } from '@/Tileset';
 
 /**
@@ -36,7 +36,7 @@ export default {
         },
 
         height(): number {
-            return this.rowCount * Constants.TILE_HEIGHT;
+            return this.rowCount * TILE_HEIGHT;
         },
 
         rowCount(): number {
@@ -44,7 +44,7 @@ export default {
         },
 
         width(): number {
-            return this.colCount * Constants.TILE_WIDTH;
+            return this.colCount * TILE_WIDTH;
         },
     },
 
@@ -93,8 +93,8 @@ export default {
         },
 
         updateCanvasStyle(tileset: Tileset) {
-            const canvasWidth: number = tileset.colCount * Constants.TILE_WIDTH * 2;
-            const canvasHeight: number = tileset.rowCount * Constants.TILE_HEIGHT * 2;
+            const canvasWidth: number = tileset.colCount * TILE_WIDTH * 2;
+            const canvasHeight: number = tileset.rowCount * TILE_HEIGHT * 2;
             this.canvasStyle = `width: ${canvasWidth}px; height: ${canvasHeight}px;`;
         }
     },

@@ -1,40 +1,40 @@
 import { describe, expect, it } from 'vitest';
-import { DirectionUtil } from './Direction';
+import { isHorizontal, isVertical, opposite, ordinal, randomDir } from './Direction';
 
 describe('Direction', () => {
-    it('DirectionUtil.isHorizontal() should work', () => {
-        expect(DirectionUtil.isHorizontal('LEFT')).toBeTruthy();
-        expect(DirectionUtil.isHorizontal('RIGHT')).toBeTruthy();
-        expect(DirectionUtil.isHorizontal('UP')).toBeFalsy();
-        expect(DirectionUtil.isHorizontal('DOWN')).toBeFalsy();
-        expect(DirectionUtil.isHorizontal(null)).toBeFalsy();
-        expect(DirectionUtil.isHorizontal(undefined)).toBeFalsy();
+    it('isHorizontal() should work', () => {
+        expect(isHorizontal('LEFT')).toBeTruthy();
+        expect(isHorizontal('RIGHT')).toBeTruthy();
+        expect(isHorizontal('UP')).toBeFalsy();
+        expect(isHorizontal('DOWN')).toBeFalsy();
+        expect(isHorizontal(null)).toBeFalsy();
+        expect(isHorizontal(undefined)).toBeFalsy();
     });
 
-    it('DirectionUtil.isVertical() should work', () => {
-        expect(DirectionUtil.isVertical('LEFT')).toBeFalsy();
-        expect(DirectionUtil.isVertical('RIGHT')).toBeFalsy();
-        expect(DirectionUtil.isVertical('UP')).toBeTruthy();
-        expect(DirectionUtil.isVertical('DOWN')).toBeTruthy();
-        expect(DirectionUtil.isVertical(null)).toBeFalsy();
-        expect(DirectionUtil.isVertical(undefined)).toBeFalsy();
+    it('isVertical() should work', () => {
+        expect(isVertical('LEFT')).toBeFalsy();
+        expect(isVertical('RIGHT')).toBeFalsy();
+        expect(isVertical('UP')).toBeTruthy();
+        expect(isVertical('DOWN')).toBeTruthy();
+        expect(isVertical(null)).toBeFalsy();
+        expect(isVertical(undefined)).toBeFalsy();
     });
 
-    it('DirectionUtil.opposite() should work', () => {
-        expect(DirectionUtil.opposite('LEFT')).toStrictEqual('RIGHT');
-        expect(DirectionUtil.opposite('RIGHT')).toStrictEqual('LEFT');
-        expect(DirectionUtil.opposite('UP')).toStrictEqual('DOWN');
-        expect(DirectionUtil.opposite('DOWN')).toStrictEqual('UP');
+    it('opposite() should work', () => {
+        expect(opposite('LEFT')).toStrictEqual('RIGHT');
+        expect(opposite('RIGHT')).toStrictEqual('LEFT');
+        expect(opposite('UP')).toStrictEqual('DOWN');
+        expect(opposite('DOWN')).toStrictEqual('UP');
     });
 
-    it('DirectionUtil.ordinal() should work', () => {
-        expect(DirectionUtil.ordinal('LEFT')).toStrictEqual(1);
-        expect(DirectionUtil.ordinal('RIGHT')).toStrictEqual(3);
-        expect(DirectionUtil.ordinal('UP')).toStrictEqual(2);
-        expect(DirectionUtil.ordinal('DOWN')).toStrictEqual(0);
+    it('ordinal() should work', () => {
+        expect(ordinal('LEFT')).toStrictEqual(1);
+        expect(ordinal('RIGHT')).toStrictEqual(3);
+        expect(ordinal('UP')).toStrictEqual(2);
+        expect(ordinal('DOWN')).toStrictEqual(0);
     });
 
-    it('DirectionUtil.randomDir() should work', () => {
-        expect(DirectionUtil.randomDir()).toBeDefined();
+    it('randomDir() should work', () => {
+        expect(randomDir()).toBeDefined();
     });
 });

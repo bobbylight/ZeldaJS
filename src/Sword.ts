@@ -1,5 +1,5 @@
 import { Link } from './Link';
-import { DirectionUtil } from './Direction';
+import { ordinal } from './Direction';
 import { Actor } from './Actor';
 import { ZeldaGame } from './ZeldaGame';
 import { Rectangle, SpriteSheet } from 'gtp';
@@ -54,7 +54,7 @@ export class Sword extends Actor {
         if (this.frame >= 0 && this.frame < 14) { // First two frames, we aren't painted
             const ss: SpriteSheet = game.assets.get('link');
             const row: number = 3;
-            const col: number = DirectionUtil.ordinal(this.dir);
+            const col: number = ordinal(this.dir);
             const index: number = row * 15 + col;
             ss.drawByIndex(ctx, this.x, this.y, index);
         }

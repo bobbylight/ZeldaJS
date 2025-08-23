@@ -8,7 +8,7 @@ declare let game: ZeldaGame;
 
 export type RupeeDenomination = 'yellow' | 'blue' | 'red';
 
-const RUPEE_COUNTS: { [ key: string ]: number } = {
+const RUPEE_COUNTS: Record<string, number> = {
     yellow: 1,
     blue: 5,
     red: 20

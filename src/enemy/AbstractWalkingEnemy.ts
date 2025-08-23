@@ -1,5 +1,5 @@
-import { DirectionUtil } from '../Direction';
-import { Constants } from '../Constants';
+import { randomDir } from '../Direction';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../Constants';
 import { Actor } from '../Actor';
 import { Enemy, EnemyStrength } from './Enemy';
 import { ZeldaGame } from '../ZeldaGame';
@@ -25,7 +25,7 @@ export abstract class AbstractWalkingEnemy extends Enemy {
     }
 
     protected _changeDirection() {
-        this.dir = DirectionUtil.randomDir();
+        this.dir = randomDir();
     }
 
     override collidedWith(other: Actor): boolean {
@@ -58,7 +58,7 @@ export abstract class AbstractWalkingEnemy extends Enemy {
         const tempX: number = this.x + inc;
         this.hitBox.set(tempX, this.y, this.w, this.h);
 
-        if (this.hitBox.x < 0 || (this.hitBox.x + this.hitBox.w) >= Constants.SCREEN_WIDTH &&
+        if (this.hitBox.x < 0 || (this.hitBox.x + this.hitBox.w) >= SCREEN_WIDTH &&
             !this._slidingDir) {
             this._changeDirection();
         }
@@ -80,7 +80,7 @@ export abstract class AbstractWalkingEnemy extends Enemy {
         const tempY: number = this.y + inc;
         this.hitBox.set(this.x, tempY, this.w, this.h);
 
-        if (this.hitBox.y < 0 || (this.hitBox.y + this.hitBox.h) >= Constants.SCREEN_HEIGHT &&
+        if (this.hitBox.y < 0 || (this.hitBox.y + this.hitBox.h) >= SCREEN_HEIGHT &&
             !this._slidingDir) {
             this._changeDirection();
         }

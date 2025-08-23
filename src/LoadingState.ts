@@ -2,20 +2,14 @@ import { CurtainOpeningState } from './CurtainOpeningState';
 import { MainGameState } from './MainGameState';
 import { TitleState } from './TitleState';
 import { BaseState } from './BaseState';
-import { Game, BaseStateArgs, Utils, FadeOutInState } from 'gtp';
+import { Game, Utils, FadeOutInState } from 'gtp';
 import { ImageAtlasInfo } from 'gtp/lib/gtp/ImageAtlas';
-import { ZeldaGame } from './ZeldaGame';
 
+/**
+ * State that renders while resources are loading.
+ */
 export class LoadingState extends BaseState {
     assetsLoaded: boolean;
-    _loadingImage: any;
-
-    /**
-     * State that renders while resources are loading.
-     */
-    constructor(args?: ZeldaGame | BaseStateArgs<ZeldaGame>) {
-        super(args);
-    }
 
     override update(delta: number) {
         this.handleDefaultKeys();
@@ -44,8 +38,6 @@ export class LoadingState extends BaseState {
             // Load assets used by this state first
             game.assets.addImage('loading', 'res/loadingMessage.png');
             game.assets.onLoad(() => {
-                this._loadingImage = game.assets.get('loading');
-
                 game.assets.addImage('title', 'res/title.png');
                 game.assets.addSpriteSheet('font', 'res/font.png', 9, 7, 0, 0);
                 game.assets.addSpriteSheet('link', 'res/link.png', 16, 16, 1, 1, true);

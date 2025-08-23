@@ -2,28 +2,22 @@ import { BaseState } from './BaseState';
 import { CurtainOpeningState } from './CurtainOpeningState';
 import { MainGameState } from './MainGameState';
 import { ZeldaGame } from './ZeldaGame';
-import { BaseStateArgs, Game, Image, InputManager } from 'gtp';
+import { Game, Image, InputManager } from 'gtp';
 declare let game: ZeldaGame;
 
 export class TitleState extends BaseState {
     private _lastKeypressTime: number;
-
-    /**
-     * State that renders the title screen.
-     */
-    constructor(args?: ZeldaGame | BaseStateArgs<ZeldaGame>) {
-        super(args);
-    }
+    private boundHandleStart: () => void;
 
     override enter() {
         super.enter(game);
-
-        game.canvas.addEventListener('touchstart', this.handleStart, false);
+        this.boundHandleStart = this.handleStart.bind(this);
+        game.canvas.addEventListener('touchstart', this.boundHandleStart, false);
         this._lastKeypressTime = game.playTime;
     }
 
     override leaving(game: Game) {
-        game.canvas.removeEventListener('touchstart', this.handleStart, false);
+        game.canvas.removeEventListener('touchstart', this.boundHandleStart, false);
     }
 
     handleStart() {

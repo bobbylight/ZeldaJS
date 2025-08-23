@@ -1,7 +1,7 @@
 import { Character } from '@/Character';
 import { Actor } from '@/Actor';
-import { Constants } from '@/Constants';
-import { DirectionUtil } from '@/Direction';
+import { SCREEN_COL_COUNT, SCREEN_ROW_COUNT } from '@/Constants';
+import { ordinal } from '@/Direction';
 import { Sword } from '@/Sword';
 import { Screen } from '@/Screen';
 import { ZeldaGame } from '@/ZeldaGame';
@@ -64,8 +64,7 @@ export abstract class Enemy extends Character {
     }
 
     get enemyName(): string {
-        // "name" isn't technically a field of Function until es6
-        return this.strength + (this.constructor as any).name;
+        return this.strength + this.constructor.name;
     }
 
     get step(): number {
@@ -77,7 +76,7 @@ export abstract class Enemy extends Character {
 
         let col: number = colOffset;
         if (!this.alwaysFacesForward) {
-            col += DirectionUtil.ordinal(this.dir);
+            col += ordinal(this.dir);
         }
 
         if (this._slideTick > 0) {
@@ -114,8 +113,8 @@ export abstract class Enemy extends Character {
 
     setLocationToSpawnPoint(screen: Screen) {
         while (true) {
-            const x: number = game.randomInt(Constants.SCREEN_ROW_COUNT) * 16;
-            const y: number = game.randomInt(Constants.SCREEN_COL_COUNT) * 16;
+            const x: number = game.randomInt(SCREEN_ROW_COUNT) * 16;
+            const y: number = game.randomInt(SCREEN_COL_COUNT) * 16;
             if (screen.isWalkable(this, x, y)) {
                 this.setLocation(x, y);
                 return;

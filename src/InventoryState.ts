@@ -2,18 +2,14 @@ import { BaseState } from './BaseState';
 import { CurtainOpeningState } from './CurtainOpeningState';
 import { MainGameState } from './MainGameState';
 import { ZeldaGame } from './ZeldaGame';
-import { BaseStateArgs, Game, InputManager } from 'gtp';
+import { Game, InputManager } from 'gtp';
 import { InventorySlideState } from '@/InventorySlideState';
 declare let game: ZeldaGame;
 
+/**
+ * State that renders the inventory state.
+ */
 export class InventoryState extends BaseState {
-    /**
-     * State that renders the title screen.
-     */
-    constructor(args?: ZeldaGame | BaseStateArgs<ZeldaGame>) {
-        super(args);
-    }
-
     override enter() {
         super.enter(game);
     }

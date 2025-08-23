@@ -1,5 +1,5 @@
 import { Actor, ActorData } from './Actor';
-import { Constants } from './Constants';
+import { SCREEN_COL_COUNT, SCREEN_ROW_COUNT, TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { Enemy } from './enemy/Enemy';
 import { EnemyGroup, EnemyGroupData, EnemyInfo } from './EnemyGroup';
 import { Map } from './Map';
@@ -11,7 +11,7 @@ import { Link } from './Link';
 import { Tileset } from './Tileset';
 import { ZeldaGame } from './ZeldaGame';
 import { Sword } from './Sword';
-import EventLoader from './editor/event-loader';
+import loadEvent from './editor/event-loader';
 declare let game: ZeldaGame;
 
 export class Screen {
@@ -27,9 +27,7 @@ export class Screen {
     constructor(parent: Map, enemyGroup?: EnemyGroup | null, tiles?: number[][]) {
         this._parent = parent;
 
-        if (!tiles) {
-            tiles = Screen._createEmptyTiles();
-        }
+        tiles ??= Screen._createEmptyTiles();
         this._tiles = tiles;
 
         this._actors = [];
@@ -52,9 +50,9 @@ export class Screen {
 
     private static _createEmptyTiles(): number[][] {
         const tiles: number[][] = [];
-        for (let row: number = 0; row < Constants.SCREEN_ROW_COUNT; row++) {
+        for (let row: number = 0; row < SCREEN_ROW_COUNT; row++) {
             const rowData: number[] = [];
-            for (let col: number = 0; col < Constants.SCREEN_COL_COUNT; col++) {
+            for (let col: number = 0; col < SCREEN_COL_COUNT; col++) {
                 rowData.push(0);
             }
             tiles.push(rowData);
@@ -66,7 +64,7 @@ export class Screen {
         if (this.enemyGroup) {
             if (this._firstTimeThrough) {
                 this.enemyGroup.enemies.forEach((enemyInfo: EnemyInfo) => {
-                    const count: number = enemyInfo.count || 1;
+                    const count: number = enemyInfo.count ?? 1;
                     for (let i: number = 0; i < count; i++) {
                         const enemy: Enemy = InstanceLoader.create<Enemy>(enemyInfo.type, enemyInfo.strength);
                         enemy.setLocationToSpawnPoint(this);
@@ -84,7 +82,7 @@ export class Screen {
                 this._actors = [];
                 for (let i: number = 0; i < count; i++) {
                     const enemyInfo: EnemyInfo = this.flattenedEnemyGroup.enemies[i];
-                    const enemy: Enemy = InstanceLoader.create<Enemy>(enemyInfo.type, enemyInfo.strength);
+                    const enemy: Enemy = InstanceLoader.create(enemyInfo.type, enemyInfo.strength);
                     enemy.setLocationToSpawnPoint(this);
                     this._actors.push(enemy);
                 }
@@ -100,7 +98,7 @@ export class Screen {
         // this._actors = [];
     }
 
-    fromJson(json: ScreenData): Screen {
+    fromJson(json: ScreenData): this {
         this._tiles = json.tiles;
         this._actors.length = 0;
         // json.actors.forEach((actorData: ActorData) => {
@@ -110,7 +108,7 @@ export class Screen {
 
         if (json.events) {
             this.events = json.events.map((eventData: EventData) => {
-                return EventLoader.load(eventData);
+                return loadEvent(eventData);
             });
         }
 
@@ -123,8 +121,8 @@ export class Screen {
     }
 
     private static isOffScreen(row: number, col: number): boolean {
-        return row < 0 || row >= Constants.SCREEN_ROW_COUNT ||
-            col < 0 || col >= Constants.SCREEN_COL_COUNT;
+        return row < 0 || row >= SCREEN_ROW_COUNT ||
+            col < 0 || col >= SCREEN_COL_COUNT;
     }
 
     private isUnpopulated(): boolean {
@@ -170,17 +168,17 @@ export class Screen {
         }
 
         for (let row: number = startRow; row < lastRow; row++) {
-            const y: number = row * Constants.TILE_HEIGHT;
+            const y: number = row * TILE_HEIGHT;
             this.paintRow(ctx, row, y, paintWalkability);
         }
 
         if (this._parent.showEvents) {
             this.events.forEach((event: Event<any>) => {
                 const tile: Position = event.getTile();
-                const x: number = tile.col * Constants.TILE_WIDTH;
-                const y: number = tile.row * Constants.TILE_WIDTH;
+                const x: number = tile.col * TILE_WIDTH;
+                const y: number = tile.row * TILE_WIDTH;
                 ctx.strokeStyle = 'red';
-                ctx.strokeRect(x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT);
+                ctx.strokeRect(x, y, TILE_WIDTH, TILE_HEIGHT);
             });
         }
     }
@@ -203,7 +201,7 @@ export class Screen {
         const tileset: Tileset = this._parent.tileset;
 
         for (let row: number = 0; row < this._tiles.length; row++) {
-            const y: number = row * Constants.TILE_HEIGHT;
+            const y: number = row * TILE_HEIGHT;
             const tile: number = this._tiles[row][col];
             tileset.paintTile(ctx, tile, x, y);
 
@@ -232,7 +230,7 @@ export class Screen {
         }
 
         for (let col: number = firstCol; col < lastCol; col++) {
-            const x: number = col * Constants.TILE_WIDTH;
+            const x: number = col * TILE_WIDTH;
             const tile: number = this._tiles[row][col];
             tileset.paintTile(ctx, tile, x, y);
 
@@ -257,13 +255,13 @@ export class Screen {
             // First and last row
             this.paintRow(ctx, 0, 0, paintWalkability);
             const row: number = this._tiles.length - 1;
-            const y: number = row * Constants.TILE_HEIGHT;
+            const y: number = row * TILE_HEIGHT;
             this.paintRow(ctx, row, y, paintWalkability);
 
             // First and last column
             this.paintCol(ctx, 0, 0, paintWalkability);
             const col: number = this._tiles[0].length - 1;
-            const x: number = col * Constants.TILE_WIDTH;
+            const x: number = col * TILE_WIDTH;
             this.paintCol(ctx, col, x, paintWalkability);
         }
     }
@@ -334,21 +332,18 @@ export class Screen {
             // actors: actorData,
             enemyGroup: this.enemyGroup ? this.enemyGroup.toJson() : null
         };
-        if (this.events && this.events.length) {
+        if (this.events.length) {
             screenData.events = this.events.map((e: Event<any>) => {
-                return e.toJson();
+                return e.toJson() as EventData;
             });
         }
 
-        screenData.music = this.music || undefined; // Don't add a value if this.music === null
+        screenData.music = this.music ?? undefined; // Don't add a value if this.music === null
         return screenData;
     }
 
     toString(): string {
-        return '[Screen: ' +
-                `enemyGroup=${this.enemyGroup}` +
-                `music=${this.music}` +
-                ']';
+        return `[Screen: enemyGroup=${this.enemyGroup}music=${this.music}]`;
     }
 
     update() {

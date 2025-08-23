@@ -49,10 +49,7 @@ export class Position {
     }
 
     toString(): string {
-        return '[Position: ' +
-                'row=' + this.row +
-                ', col=' + this.col +
-                ']';
+        return `[Position: row=${this.row}, col=${this.col}]`;
     }
 }
 

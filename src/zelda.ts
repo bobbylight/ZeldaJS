@@ -3,32 +3,38 @@
  */
 import { ZeldaGame } from './ZeldaGame';
 import { LoadingState } from './LoadingState';
-import { Constants } from './Constants';
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from './Constants';
 import { CanvasResizer, StretchMode } from 'gtp';
 
 import './app.scss';
 
-(window as any).init = (parent: HTMLElement, assetRoot?: string) => {
-    const gameWindow: any = window as any;
-    gameWindow.game = new ZeldaGame({
+declare global {
+    interface Window {
+        game?: ZeldaGame;
+        init: (parent: string, assetRoot?: string) => void;
+    }
+}
+
+window.init = (parent: string, assetRoot?: string) => {
+    window.game = new ZeldaGame({
         assetRoot: assetRoot,
-        height: Constants.CANVAS_HEIGHT,
+        height: CANVAS_HEIGHT,
         keyRefreshMillis: 300,
-        parent: parent,
+        parent,
         targetFps: 60,
-        width: Constants.CANVAS_WIDTH
+        width: CANVAS_WIDTH
     });
-    gameWindow.game.setState(new LoadingState());
-    gameWindow.game.start();
+    window.game.setState(new LoadingState());
+    window.game.start();
 
     const userAgent: string = navigator.userAgent.toLowerCase();
-    if (userAgent.indexOf('electron/') > -1) {
-        const canvas: HTMLCanvasElement = gameWindow.game.canvas;
+    if (userAgent.includes('electron/')) {
+        const canvas: HTMLCanvasElement = window.game.canvas;
 
         window.addEventListener('resize', () => {
-            (console as any).log('Resize event received');
+            console.log('Resize event received');
             CanvasResizer.resize(canvas, StretchMode.STRETCH_PROPORTIONAL);
         }, false);
     }
 };
-(window as any).init('parent');
+window.init('parent');
