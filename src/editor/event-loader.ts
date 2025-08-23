@@ -29,7 +29,7 @@ function goDownStairs(data: EventData): GoDownStairsEvent {
  * @param data The JSON data representing the event.
  * @returns The event.
  */
-const loadEvent = (data: EventData): Event<any> => {
+const loadEvent = (data: EventData): Event<EventData> => {
     switch (data.type) {
         case 'changeScreenWarp':
             return changeScreenWarp(data);

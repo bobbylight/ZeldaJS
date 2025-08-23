@@ -21,7 +21,7 @@ export class Screen {
     enemyGroup: EnemyGroup | undefined | null;
     private flattenedEnemyGroup: EnemyGroup; // TODO: Can we flatten iff we know we're in the game, not the editor?
     private _firstTimeThrough: boolean;
-    events: Event<any>[];
+    events: Event<EventData>[];
     music?: string | null;
 
     constructor(parent: Map, enemyGroup?: EnemyGroup | null, tiles?: number[][]) {
@@ -173,7 +173,7 @@ export class Screen {
         }
 
         if (this._parent.showEvents) {
-            this.events.forEach((event: Event<any>) => {
+            this.events.forEach((event: Event<EventData>) => {
                 const tile: Position = event.getTile();
                 const x: number = tile.col * TILE_WIDTH;
                 const y: number = tile.row * TILE_WIDTH;
@@ -333,8 +333,8 @@ export class Screen {
             enemyGroup: this.enemyGroup ? this.enemyGroup.toJson() : null
         };
         if (this.events.length) {
-            screenData.events = this.events.map((e: Event<any>) => {
-                return e.toJson() as EventData;
+            screenData.events = this.events.map((e: Event<EventData>) => {
+                return e.toJson();
             });
         }
 
@@ -353,9 +353,9 @@ export class Screen {
 
     private _updateActions() {
         // TODO: Optimize me
-        const remainingEvents: Event<any>[] = [];
+        const remainingEvents: Event<EventData>[] = [];
 
-        this.events.forEach((event: Event<any>) => {
+        this.events.forEach((event: Event<EventData>) => {
             event.update();
             if (event.shouldOccur()) {
                 if (!event.execute()) { // execute() returning true => event is done

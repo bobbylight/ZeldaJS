@@ -8,7 +8,7 @@ export interface AnimationListener {
     /**
      * If defined, callbacks in this listener will be called with this value as the scope (<code>this</code>).
      */
-    scope?: any;
+    scope?: unknown;
 
     /**
      * If defined, called when an animation updates to a new frame.
