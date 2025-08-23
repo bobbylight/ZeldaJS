@@ -79,28 +79,28 @@ export class MainGameState extends BaseState {
             switch (this._screenSlidingDir) {
                 case 'LEFT': // Scrolling "left" so Link goes right
                     ctx.translate(-this._screenSlidingAmount, 0);
-                    this._lastScreen!.paint(ctx);
+                    this._lastScreen?.paint(ctx);
                     ctx.save();
                     ctx.translate(SCREEN_WIDTH, 0);
                     currentScreen.paint(ctx);
                     break;
                 case 'RIGHT': // Scrolling "right" so Link goes left
                     ctx.translate(this._screenSlidingAmount, 0);
-                    this._lastScreen!.paint(ctx);
+                    this._lastScreen?.paint(ctx);
                     ctx.save();
                     ctx.translate(-SCREEN_WIDTH, 0);
                     currentScreen.paint(ctx);
                     break;
                 case 'UP':
                     ctx.translate(0, -this._screenSlidingAmount);
-                    this._lastScreen!.paint(ctx);
+                    this._lastScreen?.paint(ctx);
                     ctx.save();
                     ctx.translate(0, SCREEN_HEIGHT);
                     currentScreen.paint(ctx);
                     break;
                 case 'DOWN':
                     ctx.translate(0, this._screenSlidingAmount);
-                    this._lastScreen!.paint(ctx);
+                    this._lastScreen?.paint(ctx);
                     ctx.save();
                     ctx.translate(0, -SCREEN_HEIGHT);
                     currentScreen.paint(ctx);
@@ -113,22 +113,22 @@ export class MainGameState extends BaseState {
 
             switch (this._screenSlidingDir) {
                 case 'LEFT': // Scrolling "left" so Link goes right
-                    this._lastScreen!.paintTopLayer(ctx);
+                    this._lastScreen?.paintTopLayer(ctx);
                     ctx.translate(SCREEN_WIDTH, 0);
                     currentScreen.paintTopLayer(ctx);
                     break;
                 case 'RIGHT': // Scrolling "right" so Link goes left
-                    this._lastScreen!.paintTopLayer(ctx);
+                    this._lastScreen?.paintTopLayer(ctx);
                     ctx.translate(-SCREEN_WIDTH, 0);
                     currentScreen.paintTopLayer(ctx);
                     break;
                 case 'UP':
-                    this._lastScreen!.paintTopLayer(ctx);
+                    this._lastScreen?.paintTopLayer(ctx);
                     ctx.translate(0, SCREEN_HEIGHT);
                     currentScreen.paintTopLayer(ctx);
                     break;
                 case 'DOWN':
-                    this._lastScreen!.paintTopLayer(ctx);
+                    this._lastScreen?.paintTopLayer(ctx);
                     ctx.translate(0, -SCREEN_HEIGHT);
                     currentScreen.paintTopLayer(ctx);
                     break;

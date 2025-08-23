@@ -35,7 +35,9 @@ const store: Store<EditorState> = createStore({
             state.currentScreenCol = screen.col;
         },
         setCurrentScreenMusic(state: EditorState, music: string | null) {
-            state.currentScreen!.music = music;
+            if (state.currentScreen) {
+                state.currentScreen.music = music;
+            }
         },
         setMap(state: EditorState, map: string) {
             const destScreen: Position = new Position(state.currentScreenRow, state.currentScreenCol);

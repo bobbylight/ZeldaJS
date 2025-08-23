@@ -55,7 +55,7 @@ export class ZeldaGame extends Game {
 
     // TODO: Convert to a gtp BitmapFont
     drawString(x: number, y: number, text: string | number,
-        ctx: CanvasRenderingContext2D = game.canvas.getContext('2d')!) {
+        ctx: CanvasRenderingContext2D = this.getRenderingContext()) {
         const str: string = text.toString(); // Allow us to pass in stuff like numerics
 
         // Note we have a gtp.SpriteSheet, not a gtp.BitmapFont, so our
@@ -126,6 +126,14 @@ export class ZeldaGame extends Game {
 
     getPaintHitBoxes(): boolean {
         return false;
+    }
+
+    getRenderingContext(): CanvasRenderingContext2D {
+        const ctx = this.canvas.getContext('2d');
+        if (!ctx) {
+            throw new Error('Failed to get 2D rendering context from canvas.');
+        }
+        return ctx;
     }
 
     resumeMusic() {
