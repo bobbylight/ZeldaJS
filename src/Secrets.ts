@@ -10,7 +10,7 @@ export class Secrets {
         this.secrets = {};
     }
 
-    add(secretName: string, secret: Secret): Secrets {
+    add(secretName: string, secret: Secret): this {
         this.secrets[secretName] = secret;
         return this;
     }
@@ -39,9 +39,7 @@ export class Secrets {
     }
 }
 
-export interface SecretsData {
-    [ secret: string ]: Secret;
-}
+export type SecretsData = Record<string, Secret>;
 
 export interface Secret {
     value: boolean;

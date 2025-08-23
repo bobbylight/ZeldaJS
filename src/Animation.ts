@@ -59,8 +59,7 @@ export class Animation {
     private _fireFrameUpdate() {
         this._listeners.forEach((listener: AnimationListener) => {
             if (listener.animationFrameUpdate) {
-                const scope: any = listener.scope || listener;
-                listener.animationFrameUpdate.call(scope, this);
+                listener.animationFrameUpdate.call(listener.scope ?? listener, this);
             }
         });
     }
@@ -105,8 +104,7 @@ export class Animation {
     private _setDone() {
         this._done = true;
         this._listeners.forEach((listener: AnimationListener) => {
-            const scope: any = listener.scope || listener;
-            listener.animationCompleted.call(scope, this);
+            listener.animationCompleted.call(listener.scope ?? listener, this);
         });
         this._listeners = [];
     }
@@ -165,7 +163,7 @@ export class Animation {
             }
         }
 
-        if (this._totalTime > this._frames[this._curFrame].time && !this.done) {
+        if (this._totalTime > this._frames[this._curFrame].time) {
             this._totalTime = 0;
             this._curFrame++;
 

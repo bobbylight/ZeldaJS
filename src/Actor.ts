@@ -1,5 +1,5 @@
 import { Direction } from './Direction';
-import { Constants } from './Constants';
+import { TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { ZeldaGame } from './ZeldaGame';
 import { Position } from './Position';
 import { Rectangle } from 'gtp';
@@ -28,8 +28,8 @@ export abstract class Actor {
         // Almost all characters are 1 tile in size; those that aren't can override
         this.x = 0;
         this.y = 0;
-        this.w = Constants.TILE_WIDTH;
-        this.h = Constants.TILE_HEIGHT;
+        this.w = TILE_WIDTH;
+        this.h = TILE_HEIGHT;
     }
 
     /**
@@ -45,7 +45,7 @@ export abstract class Actor {
      * @param json The JSON representation of the actor.
      * @returns This actor.
      */
-    fromJson(json: ActorData): Actor {
+    fromJson(json: ActorData): this {
         this.dir = json.dir;
         this.x = json.x;
         this.y = json.y;
@@ -71,7 +71,7 @@ export abstract class Actor {
      * @returns Whether this actor is entirely on the tile.
      */
     isEntirelyOn(tile: Position): boolean {
-        const size: number = Constants.TILE_WIDTH; // TILE_HEIGHT is the same
+        const size: number = TILE_WIDTH; // TILE_HEIGHT is the same
         const x: number = tile.col * size;
         const y: number = tile.row * size;
         const tileBounds: Rectangle = new Rectangle(x, y, size, size);
@@ -104,7 +104,7 @@ export abstract class Actor {
      */
     isWalkingUpOnto(tile: Position): boolean {
         if (this.dir === 'UP') {
-            const size: number = Constants.TILE_HEIGHT;
+            const size: number = TILE_HEIGHT;
             const x: number = tile.col * size;
             const y: number = tile.row * size;
             const tileBounds: Rectangle = new Rectangle(x, y, size, size);
@@ -133,7 +133,7 @@ export abstract class Actor {
      * @param ctx The rendering context to use.
      */
     protected possiblyPaintHitBox(ctx: CanvasRenderingContext2D) {
-        if (game.paintHitBoxes) {
+        if (game.getPaintHitBoxes()) {
             ctx.fillStyle = 'pink';
             const hitBox: Rectangle = this.hitBox;
             ctx.fillRect(hitBox.x, hitBox.y, hitBox.w, hitBox.h);

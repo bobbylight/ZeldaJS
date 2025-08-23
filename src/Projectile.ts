@@ -1,4 +1,4 @@
-import { Constants } from './Constants';
+import { SCREEN_HEIGHT_WITH_HUD, SCREEN_WIDTH } from './Constants';
 import { Direction } from './Direction';
 import { Actor } from './Actor';
 import { ZeldaGame } from './ZeldaGame';
@@ -59,7 +59,7 @@ export class Projectile extends Actor {
         switch (this.dir) {
             case 'DOWN':
                 this.y += SPEED;
-                if (this.y > Constants.SCREEN_HEIGHT_WITH_HUD + this.h) {
+                if (this.y > SCREEN_HEIGHT_WITH_HUD + this.h) {
                     this.done = true;
                 }
                 break;
@@ -77,7 +77,7 @@ export class Projectile extends Actor {
                 break;
             case 'RIGHT':
                 this.x += SPEED;
-                if (this.x > Constants.SCREEN_WIDTH + this.w) {
+                if (this.x > SCREEN_WIDTH + this.w) {
                     this.done = true;
                 }
                 break;

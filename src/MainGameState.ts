@@ -1,5 +1,5 @@
-import { Direction, DirectionUtil } from './Direction';
-import { Constants } from './Constants';
+import { Direction, isHorizontal, isVertical } from './Direction';
+import { SCREEN_HEIGHT, SCREEN_WIDTH, TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { BaseState } from './BaseState';
 import { Screen } from './Screen';
 import { Map } from './Map';
@@ -45,7 +45,7 @@ export class MainGameState extends BaseState {
         });
         if (changeScreenWarpEvents.length) {
             if (changeScreenWarpEvents.length > 1) {
-                console.error(`More than one ChangeScreenWarpEvent for screen ${screen}!`);
+                console.error(`More than one ChangeScreenWarpEvent for screen ${screen.toString()}!`);
             }
             changeScreenWarpEvents[0].execute();
             return;
@@ -81,28 +81,28 @@ export class MainGameState extends BaseState {
                     ctx.translate(-this._screenSlidingAmount, 0);
                     this._lastScreen!.paint(ctx);
                     ctx.save();
-                    ctx.translate(Constants.SCREEN_WIDTH, 0);
+                    ctx.translate(SCREEN_WIDTH, 0);
                     currentScreen.paint(ctx);
                     break;
                 case 'RIGHT': // Scrolling "right" so Link goes left
                     ctx.translate(this._screenSlidingAmount, 0);
                     this._lastScreen!.paint(ctx);
                     ctx.save();
-                    ctx.translate(-Constants.SCREEN_WIDTH, 0);
+                    ctx.translate(-SCREEN_WIDTH, 0);
                     currentScreen.paint(ctx);
                     break;
                 case 'UP':
                     ctx.translate(0, -this._screenSlidingAmount);
                     this._lastScreen!.paint(ctx);
                     ctx.save();
-                    ctx.translate(0, Constants.SCREEN_HEIGHT);
+                    ctx.translate(0, SCREEN_HEIGHT);
                     currentScreen.paint(ctx);
                     break;
                 case 'DOWN':
                     ctx.translate(0, this._screenSlidingAmount);
                     this._lastScreen!.paint(ctx);
                     ctx.save();
-                    ctx.translate(0, -Constants.SCREEN_HEIGHT);
+                    ctx.translate(0, -SCREEN_HEIGHT);
                     currentScreen.paint(ctx);
                     break;
             }
@@ -114,22 +114,22 @@ export class MainGameState extends BaseState {
             switch (this._screenSlidingDir) {
                 case 'LEFT': // Scrolling "left" so Link goes right
                     this._lastScreen!.paintTopLayer(ctx);
-                    ctx.translate(Constants.SCREEN_WIDTH, 0);
+                    ctx.translate(SCREEN_WIDTH, 0);
                     currentScreen.paintTopLayer(ctx);
                     break;
                 case 'RIGHT': // Scrolling "right" so Link goes left
                     this._lastScreen!.paintTopLayer(ctx);
-                    ctx.translate(-Constants.SCREEN_WIDTH, 0);
+                    ctx.translate(-SCREEN_WIDTH, 0);
                     currentScreen.paintTopLayer(ctx);
                     break;
                 case 'UP':
                     this._lastScreen!.paintTopLayer(ctx);
-                    ctx.translate(0, Constants.SCREEN_HEIGHT);
+                    ctx.translate(0, SCREEN_HEIGHT);
                     currentScreen.paintTopLayer(ctx);
                     break;
                 case 'DOWN':
                     this._lastScreen!.paintTopLayer(ctx);
-                    ctx.translate(0, -Constants.SCREEN_HEIGHT);
+                    ctx.translate(0, -SCREEN_HEIGHT);
                     currentScreen.paintTopLayer(ctx);
                     break;
             }
@@ -206,16 +206,16 @@ export class MainGameState extends BaseState {
             }
         }
 
-        if (DirectionUtil.isHorizontal(this._screenSlidingDir) &&
-            this._screenSlidingAmount === Constants.SCREEN_WIDTH) {
+        if (isHorizontal(this._screenSlidingDir) &&
+            this._screenSlidingAmount === SCREEN_WIDTH) {
             switch (this._screenSlidingDir) {
                 case 'LEFT':
-                    game.link.x = labyrinth ? Constants.TILE_WIDTH : 0;
+                    game.link.x = labyrinth ? TILE_WIDTH : 0;
                     break;
                 case 'RIGHT':
-                    game.link.x = Constants.SCREEN_WIDTH - Constants.TILE_WIDTH;
+                    game.link.x = SCREEN_WIDTH - TILE_WIDTH;
                     if (labyrinth) {
-                        game.link.x -= Constants.TILE_WIDTH;
+                        game.link.x -= TILE_WIDTH;
                     }
                     break;
             }
@@ -223,16 +223,16 @@ export class MainGameState extends BaseState {
             this._lastScreen = null;
             this._screenSlidingDir = null;
         }
-        else if (DirectionUtil.isVertical(this._screenSlidingDir) &&
-            this._screenSlidingAmount === Constants.SCREEN_HEIGHT) {
+        else if (isVertical(this._screenSlidingDir) &&
+            this._screenSlidingAmount === SCREEN_HEIGHT) {
             switch (this._screenSlidingDir) {
                 case 'UP':
-                    game.link.y = labyrinth ? Constants.TILE_HEIGHT : 0;
+                    game.link.y = labyrinth ? TILE_HEIGHT : 0;
                     break;
                 case 'DOWN':
-                    game.link.y = Constants.SCREEN_HEIGHT - Constants.TILE_HEIGHT;
+                    game.link.y = SCREEN_HEIGHT - TILE_HEIGHT;
                     if (labyrinth) {
-                        game.link.y -= Constants.TILE_HEIGHT;
+                        game.link.y -= TILE_HEIGHT;
                     }
                     break;
             }

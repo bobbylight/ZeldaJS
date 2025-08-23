@@ -2,7 +2,7 @@ import { AbstractWalkingEnemy } from './AbstractWalkingEnemy';
 import { Projectile } from '../Projectile';
 import { ZeldaGame } from '../ZeldaGame';
 import { EnemyStrength } from './Enemy';
-import { DirectionUtil } from '../Direction';
+import { isVertical } from '../Direction';
 declare let game: ZeldaGame;
 
 const CHANGE_DIR_TIMER_MAX: number = 120; // 2 seconds
@@ -21,7 +21,7 @@ export class Moblin extends AbstractWalkingEnemy {
      * Overridden to throw an arrow.
      */
     protected override createProjectile(): Projectile {
-        const row: number = DirectionUtil.isVertical(this.dir) ? 5 : 4;
+        const row: number = isVertical(this.dir) ? 5 : 4;
         const col: number = this.dir === 'LEFT' || this.dir === 'UP' ? 12 : 13;
         return new Projectile(row, col, this.x, this.y, this.dir);
     }

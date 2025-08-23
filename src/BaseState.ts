@@ -4,6 +4,8 @@ import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 declare let game: ZeldaGame;
 
 export class BaseState extends State<ZeldaGame> {
+    static readonly INPUT_REPEAT_MILLIS: number = 200;
+
     private _lastConfigKeypressTime: number;
     protected _lastSpriteFrameTime: number;
 
@@ -14,10 +16,6 @@ export class BaseState extends State<ZeldaGame> {
         super(args);
         this._lastConfigKeypressTime = Utils.timestamp();
         this._lastSpriteFrameTime = 0;
-    }
-
-    static get INPUT_REPEAT_MILLIS(): number {
-        return 200;
     }
 
     protected handleDefaultKeys() {
@@ -40,15 +38,15 @@ export class BaseState extends State<ZeldaGame> {
                 // Increase canvas size
                 if (im.isKeyDown(Keys.KEY_P, true)) {
                     if (!canvasStyle.width) {
-                        canvasStyle.width = game.canvas.clientWidth + 'px';
+                        canvasStyle.width = `${game.canvas.clientWidth}px`;
                     }
                     if (!canvasStyle.height) {
-                        canvasStyle.height = game.canvas.clientHeight + 'px';
+                        canvasStyle.height = `${game.canvas.clientHeight}px`;
                     }
                     const styleW: string = canvasStyle.width;
                     const styleH: string = canvasStyle.height;
-                    canvasStyle.width = (parseInt(styleW.substring(0, styleW.length - 2), 10) + 1) + 'px';
-                    canvasStyle.height = (parseInt(styleH.substring(0, styleH.length - 2), 10) + 1) + 'px';
+                    canvasStyle.width = `${parseInt(styleW.substring(0, styleW.length - 2), 10) + 1}px`;
+                    canvasStyle.height = `${parseInt(styleH.substring(0, styleH.length - 2), 10) + 1}px`;
                     game.setStatusMessage(`Canvas size now: (${canvasStyle.width}, ${canvasStyle.height})`);
                     this._lastConfigKeypressTime = time;
                 }
@@ -56,15 +54,15 @@ export class BaseState extends State<ZeldaGame> {
                 // Decrease canvas size
                 else if (im.isKeyDown(Keys.KEY_L, true)) {
                     if (!canvasStyle.width) {
-                        canvasStyle.width = game.canvas.clientWidth + 'px';
+                        canvasStyle.width = `${game.canvas.clientWidth}px`;
                     }
                     if (!canvasStyle.height) {
-                        canvasStyle.height = game.canvas.clientHeight + 'px';
+                        canvasStyle.height = `${game.canvas.clientHeight}px`;
                     }
                     const styleW: string = canvasStyle.width;
                     const styleH: string = canvasStyle.height;
-                    canvasStyle.width = (parseInt(styleW.substring(0, styleW.length - 2), 10) - 1) + 'px';
-                    canvasStyle.height = (parseInt(styleH.substring(0, styleH.length - 2), 10) - 1) + 'px';
+                    canvasStyle.width = `${parseInt(styleW.substring(0, styleW.length - 2), 10) - 1}px`;
+                    canvasStyle.height = `${parseInt(styleH.substring(0, styleH.length - 2), 10) - 1}px`;
                     game.setStatusMessage(`Canvas size now: (${canvasStyle.width}, ${canvasStyle.height})`);
                     this._lastConfigKeypressTime = time;
                 }

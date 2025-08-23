@@ -43,11 +43,11 @@ export class EnemyGroup {
      *
      * @returns This enemy group.
      */
-    flatten(): EnemyGroup {
+    flatten(): this {
         const flattenedEnemies: EnemyInfo[] = [];
 
         this.enemies.forEach((enemyGroup: EnemyInfo) => {
-            const count: number = enemyGroup.count || 1;
+            const count: number = enemyGroup.count ?? 1;
             for (let i: number = 0; i < count; i++) {
                 flattenedEnemies.push({
                     id: uuidv4(),
@@ -62,7 +62,7 @@ export class EnemyGroup {
         return this;
     }
 
-    fromJson(json?: EnemyGroupData | null): EnemyGroup {
+    fromJson(json?: EnemyGroupData | null): this {
         if (json) { // Some maps may be empty
             this.spawnStyle = json.spawnStyle;
             this.enemies = json.enemies;
@@ -86,9 +86,7 @@ export class EnemyGroup {
     }
 
     toString(): string {
-        return '[EnemyGroup: ' +
-            'size=' + this.enemies.length +
-            ']';
+        return `[EnemyGroup: size=${this.enemies.length}]`;
     }
 }
 

@@ -1,7 +1,7 @@
 import { Screen, ScreenData } from './Screen';
 import { Tileset, TilesetData } from './Tileset';
 import { EnemyGroup } from './EnemyGroup';
-import { Constants } from './Constants';
+import { WALKABILITY_LEVEL, WALKABILITY_OVERWORLD } from './Constants';
 
 const HEADER: string = 'ZeldaMap';
 
@@ -36,8 +36,8 @@ export class Map {
         for (let row: number = 0; row < rowCount; row++) {
             this._screens.push(this._createEmptyScreenList(colCount));
         }
-        this.labyrinth = !!this.name.match(/level/);
-        this.walkability = this.labyrinth ? Constants.WALKABILITY_LEVEL : Constants.WALKABILITY_OVERWORLD;
+        this.labyrinth = this.name.startsWith('level');
+        this.walkability = this.labyrinth ? WALKABILITY_LEVEL : WALKABILITY_OVERWORLD;
 
         this._tileset = new Tileset();
         this._tileset.load('overworld');
@@ -77,7 +77,7 @@ export class Map {
         return colList;
     }
 
-    fromJson(json: MapData): Map {
+    fromJson(json: MapData): this {
         if (HEADER !== json.header) {
             throw new Error(`Invalid map file: bad header: ${json.header}`);
         }
@@ -122,7 +122,7 @@ export class Map {
      * @see music
      */
     get currentScreenMusic(): string | null | undefined {
-        return this.currentScreen.music ? this.currentScreen.music : this.music;
+        return this.currentScreen.music ?? this.music;
     }
 
     get currentScreenRow(): number {

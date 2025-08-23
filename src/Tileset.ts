@@ -9,7 +9,7 @@ export class Tileset {
     private _name: string;
     private _tiles: SpriteSheet;
 
-    fromJson(json: TilesetData): Tileset {
+    fromJson(json: TilesetData): this {
         this.load(json.name);
         return this;
     }

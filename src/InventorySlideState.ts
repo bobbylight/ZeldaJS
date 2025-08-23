@@ -1,4 +1,4 @@
-import { Constants } from './Constants';
+import { CANVAS_HEIGHT } from './Constants';
 import { ZeldaGame } from './ZeldaGame';
 import { State, Delay } from 'gtp';
 declare let game: ZeldaGame;
@@ -33,11 +33,11 @@ export class InventorySlideState extends State<ZeldaGame> {
     override render(ctx: CanvasRenderingContext2D) {
         const dir: number = this.down ? -1 : 1;
 
-        const displayedPixelCount: number = this.downAmount * (Constants.CANVAS_HEIGHT / 10);
-        ctx.translate(0, (Constants.CANVAS_HEIGHT - displayedPixelCount) * dir);
+        const displayedPixelCount: number = this.downAmount * (CANVAS_HEIGHT / 10);
+        ctx.translate(0, (CANVAS_HEIGHT - displayedPixelCount) * dir);
         this.topState.render(ctx);
 
-        ctx.translate(0, -Constants.CANVAS_HEIGHT * dir);
+        ctx.translate(0, -CANVAS_HEIGHT * dir);
         this.bottomState.render(ctx);
 
         ctx.resetTransform();

@@ -1,4 +1,4 @@
-import { Constants } from '../Constants';
+import { SCREEN_COL_COUNT, SCREEN_HEIGHT, SCREEN_ROW_COUNT } from '../Constants';
 import { Enemy, EnemyStrength } from './Enemy';
 import { Screen } from '../Screen';
 import { ZeldaGame } from '../ZeldaGame';
@@ -55,8 +55,8 @@ export class Tektite extends Enemy {
             const afterJumpY: number = this.y - ySpeed * (this._curJumpAscentTime - this._curJumpDescentTime);
 
             success = afterJumpX >= 0 && afterJumpX < (game.getWidth() - thisWidth) &&
-                    afterJumpY >= TOP_MARGIN_ROWS * 16 && afterJumpY < (Constants.SCREEN_HEIGHT - thisHeight);
-            console.log('... ' + afterJumpX + ', ' + afterJumpY);
+                    afterJumpY >= TOP_MARGIN_ROWS * 16 && afterJumpY < (SCREEN_HEIGHT - thisHeight);
+            console.log(`... ${afterJumpX}, ${afterJumpY}`);
         }
 
         this._pauseOrJumpTime = 0;
@@ -64,8 +64,8 @@ export class Tektite extends Enemy {
 
     override setLocationToSpawnPoint(screen: Screen) {
         while (true) {
-            const x: number = game.randomInt(Constants.SCREEN_COL_COUNT) * 16;
-            const y: number = (TOP_MARGIN_ROWS + game.randomInt(Constants.SCREEN_ROW_COUNT - TOP_MARGIN_ROWS)) * 16;
+            const x: number = game.randomInt(SCREEN_COL_COUNT) * 16;
+            const y: number = (TOP_MARGIN_ROWS + game.randomInt(SCREEN_ROW_COUNT - TOP_MARGIN_ROWS)) * 16;
             if (screen.isWalkable(this, x, y)) {
                 this.setLocation(x, y);
                 return;
