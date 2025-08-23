@@ -49,8 +49,8 @@ export default {
                 SCREEN_HEIGHT * SCREEN_ROW_COUNT);
 
             const map: Map = this.game.map;
-            for (let row: number = 0; row < map.rowCount; row++) {
-                for (let col: number = 0; col < map.colCount; col++) {
+            for (let row = 0; row < map.rowCount; row++) {
+                for (let col = 0; col < map.colCount; col++) {
                     const screen: Screen = map.getScreen(row, col);
                     screen.paint(ctx);
                     screen.paintTopLayer(ctx);
@@ -91,7 +91,7 @@ export default {
         },
 
         possiblyOutlineScreen(ctx: CanvasRenderingContext2D, row: number, col: number,
-                              targetRow: number, targetCol: number, style: string) {
+            targetRow: number, targetCol: number, style: string) {
             if (row === targetRow && col === targetCol) {
                 ctx.strokeStyle = style;
                 ctx.lineWidth = 10;

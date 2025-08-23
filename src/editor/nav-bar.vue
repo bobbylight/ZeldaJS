@@ -84,7 +84,7 @@ export default {
 
     mounted() {
         this.maps.push({ title: 'Overworld', value: 'overworld' });
-        for (let i: number = 1; i <= 1; i++) {
+        for (let i = 1; i <= 1; i++) {
             this.maps.push({ title: `Level ${i}`, value: `level${i}` });
         }
 

@@ -224,7 +224,8 @@ export default {
 
                 return `(${sourceTile.row}, ${sourceTile.col}) to ${map}, screen (${screen.row}, ${screen.col}), ` +
                     `pos (${destPos.row}, ${destPos.col})`;
-            } else if (cellValue instanceof ChangeScreenWarpEvent) {
+            }
+            else if (cellValue instanceof ChangeScreenWarpEvent) {
                 const map: string = cellValue.destMap;
                 const screen: Position = cellValue.destScreen;
                 const destPos: Position = cellValue.destPos;
@@ -293,7 +294,7 @@ export default {
             });
 
             const generator: EventGenerator<any> = this.newGenerator;
-            const value: Event<any> = this.rowBeingModified!;
+            const value: Event<any> = this.rowBeingModified;
             generator.setTile(value.tile);
             generator.setDestination(value.destMap, value.destScreen, value.destPos);
             const event: Event<any> = generator.generate();
@@ -354,7 +355,7 @@ export default {
     },
 
     mounted() {
-        for (let i: number = 0; i <= 15; i += 0.5) {
+        for (let i = 0; i <= 15; i += 0.5) {
             this.screenCols.push(i);
         }
     },
