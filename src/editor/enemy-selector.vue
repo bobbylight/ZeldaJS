@@ -33,13 +33,15 @@
 
                         <v-spacer v-if="title || rightAlignButtons"/>
 
-                        <v-btn color="primary" text icon @click="showAddOrEditModal(true)">
+                        <v-btn color="primary" text icon @click="showAddOrEditModal(true)" data-testId="add-enemies-button">
                             <v-icon>mdi-plus</v-icon>
                         </v-btn>
-                        <v-btn color="primary" text icon @click="showAddOrEditModal(false)" :disabled="selectedItems.length === 0">
+                        <v-btn color="primary" text icon @click="showAddOrEditModal(false)" data-testId="edit-enemies-button"
+                               :disabled="selectedItems.length === 0">
                             <v-icon>mdi-pencil</v-icon>
                         </v-btn>
-                        <v-btn color="primary" text icon @click="deleteDialog = true" :disabled="selectedItems.length === 0">
+                        <v-btn color="primary" text icon @click="deleteDialog = true" data-testId="delete-enemies-button"
+                               :disabled="selectedItems.length === 0">
                             <v-icon>mdi-trash-can</v-icon>
                         </v-btn>
                     </v-toolbar>
@@ -51,7 +53,7 @@
         <v-dialog v-model="showModifyRowDialog" max-width="500px" @click:outside="onCancel"
                   @keydown.esc="onCancel">
 
-            <v-card>
+            <v-card data-testId="modify-row-dialog">
                 <v-card-title>
                     <span class="headline">{{dialogTitle}}</span>
                 </v-card-title>
@@ -116,191 +118,168 @@
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue';
 import { EnemyGroup, EnemyInfo } from '../EnemyGroup';
-import { Enemy } from '../enemy/Enemy';
 import { v4 as uuidv4 } from 'uuid';
 
-export default {
+const props = defineProps<{
+    game: any, // ZeldaGame
+    modelValue: EnemyGroup
+}>();
 
-    name: 'EnemySelector',
-    components: {},
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: EnemyGroup): void;
+}>();
 
-    props: {
-        game: Object, // ZeldaGame
-        modelValue: Object, // EnemyGroup
-    },
+const title = ref('');
+const rightAlignButtons = ref(false);
+const itemName = ref('Enemy Group');
+const itemKey = ref('id');
+const validationFunc = ref<any>(null);
 
-    data() {
-        return {
-            title: '',
-            rightAlignButtons: false,
-            itemName: 'Enemy Group',
-            itemKey: 'id',
-            validationFunc: null, // any
-            enemyTypes: [
-                { title: 'Octorok', value: 'Octorok' },
-                { title: 'Moblin', value: 'Moblin' },
-                { title: 'Tektite', value: 'Tektite' },
-                { title: 'Lynel', value: 'Lynel' }
-            ],
-            enemyStrengths: [
-                { title: 'Blue (strong)', value: 'blue' },
-                { title: 'Red (weak)', value: 'red' }
-            ],
-            headers: [ // ModifiableTableHeader[]
-                { title: 'Enemy', value: 'type' },
-                { title: 'Strength', value: 'strength' },
-                { title: 'Count', value: 'count' }
-            ],
-            deleteDialog: false,
-            showModifyRowDialog: false,
-            modifiedItemKey: null, // string
-            rowBeingModified: null, // EnemyInfo | null,
-            selectedItems: [], // EnemyInfo[] = [];
-            dense: false, // boolean = false;
-            saveDisabled: false, // boolean = false;
-        };
-    },
+const enemyTypes = [
+    { title: 'Octorok', value: 'Octorok' },
+    { title: 'Moblin', value: 'Moblin' },
+    { title: 'Tektite', value: 'Tektite' },
+    { title: 'Lynel', value: 'Lynel' }
+];
+const enemyStrengths = [
+    { title: 'Blue (strong)', value: 'blue' },
+    { title: 'Red (weak)', value: 'red' }
+];
+const headers = [
+    { title: 'Enemy', value: 'type' },
+    { title: 'Strength', value: 'strength' },
+    { title: 'Count', value: 'count' }
+];
 
-    methods: {
-        getAllItems(): EnemyInfo[] {
-            // Avoid errors from bogus initial data
-            return this.modelValue ? this.modelValue.enemies : [];
-        },
+const deleteDialog = ref(false);
+const showModifyRowDialog = ref(false);
+const modifiedItemKey = ref<string | null>(null);
+const rowBeingModified = ref<EnemyInfo | null>(null);
+const selectedItems = ref<EnemyInfo[]>([]);
+const dense = ref(false);
+const saveDisabled = ref(false);
 
-        setAllItems(items: EnemyInfo[]) {
-            // Update our entire EnemyGroup prop, which will in turn refresh our
-            // 'allItems' generated prop
-            const newModelValue: EnemyGroup = this.modelValue.clone();
-            newModelValue.enemies = items;
-            this.$emit('update:modelValue', newModelValue);
-        },
+const deleteDialogTitle = computed(() => `Delete ${itemName.value}`);
+const dialogTitle = computed(() =>
+    (selectedItems.value.length ? 'Edit ' : 'New ') + itemName.value
+);
+const saveButtonDisabled = computed(() => {
+    if (!rowBeingModified.value) return true;
+    const origRow: EnemyInfo | null = modifiedItemKey.value ? selectedItems.value[0] : null;
+    return !!validationFunc.value &&
+        !validationFunc.value(rowBeingModified.value, origRow, getAllItems());
+});
 
-        onSave() {
-            const newDataList: EnemyInfo[] = this.modelValue.enemies.slice();
-            const index: number = newDataList.findIndex((item: EnemyInfo) => {
-                return (item as any)[this.itemKey] === this.modifiedItemKey;
-            });
+function getAllItems(): EnemyInfo[] {
+    return props.modelValue ? props.modelValue.enemies : [];
+}
 
-            const value: EnemyInfo = this.rowBeingModified;
+function setAllItems(items: EnemyInfo[]) {
+    const newModelValue: EnemyGroup = props.modelValue.clone();
+    newModelValue.enemies = items;
+    emit('update:modelValue', newModelValue);
+}
 
-            if (index > -1) {
-                newDataList.splice(index, 1, value);
-            }
-            else {
-                // Generate a key if it isn't a natural key that the user had to enter
-                (value as any)[this.itemKey] = uuidv4();
-                newDataList.push(value);
-            }
+function onSave() {
+    const newDataList: EnemyInfo[] = props.modelValue.enemies.slice();
+    const index: number = newDataList.findIndex((item: EnemyInfo) => {
+        return (item as any)[itemKey.value] === modifiedItemKey.value;
+    });
 
-            // Go through generated property setter since our data is more than just an array
-            this.setAllItems(newDataList);
+    const value: EnemyInfo = rowBeingModified.value!;
 
-            this.showModifyRowDialog = false;
-            this.selectedItems.length = 0;
-            this.refreshRowBeingModified();
-        },
+    if (index > -1) {
+        newDataList.splice(index, 1, value);
+    } else {
+        (value as any)[itemKey.value] = uuidv4();
+        newDataList.push(value);
+    }
 
-        onSelectedItemsChanged() {
-            this.refreshRowBeingModified();
-        },
+    setAllItems(newDataList);
 
-        getInitialValue(): EnemyInfo {
-            return {
-                id: uuidv4(),
-                type: this.enemyTypes[0].value,
-                count: 2,
-                strength: 'red'
-            };
-        },
+    showModifyRowDialog.value = false;
+    selectedItems.value.length = 0;
+    refreshRowBeingModified();
+}
 
-        onCancel() {
-            this.showModifyRowDialog = false;
-            this.refreshRowBeingModified();
-        },
+function onSelectedItemsChanged() {
+    refreshRowBeingModified();
+}
 
-        onCancelDelete() {
-            this.deleteDialog = false;
-        },
+function getInitialValue(): EnemyInfo {
+    return {
+        id: uuidv4(),
+        type: enemyTypes[0].value,
+        count: 2,
+        strength: 'red'
+    };
+}
 
-        onDeleteItem() {
-            const selectedKey: any = (this.rowBeingModified as any)[this.itemKey];
+function onCancel() {
+    showModifyRowDialog.value = false;
+    refreshRowBeingModified();
+}
 
-            const newDataList: EnemyInfo[] = this.modelValue.enemies.filter((v: EnemyInfo) => {
-                return (v as any)[this.itemKey] !== selectedKey;
-            });
+function onCancelDelete() {
+    deleteDialog.value = false;
+}
 
-            // Go through generated property setter since our data is more than just an array
-            this.setAllItems(newDataList);
+function onDeleteItem() {
+    const selectedKey: any = (rowBeingModified.value as any)[itemKey.value];
+    const newDataList: EnemyInfo[] = props.modelValue.enemies.filter((v: EnemyInfo) => {
+        return (v as any)[itemKey.value] !== selectedKey;
+    });
 
-            this.deleteDialog = false;
-            this.selectedItems.length = 0;
-            this.refreshRowBeingModified();
-        },
+    setAllItems(newDataList);
 
-        refreshRowBeingModified() {
-            this.rowBeingModified = (this.selectedItems.length > 0
-                ? JSON.parse(JSON.stringify(this.selectedItems[0])) : this.getInitialValue()) as EnemyInfo;
-            this.saveDisabled = this.saveButtonDisabled;
-        },
+    deleteDialog.value = false;
+    selectedItems.value.length = 0;
+    refreshRowBeingModified();
+}
 
-        showAddOrEditModal(newRecord: boolean) {
-            // Remember the key of the item being edited, or null if this is for a new item
-            this.modifiedItemKey = newRecord ? null : (this.selectedItems[0] as any)[this.itemKey] as string;
+function refreshRowBeingModified() {
+    rowBeingModified.value = (selectedItems.value.length > 0
+        ? JSON.parse(JSON.stringify(selectedItems.value[0]))
+        : getInitialValue()) as EnemyInfo;
+    saveDisabled.value = saveButtonDisabled.value;
+}
 
-            // Clone the record to pass to the callback
-            this.rowBeingModified = (newRecord ? this.getInitialValue()
-                : JSON.parse(JSON.stringify(this.selectedItems[0]))) as EnemyInfo;
-            this.showModifyRowDialog = true;
-        }
-    },
+function showAddOrEditModal(newRecord: boolean) {
+    modifiedItemKey.value = newRecord ? null : (selectedItems.value[0] as any)[itemKey.value] as string;
+    rowBeingModified.value = (newRecord ? getInitialValue()
+        : JSON.parse(JSON.stringify(selectedItems.value[0]))) as EnemyInfo;
+    showModifyRowDialog.value = true;
+}
 
-    computed: {
-        deleteDialogTitle(): string {
-            return `Delete ${this.itemName}`;
-        },
+// Optional: If you need to react to modelValue changes
+watch(() => props.modelValue, () => {
+    refreshRowBeingModified();
+});
 
-        dialogTitle(): string {
-            return (this.selectedItems.length ? 'Edit ' : 'New ') + this.itemName;
-        },
-
-        saveButtonDisabled(): boolean {
-            if (!this.rowBeingModified) {
-                return true;
-            }
-
-            const origRow: EnemyInfo | null = this.modifiedItemKey ? this.selectedItems[0] : null;
-            return !!this.validationFunc && !this.validationFunc(this.rowBeingModified, origRow, this.getAllItems());
-        },
-    },
-
-    selectedEnemyGroupChanged(newGroup: string) {
-        const enemies: EnemyInfo[] = [];
-
-        switch (newGroup) {
-            case 'Octorok':
-                enemies.push({ id: uuidv4(), type: 'Octorok', strength: 'blue', count: 2 });
-                enemies.push({ id: uuidv4(), type: 'Octorok', count: 2 });
-                break;
-            case 'Moblin':
-                enemies.push({ id: uuidv4(), type: 'Moblin', strength: 'blue', count: 2 });
-                enemies.push({ id: uuidv4(), type: 'Moblin', count: 2 });
-                break;
-            case 'Tektite':
-                enemies.push({ id: uuidv4(), type: 'Tektite', strength: 'blue', count: 2 });
-                enemies.push({ id: uuidv4(), type: 'Tektite', count: 2 });
-                break;
-            case 'Lynel':
-                enemies.push({ id: uuidv4(), type: 'Tektite', count: 2 });
-                break;
-        }
-
-        // this.curScreen.enemyGroup = new EnemyGroup('random', enemies);
-
-        // Go through generated property setter since our data is more than just an array
-        this.setAllItems(enemies);
-    },
+// If you need to expose selectedEnemyGroupChanged
+function selectedEnemyGroupChanged(newGroup: string) {
+    const enemies: EnemyInfo[] = [];
+    switch (newGroup) {
+        case 'Octorok':
+            enemies.push({ id: uuidv4(), type: 'Octorok', strength: 'blue', count: 2 });
+            enemies.push({ id: uuidv4(), type: 'Octorok', count: 2 });
+            break;
+        case 'Moblin':
+            enemies.push({ id: uuidv4(), type: 'Moblin', strength: 'blue', count: 2 });
+            enemies.push({ id: uuidv4(), type: 'Moblin', count: 2 });
+            break;
+        case 'Tektite':
+            enemies.push({ id: uuidv4(), type: 'Tektite', strength: 'blue', count: 2 });
+            enemies.push({ id: uuidv4(), type: 'Tektite', count: 2 });
+            break;
+        case 'Lynel':
+            enemies.push({ id: uuidv4(), type: 'Tektite', count: 2 });
+            break;
+    }
+    setAllItems(enemies);
 }
 </script>
 

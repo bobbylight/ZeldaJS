@@ -11,59 +11,57 @@
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue';
 import { MapData } from '../Map';
-
 import highlighter from 'jshighlight/lib/highlighter';
 import JsonParser from 'jshighlight/lib/parsers/json-parser';
-
 import '../../node_modules/jshighlight/src/styles/jshl-default.css';
+import { ZeldaGame } from '@/ZeldaGame';
 
-export default {
+const props = defineProps({
+    game: {
+        type: ZeldaGame,
+        required: false,
+    }
+});
 
-    name: 'CodeViewer',
-    components: {},
+const codeDiv = ref<HTMLPreElement | null>(null);
 
-    props: {
-        game: Object,
-    },
+function refresh() {
+    const start = new Date();
+    console.log('Refreshing started at: ' + start);
 
-    methods: {
+    let jsonStr: string;
+    const json: MapData | undefined = props.game?.map?.toJson();
+    if (json) {
+        jsonStr = JSON.stringify(json, null, 2);
+        jsonStr = jsonStr.replace(/( +)"tiles": \[(?:[ \d,\n\[\]]+)\][, \n]+\]/g, (match: string, p1: string) => {
+            return match.replace(/ +/g, ' ').replace(/\n/g, '').replace(/\], \[/g, ']\,\n' + p1 + '  [');
+        });
+    }
+    else {
+        jsonStr = '// No map loaded';
+    }
 
-        refresh() {
-            const start: Date = new Date();
-            console.log('Refreshing started at: ' + start);
+    if (codeDiv.value) {
+        codeDiv.value.innerHTML = highlighter.highlight(new JsonParser(), jsonStr);
+    }
 
-            const json: MapData = this.game.map.toJson();
-            let jsonStr: string = JSON.stringify(json, null, 2);
-            // console.log(jsonStr);
-            // jsonStr = jsonStr.replace(/\[((\r?\n +\d+,)+(\r?\n +\d+))\]/g, '[$1]');
-            jsonStr = jsonStr.replace(/( +)"tiles": \[(?:[ \d,\n\[\]]+)\][, \n]+\]/g, (match: string, p1: string) => {
-                return match.replace(/ +/g, ' ').replace(/\n/g, '').replace(/\], \[/g, ']\,\n' + p1 + '  [');
-            });
-            // jsonStr = jsonStr.replace(/\n/g, '');
+    console.log('Refreshing completed, took: ' + (new Date().getTime() - start.getTime()));
+}
 
-            const codeDiv: HTMLPreElement = this.$refs.codeDiv as HTMLPreElement;
-            codeDiv.innerHTML = highlighter.highlight(new JsonParser(), jsonStr);
-
-            console.log('Refreshing completed, took: ' + (new Date().getTime() - start.getTime()));
-        },
-
-        async copy() {
-            console.log('Copy that text!');
-            const range: Range = document.createRange();
-            range.selectNodeContents(this.$refs.codeDiv as Node);
-            window.getSelection()!.removeAllRanges();
-            window.getSelection()!.addRange(range);
-            const text = (this.$refs.codeDiv as Node).textContent;
-            console.log('Text: ' + text);
-            await navigator.clipboard.writeText(text ?? '');
-            // const success: boolean = document.execCommand('copy');
-            // console.log('Successful - ' + success);
-            // // range.setStart(element.get(0), 0);
-            // // range.setEnd(element.get(0), 1);
-        }
-    },
+async function copy() {
+    console.log('Copy that text!');
+    if (codeDiv.value) {
+        const range = document.createRange();
+        range.selectNodeContents(codeDiv.value);
+        window.getSelection()?.removeAllRanges();
+        window.getSelection()?.addRange(range);
+        const text = codeDiv.value.textContent;
+        console.log('Text: ' + text);
+        await navigator.clipboard.writeText(text ?? '');
+    }
 }
 </script>
 
