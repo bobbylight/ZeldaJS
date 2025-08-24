@@ -10,5 +10,5 @@ canvas {
 }
 
 .control-group-bottom-margin {
-    margin-bottom: 24px; // Twice the east/west padding
+    margin-bottom: 24px; /* Twice the east/west padding */
 }

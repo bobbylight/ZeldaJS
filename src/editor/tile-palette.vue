@@ -1,138 +1,100 @@
 <template>
     <div class="tile-palette">
         <canvas :style="canvasStyle" :width="width" :height="height"
+                aria-label="Tile palette"
                 ref="canvas"/>
     </div>
 </template>
 
-<script lang="ts">
-import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
+<script setup lang="ts">
+import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import { TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
+import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 import { Tileset } from '@/Tileset';
 
-/**
- * A component that allows the user to select a tile to paint onto the current screen.
- */
-export default {
+const props = defineProps<{
+    game: any, // ZeldaGame
+    tileset: Tileset,
+    selectedTileIndex: number,
+}>();
 
-    name: 'TilePalette',
+const emit = defineEmits<{
+    (e: 'tileSelected', index: number): void
+}>();
 
-    props: {
-        game: Object, // ZeldaGame
-        tileset: Object, // Tileset,
-        selectedTileIndex: Number,
-    },
+const canvas = ref<HTMLCanvasElement | null>(null);
+const canvasStyle = ref('');
+const armedIndex = ref(0);
 
-    data() {
-        return {
-            canvasStyle: '',
-            armedIndex: 0,
-        };
-    },
+const colCount = computed(() => props.tileset.colCount);
+const rowCount = computed(() => props.tileset.rowCount);
+const width = computed(() => colCount.value * TILE_WIDTH);
+const height = computed(() => rowCount.value * TILE_HEIGHT);
 
-    computed: {
-        colCount(): number {
-            return this.tileset.colCount;
-        },
-
-        height(): number {
-            return this.rowCount * TILE_HEIGHT;
-        },
-
-        rowCount(): number {
-            return this.tileset.rowCount;
-        },
-
-        width(): number {
-            return this.colCount * TILE_WIDTH;
-        },
-    },
-
-    methods: {
-
-        _computeIndexFromXY(x: number, y: number): number {
-            // console.log('--- ' + x + ', ' + y);
-            // console.log('--- --- row/col === ' + Math.floor(y / 32) + ', ' + Math.floor(x / 32));
-            const canvas: HTMLCanvasElement = this.$refs.canvas as HTMLCanvasElement;
-            const colCount: number = this.colCount;
-            const tileWidth: number = canvas.clientWidth / colCount;
-            const tileHeight: number = canvas.clientHeight / this.rowCount;
-            return Math.floor(y / tileHeight) * colCount + Math.floor(x / tileWidth);
-        },
-
-        repaint() {
-            if (!this.game) {
-                return;
-            }
-
-            const canvas: HTMLCanvasElement = this.$refs.canvas as HTMLCanvasElement;
-            const tilesetName: string = this.tileset.name;
-            const colCount: number = this.colCount;
-            console.log('>>> >>> ' + canvas.style.width + ', ' + canvas.style.height);
-
-            const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
-            const ss: SpriteSheet = this.game.assets.get(tilesetName);
-            if (!ss) {
-                return;
-            }
-            ss.gtpImage.draw(ctx, 0, 0);
-
-            ctx.strokeStyle = 'red';
-            let row: number = Math.floor(this.selectedTileIndex / colCount);
-            let col: number = this.selectedTileIndex % colCount;
-            let x: number = col * 16;
-            let y: number = row * 16;
-            ctx.strokeRect(x, y, 16, 16);
-
-            ctx.strokeStyle = 'blue';
-            row = Math.floor(this.armedIndex / colCount);
-            col = this.armedIndex % colCount;
-            x = col * 16;
-            y = row * 16;
-            ctx.strokeRect(x, y, 16, 16);
-        },
-
-        updateCanvasStyle(tileset: Tileset) {
-            const canvasWidth: number = tileset.colCount * TILE_WIDTH * 2;
-            const canvasHeight: number = tileset.rowCount * TILE_HEIGHT * 2;
-            this.canvasStyle = `width: ${canvasWidth}px; height: ${canvasHeight}px;`;
-        }
-    },
-
-    mounted() {
-        const canvas: HTMLCanvasElement = this.$refs.canvas as HTMLCanvasElement;
-        this.updateCanvasStyle(this.tileset);
-
-        canvas.addEventListener('click', (e: MouseEvent) => {
-            this.$emit('tileSelected', this._computeIndexFromXY(e.offsetX, e.offsetY));
-            // Even though this updates our props, we must re-render our canvas manually
-            this.repaint();
-        });
-
-        canvas.addEventListener('mousemove', (e: MouseEvent) => {
-            this.armedIndex = this._computeIndexFromXY(e.offsetX, e.offsetY);
-            this.repaint();
-        });
-
-        // Do an initial painting
-        setTimeout(() => {
-            this.$nextTick(() => {
-                this.repaint();
-            });
-        }, 300);
-    },
-
-    watch: {
-
-        tileset: function(newValue: Tileset) {
-            this.updateCanvasStyle(newValue);
-
-            this.$nextTick(() => {
-                this.repaint();
-            });
-        },
-    },
+function computeIndexFromXY(x: number, y: number): number {
+    const el = canvas.value!;
+    const tileWidth = el.clientWidth / colCount.value;
+    const tileHeight = el.clientHeight / rowCount.value;
+    return Math.floor(y / tileHeight) * colCount.value + Math.floor(x / tileWidth);
 }
+
+function repaint() {
+    if (!props.game) return;
+    const el = canvas.value!;
+    const ctx = el?.getContext('2d');
+    if (!ctx) return; // Unit tests
+    const ss: SpriteSheet = props.game.assets.get(props.tileset.getName());
+    if (!ss) return;
+    ss.gtpImage.draw(ctx, 0, 0);
+
+    ctx.strokeStyle = 'red';
+    let row = Math.floor(props.selectedTileIndex / colCount.value);
+    let col = props.selectedTileIndex % colCount.value;
+    let x = col * TILE_WIDTH;
+    let y = row * TILE_HEIGHT;
+    ctx.strokeRect(x, y, TILE_WIDTH, TILE_HEIGHT);
+
+    ctx.strokeStyle = 'blue';
+    row = Math.floor(armedIndex.value / colCount.value);
+    col = armedIndex.value % colCount.value;
+    x = col * TILE_WIDTH;
+    y = row * TILE_HEIGHT;
+    ctx.strokeRect(x, y, TILE_WIDTH, TILE_HEIGHT);
+}
+
+function updateCanvasStyle(tileset: Tileset) {
+    const canvasWidth = tileset.colCount * TILE_WIDTH * 2;
+    const canvasHeight = tileset.rowCount * TILE_HEIGHT * 2;
+    canvasStyle.value = `width: ${canvasWidth}px; height: ${canvasHeight}px;`;
+}
+
+onMounted(() => {
+    const el = canvas.value!;
+    updateCanvasStyle(props.tileset);
+
+    el.addEventListener('click', (e: MouseEvent) => {
+        emit('tileSelected', computeIndexFromXY(e.offsetX, e.offsetY));
+        repaint();
+    });
+
+    el.addEventListener('mousemove', (e: MouseEvent) => {
+        armedIndex.value = computeIndexFromXY(e.offsetX, e.offsetY);
+        repaint();
+    });
+
+    setTimeout(() => {
+        nextTick(() => {
+            repaint();
+        });
+    }, 300);
+});
+
+watch(() => props.tileset, (newTileset) => {
+    updateCanvasStyle(newTileset);
+    nextTick(() => {
+        repaint();
+    });
+});
 </script>
 
 <style lang="scss">

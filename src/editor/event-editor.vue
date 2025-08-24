@@ -23,13 +23,13 @@
 
                         <v-spacer v-if="title || rightAlignButtons"/>
 
-                        <v-btn color="primary" text icon @click="showAddOrEditModal(true)">
+                        <v-btn color="primary" text icon @click="showAddOrEditModal(true)" data-testId="add-event-button">
                             <v-icon>mdi-plus</v-icon>
                         </v-btn>
-                        <v-btn color="primary" text icon @click="showAddOrEditModal(false)" :disabled="selectedItems.length === 0">
+                        <v-btn color="primary" text icon @click="showAddOrEditModal(false)" data-testId="edit-event-button" :disabled="selectedItems.length === 0">
                             <v-icon>mdi-pencil</v-icon>
                         </v-btn>
-                        <v-btn color="primary" text icon @click="deleteDialog = true" :disabled="selectedItems.length === 0">
+                        <v-btn color="primary" text icon @click="deleteDialog = true" data-testId="delete-event-button" :disabled="selectedItems.length === 0">
                             <v-icon>mdi-trash-can</v-icon>
                         </v-btn>
                     </v-toolbar>
@@ -47,7 +47,7 @@
             <v-dialog v-model="showModifyRowDialog" max-width="500px" @click:outside="onCancel"
                       @keydown.esc="onCancel">
 
-                <v-card>
+                <v-card data-testId="edit-event-modal">
                     <v-card-title>
                         <span class="headline">{{dialogTitle}}</span>
                     </v-card-title>
@@ -141,234 +141,183 @@
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, onMounted, watch } from 'vue';
 import { Event } from '../event/Event';
 import { GoDownStairsEvent } from '../event/GoDownStairsEvent';
 import { Position } from '../Position';
 import { ChangeScreenWarpEvent } from '../event/ChangeScreenWarpEvent';
 import { ChangeScreenWarpEventGenerator, EventGenerator, GoDownStairsEventGenerator } from '@/editor/event-generators';
-import ModifiableTable from '@/editor/modifiable-table.vue';
 
-export default {
+const props = defineProps<{
+    game: any,
+    modelValue: Event<any>[]
+}>();
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: Event<any>[]): void
+}>();
 
-    name: 'EventEditor',
-    components: {
-        ModifiableTable,
-    },
+const title = ref('');
+const rightAlignButtons = ref(false);
+const itemName = ref('Event');
+const itemKey = ref('id');
+const validationFunc = ref<any>(null);
 
-    props: {
-        game: Object, // ZeldaGame,
-        modelValue: Array, // Event<any>[]
-    },
+const rows = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const cols = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+const screenRows = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const screenCols = ref<number[]>([]);
 
-    data() {
+const headers = [
+    { title: 'Type', value: 'type' },
+    { title: 'Description', value: 'desc' }
+];
 
-        const generators = [ //EventGenerator<any>[] = [
-            new GoDownStairsEventGenerator(),
-            new ChangeScreenWarpEventGenerator()
-        ];
+const dense = ref(false);
 
-        return {
-            title: '',
-            rightAlignButtons: false,
-            itemName: 'Event',
-            itemKey: 'id',
-            validationFunc: null, // any
-            rows: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-            cols: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-            screenRows: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-            screenCols: [], //number[] = [];
+const generators = [
+    new GoDownStairsEventGenerator(),
+    new ChangeScreenWarpEventGenerator()
+];
 
-            headers: [ //: ModifiableTableHeader[] = [
-                { title: 'Type', value: 'type' },
-                { title: 'Description', value: 'desc' }
-            ],
+const generatorSelectItems = [
+    { title: 'Go Down Stairs', value: generators[0] },
+    { title: 'Warp on Screen Change', value: generators[1] }
+];
 
-            deleteDialog: false,
+const maps = [
+    { title: 'Overworld', value: 'overworld' },
+    { title: 'Level 1', value: 'level1' }
+];
 
-            showModifyRowDialog: false,
-            modifiedItemKey: null, //string | null = null,
-            rowBeingModified: null, //Event<any> | null = null,
-            selectedItems: [], //Event<any>[] = [];
-            dense: false,
-            saveDisabled: false,
+const deleteDialog = ref(false);
+const showModifyRowDialog = ref(false);
+const modifiedItemKey = ref<string | null>(null);
+const rowBeingModified = ref<Event<any> | null>(null);
+const selectedItems = ref<Event<any>[]>([]);
+const saveDisabled = ref(false);
+const newGenerator = ref<EventGenerator<any>>(generators[0]);
 
-            generators,
-
-            generatorSelectItems: [ //any[] = [
-                { title: 'Go Down Stairs', value: generators[0] },
-                { title: 'Warp on Screen Change', value: generators[1] }
-            ],
-
-            maps: [ //any[] = [
-                { title: 'Overworld', value: 'overworld' },
-                { title: 'Level 1', value: 'level1' }
-            ],
-
-            newGenerator: generators[0],
-        };
-    },
-
-    methods: {
-        typeColumnRenderer(eventType: string): string {
-            return this.generatorSelectItems.find((item: any) => item.value.type === eventType)
-                .text;
-        },
-
-        descColumnRenderer(cellValue: Event<any>): string {
-            if (cellValue instanceof GoDownStairsEvent) {
-                const sourceTile: Position = cellValue.getTile();
-                const map: string = cellValue.destMap;
-                const screen: Position = cellValue.destScreen;
-                const destPos: Position = cellValue.destPos;
-
-                return `(${sourceTile.row}, ${sourceTile.col}) to ${map}, screen (${screen.row}, ${screen.col}), ` +
-                    `pos (${destPos.row}, ${destPos.col})`;
-            }
-            else if (cellValue instanceof ChangeScreenWarpEvent) {
-                const map: string = cellValue.destMap;
-                const screen: Position = cellValue.destScreen;
-                const destPos: Position = cellValue.destPos;
-
-                return `Warp to ${map}, screen (${screen.row}, ${screen.col}), ` +
-                    `pos (${destPos.row}, ${destPos.col})`;
-            }
-
-            return cellValue.toString();
-        },
-
-        getAllItems(): Event<any>[] {
-            return this.modelValue;
-        },
-
-        setAllItems(items: Event<any>[]) {
-            this.$emit('update:modelValue', items);
-        },
-
-        isSaveButtonDisabled(): boolean {
-            if (!this.rowBeingModified) {
-                return true;
-            }
-
-            const origRow: Event<any> | null = this.modifiedItemKey ? this.selectedItems[0] : null;
-            return !!this.validationFunc && !this.validationFunc(this.rowBeingModified, origRow, this.getAllItems());
-        },
-
-        moveTableRow(row: number, delta: number) {
-            const newValue: Event<any>[] = this.getAllItems().slice();
-
-            const temp: Event<any> = newValue[row + delta];
-            newValue[row + delta] = newValue[row];
-            newValue[row] = temp;
-
-            this.setAllItems(newValue);
-        },
-
-        onCancel() {
-            this.showModifyRowDialog = false;
-            this.refreshRowBeingModified();
-        },
-
-        onCancelDelete() {
-            this.deleteDialog = false;
-        },
-
-        onDeleteItem() {
-            const selectedKey: any = (this.rowBeingModified as any)[this.itemKey];
-
-            const newDataList: Event<any>[] = this.modelValue.filter((v: Event<any>) => {
-                return (v as any)[this.itemKey] !== selectedKey;
-            });
-
-            this.$emit('update:modelValue', newDataList);
-
-            this.deleteDialog = false;
-            this.selectedItems.length = 0;
-            this.refreshRowBeingModified();
-        },
-
-        onSave() {
-            const newDataList: Event<any>[] = this.modelValue.slice();
-            const index: number = newDataList.findIndex((item: Event<any>) => {
-                return (item as any)[this.itemKey] === this.modifiedItemKey;
-            });
-
-            const generator: EventGenerator<any> = this.newGenerator;
-            const value: Event<any> = this.rowBeingModified;
-            generator.setTile(value.tile);
-            generator.setDestination(value.destMap, value.destScreen, value.destPos);
-            const event: Event<any> = generator.generate();
-
-            if (index > -1) {
-                newDataList.splice(index, 1, event);
-            }
-            else {
-                // Generate a key if it isn't a natural key that the user had to enter
-                (event as any)[this.itemKey] = Date.now().toString(10);
-                newDataList.push(event);
-            }
-
-            this.$emit('update:modelValue', newDataList);
-
-            this.showModifyRowDialog = false;
-            this.selectedItems.length = 0;
-            this.refreshRowBeingModified();
-        },
-
-        onSelectedItemsChanged() {
-            this.refreshRowBeingModified();
-        },
-
-        getInitialValue(): Event<any> {
-            return new GoDownStairsEventGenerator().generate();
-        },
-
-        refreshRowBeingModified() {
-            this.rowBeingModified = (this.selectedItems.length > 0
-                ? JSON.parse(JSON.stringify(this.selectedItems[0])) : this.getInitialValue()) as Event<any>;
-            this.saveDisabled = this.isSaveButtonDisabled();
-        },
-
-        showAddOrEditModal(newRecord: boolean) {
-            // Remember the key of the item being edited, or null if this is for a new item
-            this.modifiedItemKey = newRecord ? null : (this.selectedItems[0] as any)[this.itemKey] as string;
-
-            // Clone the record to pass to the callback
-            this.rowBeingModified = (newRecord ? this.getInitialValue()
-                : JSON.parse(JSON.stringify(this.selectedItems[0]))) as Event<any>;
-            this.newGenerator = this.generators.find((g: EventGenerator<any>) => {
-                return g.type === this.rowBeingModified!.type;
-            })!;
-            this.showModifyRowDialog = true;
-        },
-    },
-
-    computed: {
-
-        deleteDialogTitle(): string {
-            return `Delete ${this.itemName}`;
-        },
-
-        dialogTitle(): string {
-            return (this.selectedItems.length ? 'Edit ' : 'New ') + this.itemName;
-        },
-    },
-
-    mounted() {
-        for (let i = 0; i <= 15; i += 0.5) {
-            this.screenCols.push(i);
-        }
-    },
-
-    watch: {
-        rowBeingModified: {
-            handler() {
-                this.saveDisabled = this.isSaveButtonDisabled();
-            },
-            deep: true,
-        },
-    },
+function typeColumnRenderer(eventType: string): string {
+    return generatorSelectItems.find((item: any) => item.value.type === eventType)?.title ?? eventType;
 }
+
+function descColumnRenderer(cellValue: Event<any>): string {
+    if (cellValue instanceof GoDownStairsEvent) {
+        const sourceTile: Position = cellValue.getTile();
+        const map: string = cellValue.destMap;
+        const screen: Position = cellValue.destScreen;
+        const destPos: Position = cellValue.destPos;
+        return `(${sourceTile.row}, ${sourceTile.col}) to ${map}, screen (${screen.row}, ${screen.col}), pos (${destPos.row}, ${destPos.col})`;
+    } else if (cellValue instanceof ChangeScreenWarpEvent) {
+        const map: string = cellValue.destMap;
+        const screen: Position = cellValue.destScreen;
+        const destPos: Position = cellValue.destPos;
+        return `Warp to ${map}, screen (${screen.row}, ${screen.col}), pos (${destPos.row}, ${destPos.col})`;
+    }
+    return cellValue.toString();
+}
+
+function getAllItems(): Event<any>[] {
+    return props.modelValue;
+}
+
+function setAllItems(items: Event<any>[]) {
+    emit('update:modelValue', items);
+}
+
+function isSaveButtonDisabled(): boolean {
+    if (!rowBeingModified.value) return true;
+    const origRow: Event<any> | null = modifiedItemKey.value ? selectedItems.value[0] : null;
+    return !!validationFunc.value && !validationFunc.value(rowBeingModified.value, origRow, getAllItems());
+}
+
+function moveTableRow(row: number, delta: number) {
+    const newValue: Event<any>[] = getAllItems().slice();
+    const temp: Event<any> = newValue[row + delta];
+    newValue[row + delta] = newValue[row];
+    newValue[row] = temp;
+    setAllItems(newValue);
+}
+
+function onCancel() {
+    showModifyRowDialog.value = false;
+    refreshRowBeingModified();
+}
+
+function onCancelDelete() {
+    deleteDialog.value = false;
+}
+
+function onDeleteItem() {
+    const selectedKey: any = (rowBeingModified.value as any)[itemKey.value];
+    const newDataList: Event<any>[] = props.modelValue.filter((v: Event<any>) => {
+        return (v as any)[itemKey.value] !== selectedKey;
+    });
+    emit('update:modelValue', newDataList);
+    deleteDialog.value = false;
+    selectedItems.value.length = 0;
+    refreshRowBeingModified();
+}
+
+function onSave() {
+    const newDataList: Event<any>[] = props.modelValue.slice();
+    const index: number = newDataList.findIndex((item: Event<any>) => {
+        return (item as any)[itemKey.value] === modifiedItemKey.value;
+    });
+    const generator: EventGenerator<any> = newGenerator.value;
+    const value: Event<any> = rowBeingModified.value!;
+    generator.setTile(value.tile);
+    generator.setDestination(value.destMap, value.destScreen, value.destPos);
+    const event: Event<any> = generator.generate();
+    if (index > -1) {
+        newDataList.splice(index, 1, event);
+    } else {
+        (event as any)[itemKey.value] = Date.now().toString(10);
+        newDataList.push(event);
+    }
+    emit('update:modelValue', newDataList);
+    showModifyRowDialog.value = false;
+    selectedItems.value.length = 0;
+    refreshRowBeingModified();
+}
+
+function onSelectedItemsChanged() {
+    refreshRowBeingModified();
+}
+
+function getInitialValue(): Event<any> {
+    return new GoDownStairsEventGenerator().generate();
+}
+
+function refreshRowBeingModified() {
+    rowBeingModified.value = (selectedItems.value.length > 0
+        ? JSON.parse(JSON.stringify(selectedItems.value[0])) : getInitialValue()) as Event<any>;
+    saveDisabled.value = isSaveButtonDisabled();
+}
+
+function showAddOrEditModal(newRecord: boolean) {
+    modifiedItemKey.value = newRecord ? null : (selectedItems.value[0] as any)[itemKey.value] as string;
+    rowBeingModified.value = (newRecord ? getInitialValue()
+        : JSON.parse(JSON.stringify(selectedItems.value[0]))) as Event<any>;
+    newGenerator.value = generators.find((g: EventGenerator<any>) => {
+        return g.type === rowBeingModified.value!.type;
+    })!;
+    showModifyRowDialog.value = true;
+}
+
+const deleteDialogTitle = computed(() => `Delete ${itemName.value}`);
+const dialogTitle = computed(() => (selectedItems.value.length ? 'Edit ' : 'New ') + itemName.value);
+
+onMounted(() => {
+    for (let i = 0; i <= 15; i += 0.5) {
+        screenCols.value.push(i);
+    }
+});
+
+watch(rowBeingModified, () => {
+    saveDisabled.value = isSaveButtonDisabled();
+}, { deep: true });
 </script>
 
 <style lang="scss">

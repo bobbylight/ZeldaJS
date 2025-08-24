@@ -1,4 +1,3 @@
-// tests/unit/code-viewer.spec.ts
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
@@ -7,6 +6,7 @@ import { type Plugin } from 'vue';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import { render, screen } from '@testing-library/vue';
 import CodeViewer from '../../src/editor/code-viewer.vue';
+import { ZeldaGame } from '@/ZeldaGame';
 
 const mapData = { tiles: [1, 2, 3], other: 'data' };
 const mockMap = {
@@ -15,7 +15,7 @@ const mockMap = {
 
 const mockGame = {
     map: mockMap,
-};
+} as unknown as ZeldaGame;
 
 describe('CodeViewer', () => {
     let vuetify: Plugin;

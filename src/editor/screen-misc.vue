@@ -1,55 +1,45 @@
 <template>
     <div>
         <div>
-            <label>Music</label>
-            <v-select :items="songs" v-model="music" @update:modelValue="onMusicChanged"/>
+            <v-select label="Music" :items="songs" v-model="music" @update:modelValue="onMusicChanged"/>
         </div>
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, onMounted, watch } from 'vue';
+import { useStore } from 'vuex';
 import { Screen } from '@/Screen';
 
-export default {
+const store = useStore();
 
-    name: 'ScreenMisc',
+const songs = [
+    { title: '(default)', value: null },
+    { title: 'No music', value: 'none' },
+    { title: 'Overworld', value: 'overworldMusic' },
+    { title: 'Labyrinth', value: 'labyrinthMusic' }
+];
 
-    data() {
-        return {
-            songs: [
-                {title: '(default)', value: null},
-                {title: 'No music', value: 'none'},
-                {title: 'Overworld', value: 'overworldMusic'},
-                {title: 'Labyrinth', value: 'labyrinthMusic'}
-            ],
-            music: null,//this.songs[0].value,
-        };
-    },
+defineProps<{
+    screen: Screen,
+}>();
 
-    mounted() {
-        // Kick in the pants for initial value
-        this.music = this.screen?.music ?? null;
-    },
 
-    methods: {
-        onMusicChanged(newValue: string) {
-            this.$store.commit('setCurrentScreenMusic', newValue);
-        },
-    },
+const music = ref<string | null>(null);
 
-    watch: {
-        screen: function(newScreen: Screen) {
-            // default to null so we render properly for undefined
-            this.music = newScreen?.music ?? null;
-        },
-    },
+const screen = computed<Screen | null>(() => store.state.currentScreen);
 
-    computed: {
-        screen() {
-            return this.$store.state.currentScreen;
-        },
-    },
+function onMusicChanged(newValue: string | null) {
+    store.commit('setCurrentScreenMusic', newValue);
 }
+
+onMounted(() => {
+    music.value = screen.value?.music ?? null;
+});
+
+watch(screen, (newScreen) => {
+    music.value = newScreen?.music ?? null;
+});
 </script>
 
 <style lang="scss">

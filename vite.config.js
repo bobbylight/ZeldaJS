@@ -1,5 +1,4 @@
 import {defineConfig} from 'vite'
-import path from 'path';
 import {resolve} from 'path';
 import vue from '@vitejs/plugin-vue';
 import vuetify from 'vite-plugin-vuetify';
@@ -7,7 +6,7 @@ import vuetify from 'vite-plugin-vuetify';
 export default defineConfig({
     resolve: {
         alias: {
-            "@": path.resolve(__dirname, "./src/"),
+            "@": resolve(__dirname, "./src/"),
         },
     },
     build: {
@@ -27,5 +26,6 @@ export default defineConfig({
         deps: {
             inline: ['vuetify'],
         },
+        setupFiles: [ resolve(__dirname, './src/setupTests.ts') ],
     },
 });
