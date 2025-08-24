@@ -7,7 +7,7 @@
             <v-btn @click="copy">Copy</v-btn>
         </div>
 
-        <pre ref="codeDiv"/>
+        <pre ref="codeDiv" data-testId="code"/>
     </div>
 </template>
 
@@ -49,16 +49,19 @@ export default {
             console.log('Refreshing completed, took: ' + (new Date().getTime() - start.getTime()));
         },
 
-        copy() {
+        async copy() {
             console.log('Copy that text!');
             const range: Range = document.createRange();
             range.selectNodeContents(this.$refs.codeDiv as Node);
             window.getSelection()!.removeAllRanges();
             window.getSelection()!.addRange(range);
-            const success: boolean = document.execCommand('copy');
-            console.log('Successful - ' + success);
-            // range.setStart(element.get(0), 0);
-            // range.setEnd(element.get(0), 1);
+            const text = (this.$refs.codeDiv as Node).textContent;
+            console.log('Text: ' + text);
+            await navigator.clipboard.writeText(text ?? '');
+            // const success: boolean = document.execCommand('copy');
+            // console.log('Successful - ' + success);
+            // // range.setStart(element.get(0), 0);
+            // // range.setEnd(element.get(0), 1);
         }
     },
 }
