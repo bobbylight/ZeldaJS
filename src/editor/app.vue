@@ -9,20 +9,7 @@
     </v-app>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import NavBar from '@/editor/nav-bar.vue';
 import MainContent from '@/editor/main-content.vue';
-
-export default {
-    name: 'App',
-
-    components: {
-        NavBar,
-        MainContent
-    },
-
-    data: () => ({
-    //
-    })
-}
 </script>

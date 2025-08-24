@@ -43,10 +43,6 @@ export class GoDownStairsEventGenerator extends EventGenerator<GoDownStairsEvent
     generate(): GoDownStairsEvent {
         return new GoDownStairsEvent(this.tile, this.destMap, this.destScreen, this.destPos, true, true);
     }
-
-    override toString(): string {
-        return '[GoDownStairsEventGenerator]';
-    }
 }
 
 export class ChangeScreenWarpEventGenerator extends EventGenerator<ChangeScreenWarpEvent> {
@@ -58,9 +54,5 @@ export class ChangeScreenWarpEventGenerator extends EventGenerator<ChangeScreenW
 
     generate(): ChangeScreenWarpEvent {
         return new ChangeScreenWarpEvent(this.tile, this.destMap, this.destScreen, this.destPos, true);
-    }
-
-    override toString(): string {
-        return '[ChangeScreenWarpEventGenerator]';
     }
 }

@@ -33,62 +33,40 @@
     </v-app-bar>
 </template>
 
-<script lang="ts">
-export default {
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
-    name: 'NavBar',
+const selectedMap = ref<string | null>(null);
+const maps = ref<{ title: string, value: string }[]>([]);
+const select = ref();
+const store = useStore();
 
-    data() {
-        return {
-            selectedMap: null, // string | null
-            maps: [], // any[]
-        };
-    },
-
-    methods: {
-        focusCanvas() {
-            // // Cheap way to broadcast an event to other components
-            // // Find a better way to do this, but the interested canvas is a distant sibling.
-            // this.$root.$emit('focusCanvas');
-        },
-
-        onSelectedMapChanged(newValue: string) {
-            // // Cheap way to broadcast an event to other components
-            // // Find a better way to do this, but the interested canvas is a distant sibling.
-            (this.$refs.select as HTMLSelectElement).blur();
-            // this.$root.$emit('focusCanvas');
-
-            this.$store.commit('setMap', newValue);
-        },
-
-        /**
-         * Prevents the select from gaining focus.  If we don't do this, the
-         * user pressing the up or down arrow keys will also navigate through
-         * the select's options, besides just changing screens in the nmap
-         * editor.
-         *
-         * @param e The focus event.
-         */
-        preventFocus(e: FocusEvent) {
-            e.preventDefault();
-            if (e.relatedTarget) {
-                // Revert focus back to previous blurring element
-                (e.relatedTarget as HTMLElement).focus();
-            }
-            else {
-                // No previous focus target, blur instead
-                (e.currentTarget as HTMLElement).blur();
-            }
-        },
-    },
-
-    mounted() {
-        this.maps.push({ title: 'Overworld', value: 'overworld' });
-        for (let i = 1; i <= 1; i++) {
-            this.maps.push({ title: `Level ${i}`, value: `level${i}` });
-        }
-
-        this.selectedMap = 'overworld'; // TODO: Get the real current map
-    },
+function focusCanvas() {
+    // // Cheap way to broadcast an event to other components
+    // // Find a better way to do this, but the interested canvas is a distant sibling.
+    // getCurrentInstance()?.proxy?.$root.$emit('focusCanvas');
 }
+
+function onSelectedMapChanged(newValue: string) {
+    (select.value as any)?.blur();
+    store.commit('setMap', newValue);
+}
+
+function preventFocus(e: FocusEvent) {
+    e.preventDefault();
+    if (e.relatedTarget) {
+        (e.relatedTarget as HTMLElement).focus();
+    } else {
+        (e.currentTarget as HTMLElement).blur();
+    }
+}
+
+onMounted(() => {
+    maps.value.push({ title: 'Overworld', value: 'overworld' });
+    for (let i = 1; i <= 1; i++) {
+        maps.value.push({ title: `Level ${i}`, value: `level${i}` });
+    }
+    selectedMap.value = 'overworld'; // TODO: Get the real current map
+});
 </script>
