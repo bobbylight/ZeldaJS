@@ -22,4 +22,10 @@ export default defineConfig({
         vue(),
         vuetify({ autoImport: true }),
     ],
+    test: {
+        environment: 'jsdom',
+        deps: {
+            inline: ['vuetify'],
+        },
+    },
 });
