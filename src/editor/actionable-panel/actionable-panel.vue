@@ -12,19 +12,11 @@
     </v-card>
 </template>
 
-<script lang="ts">
-export default {
-
-    name: 'ActionablePanel',
-
-    props: {
-        title: String,
-        padded: {
-            type: Boolean,
-            default: true,
-        },
-    },
-}
+<script setup lang="ts">
+const { padded = true } = defineProps<{
+    title?: string,
+    padded?: boolean
+}>();
 </script>
 
 <style lang="scss" scoped>
