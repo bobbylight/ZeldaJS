@@ -19,10 +19,10 @@ const { padded = true } = defineProps<{
 }>();
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .actionable-panel {
 
-    // Better match tabbed panes in size
+    /* Better match tabbed panes in size */
     .actionable-panel-title {
         color: white;
         padding-top: 8px;
@@ -36,7 +36,7 @@ const { padded = true } = defineProps<{
     }
 
     .actionable-panel-content {
-        padding: 16px; // By default there is no top padding
+        padding: 16px; /* By default there is no top padding */
     }
 }
 </style>

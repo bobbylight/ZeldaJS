@@ -182,13 +182,13 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .elevation-1.tabbed-pane-styles {
     box-shadow: none !important;
 }
 
 .editor-tab {
-    // TODO: Match this with that used in the tabbed pane in actionable-panel
+    /* TODO: Match this with that used in the tabbed pane in actionable-panel */
     font-size: 1rem;
     /*letter-spacing: normal;*/
     text-transform: none;

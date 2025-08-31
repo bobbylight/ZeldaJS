@@ -65,9 +65,8 @@ async function copy() {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .code-viewer {
-
     button {
         margin-right: 1rem;
     }

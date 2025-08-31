@@ -283,5 +283,5 @@ function selectedEnemyGroupChanged(newGroup: string) {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 </style>
