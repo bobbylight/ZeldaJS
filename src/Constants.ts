@@ -3,9 +3,9 @@
 export const CANVAS_WIDTH = 256;
 export const CANVAS_HEIGHT = 240;
 
-export const SCREEN_ROW_COUNT	= 11;
+export const SCREEN_ROW_COUNT = 11;
 
-export const SCREEN_COL_COUNT	= 16;
+export const SCREEN_COL_COUNT = 16;
 
 export const TILE_HEIGHT = 16;
 
@@ -34,7 +34,7 @@ export const WALKABILITY_LEVEL: number[] = [
     9, 8, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0,
     9, 8, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
     9, 8, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    9, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    9, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ];
 
 export const WALKABILITY_OVERWORLD: number[] = [
@@ -47,5 +47,5 @@ export const WALKABILITY_OVERWORLD: number[] = [
     1, 6, 0, 0, 0, 0, 0, 0, 0, 0,
     1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
     1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
-    1, 1, 0, 0, 0, 0, 1, 0, 0, 0
+    1, 1, 0, 0, 0, 0, 1, 0, 0, 0,
 ];

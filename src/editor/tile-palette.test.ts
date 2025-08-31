@@ -49,7 +49,7 @@ describe('TilePalette', () => {
 
         wrapper = render(TilePalette, {
             global: {
-                plugins: [vuetify],
+                plugins: [ vuetify ],
             },
             props: {
                 game: mockGame,

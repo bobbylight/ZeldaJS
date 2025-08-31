@@ -56,7 +56,7 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
             animate: this.animate,
             destMap: this.destMap,
             destScreen: this.destScreen.toJson(),
-            destPos: this.destPos.toJson()
+            destPos: this.destPos.toJson(),
         };
     }
 

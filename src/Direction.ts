@@ -2,7 +2,7 @@ import { Utils } from 'gtp';
 
 export type Direction = 'DOWN' | 'LEFT' | 'UP' | 'RIGHT';
 
-const DIRECTIONS: Direction[] = ['DOWN', 'LEFT', 'UP', 'RIGHT'];
+const DIRECTIONS: Direction[] = [ 'DOWN', 'LEFT', 'UP', 'RIGHT' ];
 
 export const isHorizontal = (dir?: Direction | null): boolean => {
     return dir === 'LEFT' || dir === 'RIGHT';

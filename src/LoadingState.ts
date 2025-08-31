@@ -28,8 +28,8 @@ export class LoadingState extends BaseState {
                     { id: 'yellowRupee', x: 72, y: 0, w: 8, h: 16 },
                     { id: 'blueRupee', x: 72, y: 16, w: 8, h: 16 },
 
-                    { id: 'bomb', x: 136, y: 0, w: 8, h: 14 }
-                ]
+                    { id: 'bomb', x: 136, y: 0, w: 8, h: 14 },
+                ],
             };
 
             this.assetsLoaded = true;

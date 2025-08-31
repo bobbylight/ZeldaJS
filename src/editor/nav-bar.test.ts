@@ -11,7 +11,7 @@ const mocks = vi.hoisted(() => {
     const mockCommit = vi.fn();
     return {
         useStore: () => ({
-            commit: mockCommit
+            commit: mockCommit,
         }),
     };
 });
@@ -36,7 +36,7 @@ describe('NavBar', () => {
         render(vuetifyAppWrapper, {
             props: {},
             global: {
-                plugins: [vuetify]
+                plugins: [ vuetify ],
             },
         });
         user = userEvent.setup();

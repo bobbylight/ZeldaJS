@@ -6,7 +6,7 @@ describe('Secrets', () => {
         const secrets: Secrets = new Secrets();
         secrets.add('door', {
             value: true,
-            defaultValue: true
+            defaultValue: true,
         });
 
         expect(secrets.get('door')).toBeTruthy();
@@ -23,7 +23,7 @@ describe('Secrets', () => {
         const secrets: Secrets = new Secrets();
         secrets.add('door', {
             value: true,
-            defaultValue: true
+            defaultValue: true,
         });
 
         expect(secrets.get('door', false)).toBeTruthy();
@@ -43,11 +43,11 @@ describe('Secrets', () => {
         secrets.add('one', {
             value: true,
             defaultValue: false,
-            transient: true
+            transient: true,
         });
         secrets.add('two', {
             value: true,
-            defaultValue: false
+            defaultValue: false,
         });
 
         secrets.reset();

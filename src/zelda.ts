@@ -22,7 +22,7 @@ window.init = (parent: string, assetRoot?: string) => {
         keyRefreshMillis: 300,
         parent,
         targetFps: 60,
-        width: CANVAS_WIDTH
+        width: CANVAS_WIDTH,
     });
     window.game.setState(new LoadingState());
     window.game.start();

@@ -49,7 +49,7 @@ export class ChangeScreenWarpEvent extends Event<ChangeScreenWarpData> implement
             animate: this.animate,
             destMap: this.destMap,
             destScreen: this.destScreen.toJson(),
-            destPos: this.destPos.toJson()
+            destPos: this.destPos.toJson(),
         };
     }
 

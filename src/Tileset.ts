@@ -54,7 +54,7 @@ export class Tileset {
 
     toJson(): TilesetData {
         return {
-            name: this.name
+            name: this.name,
         };
     }
 }

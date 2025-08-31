@@ -11,7 +11,7 @@ const CHANGE_DIR_TIMER_MAX = 120; // 2 seconds
  * A dog/pig-like enemy, commonly found in wooded areas.
  */
 export class Moblin extends AbstractWalkingEnemy {
-    private static readonly PROJECTILE_THROWING_ODDS: number[] = [240, 120];
+    private static readonly PROJECTILE_THROWING_ODDS: number[] = [ 240, 120 ];
 
     constructor(strength: EnemyStrength = 'red') {
         super(4, strength, strength === 'blue' ? 3 : 2);

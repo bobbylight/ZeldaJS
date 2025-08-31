@@ -11,7 +11,7 @@ export type RupeeDenomination = 'yellow' | 'blue' | 'red';
 const RUPEE_COUNTS: Record<string, number> = {
     yellow: 1,
     blue: 5,
-    red: 20
+    red: 20,
 };
 
 /**

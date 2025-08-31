@@ -18,7 +18,7 @@ const mocks = vi.hoisted(() => {
             state: {
                 currentScreen: mockScreen,
             },
-            commit: mockCommit
+            commit: mockCommit,
         }),
     };
 });
@@ -39,7 +39,7 @@ describe('MapPreview', () => {
     beforeEach(() => {
         render(MapPreview, {
             global: {
-                plugins: [vuetify],
+                plugins: [ vuetify ],
             },
             props: {
                 game: mockGame,

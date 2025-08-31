@@ -17,7 +17,7 @@ const mocks = vi.hoisted(() => {
             state: {
                 currentScreen: createMockScreen('overworldMusic'),
             },
-            commit: mockCommit
+            commit: mockCommit,
         }),
     };
 });
@@ -41,7 +41,7 @@ describe('ScreenMisc', () => {
                 screen: createMockScreen('overworldMusic'),
             },
             global: {
-                plugins: [vuetify],
+                plugins: [ vuetify ],
             },
         });
 
@@ -53,7 +53,7 @@ describe('ScreenMisc', () => {
     it('commits setCurrentScreenMusic when music changes', async() => {
         render(ScreenMisc, {
             global: {
-                plugins: [vuetify],
+                plugins: [ vuetify ],
             },
         });
 
@@ -72,7 +72,7 @@ describe('ScreenMisc', () => {
                 screen: createMockScreen('overworldMusic'),
             },
             global: {
-                plugins: [vuetify],
+                plugins: [ vuetify ],
             },
         });
 

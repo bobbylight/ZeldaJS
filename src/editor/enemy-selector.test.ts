@@ -9,7 +9,7 @@ import EnemySelector from '../../src/editor/enemy-selector.vue';
 import { ZeldaGame } from '@/ZeldaGame';
 import { EnemyGroup } from '@/EnemyGroup';
 
-const mapData = { tiles: [1, 2, 3], other: 'data' };
+const mapData = { tiles: [ 1, 2, 3 ], other: 'data' };
 const mockMap = {
     toJson: vi.fn(() => mapData),
 };
@@ -41,7 +41,7 @@ describe('EnemySelector', () => {
         beforeEach(() => {
             wrapper = render(EnemySelector, {
                 props: {game: mockGame, modelValue},
-                global: {plugins: [vuetify]},
+                global: {plugins: [ vuetify ]},
             });
         });
 
@@ -130,7 +130,7 @@ describe('EnemySelector', () => {
         beforeEach(() => {
             wrapper = render(EnemySelector, {
                 props: {game: mockGame, modelValue},
-                global: {plugins: [vuetify]},
+                global: {plugins: [ vuetify ]},
             });
         });
 
