@@ -320,6 +320,6 @@ watch(rowBeingModified, () => {
 }, { deep: true });
 </script>
 
-<style lang="scss">
+<style>
 
 </style>

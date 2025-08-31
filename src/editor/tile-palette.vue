@@ -97,7 +97,7 @@ watch(() => props.tileset, (newTileset) => {
 });
 </script>
 
-<style lang="scss">
+<style>
 .tile-palette {
 
     text-align: center;

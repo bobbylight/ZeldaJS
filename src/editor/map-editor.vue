@@ -162,9 +162,8 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .map-editor {
-
     text-align: center;
 
     .screen-canvas {

@@ -121,7 +121,7 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped>
+<style>
 .map-preview-canvas {
     width: 100%;
     height: 300px;

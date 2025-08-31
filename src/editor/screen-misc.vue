@@ -42,6 +42,6 @@ watch(screen, (newScreen) => {
 });
 </script>
 
-<style lang="scss">
+<style>
 
 </style>
