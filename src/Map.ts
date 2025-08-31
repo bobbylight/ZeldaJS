@@ -65,8 +65,8 @@ export class Map {
         this.currentScreen.enter();
     }
 
-    private static createDefaultEnemyGroup(): EnemyGroup | null {
-        return null;
+    private static createDefaultEnemyGroup(): EnemyGroup {
+        return new EnemyGroup();
     }
 
     private createEmptyScreenList(colCount: number) {

@@ -4,11 +4,15 @@
         <v-layout>
             <v-col class="xs8">
                 <actionable-panel :title="title">
-                    <map-editor :game="game" :selected-tile-index="selectedTileIndex"/>
+                    <div v-if="game">
+                        <map-editor :game="game" :selected-tile-index="selectedTileIndex"/>
+                    </div>
                 </actionable-panel>
 
-                <actionable-panel title="Map Preview" v-if="game">
-                    <map-preview :game="game" :map="game.map" :last-modified="store.state.lastModified"/>
+                <actionable-panel title="Map Preview">
+                    <div v-if="game">
+                        <map-preview :game="game" :map="game.map" :last-modified="store.state.lastModified"/>
+                    </div>
                 </actionable-panel>
             </v-col>
 
@@ -80,7 +84,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useStore } from 'vuex';
+import { Store, useStore } from 'vuex';
 import MapEditor from '@/editor/map-editor.vue';
 import { ZeldaGame } from '@/ZeldaGame';
 import ScreenMisc from '@/editor/screen-misc.vue';
@@ -90,23 +94,26 @@ import MapPreview from '@/editor/map-preview.vue';
 import ActionablePanel from '@/editor/actionable-panel/actionable-panel.vue';
 import CodeViewer from '@/editor/code-viewer.vue';
 import EnemySelector from '@/editor/enemy-selector.vue';
+import { EditorState } from '@/editor/editor';
 
-const store = useStore();
+const store: Store<EditorState> = useStore();
 
-const game = ref<ZeldaGame | null>(null);
+const game = ref<ZeldaGame>();
 const selectedTileIndex = ref(1);
 const selectedTab = ref('tab-1');
 
 const title = computed(() => {
+    if (!game.value) {
+        return 'Loading...';
+    }
     const curRow: number = store.state.currentScreenRow;
     const curCol: number = store.state.currentScreenCol;
-    const rowCount: number = store.state.game.map ? store.state.game.map.rowCount - 1 : 0;
-    const colCount: number = store.state.game.map ? store.state.game.map.colCount - 1 : 0;
+    const rowCount: number = game.value.map.rowCount - 1;
+    const colCount: number = game.value.map.colCount - 1;
     return `Screen (${curRow}, ${curCol}) / (${rowCount}, ${colCount})`;
 });
 
 function onTileSelected(index: number) {
-    (console as any).log('selected tile in palette: ' + index);
     selectedTileIndex.value = index;
 }
 
@@ -118,8 +125,11 @@ function installKeyHandlers() {
     document.addEventListener('keydown', (e: KeyboardEvent) => {
         let row: number;
         let col: number;
+        if (!game.value) return;
 
+        /* eslint-disable @typescript-eslint/no-deprecated */
         switch (e.which) {
+            /* eslint-enable @typescript-eslint/no-deprecated */
             case 37: // left
                 row = store.state.currentScreenRow;
                 col = store.state.currentScreenCol;
@@ -140,7 +150,7 @@ function installKeyHandlers() {
             case 39: // right
                 row = store.state.currentScreenRow;
                 col = store.state.currentScreenCol;
-                if (col < game.value!.map.colCount - 1) {
+                if (col < game.value.map.colCount - 1) {
                     setCurrentScreen(row, col + 1);
                 }
                 e.preventDefault();
@@ -148,7 +158,7 @@ function installKeyHandlers() {
             case 40: // down
                 row = store.state.currentScreenRow;
                 col = store.state.currentScreenCol;
-                if (row < game.value!.map.rowCount - 1) {
+                if (row < game.value.map.rowCount - 1) {
                     setCurrentScreen(row + 1, col);
                 }
                 e.preventDefault();

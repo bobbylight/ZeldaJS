@@ -11,18 +11,17 @@ import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import { TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
 import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 import { Tileset } from '@/Tileset';
+import { ZeldaGame } from '@/ZeldaGame';
 
 const props = defineProps<{
-    game: any, // ZeldaGame
+    game: ZeldaGame,
     tileset: Tileset,
     selectedTileIndex: number,
 }>();
 
-const emit = defineEmits<{
-    (e: 'tileSelected', index: number): void
-}>();
+const emit = defineEmits<(e: 'tileSelected', index: number) => void>();
 
-const canvas = ref<HTMLCanvasElement | null>(null);
+const canvas = ref<HTMLCanvasElement>();
 const canvasStyle = ref('');
 const armedIndex = ref(0);
 
@@ -31,20 +30,17 @@ const rowCount = computed(() => props.tileset.rowCount);
 const width = computed(() => colCount.value * TILE_WIDTH);
 const height = computed(() => rowCount.value * TILE_HEIGHT);
 
-function computeIndexFromXY(x: number, y: number): number {
-    const el = canvas.value!;
+function computeIndexFromXY(el: HTMLCanvasElement, x: number, y: number): number {
     const tileWidth = el.clientWidth / colCount.value;
     const tileHeight = el.clientHeight / rowCount.value;
     return Math.floor(y / tileHeight) * colCount.value + Math.floor(x / tileWidth);
 }
 
 function repaint() {
-    if (!props.game) return;
-    const el = canvas.value!;
+    const el = canvas.value;
     const ctx = el?.getContext('2d');
     if (!ctx) return; // Unit tests
     const ss: SpriteSheet = props.game.assets.get(props.tileset.getName());
-    if (!ss) return;
     ss.gtpImage.draw(ctx, 0, 0);
 
     ctx.strokeStyle = 'red';
@@ -69,21 +65,24 @@ function updateCanvasStyle(tileset: Tileset) {
 }
 
 onMounted(() => {
-    const el = canvas.value!;
+    const el = canvas.value;
+    if (!el) { // Needed to appease eslint
+        throw new Error('Canvas element not found!');
+    }
     updateCanvasStyle(props.tileset);
 
     el.addEventListener('click', (e: MouseEvent) => {
-        emit('tileSelected', computeIndexFromXY(e.offsetX, e.offsetY));
+        emit('tileSelected', computeIndexFromXY(el, e.offsetX, e.offsetY));
         repaint();
     });
 
     el.addEventListener('mousemove', (e: MouseEvent) => {
-        armedIndex.value = computeIndexFromXY(e.offsetX, e.offsetY);
+        armedIndex.value = computeIndexFromXY(el, e.offsetX, e.offsetY);
         repaint();
     });
 
     setTimeout(() => {
-        nextTick(() => {
+        void nextTick(() => {
             repaint();
         });
     }, 300);
@@ -91,7 +90,7 @@ onMounted(() => {
 
 watch(() => props.tileset, (newTileset) => {
     updateCanvasStyle(newTileset);
-    nextTick(() => {
+    void nextTick(() => {
         repaint();
     });
 });

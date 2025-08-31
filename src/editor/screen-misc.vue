@@ -8,16 +8,17 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
-import { useStore } from 'vuex';
+import { Store, useStore } from 'vuex';
 import { Screen } from '@/Screen';
+import { EditorState } from '@/editor/editor';
 
-const store = useStore();
+const store: Store<EditorState> = useStore();
 
 const songs = [
     { title: '(default)', value: null },
     { title: 'No music', value: 'none' },
     { title: 'Overworld', value: 'overworldMusic' },
-    { title: 'Labyrinth', value: 'labyrinthMusic' }
+    { title: 'Labyrinth', value: 'labyrinthMusic' },
 ];
 
 defineProps<{

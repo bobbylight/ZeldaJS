@@ -143,98 +143,96 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
-import { Event } from '@/event/Event';
+import { Event, EventData } from '@/event/Event';
 import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
 import { Position } from '@/Position';
 import { ChangeScreenWarpEvent } from '@/event/ChangeScreenWarpEvent';
 import { ChangeScreenWarpEventGenerator, EventGenerator, GoDownStairsEventGenerator } from '@/editor/event-generators';
+import { ZeldaGame } from '@/ZeldaGame';
 
 const props = defineProps<{
-    game: any,
-    modelValue: Event<any>[]
+    game: ZeldaGame,
+    modelValue: Event<EventData>[]
 }>();
-const emit = defineEmits<{
-    (e: 'update:modelValue', value: Event<any>[]): void
-}>();
+const emit = defineEmits<(e: 'update:modelValue', value: Event<EventData>[]) => void>();
 
 const title = ref('');
 const rightAlignButtons = ref(false);
 const itemName = ref('Event');
-const itemKey = ref('id');
-const validationFunc = ref<any>(null);
+const itemKey = ref<keyof Event<EventData>>('id');
 
-const rows = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-const cols = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-const screenRows = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const rows = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
+const cols = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];
+const screenRows = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
 const screenCols = ref<number[]>([]);
 
 const headers = [
     { title: 'Type', value: 'type' },
-    { title: 'Description', value: 'desc' }
+    { title: 'Description', value: 'desc' },
 ];
 
 const dense = ref(false);
 
 const generators = [
     new GoDownStairsEventGenerator(),
-    new ChangeScreenWarpEventGenerator()
+    new ChangeScreenWarpEventGenerator(),
 ];
 
 const generatorSelectItems = [
     { title: 'Go Down Stairs', value: generators[0] },
-    { title: 'Warp on Screen Change', value: generators[1] }
+    { title: 'Warp on Screen Change', value: generators[1] },
 ];
 
 const maps = [
     { title: 'Overworld', value: 'overworld' },
-    { title: 'Level 1', value: 'level1' }
+    { title: 'Level 1', value: 'level1' },
 ];
 
 const deleteDialog = ref(false);
 const showModifyRowDialog = ref(false);
 const modifiedItemKey = ref<string | null>(null);
-const rowBeingModified = ref<Event<any> | null>(null);
-const selectedItems = ref<Event<any>[]>([]);
+const rowBeingModified = ref<Event<EventData> | null>(null);
+const selectedItems = ref<Event<EventData>[]>([]);
 const saveDisabled = ref(false);
-const newGenerator = ref<EventGenerator<any>>(generators[0]);
+const newGenerator = ref<EventGenerator<Event<EventData>> | undefined>(generators[0]);
 
 function typeColumnRenderer(eventType: string): string {
-    return generatorSelectItems.find((item: any) => item.value.type === eventType)?.title ?? eventType;
+    return generatorSelectItems.find((item) => item.value.type === eventType)?.title ?? eventType;
 }
 
-function descColumnRenderer(cellValue: Event<any>): string {
+function descColumnRenderer(cellValue: Event<EventData>): string {
     if (cellValue instanceof GoDownStairsEvent) {
         const sourceTile: Position = cellValue.getTile();
         const map: string = cellValue.destMap;
         const screen: Position = cellValue.destScreen;
         const destPos: Position = cellValue.destPos;
         return `(${sourceTile.row}, ${sourceTile.col}) to ${map}, screen (${screen.row}, ${screen.col}), pos (${destPos.row}, ${destPos.col})`;
-    } else if (cellValue instanceof ChangeScreenWarpEvent) {
+    }
+    else if (cellValue instanceof ChangeScreenWarpEvent) {
         const map: string = cellValue.destMap;
         const screen: Position = cellValue.destScreen;
         const destPos: Position = cellValue.destPos;
         return `Warp to ${map}, screen (${screen.row}, ${screen.col}), pos (${destPos.row}, ${destPos.col})`;
     }
-    return cellValue.toString();
+    return 'Unknown';
 }
 
-function getAllItems(): Event<any>[] {
+function getAllItems(): Event<EventData>[] {
     return props.modelValue;
 }
 
-function setAllItems(items: Event<any>[]) {
+function setAllItems(items: Event<EventData>[]) {
     emit('update:modelValue', items);
 }
 
 function isSaveButtonDisabled(): boolean {
-    if (!rowBeingModified.value) return true;
-    const origRow: Event<any> | null = modifiedItemKey.value ? selectedItems.value[0] : null;
-    return !!validationFunc.value && !validationFunc.value(rowBeingModified.value, origRow, getAllItems());
+    return !rowBeingModified.value;
+    // TODO: Call an optional prop with a validation function when move to modifiableTable
 }
 
 function moveTableRow(row: number, delta: number) {
-    const newValue: Event<any>[] = getAllItems().slice();
-    const temp: Event<any> = newValue[row + delta];
+    const newValue: Event<EventData>[] = getAllItems().slice();
+    const temp: Event<EventData> = newValue[row + delta];
     newValue[row + delta] = newValue[row];
     newValue[row] = temp;
     setAllItems(newValue);
@@ -250,9 +248,9 @@ function onCancelDelete() {
 }
 
 function onDeleteItem() {
-    const selectedKey: any = (rowBeingModified.value as any)[itemKey.value];
-    const newDataList: Event<any>[] = props.modelValue.filter((v: Event<any>) => {
-        return (v as any)[itemKey.value] !== selectedKey;
+    const selectedKey = rowBeingModified.value?.[itemKey.value];
+    const newDataList: Event<EventData>[] = props.modelValue.filter((v: Event<EventData>) => {
+        return v[itemKey.value] !== selectedKey;
     });
     emit('update:modelValue', newDataList);
     deleteDialog.value = false;
@@ -261,19 +259,24 @@ function onDeleteItem() {
 }
 
 function onSave() {
-    const newDataList: Event<any>[] = props.modelValue.slice();
-    const index: number = newDataList.findIndex((item: Event<any>) => {
-        return (item as any)[itemKey.value] === modifiedItemKey.value;
+    const newDataList: Event<EventData>[] = props.modelValue.slice();
+    const index: number = newDataList.findIndex((item: Event<EventData>) => {
+        return item[itemKey.value] === modifiedItemKey.value;
     });
-    const generator: EventGenerator<any> = newGenerator.value;
-    const value: Event<any> = rowBeingModified.value!;
+    const generator: EventGenerator<Event<EventData>> = newGenerator.value;
+    const value = rowBeingModified.value;
+    if (!value) {
+        console.error('No value to save!');
+        return;
+    }
     generator.setTile(value.tile);
     generator.setDestination(value.destMap, value.destScreen, value.destPos);
-    const event: Event<any> = generator.generate();
+    const event: Event<EventData> = generator.generate();
     if (index > -1) {
         newDataList.splice(index, 1, event);
-    } else {
-        (event as any)[itemKey.value] = Date.now().toString(10);
+    }
+    else {
+        event[itemKey.value] = Date.now().toString(10);
         newDataList.push(event);
     }
     emit('update:modelValue', newDataList);
@@ -286,23 +289,23 @@ function onSelectedItemsChanged() {
     refreshRowBeingModified();
 }
 
-function getInitialValue(): Event<any> {
+function getInitialValue(): Event<EventData> {
     return new GoDownStairsEventGenerator().generate();
 }
 
 function refreshRowBeingModified() {
     rowBeingModified.value = (selectedItems.value.length > 0
-        ? JSON.parse(JSON.stringify(selectedItems.value[0])) : getInitialValue()) as Event<any>;
+        ? JSON.parse(JSON.stringify(selectedItems.value[0])) : getInitialValue()) as Event<EventData>;
     saveDisabled.value = isSaveButtonDisabled();
 }
 
 function showAddOrEditModal(newRecord: boolean) {
-    modifiedItemKey.value = newRecord ? null : (selectedItems.value[0] as any)[itemKey.value] as string;
+    modifiedItemKey.value = newRecord ? null : (selectedItems.value[0])[itemKey.value] as string;
     rowBeingModified.value = (newRecord ? getInitialValue()
-        : JSON.parse(JSON.stringify(selectedItems.value[0]))) as Event<any>;
-    newGenerator.value = generators.find((g: EventGenerator<any>) => {
-        return g.type === rowBeingModified.value!.type;
-    })!;
+        : JSON.parse(JSON.stringify(selectedItems.value[0]))) as Event<EventData>;
+    newGenerator.value = generators.find((g: EventGenerator<Event<EventData>>) => {
+        return g.type === rowBeingModified.value?.type;
+    });
     showModifyRowDialog.value = true;
 }
 

@@ -92,7 +92,10 @@
     </div>
 </template>
 
+
 <script lang="ts">
+/* eslint-disable */
+// TODO: Convert to composition API, enable eslint and fix!
 /**
  * Valid fields for a header in a modifiable table.
  */
@@ -261,10 +264,11 @@ export default {
                 this.allItems = newItems.slice();
                 this.selectedItems = [];
                 this.rowBeingModified = null;
-            }
+            },
         },
     },
 }
+/* eslint-enable */
 </script>
 
 <style scoped>

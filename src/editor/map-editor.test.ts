@@ -13,6 +13,9 @@ const mockScreen = {
     paintTopLayer: vi.fn(),
     setTile: vi.fn(),
 };
+const mockTileset = {
+    paintTile: vi.fn(),
+};
 const mockMap = {
     currentScreen: mockScreen,
     currentScreenRow: 1,
@@ -20,9 +23,7 @@ const mockMap = {
     rowCount: 3,
     colCount: 3,
     getScreen: vi.fn(() => mockScreen),
-    tileset: {
-        paintTile: vi.fn(),
-    },
+    getTileset: () => mockTileset,
 };
 
 describe('MapEditor', () => {
@@ -62,7 +63,7 @@ describe('MapEditor', () => {
         expect(mockScreen.paintCol).toHaveBeenCalledTimes(2);
 
         // The armed tile is painted
-        expect(mockMap.tileset.paintTile).toHaveBeenCalledOnce();
+        expect(mockMap.getTileset().paintTile).toHaveBeenCalledOnce();
     });
 
     describe('when viewing the top-left screen', () => {
@@ -95,7 +96,7 @@ describe('MapEditor', () => {
             expect(mockScreen.paintCol).toHaveBeenCalledTimes(1);
 
             // The armed tile is painted
-            expect(mockMap.tileset.paintTile).toHaveBeenCalledOnce();
+            expect(mockMap.getTileset().paintTile).toHaveBeenCalledOnce();
         });
     });
 
@@ -129,7 +130,7 @@ describe('MapEditor', () => {
             expect(mockScreen.paintCol).toHaveBeenCalledTimes(1);
 
             // The armed tile is painted
-            expect(mockMap.tileset.paintTile).toHaveBeenCalledOnce();
+            expect(mockMap.getTileset().paintTile).toHaveBeenCalledOnce();
         });
     });
 

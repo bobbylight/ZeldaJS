@@ -24,7 +24,7 @@ export class Screen {
     events: Event<EventData>[];
     music?: string | null;
 
-    constructor(parent: Map, enemyGroup?: EnemyGroup | null, tiles?: number[][]) {
+    constructor(parent: Map, enemyGroup: EnemyGroup = new EnemyGroup(), tiles?: number[][]) {
         this.parent = parent;
 
         tiles ??= Screen.createEmptyTiles();
@@ -306,11 +306,9 @@ export class Screen {
         }
     }
 
-    private setEnemyGroup(enemyGroup?: EnemyGroup | null) {
+    private setEnemyGroup(enemyGroup: EnemyGroup) {
         this.enemyGroup = enemyGroup;
-        if (this.enemyGroup) {
-            this.flattenedEnemyGroup = this.enemyGroup.clone(true);
-        }
+        this.flattenedEnemyGroup = this.enemyGroup.clone(true);
     }
 
     setTile(row: number, col: number, tile: number) {

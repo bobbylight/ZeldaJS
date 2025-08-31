@@ -122,36 +122,34 @@
 import { ref, computed, watch } from 'vue';
 import { EnemyGroup, EnemyInfo } from '@/EnemyGroup';
 import { v4 as uuidv4 } from 'uuid';
+import { ZeldaGame } from '@/ZeldaGame';
 
 const props = defineProps<{
-    game: any, // ZeldaGame
-    modelValue: EnemyGroup
+    game: ZeldaGame,
+    modelValue: EnemyGroup,
 }>();
 
-const emit = defineEmits<{
-    (e: 'update:modelValue', value: EnemyGroup): void;
-}>();
+const emit = defineEmits<(e: 'update:modelValue', value: EnemyGroup) => void>();
 
 const title = ref('');
 const rightAlignButtons = ref(false);
 const itemName = ref('Enemy Group');
-const itemKey = ref('id');
-const validationFunc = ref<any>(null);
+const itemKey = ref<keyof EnemyInfo>('id');
 
 const enemyTypes = [
     { title: 'Octorok', value: 'Octorok' },
     { title: 'Moblin', value: 'Moblin' },
     { title: 'Tektite', value: 'Tektite' },
-    { title: 'Lynel', value: 'Lynel' }
+    { title: 'Lynel', value: 'Lynel' },
 ];
 const enemyStrengths = [
     { title: 'Blue (strong)', value: 'blue' },
-    { title: 'Red (weak)', value: 'red' }
+    { title: 'Red (weak)', value: 'red' },
 ];
 const headers = [
     { title: 'Enemy', value: 'type' },
     { title: 'Strength', value: 'strength' },
-    { title: 'Count', value: 'count' }
+    { title: 'Count', value: 'count' },
 ];
 
 const deleteDialog = ref(false);
@@ -164,17 +162,15 @@ const saveDisabled = ref(false);
 
 const deleteDialogTitle = computed(() => `Delete ${itemName.value}`);
 const dialogTitle = computed(() =>
-    (selectedItems.value.length ? 'Edit ' : 'New ') + itemName.value
+    (selectedItems.value.length ? 'Edit ' : 'New ') + itemName.value,
 );
 const saveButtonDisabled = computed(() => {
-    if (!rowBeingModified.value) return true;
-    const origRow: EnemyInfo | null = modifiedItemKey.value ? selectedItems.value[0] : null;
-    return !!validationFunc.value &&
-        !validationFunc.value(rowBeingModified.value, origRow, getAllItems());
+    return !rowBeingModified.value;
+    // TODO: Call an optional prop with a validation function when move to modifiableTable
 });
 
 function getAllItems(): EnemyInfo[] {
-    return props.modelValue ? props.modelValue.enemies : [];
+    return props.modelValue.enemies;
 }
 
 function setAllItems(items: EnemyInfo[]) {
@@ -186,15 +182,20 @@ function setAllItems(items: EnemyInfo[]) {
 function onSave() {
     const newDataList: EnemyInfo[] = props.modelValue.enemies.slice();
     const index: number = newDataList.findIndex((item: EnemyInfo) => {
-        return (item as any)[itemKey.value] === modifiedItemKey.value;
+        return item[itemKey.value] === modifiedItemKey.value;
     });
 
-    const value: EnemyInfo = rowBeingModified.value!;
+    const value = rowBeingModified.value;
+    if (!value) {
+        console.error('No value to save!');
+        return;
+    }
 
     if (index > -1) {
         newDataList.splice(index, 1, value);
-    } else {
-        (value as any)[itemKey.value] = uuidv4();
+    }
+    else {
+        value[itemKey.value] = uuidv4();
         newDataList.push(value);
     }
 
@@ -214,7 +215,7 @@ function getInitialValue(): EnemyInfo {
         id: uuidv4(),
         type: enemyTypes[0].value,
         count: 2,
-        strength: 'red'
+        strength: 'red',
     };
 }
 
@@ -228,9 +229,9 @@ function onCancelDelete() {
 }
 
 function onDeleteItem() {
-    const selectedKey: any = (rowBeingModified.value as any)[itemKey.value];
+    const selectedKey = rowBeingModified.value?.[itemKey.value];
     const newDataList: EnemyInfo[] = props.modelValue.enemies.filter((v: EnemyInfo) => {
-        return (v as any)[itemKey.value] !== selectedKey;
+        return v[itemKey.value] !== selectedKey;
     });
 
     setAllItems(newDataList);
@@ -248,7 +249,7 @@ function refreshRowBeingModified() {
 }
 
 function showAddOrEditModal(newRecord: boolean) {
-    modifiedItemKey.value = newRecord ? null : (selectedItems.value[0] as any)[itemKey.value] as string;
+    modifiedItemKey.value = newRecord ? null : selectedItems.value[0][itemKey.value] as string;
     rowBeingModified.value = (newRecord ? getInitialValue()
         : JSON.parse(JSON.stringify(selectedItems.value[0]))) as EnemyInfo;
     showModifyRowDialog.value = true;

@@ -14,8 +14,8 @@
 
 <script setup lang="ts">
 const { padded = true } = defineProps<{
+    padded?: boolean,
     title?: string,
-    padded?: boolean
 }>();
 </script>
 
