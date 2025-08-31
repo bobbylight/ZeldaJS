@@ -161,7 +161,7 @@ export abstract class Actor {
             y: this.y,
             hitBox: this.hitBox,
             frozen: this.frozen,
-            done: this.done
+            done: this.done,
         };
     }
 

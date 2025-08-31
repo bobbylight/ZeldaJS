@@ -19,7 +19,7 @@ describe('ActionablePanel', () => {
         };
         render(content, {
             global: {
-                plugins: [vuetify],
+                plugins: [ vuetify ],
             },
         });
     });

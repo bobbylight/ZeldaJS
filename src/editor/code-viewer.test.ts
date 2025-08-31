@@ -8,7 +8,7 @@ import { render, screen } from '@testing-library/vue';
 import CodeViewer from '../../src/editor/code-viewer.vue';
 import { ZeldaGame } from '@/ZeldaGame';
 
-const mapData = { tiles: [1, 2, 3], other: 'data' };
+const mapData = { tiles: [ 1, 2, 3 ], other: 'data' };
 const mockMap = {
     toJson: vi.fn(() => mapData),
 };
@@ -28,7 +28,7 @@ describe('CodeViewer', () => {
         });
         render(CodeViewer, {
             props: { game: mockGame },
-            global: { plugins: [vuetify] },
+            global: { plugins: [ vuetify ] },
         });
         // Besides simulating user actions, userData.setup() installs clipboard read/write mocks
         user = userEvent.setup();

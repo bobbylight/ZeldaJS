@@ -330,7 +330,7 @@ export class Screen {
         const screenData: ScreenData = {
             tiles: this.tiles,
             // actors: actorData,
-            enemyGroup: this.enemyGroup ? this.enemyGroup.toJson() : null
+            enemyGroup: this.enemyGroup ? this.enemyGroup.toJson() : null,
         };
         if (this.events.length) {
             screenData.events = this.events.map((e: Event<EventData>) => {

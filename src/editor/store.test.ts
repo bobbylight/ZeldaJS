@@ -30,7 +30,7 @@ describe('store', () => {
             currentScreen: mockMap.currentScreen as unknown as Screen,
             currentScreenRow: -1,
             currentScreenCol: -1,
-            lastModified: 0
+            lastModified: 0,
         });
     });
 
@@ -53,7 +53,7 @@ describe('store', () => {
         expect(mockGame.setMap).toHaveBeenCalledWith(
             'level1',
             expect.any(Position),
-            expect.any(Position)
+            expect.any(Position),
         );
     });
 

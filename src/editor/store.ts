@@ -15,7 +15,7 @@ const createGame: () => ZeldaGame = () => {
         parent: parent,
         targetFps: 60,
         width: CANVAS_WIDTH,
-        editMode: true
+        editMode: true,
     });
 };
 
@@ -25,7 +25,7 @@ const store: Store<EditorState> = createStore({
         currentScreen: null,
         currentScreenRow: -1,
         currentScreenCol: -1,
-        lastModified: 0
+        lastModified: 0,
     },
     mutations: {
         setCurrentScreen(state: EditorState, screen: RowColumnPair) {
@@ -54,10 +54,10 @@ const store: Store<EditorState> = createStore({
         },
         updateLastModified(state: EditorState) {
             state.lastModified = Date.now();
-        }
+        },
     },
     actions: {},
-    modules: {}
+    modules: {},
 });
 
 export default store;

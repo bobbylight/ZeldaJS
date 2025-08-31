@@ -28,14 +28,14 @@ export class ItemDropStrategy {
 
             blueTektite: 'C',
 
-            redLynel: 'D'
+            redLynel: 'D',
         };
 
         this.itemDropTable = {
-            A: ['rupee', 'heart', 'rupee', null, 'rupee', 'heart', 'heart', 'rupee', 'rupee', 'heart'],
-            B: [null, 'rupee', null, 'rupee', 'heart', null, 'rupee', null, 'heart', 'heart'],
-            C: ['rupee', 'heart', 'rupee', 'blueRupee', 'heart', null, 'rupee', 'rupee', 'rupee', 'blueRupee'],
-            D: ['heart', null, 'rupee', 'heart', null, 'heart', 'heart', 'heart', 'rupee', 'heart']
+            A: [ 'rupee', 'heart', 'rupee', null, 'rupee', 'heart', 'heart', 'rupee', 'rupee', 'heart' ],
+            B: [ null, 'rupee', null, 'rupee', 'heart', null, 'rupee', null, 'heart', 'heart' ],
+            C: [ 'rupee', 'heart', 'rupee', 'blueRupee', 'heart', null, 'rupee', 'rupee', 'rupee', 'blueRupee' ],
+            D: [ 'heart', null, 'rupee', 'heart', null, 'heart', 'heart', 'heart', 'rupee', 'heart' ],
         };
     }
 

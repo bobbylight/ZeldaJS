@@ -27,6 +27,7 @@
     "vuex": "4.1.0"
   },
   "devDependencies": {
+    "@stylistic/eslint-plugin": "5.2.3",
     "@testing-library/jest-dom": "6.8.0",
     "@testing-library/user-event": "14.6.1",
     "@testing-library/vue": "8.1.0",

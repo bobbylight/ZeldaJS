@@ -18,7 +18,7 @@ const mocks = vi.hoisted(() => {
                 game: mockGame,
                 lastModified: 0,
             },
-            commit: mockCommit
+            commit: mockCommit,
         }),
     };
 });
@@ -69,7 +69,7 @@ describe('MainContent', () => {
     beforeEach(() => {
         render(MainContent, {
             global: {
-                plugins: [vuetify],
+                plugins: [ vuetify ],
             },
         });
     });

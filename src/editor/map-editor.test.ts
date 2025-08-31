@@ -44,7 +44,7 @@ describe('MapEditor', () => {
     it('renders the canvas after a short delay', () => {
         render(MapEditor, {
             global: {
-                plugins: [vuetify],
+                plugins: [ vuetify ],
             },
             props: {
                 game: mockGame,
@@ -77,7 +77,7 @@ describe('MapEditor', () => {
 
             render(MapEditor, {
                 global: {
-                    plugins: [vuetify],
+                    plugins: [ vuetify ],
                 },
                 props: {
                     game: mockGame,
@@ -111,7 +111,7 @@ describe('MapEditor', () => {
 
             render(MapEditor, {
                 global: {
-                    plugins: [vuetify],
+                    plugins: [ vuetify ],
                 },
                 props: {
                     game: mockGame,
@@ -137,7 +137,7 @@ describe('MapEditor', () => {
         it('rerenders', async() => {
             render(MapEditor, {
                 global: {
-                    plugins: [vuetify],
+                    plugins: [ vuetify ],
                 },
                 props: {
                     game: mockGame,
@@ -162,7 +162,7 @@ describe('MapEditor', () => {
         it('rerenders', async() => {
             render(MapEditor, {
                 global: {
-                    plugins: [vuetify],
+                    plugins: [ vuetify ],
                 },
                 props: {
                     game: mockGame,

@@ -199,7 +199,7 @@ export class Map {
             tilesetData: this.tileset.toJson(),
             music: this.music,
             row: this.curRow,
-            col: this.curCol
+            col: this.curCol,
         };
     }
 }

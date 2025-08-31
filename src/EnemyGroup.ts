@@ -53,7 +53,7 @@ export class EnemyGroup {
                     id: uuidv4(),
                     type: enemyGroup.type,
                     strength: enemyGroup.strength,
-                    count: 1
+                    count: 1,
                 });
             }
         });
@@ -81,7 +81,7 @@ export class EnemyGroup {
     toJson(): EnemyGroupData {
         return {
             spawnStyle: this.spawnStyle,
-            enemies: this.enemies
+            enemies: this.enemies,
         };
     }
 

@@ -143,7 +143,7 @@ export class Link extends Character {
 
             animationCompleted: (anim: Animation) => {
                 game.setState(new FadeOutInState(game.state, new TitleState()));
-            }
+            },
         });
 
         return anim;
@@ -427,7 +427,7 @@ export class Link extends Character {
                 this.anim = null;
                 // @ts-expect-error - scope is defined in "scope" arg
                 this.frozen = false;
-            }
+            },
         });
     }
 

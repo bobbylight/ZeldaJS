@@ -46,7 +46,7 @@ describe('EventEditor', () => {
                 createEventMock('2', 'changeScreenWarp'),
             ];
             wrapper = render(EventEditor, {
-                global: { plugins: [vuetify] },
+                global: { plugins: [ vuetify ] },
                 props: {
                     game: {},
                     modelValue,
@@ -176,7 +176,7 @@ describe('EventEditor', () => {
                 createEventMock('2', 'changeScreenWarp'),
             ];
             wrapper = render(EventEditor, {
-                global: { plugins: [vuetify] },
+                global: { plugins: [ vuetify ] },
                 props: {
                     game: {},
                     modelValue,
