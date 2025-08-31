@@ -1,8 +1,8 @@
-import { Event, EventData } from '../event/Event';
+import { Event, EventData } from '@/event/Event';
 import { ChangeScreenWarpEventGenerator, GoDownStairsEventGenerator } from './event-generators';
-import { Position } from '../Position';
-import { GoDownStairsEvent, GoDownStairsEventData } from '../event/GoDownStairsEvent';
-import { ChangeScreenWarpData, ChangeScreenWarpEvent } from '../event/ChangeScreenWarpEvent';
+import { Position } from '@/Position';
+import { GoDownStairsEvent, GoDownStairsEventData } from '@/event/GoDownStairsEvent';
+import { ChangeScreenWarpData, ChangeScreenWarpEvent } from '@/event/ChangeScreenWarpEvent';
 
 function changeScreenWarp(data: EventData): ChangeScreenWarpEvent {
     const eventData: ChangeScreenWarpData = data;

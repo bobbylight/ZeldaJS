@@ -143,10 +143,10 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
-import { Event } from '../event/Event';
-import { GoDownStairsEvent } from '../event/GoDownStairsEvent';
-import { Position } from '../Position';
-import { ChangeScreenWarpEvent } from '../event/ChangeScreenWarpEvent';
+import { Event } from '@/event/Event';
+import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
+import { Position } from '@/Position';
+import { ChangeScreenWarpEvent } from '@/event/ChangeScreenWarpEvent';
 import { ChangeScreenWarpEventGenerator, EventGenerator, GoDownStairsEventGenerator } from '@/editor/event-generators';
 
 const props = defineProps<{

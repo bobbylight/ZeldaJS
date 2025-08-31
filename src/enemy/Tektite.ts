@@ -1,7 +1,7 @@
-import { SCREEN_COL_COUNT, SCREEN_HEIGHT, SCREEN_ROW_COUNT } from '../Constants';
+import { SCREEN_COL_COUNT, SCREEN_HEIGHT, SCREEN_ROW_COUNT } from '@/Constants';
 import { Enemy, EnemyStrength } from './Enemy';
-import { Screen } from '../Screen';
-import { ZeldaGame } from '../ZeldaGame';
+import { Screen } from '@/Screen';
+import { ZeldaGame } from '@/ZeldaGame';
 import { Rectangle } from 'gtp';
 declare let game: ZeldaGame;
 

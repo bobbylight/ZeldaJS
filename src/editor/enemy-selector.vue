@@ -120,7 +120,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { EnemyGroup, EnemyInfo } from '../EnemyGroup';
+import { EnemyGroup, EnemyInfo } from '@/EnemyGroup';
 import { v4 as uuidv4 } from 'uuid';
 
 const props = defineProps<{

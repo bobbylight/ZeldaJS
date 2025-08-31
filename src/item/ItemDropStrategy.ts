@@ -1,4 +1,4 @@
-import { Enemy } from '../enemy/Enemy';
+import { Enemy } from '@/enemy/Enemy';
 import { AbstractItem } from './AbstractItem';
 import { Heart } from './Heart';
 import { Rupee } from './Rupee';
@@ -64,7 +64,7 @@ export class ItemDropStrategy {
     /**
      * Creates an item by name.
      *
-     * @param enemy The enmy dropping the item.
+     * @param enemy The enemy dropping the item.
      * @param itemName The name of the item to drop.
      * @returns The item dropped.
      */

@@ -1,6 +1,6 @@
-import { Projectile } from '../Projectile';
+import { Projectile } from '@/Projectile';
 import { AbstractWalkingEnemy } from './AbstractWalkingEnemy';
-import { ZeldaGame } from '../ZeldaGame';
+import { ZeldaGame } from '@/ZeldaGame';
 import { EnemyStrength } from './Enemy';
 declare let game: ZeldaGame;
 

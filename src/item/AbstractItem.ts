@@ -1,4 +1,4 @@
-import { Actor } from '../Actor';
+import { Actor } from '@/Actor';
 
 /**
  * A base class for items that Link can pick up.

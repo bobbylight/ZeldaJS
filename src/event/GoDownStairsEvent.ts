@@ -1,10 +1,10 @@
-import { Animation } from '../Animation';
-import { AnimationListener } from '../AnimationListener';
-import { Position } from '../Position';
+import { Animation } from '@/Animation';
+import { AnimationListener } from '@/AnimationListener';
+import { Position } from '@/Position';
 import { Event, EventData } from './Event';
-import { ZeldaGame } from '../ZeldaGame';
-import { CurtainOpeningState } from '../CurtainOpeningState';
-import { MainGameState } from '../MainGameState';
+import { ZeldaGame } from '@/ZeldaGame';
+import { CurtainOpeningState } from '@/CurtainOpeningState';
+import { MainGameState } from '@/MainGameState';
 declare let game: ZeldaGame;
 
 /**

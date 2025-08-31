@@ -1,8 +1,8 @@
 import { Event, EventData } from './Event';
-import { Position } from '../Position';
-import { ZeldaGame } from '../ZeldaGame';
-import { AnimationListener } from '../AnimationListener';
-import { Animation } from '../Animation';
+import { Position } from '@/Position';
+import { ZeldaGame } from '@/ZeldaGame';
+import { AnimationListener } from '@/AnimationListener';
+import { Animation } from '@/Animation';
 declare let game: ZeldaGame;
 
 /**

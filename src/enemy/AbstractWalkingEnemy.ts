@@ -1,10 +1,10 @@
-import { randomDir } from '../Direction';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../Constants';
-import { Actor } from '../Actor';
+import { randomDir } from '@/Direction';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/Constants';
+import { Actor } from '@/Actor';
 import { Enemy, EnemyStrength } from './Enemy';
-import { ZeldaGame } from '../ZeldaGame';
+import { ZeldaGame } from '@/ZeldaGame';
 import { Rectangle } from 'gtp';
-import { Projectile } from '../Projectile';
+import { Projectile } from '@/Projectile';
 declare let game: ZeldaGame;
 
 /**
