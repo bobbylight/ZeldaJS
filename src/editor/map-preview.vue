@@ -9,13 +9,16 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue';
-import { useStore } from 'vuex';
+import { Store, useStore } from 'vuex';
 import debounce from 'debounce';
 import { SCREEN_COL_COUNT, SCREEN_HEIGHT, SCREEN_ROW_COUNT, SCREEN_WIDTH } from '@/Constants';
+import { Map } from '@/Map';
+import { ZeldaGame } from '@/ZeldaGame';
+import { EditorState } from '@/editor/editor';
 
 const props = defineProps<{
-    game: any,
-    map: any,
+    game: ZeldaGame,
+    map: Map,
     lastModified: number,
 }>();
 
@@ -24,7 +27,7 @@ const armedScreenRow = ref(-1);
 const armedScreenCol = ref(-1);
 const debouncedRepaint = ref<(() => void) | null>(null);
 
-const store = useStore();
+const store: Store<EditorState> = useStore();
 
 const currentScreen = computed(() => store.state.currentScreen);
 
@@ -37,9 +40,8 @@ function clearArmedScreen() {
 }
 
 function repaint() {
-    const el = canvas.value;
-    if (!el) return;
-    const ctx = el.getContext('2d')!;
+    const ctx = canvas.value?.getContext('2d');
+    if (!ctx) return;
     ctx.save();
 
     ctx.fillStyle = 'white';
@@ -71,7 +73,10 @@ function mouseEventToScreen(e: MouseEvent) {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    const el = canvas.value!;
+    const el = canvas.value;
+    if (!el) { // Never happens
+        return { row: 0, col: 0 };
+    }
     const canvasWidth = el.clientWidth;
     const canvasHeight = el.clientHeight;
 
@@ -85,7 +90,7 @@ function mouseEventToScreen(e: MouseEvent) {
 }
 
 function possiblyOutlineScreen(ctx: CanvasRenderingContext2D, row: number, col: number,
-                               targetRow: number, targetCol: number, style: string) {
+    targetRow: number, targetCol: number, style: string) {
     if (row === targetRow && col === targetCol) {
         ctx.strokeStyle = style;
         ctx.lineWidth = 10;
@@ -112,7 +117,7 @@ watch(() => props.lastModified, () => {
 });
 
 watch(currentScreen, () => {
-    debouncedRepaint.value && debouncedRepaint.value();
+    debouncedRepaint.value?.();
 });
 
 onMounted(() => {

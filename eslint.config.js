@@ -40,6 +40,7 @@ export default [
 
         files: [
             '**/*.ts',
+            '**/*.vue',
         ],
 
         rules: {
@@ -71,9 +72,9 @@ export default [
             "@typescript-eslint/restrict-template-expressions": ["error", {
                 // Unfortunately we must enumerate all types with toString() implementations
                 "allow": [
-                    { from: "file", path: "./src/EnemyGroup.ts", name: [ "EnemyGroup" ] }
+                    { from: "file", path: "./src/EnemyGroup.ts", name: [ "EnemyGroup" ] },
+                    { from: 'lib', name: [ 'Date' ] }
                 ],
-                //allow: [{ name: ['Error', 'URL', 'URLSearchParams'], from: 'lib' }],
                 "allowNullish": true,
                 "allowNumber": true,
             }],

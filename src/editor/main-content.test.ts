@@ -6,6 +6,7 @@ import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import { EnemyGroup } from '@/EnemyGroup';
 import { fireEvent } from '@testing-library/vue';
+import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 
 const mocks = vi.hoisted(() => {
     const mockCommit = vi.fn();
@@ -35,12 +36,23 @@ const mockScreen = {
     paintTopLayer: vi.fn(),
 };
 
+const gtpImageDraw = vi.fn();
+const mockSpriteSheet: SpriteSheet = {
+    gtpImage: {
+        draw: gtpImageDraw,
+    },
+} as unknown as SpriteSheet;
+
+const mockTileset = {
+    getName: vi.fn(),
+    paintTile: vi.fn(),
+};
 const mockGame = {
     assets: {
         addImage: vi.fn(),
         addJson: vi.fn(),
         addSpriteSheet: vi.fn(),
-        get: vi.fn(),
+        get: vi.fn(() => mockSpriteSheet),
         onLoad: vi.fn((callback: () => void) => {
             callback();
         }),
@@ -52,10 +64,8 @@ const mockGame = {
         rowCount: 10,
         colCount: 10,
         getScreen: vi.fn(() => mockScreen),
-        tileset: {
-            getName: vi.fn(),
-            paintTile: vi.fn(),
-        },
+        getTileset: () => mockTileset,
+        tileset: mockTileset,
     },
     startNewGame: vi.fn(),
 };

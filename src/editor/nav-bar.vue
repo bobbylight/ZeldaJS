@@ -39,7 +39,7 @@ import { useStore } from 'vuex';
 
 const selectedMap = ref<string | null>(null);
 const maps = ref<{ title: string, value: string }[]>([]);
-const select = ref();
+const select = ref<HTMLSelectElement>();
 const store = useStore();
 
 function focusCanvas() {
@@ -49,7 +49,7 @@ function focusCanvas() {
 }
 
 function onSelectedMapChanged(newValue: string) {
-    (select.value as any)?.blur();
+    select.value?.blur();
     store.commit('setMap', newValue);
 }
 
@@ -57,7 +57,8 @@ function preventFocus(e: FocusEvent) {
     e.preventDefault();
     if (e.relatedTarget) {
         (e.relatedTarget as HTMLElement).focus();
-    } else {
+    }
+    else {
         (e.currentTarget as HTMLElement).blur();
     }
 }

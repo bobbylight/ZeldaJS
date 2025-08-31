@@ -23,21 +23,21 @@ const props = defineProps({
     game: {
         type: ZeldaGame,
         required: false,
-    }
+    },
 });
 
 const codeDiv = ref<HTMLPreElement | null>(null);
 
 function refresh() {
     const start = new Date();
-    console.log('Refreshing started at: ' + start);
+    console.log(`Refreshing started at: ${start}`);
 
     let jsonStr: string;
-    const json: MapData | undefined = props.game?.map?.toJson();
+    const json: MapData | undefined = props.game?.map.toJson();
     if (json) {
         jsonStr = JSON.stringify(json, null, 2);
-        jsonStr = jsonStr.replace(/( +)"tiles": \[(?:[ \d,\n\[\]]+)\][, \n]+\]/g, (match: string, p1: string) => {
-            return match.replace(/ +/g, ' ').replace(/\n/g, '').replace(/\], \[/g, ']\,\n' + p1 + '  [');
+        jsonStr = jsonStr.replace(/( +)"tiles": \[(?:[ \d,\n[\]]+)\][, \n]+\]/g, (match: string, p1: string) => {
+            return match.replace(/ +/g, ' ').replace(/\n/g, '').replace(/], \[/g, '],\n' + p1 + '  [');
         });
     }
     else {
@@ -48,7 +48,7 @@ function refresh() {
         codeDiv.value.innerHTML = highlighter.highlight(new JsonParser(), jsonStr);
     }
 
-    console.log('Refreshing completed, took: ' + (new Date().getTime() - start.getTime()));
+    console.log(`Refreshing completed, took: ${new Date().getTime() - start.getTime()}`);
 }
 
 async function copy() {
@@ -60,7 +60,7 @@ async function copy() {
         window.getSelection()?.addRange(range);
         const text = codeDiv.value.textContent;
         console.log('Text: ' + text);
-        await navigator.clipboard.writeText(text ?? '');
+        await navigator.clipboard.writeText(text);
     }
 }
 </script>

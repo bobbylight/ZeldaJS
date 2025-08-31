@@ -13,9 +13,10 @@ import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import debounce from 'debounce';
 import { SCREEN_COL_COUNT, SCREEN_HEIGHT, SCREEN_ROW_COUNT, SCREEN_WIDTH } from '@/Constants';
+import { ZeldaGame } from '@/ZeldaGame';
 
 const props = defineProps<{
-    game: any,
+    game: ZeldaGame,
     selectedTileIndex: number,
 }>();
 
@@ -39,12 +40,13 @@ function mapChanged(e: MouseEvent | null) {
 
 function paintScreenAbovePart(ctx: CanvasRenderingContext2D) {
     const map = props.game.map;
-    if (map && map.currentScreenRow > 0) {
+    if (map.currentScreenRow > 0) {
         ctx.translate(16, 0);
         const screen = map.getScreen(map.currentScreenRow - 1, map.currentScreenCol);
         screen.paintRow(ctx, SCREEN_ROW_COUNT - 1, 0);
         ctx.translate(-16, 0);
-    } else {
+    }
+    else {
         ctx.fillStyle = 'darkgray';
         ctx.fillRect(16, 0, SCREEN_WIDTH, 16);
     }
@@ -52,12 +54,13 @@ function paintScreenAbovePart(ctx: CanvasRenderingContext2D) {
 
 function paintScreenRightPart(ctx: CanvasRenderingContext2D) {
     const map = props.game.map;
-    if (map && map.currentScreenCol < map.colCount - 1) {
+    if (map.currentScreenCol < map.colCount - 1) {
         ctx.translate(0, 16);
         const screen = map.getScreen(map.currentScreenRow, map.currentScreenCol + 1);
         screen.paintCol(ctx, 0, SCREEN_WIDTH + 16);
         ctx.translate(0, -16);
-    } else {
+    }
+    else {
         ctx.fillStyle = 'darkgray';
         const x = SCREEN_WIDTH + 16;
         ctx.fillRect(x, 16, 16, SCREEN_HEIGHT);
@@ -66,12 +69,13 @@ function paintScreenRightPart(ctx: CanvasRenderingContext2D) {
 
 function paintScreenBelowPart(ctx: CanvasRenderingContext2D) {
     const map = props.game.map;
-    if (map && map.currentScreenRow < map.rowCount - 1) {
+    if (map.currentScreenRow < map.rowCount - 1) {
         ctx.translate(16, 0);
         const screen = map.getScreen(map.currentScreenRow + 1, map.currentScreenCol);
         screen.paintRow(ctx, 0, SCREEN_HEIGHT + 16);
         ctx.translate(-16, 0);
-    } else {
+    }
+    else {
         ctx.fillStyle = 'darkgray';
         const y = SCREEN_HEIGHT + 16;
         ctx.fillRect(16, y, SCREEN_WIDTH, 16);
@@ -80,12 +84,13 @@ function paintScreenBelowPart(ctx: CanvasRenderingContext2D) {
 
 function paintScreenLeftPart(ctx: CanvasRenderingContext2D) {
     const map = props.game.map;
-    if (map && map.currentScreenCol > 0) {
+    if (map.currentScreenCol > 0) {
         ctx.translate(0, 16);
         const screen = map.getScreen(map.currentScreenRow, map.currentScreenCol - 1);
         screen.paintCol(ctx, SCREEN_COL_COUNT - 1, 0);
         ctx.translate(0, -16);
-    } else {
+    }
+    else {
         ctx.fillStyle = 'darkgray';
         ctx.fillRect(0, 16, 16, SCREEN_HEIGHT);
     }
@@ -96,15 +101,15 @@ function possiblyPaintArmedTile(ctx: CanvasRenderingContext2D) {
         const x = armedCol.value * 16 + 16;
         const y = armedRow.value * 16 + 16;
         ctx.globalAlpha = 0.5;
-        props.game.map.tileset.paintTile(ctx, props.selectedTileIndex, x, y);
+        props.game.map.getTileset().paintTile(ctx, props.selectedTileIndex, x, y);
         ctx.globalAlpha = 1;
     }
 }
 
 function paintScreen() {
-    if (props.game && canvas.value) {
+    const ctx = canvas.value?.getContext('2d');
+    if (ctx) {
         const map = props.game.map;
-        const ctx = canvas.value.getContext('2d')!;
         ctx.fillStyle = 'white';
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -129,7 +134,11 @@ const updateLastModified = debounce(() => {
 }, 100);
 
 onMounted(() => {
-    const el = canvas.value!;
+    const el = canvas.value;
+    if (!el) { // Never happens, needed for eslint
+        throw new Error('Canvas element not found!');
+    }
+
     el.addEventListener('mousemove', (e: MouseEvent) => {
         let x = e.offsetX;
         let y = e.offsetY;
@@ -142,7 +151,8 @@ onMounted(() => {
             if (mouseDown.value) {
                 mapChanged(null);
             }
-        } else {
+        }
+        else {
             armedRow.value = armedCol.value = -1;
         }
     });
