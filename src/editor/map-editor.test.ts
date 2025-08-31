@@ -170,7 +170,7 @@ describe('MapEditor', () => {
                 },
             });
 
-            // Simulate the click and dragging from onet ile to another
+            // Simulate the click and dragging from one tile to another
             const canvas = screen.getByLabelText('The current screen editor');
             await user.pointer({
                 keys: '[MouseLeft>]',

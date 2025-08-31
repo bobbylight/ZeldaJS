@@ -1,9 +1,9 @@
 import { AbstractItem } from './AbstractItem';
-import { Actor } from '../Actor';
+import { Actor } from '@/Actor';
 import Image from 'gtp/lib/gtp/Image';
 import Rectangle from 'gtp/lib/gtp/Rectangle';
-import { ZeldaGame } from '../ZeldaGame';
-import { Link } from '../Link';
+import { ZeldaGame } from '@/ZeldaGame';
+import { Link } from '@/Link';
 declare let game: ZeldaGame;
 
 /**

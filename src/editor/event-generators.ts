@@ -1,7 +1,7 @@
-import { Event, EventData } from '../event/Event';
-import { GoDownStairsEvent } from '../event/GoDownStairsEvent';
-import { Position } from '../Position';
-import { ChangeScreenWarpEvent } from '../event/ChangeScreenWarpEvent';
+import { Event, EventData } from '@/event/Event';
+import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
+import { Position } from '@/Position';
+import { ChangeScreenWarpEvent } from '@/event/ChangeScreenWarpEvent';
 
 /**
  * Generates an event of some type.

@@ -12,10 +12,6 @@
                 </actionable-panel>
             </v-col>
 
-            <div class="rfutrell">
-                {{'>>> ' + selectedTab}}
-            </div>
-
             <v-col class="xs4" v-if="game && store.state.currentScreen">
 
                 <v-card class="control-group-bottom-margin tabbed-pane-styles" outlined>

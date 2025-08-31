@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import loadEvent from './event-loader';
-import { GoDownStairsEvent } from '../event/GoDownStairsEvent';
-import { ChangeScreenWarpEvent } from '../event/ChangeScreenWarpEvent';
+import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
+import { ChangeScreenWarpEvent } from '@/event/ChangeScreenWarpEvent';
 import { EventData } from '@/event/Event';
 
 describe('loadEvent', () => {
