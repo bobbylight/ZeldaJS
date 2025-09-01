@@ -52,6 +52,9 @@ describe('ScreenMisc', () => {
 
     it('commits setCurrentScreenMusic when music changes', async() => {
         render(ScreenMisc, {
+            props: {
+                screen: createMockScreen('labyrinthMusic'),
+            },
             global: {
                 plugins: [ vuetify ],
             },

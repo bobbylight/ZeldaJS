@@ -4,6 +4,19 @@ import userEvent, { UserEvent } from '@testing-library/user-event';
 import MapEditor from './map-editor.vue';
 import { createVuetify } from 'vuetify';
 
+const mocks = vi.hoisted(() => {
+    const mockCommit = vi.fn();
+    return {
+        useStore: () => ({
+            commit: mockCommit,
+        }),
+    };
+});
+
+vi.mock('vuex', () => ({
+    useStore: mocks.useStore,
+}));
+
 const vuetify = createVuetify();
 
 const mockScreen = {

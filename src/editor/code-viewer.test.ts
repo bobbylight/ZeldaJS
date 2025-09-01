@@ -7,15 +7,15 @@ import userEvent, { UserEvent } from '@testing-library/user-event';
 import { render, screen } from '@testing-library/vue';
 import CodeViewer from '../../src/editor/code-viewer.vue';
 import { ZeldaGame } from '@/ZeldaGame';
+import { Map } from '@/Map';
 
 const mapData = { tiles: [ 1, 2, 3 ], other: 'data' };
 const mockMap = {
     toJson: vi.fn(() => mapData),
 };
 
-const mockGame = {
-    map: mockMap,
-} as unknown as ZeldaGame;
+const mockGame = new ZeldaGame();
+mockGame.map = mockMap as unknown as Map;
 
 describe('CodeViewer', () => {
     let vuetify: Plugin;
