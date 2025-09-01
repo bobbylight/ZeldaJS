@@ -6,6 +6,8 @@
 A WIP clone of the Legend of Zelda.  This will include a very basic editor as well.
 Feel free to [try it out in its current state](http://bobbylight.github.io/ZeldaJS/).
 
+![img/level-one-entrance.png](img/level-1-entrance.png)
+
 Licensed under [an MIT license](LICENSE.txt).
 
 ## Hacking
@@ -14,29 +16,29 @@ First, check out the project and install all dependencies locally via `npm`:
 ```bash
 git clone https://github.com/bobbylight/ZeldaJS.git
 cd ZeldaJS
+nvm use
 npm install
 ```
 
 To get started right away, run:
 
 ```bash
-npm run serve
+npm run dev
 ```
 
-The game will be served from [http://localhost:8080](), and hot deploy any changes.
+The game will be served from [http://localhost:5173](), and hot deploy any changes.
 
-This game is built with `vue-cli`.  Development is done with `npm` scripts:
+This game is built with [vite](https://vite.dev/).  Development is done with `npm` scripts:
 
 ```bash
 npm run clean          # Cleans build directories
-npm run serve          # Runs app for development.  Hot deploys
-npm run build          # Builds the application in dist/
-npm run test:unit      # Runs unit tests and generates coverage
+npm run dev            # Runs app for development. Hot deploys with changes
+npm run build          # Builds for production in dist/
+npm run serve          # Serves the production build locally
+npm run test           # Runs unit tests and generates coverage
 npm run lint           # Lints files
+npm run tsc            # Runs type check via tsc
 npm run doc            # Generates documentation
-npm run build-electron # Doesn't currently work (broke with move to vue-cli)
-npm run pack           # Doesn't currently work (broke with move to vue-cli)
-npm run dist           # Doesn't currently work (broke with move to vue-cli)
 ```
 
 The source code lives in `src/`, and is built into `dist/`.
@@ -57,6 +59,7 @@ npm run dist           # Creates unpacked game and installer in dist/
 This is still a little rough around the edges, but works, at least on windows.
 
 ## Roadmap
+I'm going to try to use the [issue tracker](https://github.com/bobbylight/ZeldaJS/issues) to track the work on this project.
 
 ### Implemented so far:
 
@@ -73,12 +76,5 @@ This is still a little rough around the edges, but works, at least on windows.
   - Enemies drop rupees and hearts
 * Editor
   - Screen design, single tile per cell (no burnable bushes, bombable walls, etc.)
-  - Select enemies per screen
+  - Assign enemies to screens
   - Enter and exit cave and level events
-
-### Coming next (in no particular order):
-
-* More accurate Link getting hit colors
-* More accurate enemy spawning
-* Expanded map
-* Gibdos
