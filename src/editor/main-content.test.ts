@@ -58,6 +58,7 @@ const vuetify = createVuetify({
 
 describe('MainContent', () => {
     beforeEach(() => {
+        vi.useFakeTimers();
         vi.spyOn(mockGame.assets, 'get').mockReturnValue(mockSpriteSheet);
         vi.spyOn(mockGame.assets, 'addImage').mockImplementation(() => {});
         vi.spyOn(mockGame.assets, 'addJson').mockImplementation(() => ({}));
@@ -92,6 +93,7 @@ describe('MainContent', () => {
         document.body.innerHTML = '';
         vi.resetAllMocks();
         vi.restoreAllMocks();
+        vi.clearAllTimers();
     });
 
     it('renders the map editor', () => {
