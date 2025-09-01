@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/vue';
+import { render, screen } from '@testing-library/vue';
 import MainContent from './main-content.vue';
 import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
@@ -7,6 +7,8 @@ import * as directives from 'vuetify/directives';
 import { EnemyGroup } from '@/EnemyGroup';
 import { fireEvent } from '@testing-library/vue';
 import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
+import { Map } from '@/Map';
+import { ZeldaGame } from '@/ZeldaGame';
 
 const mocks = vi.hoisted(() => {
     const mockCommit = vi.fn();
@@ -47,28 +49,7 @@ const mockTileset = {
     getName: vi.fn(),
     paintTile: vi.fn(),
 };
-const mockGame = {
-    assets: {
-        addImage: vi.fn(),
-        addJson: vi.fn(),
-        addSpriteSheet: vi.fn(),
-        get: vi.fn(() => mockSpriteSheet),
-        onLoad: vi.fn((callback: () => void) => {
-            callback();
-        }),
-    },
-    map: {
-        currentScreen: mockScreen,
-        currentScreenRow: 1,
-        currentScreenCol: 1,
-        rowCount: 10,
-        colCount: 10,
-        getScreen: vi.fn(() => mockScreen),
-        getTileset: () => mockTileset,
-        tileset: mockTileset,
-    },
-    startNewGame: vi.fn(),
-};
+const mockGame = new ZeldaGame();
 
 const vuetify = createVuetify({
     components,
@@ -77,6 +58,28 @@ const vuetify = createVuetify({
 
 describe('MainContent', () => {
     beforeEach(() => {
+        vi.spyOn(mockGame.assets, 'get').mockReturnValue(mockSpriteSheet);
+        vi.spyOn(mockGame.assets, 'addImage').mockImplementation(() => {});
+        vi.spyOn(mockGame.assets, 'addJson').mockImplementation(() => ({}));
+        vi.spyOn(mockGame.assets, 'addSpriteSheet').mockImplementation(() => {});
+        vi.spyOn(mockGame.assets, 'addSound').mockImplementation(() => {});
+        /* eslint-disable @typescript-eslint/no-unsafe-function-type, @typescript-eslint/no-unsafe-call */
+        vi.spyOn(mockGame.assets, 'onLoad').mockImplementation((callback: Function) => {
+            callback();
+        });
+        /* eslint-enable @typescript-eslint/no-unsafe-function-type, @typescript-eslint/no-unsafe-call */
+        vi.spyOn(mockGame, 'startNewGame').mockImplementation(() => {});
+        mockGame.map = {
+            currentScreen: mockScreen,
+            currentScreenRow: 1,
+            currentScreenCol: 1,
+            rowCount: 10,
+            colCount: 10,
+            getScreen: vi.fn(() => mockScreen),
+            getTileset: () => mockTileset,
+            tileset: mockTileset,
+        } as unknown as Map;
+
         render(MainContent, {
             global: {
                 plugins: [ vuetify ],
@@ -95,12 +98,10 @@ describe('MainContent', () => {
         expect(screen.getByText(/Screen \(\d+, \d+\) \/ \(\d+, \d+\)/));
     });
 
-    it('renders tab labels for the Tile Palette/Events/Misc pane', async() => {
-        await waitFor(() => {
-            expect(screen.getByText(/Tile Palette/i)).toBeTruthy();
-            expect(screen.getByText(/Events/i)).toBeTruthy();
-            expect(screen.getByText(/Misc/i)).toBeTruthy();
-        });
+    it('renders tab labels for the Tile Palette/Events/Misc pane', () => {
+        expect(screen.getByText(/Tile Palette/i)).toBeTruthy();
+        expect(screen.getByText(/Events/i)).toBeTruthy();
+        expect(screen.getByText(/Misc/i)).toBeTruthy();
     });
 
     it('shows the Tile Palette by default', () => {

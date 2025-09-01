@@ -39,8 +39,8 @@
 
                         <v-tabs-window-item key="tilePalette" value="tab-1">
                             <v-card flat outlined>
-                                <v-card-text>
-                                    <tile-palette :game="game" :tileset="game.map.tileset"
+                                <v-card-text v-if="game">
+                                    <tile-palette :game="game" :tileset="game.map.getTileset()"
                                                   :selected-tile-index="selectedTileIndex"
                                                   @tileSelected="onTileSelected"/>
                                 </v-card-text>
