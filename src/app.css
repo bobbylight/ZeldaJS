@@ -55,17 +55,23 @@ h4 {
     }
 }
 
-#parent canvas {
-    /* Keep pixel art looking good when canvas is scaled up.  */
-    /* In the future, this might be an opt-in feature of GTP. */
-    image-rendering: -moz-crisp-edges; /* Firefox */
-    image-rendering: -o-crisp-edges; /* Opera */
-    image-rendering: -webkit-optimize-contrast; /* Non-Chrome Webkit, e.g. Safari */
-    image-rendering: pixelated; /* Chrome */
-    image-rendering: crisp-edges;
-    -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
-
-    /* Scale everything up 2x */
+#parent {
     width: 512px;
     height: 480px;
+    display: inline-block;
+
+    canvas {
+        /* Keep pixel art looking good when canvas is scaled up.  */
+        /* In the future, this might be an opt-in feature of GTP. */
+        image-rendering: -moz-crisp-edges; /* Firefox */
+        image-rendering: -o-crisp-edges; /* Opera */
+        image-rendering: -webkit-optimize-contrast; /* Non-Chrome Webkit, e.g. Safari */
+        image-rendering: pixelated; /* Chrome */
+        image-rendering: crisp-edges;
+        -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+
+        /* Scale everything up 2x */
+        width: 512px;
+        height: 480px;
+    }
 }
