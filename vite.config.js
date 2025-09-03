@@ -2,6 +2,7 @@ import {defineConfig} from 'vite'
 import {resolve} from 'path';
 import vue from '@vitejs/plugin-vue';
 import vuetify from 'vite-plugin-vuetify';
+import pkg from './package.json';
 
 export default defineConfig({
     resolve: {
@@ -16,6 +17,10 @@ export default defineConfig({
                 editor: resolve(__dirname, 'editor.html'),
             },
         },
+    },
+    define: {
+        'import.meta.env.VITE_BUILD_VERSION': JSON.stringify(pkg.version),
+        'import.meta.env.VITE_BUILD_DATE': JSON.stringify(new Date().toLocaleString()),
     },
     plugins: [
         vue(),

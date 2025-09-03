@@ -22,7 +22,7 @@ export class Screen {
     private flattenedEnemyGroup: EnemyGroup; // TODO: Can we flatten iff we know we're in the game, not the editor?
     private firstTimeThrough: boolean;
     events: Event<EventData>[];
-    music?: string | null;
+    music?: string | null | undefined;
 
     constructor(parent: Map, enemyGroup: EnemyGroup = new EnemyGroup(), tiles?: number[][]) {
         this.parent = parent;

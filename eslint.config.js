@@ -58,7 +58,7 @@ export default [
                 { selector: ["class", "enum", "interface", "typeAlias"], format: ["PascalCase"] },
                 { selector: "classicAccessor", format: ["camelCase", "UPPER_CASE"], leadingUnderscore: "forbid" },
                 { selector: "classProperty", modifiers: ["readonly"], format: ["camelCase", "UPPER_CASE"], leadingUnderscore: "forbid" },
-                { selector: "default", format: ["camelCase"] },
+                { selector: "default", format: ["camelCase", "UPPER_CASE"] },
                 { selector: "enumMember", format: ["UPPER_CASE"] },
                 { selector: "import", format: ["camelCase", "PascalCase"] },
                 { selector: "objectLiteralProperty", format: ["camelCase", "PascalCase", "UPPER_CASE"], leadingUnderscore: "forbid" },

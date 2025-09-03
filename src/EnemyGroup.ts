@@ -4,7 +4,7 @@ import { EnemyStrength } from '@/enemy/Enemy';
 export interface EnemyInfo {
     id: string;
     type: string;
-    strength?: EnemyStrength;
+    strength?: EnemyStrength | undefined;
     count?: number;
 }
 
