@@ -3,7 +3,6 @@ import { TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { ZeldaGame } from './ZeldaGame';
 import { Position } from './Position';
 import { Rectangle } from 'gtp';
-declare let game: ZeldaGame;
 
 export const MOVE_AMT = 1;
 
@@ -21,7 +20,7 @@ export abstract class Actor {
     takingDamage: boolean; // Not used by all actors
     done: boolean;
 
-    constructor() {
+    constructor(readonly game: ZeldaGame) {
         this.dir = 'DOWN';
         this.done = false;
 
@@ -90,10 +89,10 @@ export abstract class Actor {
         const x: number = hitBox.x + dx;
         const y: number = hitBox.y + dy;
 
-        return game.isWalkable(this, x, y) &&
-            game.isWalkable(this, x + hitBox.w - 1, y) &&
-            game.isWalkable(this, x + hitBox.w - 1, y + hitBox.h - 1) &&
-            game.isWalkable(this, x, y + hitBox.h - 1);
+        return this.game.isWalkable(this, x, y) &&
+            this.game.isWalkable(this, x + hitBox.w - 1, y) &&
+            this.game.isWalkable(this, x + hitBox.w - 1, y + hitBox.h - 1) &&
+            this.game.isWalkable(this, x, y + hitBox.h - 1);
     }
 
     /**
@@ -133,7 +132,7 @@ export abstract class Actor {
      * @param ctx The rendering context to use.
      */
     protected possiblyPaintHitBox(ctx: CanvasRenderingContext2D) {
-        if (game.getPaintHitBoxes()) {
+        if (this.game.getPaintHitBoxes()) {
             ctx.fillStyle = 'pink';
             const hitBox: Rectangle = this.hitBox;
             ctx.fillRect(hitBox.x, hitBox.y, hitBox.w, hitBox.h);

@@ -13,7 +13,6 @@ import FadeOutInState from 'gtp/lib/gtp/FadeOutInState';
 import { TitleState } from './TitleState';
 import { Projectile } from './Projectile';
 import { Bomb } from './Bomb';
-declare let game: ZeldaGame;
 
 const STEP_TIMER_MAX = 8;
 
@@ -41,8 +40,8 @@ export class Link extends Character {
 
     static readonly MAX_TAKING_DAMAGE_TICK: number = 60;
 
-    constructor() {
-        super();
+    constructor(game: ZeldaGame) {
+        super(game);
         this.rupeeCount = 0;
         this.bombCount = 99;
         this.maxBombCount = 99;
@@ -60,15 +59,15 @@ export class Link extends Character {
         }
 
         if (other instanceof Enemy || other instanceof Projectile) {
-        // Projectiles reflect off of Link's shield
+            // Projectiles reflect off of Link's shield
             if (!this.frozen && other instanceof Projectile) {
                 if (opposite(other.dir) === this.dir) {
-                    game.audio.playSound('shield');
+                    this.game.audio.playSound('shield');
                     return false;
                 }
             }
 
-            game.map.currentScreen.removeLinksSwordActor();
+            this.game.map.currentScreen.removeLinksSwordActor();
             this.frozen = false;
             this.step = Link.FRAME_STILL;
 
@@ -76,14 +75,14 @@ export class Link extends Character {
             this.health = Math.max(0, this.health - damage);
 
             if (this.health === 0) {
-                game.audio.playSound('linkHurt');
+                this.game.audio.playSound('linkHurt');
                 this.done = true;
                 this.setAnimation(this.createDyingAnimation());
-                game.linkDied();
+                this.game.linkDied();
             }
             else {
                 console.log(`Link's health is now ${this.health}`);
-                game.audio.playSound('linkHurt');
+                this.game.audio.playSound('linkHurt');
                 this.takingDamage = true;
                 this.takingDamageTick = Link.MAX_TAKING_DAMAGE_TICK;
                 console.log(`Taking damage at: ${new Date().getTime()}`);
@@ -96,8 +95,8 @@ export class Link extends Character {
     }
 
     private createDyingAnimation(): Animation {
-        const sheet: SpriteSheet = game.assets.get('link');
-        const anim: Animation = new Animation(this.x, this.y);
+        const sheet: SpriteSheet = this.game.assets.get('link');
+        const anim: Animation = new Animation(this.game, this.x, this.y);
 
         const SPIN_FRAME_TIME = 90;
         let preChirpPlayFrames = 0;
@@ -116,7 +115,7 @@ export class Link extends Character {
         preChirpPlayFrames++;
 
         // TODO: Share with ZeldaGame.createEnemyDiesAnimation()
-        const enemyDiesSheet: SpriteSheet = game.assets.get('enemyDies');
+        const enemyDiesSheet: SpriteSheet = this.game.assets.get('enemyDies');
         anim.addFrame({ sheet: enemyDiesSheet, index: 0 }, 30);
         anim.addFrame({ sheet: enemyDiesSheet, index: 1 }, 30);
         anim.addFrame({ sheet: enemyDiesSheet, index: 2 }, 30);
@@ -136,13 +135,13 @@ export class Link extends Character {
 
             animationFrameUpdate: (anim: Animation) => {
                 if (anim.frame >= preChirpPlayFrames && !dieChirpPlayed) {
-                    game.audio.playSound('text');
+                    this.game.audio.playSound('text');
                     dieChirpPlayed = true;
                 }
             },
 
             animationCompleted: (anim: Animation) => {
-                game.setState(new FadeOutInState(game.state, new TitleState()));
+                this.game.setState(new FadeOutInState(this.game.state, new TitleState()));
             },
         });
 
@@ -150,8 +149,8 @@ export class Link extends Character {
     }
 
     private createStairsDownAnimation(completedCallback: AnimationListener): Animation {
-        const animation: Animation = new Animation(this.x, this.y);
-        const linkSheet: SpriteSheet = game.assets.get('link');
+        const animation: Animation = new Animation(this.game, this.x, this.y);
+        const linkSheet: SpriteSheet = this.game.assets.get('link');
         const frameMillis = 120;
 
         animation.addFrame({ sheet: linkSheet, index: 17 }, frameMillis);
@@ -168,8 +167,8 @@ export class Link extends Character {
     }
 
     private createStairsUpAnimation(completedCallback: AnimationListener): Animation {
-        const animation: Animation = new Animation(this.x, this.y);
-        const linkSheet: SpriteSheet = game.assets.get('link');
+        const animation: Animation = new Animation(this.game, this.x, this.y);
+        const linkSheet: SpriteSheet = this.game.assets.get('link');
         const frameMillis = 120;
 
         animation.addFrame({ sheet: linkSheet, index: 19 }, frameMillis);
@@ -186,16 +185,16 @@ export class Link extends Character {
     }
 
     enterCave(completedCallback: AnimationListener) {
-        game.audio.playSound('stairs', false, () => {
+        this.game.audio.playSound('stairs', false, () => {
             console.log('sound done');
         });
         this.setAnimation(this.createStairsDownAnimation(completedCallback));
     }
 
     exitCave(completedCallback: AnimationListener) {
-        game.audio.playSound('stairs', false, () => {
+        this.game.audio.playSound('stairs', false, () => {
             console.log('sound done');
-            game.resumeMusic();
+            this.game.resumeMusic();
         });
         this.setAnimation(this.createStairsUpAnimation(completedCallback));
     }
@@ -274,17 +273,17 @@ export class Link extends Character {
 
     incBombCount(count = 4) {
         this.bombCount = Math.min(this.bombCount + count, this.maxBombCount);
-        game.audio.playSound('getItem');
+        this.game.audio.playSound('getItem');
     }
 
     incHealth(count = 2) {
         this.health = Math.min(this.health + count, this.maxHealth);
-        game.audio.playSound('heart');
+        this.game.audio.playSound('heart');
     }
 
     incRupeeCount(count: number) {
         this.rupeeCount += count;
-        game.audio.playSound('rupee');
+        this.game.audio.playSound('rupee');
     }
 
     isAnimationRunning(): boolean {
@@ -318,7 +317,7 @@ export class Link extends Character {
         const movingHorizontally: number = this.isMovingHorizontally(this.hitBox);
         if (movingHorizontally !== 0) {
             this.x = tempX;
-            const mgs: MainGameState = game.state as MainGameState;
+            const mgs: MainGameState = this.game.state as MainGameState;
             mgs.changeScreenHorizontally(movingHorizontally);
         }
         else if (this.isHitBoxWalkable()) {
@@ -359,7 +358,7 @@ export class Link extends Character {
         const movingVertically: number = this.isMovingVertically(this.hitBox);
         if (movingVertically !== 0) {
             this.y = tempY;
-            const mgs: MainGameState = game.state as MainGameState;
+            const mgs: MainGameState = this.game.state as MainGameState;
             mgs.changeScreenVertically(movingVertically);
         }
         else if (this.isHitBoxWalkable()) {
@@ -403,7 +402,7 @@ export class Link extends Character {
             this.anim.paint(ctx);
         }
         else {
-            const ss: SpriteSheet = game.assets.get('link');
+            const ss: SpriteSheet = this.game.assets.get('link');
             const row: number = this.step;
             const col: number = ordinal(this.dir);
             const index: number = row * 15 + col;
@@ -437,15 +436,15 @@ export class Link extends Character {
     }
 
     setMaxBombCount(count: number) {
-        // Link's bomb are always refilled when the max bomb count is increased.
+        // Link's bombs are always refilled when the max bomb count is increased.
         this.bombCount = this.maxBombCount = count;
     }
 
     private swingSword() {
-        game.audio.playSound('sword');
+        this.game.audio.playSound('sword');
 
-        const sword: Sword = new Sword();
-        game.map.currentScreen.addActor(sword);
+        const sword: Sword = new Sword(this.game);
+        this.game.map.currentScreen.addActor(sword);
         this.frozen = true;
         this.step = Link.FRAME_ACTION;
     }
@@ -503,10 +502,10 @@ export class Link extends Character {
     private useItem() {
         if (this.bombCount > 0) {
             this.bombCount--;
-            game.audio.playSound('bombDrop');
+            this.game.audio.playSound('bombDrop');
 
-            const bomb: Bomb = new Bomb();
-            game.map.currentScreen.addActor(bomb);
+            const bomb: Bomb = new Bomb(this.game);
+            this.game.map.currentScreen.addActor(bomb);
             this.frozen = true;
             this.step = Link.FRAME_ACTION;
         }

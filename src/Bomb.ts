@@ -3,7 +3,6 @@ import { ZeldaGame } from './ZeldaGame';
 import { Link } from './Link';
 import Rectangle from 'gtp/lib/gtp/Rectangle';
 import Image from 'gtp/lib/gtp/Image';
-declare let game: ZeldaGame;
 
 /**
  * A bomb Link has dropped, waiting to explode.
@@ -13,8 +12,8 @@ export class Bomb extends Actor {
 
     private static readonly MAX_FRAME: number = 60;
 
-    constructor() {
-        super();
+    constructor(game: ZeldaGame) {
+        super(game);
 
         const link: Link = game.link;
         this.dir = link.dir;
@@ -54,13 +53,13 @@ export class Bomb extends Actor {
         this.possiblyPaintHitBox(ctx);
 
         if (this.frame < Bomb.MAX_FRAME - 2) { // First two frames, we aren't painted
-            const image: Image = game.assets.get('treasures.bomb');
+            const image: Image = this.game.assets.get('treasures.bomb');
             image.draw(ctx, this.x, this.y);
         }
     }
 
     update() {
-        const link: Link = game.link;
+        const link: Link = this.game.link;
         this.frame--;
 
         // This "16" magic number matches how long Link is frozen swinging his sword.
@@ -70,7 +69,7 @@ export class Bomb extends Actor {
             link.step = Link.FRAME_STILL;
         }
         else if (this.frame === 0) {
-            game.audio.playSound('bombBlow');
+            this.game.audio.playSound('bombBlow');
             this.done = true;
         }
     }

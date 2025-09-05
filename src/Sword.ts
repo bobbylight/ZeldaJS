@@ -3,7 +3,6 @@ import { ordinal } from './Direction';
 import { Actor } from './Actor';
 import { ZeldaGame } from './ZeldaGame';
 import { Rectangle, SpriteSheet } from 'gtp';
-declare let game: ZeldaGame;
 
 /**
  * A sword Link is in the middle of swinging.
@@ -11,8 +10,8 @@ declare let game: ZeldaGame;
 export class Sword extends Actor {
     private frame: number;
 
-    constructor() {
-        super();
+    constructor(game: ZeldaGame) {
+        super(game);
 
         const link: Link = game.link;
         this.dir = link.dir;
@@ -52,7 +51,7 @@ export class Sword extends Actor {
         this.possiblyPaintHitBox(ctx);
 
         if (this.frame >= 0 && this.frame < 14) { // First two frames, we aren't painted
-            const ss: SpriteSheet = game.assets.get('link');
+            const ss: SpriteSheet = this.game.assets.get('link');
             const row = 3;
             const col: number = ordinal(this.dir);
             const index: number = row * 15 + col;
@@ -61,7 +60,7 @@ export class Sword extends Actor {
     }
 
     update() {
-        const link: Link = game.link;
+        const link: Link = this.game.link;
         this.frame--;
 
         if (this.frame === 3) {

@@ -3,7 +3,6 @@ import { Enemy, EnemyStrength } from './Enemy';
 import { Screen } from '@/Screen';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Rectangle } from 'gtp';
-declare let game: ZeldaGame;
 
 const TOP_MARGIN_ROWS = 2;
 const MAX_PAUSE_TIME = 60;
@@ -18,8 +17,8 @@ export class Tektite extends Enemy {
     private curJumpAscentTime: number;
     private curJumpDescentTime: number;
 
-    constructor(strength: EnemyStrength = 'red') {
-        super(strength, strength === 'blue' ? 2 : 1, true);
+    constructor(game: ZeldaGame, strength: EnemyStrength = 'red') {
+        super(game, strength, strength === 'blue' ? 2 : 1, true);
         this.hitBox = new Rectangle();
 
         this.paused = true;
@@ -41,20 +40,20 @@ export class Tektite extends Enemy {
             if (this.x < 32) { // Too close to left-hand side
                 this.curJumpXInc = xSpeed;
             }
-            else if (this.x > game.getWidth() - 32) { // Too close to right-hand side
+            else if (this.x > this.game.getWidth() - 32) { // Too close to right-hand side
                 this.curJumpXInc = -xSpeed;
             }
             else {
-                this.curJumpXInc = game.randomInt(2) === 0 ? xSpeed : -xSpeed;
+                this.curJumpXInc = this.game.randomInt(2) === 0 ? xSpeed : -xSpeed;
             }
-            this.curJumpAscentTime = 20 + game.randomInt(10);
-            this.curJumpDescentTime = 10 + game.randomInt(30);
+            this.curJumpAscentTime = 20 + this.game.randomInt(10);
+            this.curJumpDescentTime = 10 + this.game.randomInt(30);
 
             const afterJumpX: number = this.x +
                 this.curJumpXInc * (this.curJumpAscentTime + 3 + this.curJumpDescentTime);
             const afterJumpY: number = this.y - ySpeed * (this.curJumpAscentTime - this.curJumpDescentTime);
 
-            success = afterJumpX >= 0 && afterJumpX < (game.getWidth() - thisWidth) &&
+            success = afterJumpX >= 0 && afterJumpX < (this.game.getWidth() - thisWidth) &&
                     afterJumpY >= TOP_MARGIN_ROWS * 16 && afterJumpY < (SCREEN_HEIGHT - thisHeight);
             console.log(`... ${afterJumpX}, ${afterJumpY}`);
         }
@@ -64,8 +63,8 @@ export class Tektite extends Enemy {
 
     override setLocationToSpawnPoint(screen: Screen) {
         while (true) {
-            const x: number = game.randomInt(SCREEN_COL_COUNT) * 16;
-            const y: number = (TOP_MARGIN_ROWS + game.randomInt(SCREEN_ROW_COUNT - TOP_MARGIN_ROWS)) * 16;
+            const x: number = this.game.randomInt(SCREEN_COL_COUNT) * 16;
+            const y: number = (TOP_MARGIN_ROWS + this.game.randomInt(SCREEN_ROW_COUNT - TOP_MARGIN_ROWS)) * 16;
             if (screen.isWalkable(this, x, y)) {
                 this.setLocation(x, y);
                 return;

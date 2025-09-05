@@ -20,10 +20,11 @@ export abstract class Enemy extends Character {
     private step: number;
     private stepTimer: number;
 
-    protected constructor(public strength: EnemyStrength = 'red',
+    protected constructor(game: ZeldaGame,
+                          public strength: EnemyStrength = 'red',
                           protected health = 1,
                           private readonly alwaysFacesForward = false) {
-        super();
+        super(game);
         this.strength = strength;
         this.maxHealth = this.health;
         this.damage = strength === 'red' ? 1 : 2; // Sensible default damage

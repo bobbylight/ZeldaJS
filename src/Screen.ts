@@ -66,7 +66,7 @@ export class Screen {
                 this.enemyGroup.enemies.forEach((enemyInfo: EnemyInfo) => {
                     const count: number = enemyInfo.count ?? 1;
                     for (let i = 0; i < count; i++) {
-                        const enemy: Enemy = InstanceLoader.create<Enemy>(enemyInfo.type, enemyInfo.strength);
+                        const enemy: Enemy = InstanceLoader.create<Enemy>(enemyInfo.type, game, enemyInfo.strength);
                         enemy.setLocationToSpawnPoint(this);
                         this.actors.push(enemy);
                     }
@@ -82,7 +82,7 @@ export class Screen {
                 this.actors = [];
                 for (let i = 0; i < count; i++) {
                     const enemyInfo: EnemyInfo = this.flattenedEnemyGroup.enemies[i];
-                    const enemy: Enemy = InstanceLoader.create(enemyInfo.type, enemyInfo.strength);
+                    const enemy: Enemy = InstanceLoader.create(enemyInfo.type, game, enemyInfo.strength);
                     enemy.setLocationToSpawnPoint(this);
                     this.actors.push(enemy);
                 }

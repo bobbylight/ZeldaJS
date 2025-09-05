@@ -4,14 +4,13 @@ import Image from 'gtp/lib/gtp/Image';
 import Rectangle from 'gtp/lib/gtp/Rectangle';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Link } from '@/Link';
-declare let game: ZeldaGame;
 
 /**
  * Adds a single heart to Link's health.
  */
 export class Heart extends AbstractItem {
-    constructor(x: number, y: number) {
-        super();
+    constructor(game: ZeldaGame, x: number, y: number) {
+        super(game);
         this.x = x;
         this.y = y;
         this.w = 8;
@@ -21,7 +20,7 @@ export class Heart extends AbstractItem {
     collidedWith(other: Actor): boolean {
         if (other instanceof Link) {
             this.done = true;
-            game.link.incHealth();
+            this.game.link.incHealth();
             return true;
         }
 
@@ -29,8 +28,8 @@ export class Heart extends AbstractItem {
     }
 
     paint(ctx: CanvasRenderingContext2D) {
-        const imageName: string = game.playTime % 1000 < 500 ? 'fullHeart' : 'blueHeart';
-        const image: Image = game.assets.get(`treasures.${imageName}`);
+        const imageName: string = this.game.playTime % 1000 < 500 ? 'fullHeart' : 'blueHeart';
+        const image: Image = this.game.assets.get(`treasures.${imageName}`);
         image.draw(ctx, this.x, this.y);
     }
 

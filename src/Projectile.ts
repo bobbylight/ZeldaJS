@@ -4,7 +4,6 @@ import { Actor } from './Actor';
 import { ZeldaGame } from './ZeldaGame';
 import { Rectangle, SpriteSheet } from 'gtp';
 import { Link } from './Link';
-declare let game: ZeldaGame;
 
 /**
  * A projectile thrown by an enemy, such as a rock or arrow.
@@ -14,8 +13,8 @@ export class Projectile extends Actor {
     private readonly ssCol: number;
     private damage: number;
 
-    constructor(ssRow: number, ssCol: number, x: number, y: number, dir: Direction) {
-        super();
+    constructor(game: ZeldaGame, ssRow: number, ssCol: number, x: number, y: number, dir: Direction) {
+        super(game);
         this.ssRow = ssRow;
         this.ssCol = ssCol;
         this.damage = 1;
@@ -44,7 +43,7 @@ export class Projectile extends Actor {
     paint(ctx: CanvasRenderingContext2D) {
         this.possiblyPaintHitBox(ctx);
 
-        const ss: SpriteSheet = game.assets.get('enemies');
+        const ss: SpriteSheet = this.game.assets.get('enemies');
         const index: number = this.ssRow * 15 + this.ssCol;
         ss.drawByIndex(ctx, this.x, this.y, index);
     }
