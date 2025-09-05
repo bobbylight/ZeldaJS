@@ -5,7 +5,6 @@ import { Enemy, EnemyStrength } from './Enemy';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Rectangle } from 'gtp';
 import { Projectile } from '@/Projectile';
-declare let game: ZeldaGame;
 
 /**
  * Base class for enemies that wander around a screen and cannot pass over physical objects.  Their speed and
@@ -16,8 +15,8 @@ export abstract class AbstractWalkingEnemy extends Enemy {
     private readonly ssRowOffset: number;
     protected pausedBeforeThrowingProjectile: number;
 
-    protected constructor(ssRowOffset: number, strength: EnemyStrength = 'red', health = 1) {
-        super(strength, health);
+    protected constructor(game: ZeldaGame, ssRowOffset: number, strength: EnemyStrength = 'red', health = 1) {
+        super(game, strength, health);
         this.ssRowOffset = ssRowOffset;
         this.hitBox = new Rectangle();
         this.changeDirTimer = this.getChangeDirTimerMax();
@@ -50,7 +49,7 @@ export abstract class AbstractWalkingEnemy extends Enemy {
     protected abstract getSpeed(): number;
 
     moveX(inc: number) {
-        if (this.x % 16 === 0 && this.changeDirTimer <= 0 && game.randomInt(8) === 0) {
+        if (this.x % 16 === 0 && this.changeDirTimer <= 0 && this.game.randomInt(8) === 0) {
             this.changeDirection();
             return;
         }
@@ -72,7 +71,7 @@ export abstract class AbstractWalkingEnemy extends Enemy {
 
     moveY(inc: number) {
         if (this.x % 16 === 0 && this.y % 16 === 0 && this.changeDirTimer <= 0 &&
-            game.randomInt(8) === 0) {
+            this.game.randomInt(8) === 0) {
             this.changeDirection();
             return;
         }
@@ -108,7 +107,7 @@ export abstract class AbstractWalkingEnemy extends Enemy {
     protected throwProjectile() {
         const projectile: Projectile | null = this.createProjectile();
         if (projectile) {
-            game.map.currentScreen.addActor(projectile);
+            this.game.map.currentScreen.addActor(projectile);
         }
     }
 

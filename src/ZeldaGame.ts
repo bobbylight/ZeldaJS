@@ -37,7 +37,7 @@ export class ZeldaGame extends Game {
 
     private createEnemyDiesAnimation(x: number, y: number): Animation {
         const sheet: SpriteSheet = this.assets.get('enemyDies');
-        const anim: Animation = new Animation(x, y);
+        const anim: Animation = new Animation(this, x, y);
         anim.addFrame({ sheet: sheet, index: 0 }, 30);
         anim.addFrame({ sheet: sheet, index: 1 }, 30);
         anim.addFrame({ sheet: sheet, index: 2 }, 30);
@@ -107,7 +107,7 @@ export class ZeldaGame extends Game {
 
     linkDied() {
         if (!this.editMode) {
-            game.audio.playMusic('linkDies', false);
+            this.audio.playMusic('linkDies', false);
         }
     }
 
@@ -160,7 +160,7 @@ export class ZeldaGame extends Game {
         this.map = this.maps.overworld;
         this.map.setCurrentScreen(3, 6);
         if (initLink) {
-            this.link = new Link();
+            this.link = new Link(this);
             this.link.setLocation(100, 100);
         }
     }

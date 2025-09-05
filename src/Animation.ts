@@ -1,7 +1,6 @@
 import { AnimationListener } from './AnimationListener';
 import { ZeldaGame } from './ZeldaGame';
 import { SpriteSheet } from 'gtp';
-declare let game: ZeldaGame;
 
 /**
  * Structure representing a single frame in an <code>Animation</code>.
@@ -36,7 +35,7 @@ export class Animation {
     private done: boolean;
     private listeners: AnimationListener[];
 
-    constructor(x = 0, y = 0) {
+    constructor(private readonly game: ZeldaGame, x = 0, y = 0) {
         this.x = x;
         this.y = y;
         this.frames = [];
@@ -149,19 +148,14 @@ export class Animation {
             return;
         }
 
+        const curTime: number = this.game.playTime;
         if (this.totalTime === -1) {
             this.totalTime = 0;
         }
         else {
-            const curTime: number = game.playTime;
-            if (this.lastTime === 0) {
-                this.lastTime = curTime;
-            }
-            else {
-                this.totalTime += (curTime - this.lastTime);
-                this.lastTime = curTime;
-            }
+            this.totalTime += (curTime - this.lastTime);
         }
+        this.lastTime = curTime;
 
         if (this.totalTime > this.frames[this.curFrame].time) {
             this.totalTime = 0;

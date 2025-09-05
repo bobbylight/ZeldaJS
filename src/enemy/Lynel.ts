@@ -3,7 +3,6 @@ import { Projectile } from '@/Projectile';
 import { ZeldaGame } from '@/ZeldaGame';
 import { EnemyStrength } from './Enemy';
 import { isVertical } from '@/Direction';
-declare let game: ZeldaGame;
 
 const CHANGE_DIR_TIMER_MAX = 120; // 2 seconds
 
@@ -13,8 +12,8 @@ const CHANGE_DIR_TIMER_MAX = 120; // 2 seconds
 export class Lynel extends AbstractWalkingEnemy {
     private static readonly PROJECTILE_THROWING_ODDS: number[] = [ 240, 120 ];
 
-    constructor(strength: EnemyStrength = 'red') {
-        super(10, strength, strength === 'blue' ? 4 : 3);
+    constructor(game: ZeldaGame, strength: EnemyStrength = 'red') {
+        super(game, 10, strength, strength === 'blue' ? 4 : 3);
         this.damage = strength === 'blue' ? 4 : 2;
     }
 
@@ -24,7 +23,7 @@ export class Lynel extends AbstractWalkingEnemy {
     protected override createProjectile(): Projectile {
         const row: number = isVertical(this.dir) ? 5 : 4;
         const col: number = this.dir === 'LEFT' || this.dir === 'UP' ? 12 : 13;
-        const projectile: Projectile = new Projectile(row, col, this.x, this.y, this.dir);
+        const projectile: Projectile = new Projectile(this.game, row, col, this.x, this.y, this.dir);
         projectile.setDamage(2);
         return projectile;
     }
@@ -45,7 +44,7 @@ export class Lynel extends AbstractWalkingEnemy {
      * @returns Whether this enemy should start throwing a projectile.
      */
     private shouldThrowProjectile(): boolean {
-        return game.randomInt(Lynel.PROJECTILE_THROWING_ODDS[this.strength === 'blue' ? 1 : 0]) === 0;
+        return this.game.randomInt(Lynel.PROJECTILE_THROWING_ODDS[this.strength === 'blue' ? 1 : 0]) === 0;
     }
 
     override update() {

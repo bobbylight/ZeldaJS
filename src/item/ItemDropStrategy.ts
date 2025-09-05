@@ -74,15 +74,15 @@ export class ItemDropStrategy {
 
         switch (itemName) {
             case 'heart':
-                item = new Heart(enemy.x, enemy.y);
+                item = new Heart(enemy.game, enemy.x, enemy.y);
                 break;
 
             case 'rupee':
-                item = new Rupee(enemy.x, enemy.y, 'yellow');
+                item = new Rupee(enemy.game, enemy.x, enemy.y, 'yellow');
                 break;
 
             case 'blueRupee':
-                item = new Rupee(enemy.x, enemy.y, 'blue');
+                item = new Rupee(enemy.game, enemy.x, enemy.y, 'blue');
                 break;
 
             default:

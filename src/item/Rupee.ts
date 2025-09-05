@@ -4,7 +4,6 @@ import { ZeldaGame } from '@/ZeldaGame';
 import Image from 'gtp/lib/gtp/Image';
 import { Link } from '@/Link';
 import Rectangle from 'gtp/lib/gtp/Rectangle';
-declare let game: ZeldaGame;
 
 export type RupeeDenomination = 'yellow' | 'blue' | 'red';
 
@@ -22,8 +21,8 @@ export class Rupee extends AbstractItem {
     private readonly rupeeCount: number;
     private readonly image: Image;
 
-    constructor(x: number, y: number, type: RupeeDenomination = 'yellow') {
-        super();
+    constructor(game: ZeldaGame, x: number, y: number, type: RupeeDenomination = 'yellow') {
+        super(game);
         this.x = x;
         this.y = y;
         this.w = 8;
@@ -37,7 +36,7 @@ export class Rupee extends AbstractItem {
     collidedWith(other: Actor): boolean {
         if (other instanceof Link) {
             this.done = true;
-            game.link.incRupeeCount(this.rupeeCount);
+            this.game.link.incRupeeCount(this.rupeeCount);
             return true;
         }
 
