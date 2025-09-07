@@ -1,22 +1,13 @@
 import { BaseState } from './BaseState';
-import { CurtainOpeningState } from './CurtainOpeningState';
 import { MainGameState } from './MainGameState';
-import { ZeldaGame } from './ZeldaGame';
-import { Game, InputManager } from 'gtp';
+import { InputManager } from 'gtp';
 import { InventorySlideState } from '@/InventorySlideState';
-declare let game: ZeldaGame;
+import { CurtainOpeningState } from '@/CurtainOpeningState';
 
 /**
  * State that renders the inventory state.
  */
 export class InventoryState extends BaseState {
-    override enter() {
-        super.enter(game);
-    }
-
-    override leaving(game: Game) {
-    }
-
     override render(ctx: CanvasRenderingContext2D) {
         this.game.clearScreen();
 
@@ -24,17 +15,17 @@ export class InventoryState extends BaseState {
     }
 
     startGame() {
-        game.startNewGame();
-        game.setState(new CurtainOpeningState(new MainGameState()));
+        this.game.startNewGame();
+        this.game.setState(new CurtainOpeningState(this.game, new MainGameState(this.game)));
     }
 
     override update(delta: number) {
         this.handleDefaultKeys();
 
-        const im: InputManager = game.inputManager;
+        const im: InputManager = this.game.inputManager;
 
         if (im.enter(true)) {
-            game.setState(new InventorySlideState(new MainGameState(this.game), this, false));
+            this.game.setState(new InventorySlideState(new MainGameState(this.game), this, false));
         }
     }
 }

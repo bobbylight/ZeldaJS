@@ -1,7 +1,7 @@
 import { CANVAS_HEIGHT } from './Constants';
 import { ZeldaGame } from './ZeldaGame';
 import { State, Delay } from 'gtp';
-declare let game: ZeldaGame;
+import { BaseState } from '@/BaseState';
 
 export class InventorySlideState extends State<ZeldaGame> {
     private readonly topState: State<ZeldaGame>;
@@ -17,7 +17,7 @@ export class InventorySlideState extends State<ZeldaGame> {
      * @param bottomState The state to transition to when the animation is complete.
      * @param down Whether to slide down vs. up.
      */
-    constructor(topState: State<ZeldaGame>, bottomState: State<ZeldaGame>, down = true) {
+    constructor(topState: BaseState, bottomState: BaseState, down = true) {
         super();
         this.topState = topState;
         this.bottomState = bottomState;
@@ -48,7 +48,7 @@ export class InventorySlideState extends State<ZeldaGame> {
 
         this.delay.update(delta);
         if (this.delay.isDone()) {
-            game.setState(this.down ? this.topState : this.topState);
+            this.game.setState(this.down ? this.topState : this.topState);
         }
     }
 }

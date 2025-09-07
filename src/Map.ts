@@ -2,6 +2,7 @@ import { Screen, ScreenData } from './Screen';
 import { Tileset, TilesetData } from './Tileset';
 import { EnemyGroup } from './EnemyGroup';
 import { WALKABILITY_LEVEL, WALKABILITY_OVERWORLD } from './Constants';
+import { ZeldaGame } from '@/ZeldaGame';
 
 const HEADER = 'ZeldaMap';
 
@@ -30,7 +31,7 @@ export class Map {
      */
     showEvents: boolean;
 
-    constructor(name: string, rowCount = 8, colCount = 16) {
+    constructor(private readonly game: ZeldaGame, name: string, rowCount = 8, colCount = 16) {
         this.name = name;
         this.screens = [];
         for (let row = 0; row < rowCount; row++) {
@@ -39,7 +40,7 @@ export class Map {
         this.labyrinth = this.name.startsWith('level');
         this.walkability = this.labyrinth ? WALKABILITY_LEVEL : WALKABILITY_OVERWORLD;
 
-        this.tileset = new Tileset();
+        this.tileset = new Tileset(game);
         this.tileset.load('overworld');
 
         this.curRow = this.curCol = 0;
@@ -54,7 +55,7 @@ export class Map {
         // Add a width of the map to prevent '-1' issues
         const colCount: number = this.colCount;
         this.curCol = (this.curCol + inc + colCount) % colCount;
-        this.currentScreen.enter();
+        this.currentScreen.enter(this.game);
     }
 
     changeScreensVertically(inc: number) {
@@ -62,7 +63,7 @@ export class Map {
         // Add a height of the map to prevent '-1' issues
         const rowCount: number = this.rowCount;
         this.curRow = (this.curRow + inc + rowCount) % rowCount;
-        this.currentScreen.enter();
+        this.currentScreen.enter(this.game);
     }
 
     private static createDefaultEnemyGroup(): EnemyGroup {
@@ -180,7 +181,7 @@ export class Map {
             this.curRow = this.curCol = 0;
         }
 
-        this.currentScreen.enter();
+        this.currentScreen.enter(this.game);
         return this.currentScreen;
     }
 

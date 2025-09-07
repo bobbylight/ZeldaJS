@@ -5,7 +5,6 @@ import { Event, EventData } from './Event';
 import { ZeldaGame } from '@/ZeldaGame';
 import { CurtainOpeningState } from '@/CurtainOpeningState';
 import { MainGameState } from '@/MainGameState';
-declare let game: ZeldaGame;
 
 /**
  * Occurs when Link steps on a stairwell or doorway on the overworld map.
@@ -23,11 +22,11 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
 
     animationCompleted(anim: Animation) {
         if (this.curtainOpenNextScreen) {
-            game.setMap(this.destMap, this.destScreen, this.destPos, false);
-            game.setState(new CurtainOpeningState(game.state as MainGameState));
+            anim.game.setMap(this.destMap, this.destScreen, this.destPos, false);
+            anim.game.setState(new CurtainOpeningState(anim.game, anim.game.state as MainGameState));
         }
         else {
-            game.setMap(this.destMap, this.destScreen, this.destPos);
+            anim.game.setMap(this.destMap, this.destScreen, this.destPos);
         }
     }
 
@@ -36,7 +35,7 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
             this.destPos.clone(), this.animate, this.curtainOpenNextScreen);
     }
 
-    execute(): boolean {
+    execute(game: ZeldaGame): boolean {
         game.audio.stopMusic();
         if (this.animate) {
             game.link.enterCave(this);
@@ -44,7 +43,7 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
         return false;
     }
 
-    shouldOccur(): boolean {
+    shouldOccur(game: ZeldaGame): boolean {
         return game.link.isWalkingUpOnto(this.tile) && game.link.dir === 'UP';
         // return game.link.isEntirelyOn(this.tile) && game.link.dir === 'UP';
     }

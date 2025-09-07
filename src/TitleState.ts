@@ -2,21 +2,20 @@ import { BaseState } from './BaseState';
 import { CurtainOpeningState } from './CurtainOpeningState';
 import { MainGameState } from './MainGameState';
 import { ZeldaGame } from './ZeldaGame';
-import { Game, Image, InputManager } from 'gtp';
-declare let game: ZeldaGame;
+import { Image, InputManager } from 'gtp';
 
 export class TitleState extends BaseState {
     private lastKeypressTime: number;
     private boundHandleStart: () => void;
 
-    override enter() {
+    override enter(game: ZeldaGame) {
         super.enter(game);
         this.boundHandleStart = this.handleStart.bind(this);
         game.canvas.addEventListener('touchstart', this.boundHandleStart, false);
         this.lastKeypressTime = game.playTime;
     }
 
-    override leaving(game: Game) {
+    override leaving(game: ZeldaGame) {
         game.canvas.removeEventListener('touchstart', this.boundHandleStart, false);
     }
 
@@ -29,15 +28,16 @@ export class TitleState extends BaseState {
         this.game.clearScreen();
 
         // Title banner
-        const title: Image = game.assets.get('title');
+        const title: Image = this.game.assets.get('title');
         title.draw(ctx, 0, 0);
 
-        if (!game.audio.isInitialized()) {
+        if (!this.game.audio.isInitialized()) {
             this.renderNoSoundMessage();
         }
     }
 
     private renderNoSoundMessage() {
+        const game = this.game;
         const w: number = game.getWidth();
 
         let text = 'SOUND IS DISABLED AS';
@@ -55,12 +55,13 @@ export class TitleState extends BaseState {
     }
 
     startGame() {
-        game.startNewGame();
-        game.setState(new CurtainOpeningState(new MainGameState()));
+        this.game.startNewGame();
+        this.game.setState(new CurtainOpeningState(this.game, new MainGameState(this.game)));
     }
 
     override update(delta: number) {
         this.handleDefaultKeys();
+        const game = this.game;
 
         const playTime: number = game.playTime;
         if (playTime > this.lastKeypressTime + BaseState.INPUT_REPEAT_MILLIS + 100) {

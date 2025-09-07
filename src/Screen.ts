@@ -12,7 +12,6 @@ import { Tileset } from './Tileset';
 import { ZeldaGame } from './ZeldaGame';
 import { Sword } from './Sword';
 import loadEvent from './editor/event-loader';
-declare let game: ZeldaGame;
 
 export class Screen {
     private readonly parent: Map;
@@ -60,7 +59,7 @@ export class Screen {
         return tiles;
     }
 
-    enter() {
+    enter(game: ZeldaGame) {
         if (this.enemyGroup) {
             if (this.firstTimeThrough) {
                 this.enemyGroup.enemies.forEach((enemyInfo: EnemyInfo) => {
@@ -344,19 +343,19 @@ export class Screen {
         return `[Screen: enemyGroup=${this.enemyGroup}music=${this.music}]`;
     }
 
-    update() {
-        this.updateActors();
-        this.updateActions();
+    update(game: ZeldaGame) {
+        this.updateActors(game);
+        this.updateActions(game);
     }
 
-    private updateActions() {
+    private updateActions(game: ZeldaGame) {
         // TODO: Optimize me
         const remainingEvents: Event<EventData>[] = [];
 
         this.events.forEach((event: Event<EventData>) => {
             event.update();
-            if (event.shouldOccur()) {
-                if (!event.execute()) { // execute() returning true => event is done
+            if (event.shouldOccur(game)) {
+                if (!event.execute(game)) { // execute() returning true => event is done
                     remainingEvents.push(event);
                 }
             }
@@ -368,7 +367,7 @@ export class Screen {
         this.events = remainingEvents;
     }
 
-    private updateActors() {
+    private updateActors(game: ZeldaGame) {
         const actors: Actor[] = this.actors.slice();
         actors.push(game.link);
 

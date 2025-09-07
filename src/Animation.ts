@@ -35,7 +35,7 @@ export class Animation {
     private done: boolean;
     private listeners: AnimationListener[];
 
-    constructor(private readonly game: ZeldaGame, x = 0, y = 0) {
+    constructor(readonly game: ZeldaGame, x = 0, y = 0) {
         this.x = x;
         this.y = y;
         this.frames = [];

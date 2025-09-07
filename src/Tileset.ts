@@ -1,6 +1,5 @@
 import { ZeldaGame } from './ZeldaGame';
 import { SpriteSheet } from 'gtp';
-declare let game: ZeldaGame;
 
 /**
  * A set of tiles used by a map.
@@ -8,6 +7,9 @@ declare let game: ZeldaGame;
 export class Tileset {
     private name: string;
     private tiles: SpriteSheet;
+
+    constructor(private readonly game: ZeldaGame) {
+    }
 
     fromJson(json: TilesetData): this {
         this.load(json.name);
@@ -45,7 +47,7 @@ export class Tileset {
      */
     load(name: string) {
         this.name = name;
-        this.tiles = game.assets.get(name);
+        this.tiles = this.game.assets.get(name);
     }
 
     paintTile(ctx: CanvasRenderingContext2D, tile: number, x: number, y: number) {

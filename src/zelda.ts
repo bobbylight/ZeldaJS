@@ -22,7 +22,7 @@ window.init = (parent: string, assetRoot?: string) => {
         targetFps: 60,
         width: CANVAS_WIDTH,
     });
-    window.game.setState(new LoadingState());
+    window.game.setState(new LoadingState(window.game));
     window.game.start();
 
     const userAgent: string = navigator.userAgent.toLowerCase();

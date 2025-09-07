@@ -3,7 +3,6 @@ import { Position } from '@/Position';
 import { ZeldaGame } from '@/ZeldaGame';
 import { AnimationListener } from '@/AnimationListener';
 import { Animation } from '@/Animation';
-declare let game: ZeldaGame;
 
 /**
  * An event that denotes that Link is going to warp when moving to a new screen.<p>
@@ -27,7 +26,7 @@ export class ChangeScreenWarpEvent extends Event<ChangeScreenWarpData> implement
             this.destPos.clone(), this.animate);
     }
 
-    execute(): boolean {
+    execute(game: ZeldaGame): boolean {
         game.setMap(this.destMap, this.destScreen, this.destPos, false);
         if (this.animate) {
             game.audio.stopMusic();
