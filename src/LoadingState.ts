@@ -84,10 +84,10 @@ export class LoadingState extends BaseState {
                     const skipTitle: string | null = Utils.getRequestParam('skipTitle');
                     if (skipTitle !== null) { // Allow empty strings
                         this.game.startNewGame();
-                        game.setState(new CurtainOpeningState(new MainGameState()));
+                        game.setState(new CurtainOpeningState(this.game, new MainGameState(this.game)));
                     }
                     else {
-                        game.setState(new FadeOutInState(this, new TitleState()));
+                        game.setState(new FadeOutInState(this, new TitleState(this.game)));
                     }
                 });
             });

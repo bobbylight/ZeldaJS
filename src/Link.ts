@@ -141,7 +141,7 @@ export class Link extends Character {
             },
 
             animationCompleted: (anim: Animation) => {
-                this.game.setState(new FadeOutInState(this.game.state, new TitleState()));
+                this.game.setState(new FadeOutInState(this.game.state, new TitleState(this.game)));
             },
         });
 

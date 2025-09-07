@@ -2,10 +2,11 @@ import { ZeldaGame } from './ZeldaGame';
 import Image from 'gtp/lib/gtp/Image';
 import { Link } from './Link';
 
-declare let game: ZeldaGame;
-
 export class Hud {
-    private static paintMap(ctx: CanvasRenderingContext2D) {
+    constructor(private readonly game: ZeldaGame) {
+    }
+
+    private paintMap(ctx: CanvasRenderingContext2D) {
         ctx.fillStyle = '#83d313';
         const s = 3;
 
@@ -13,13 +14,14 @@ export class Hud {
         // on the left and bottom of the gray area that is never highlighted
         // as a screen Link is on.  We could fix that, but this ia a faithful
         // reproduction
-        const x: number = 17 + game.map.currentScreenCol * (s + 1);
-        const y: number = 24 + game.map.currentScreenRow * (s + 1);
+        const x: number = 17 + this.game.map.currentScreenCol * (s + 1);
+        const y: number = 24 + this.game.map.currentScreenRow * (s + 1);
 
         ctx.fillRect(x, y, s, s);
     }
 
     render(ctx: CanvasRenderingContext2D) {
+        const game = this.game;
         const hudMockup: Image = game.assets.get('hud');
         hudMockup.draw(ctx, 0, 0);
 
@@ -59,11 +61,11 @@ export class Hud {
             drawnHeartCount++;
         }
 
-        Hud.paintMap(ctx);
+        this.paintMap(ctx);
     }
 
     private renderItemInBSlot(ctx: CanvasRenderingContext2D) {
-        const bomb: Image = game.assets.get('treasures.bomb');
+        const bomb: Image = this.game.assets.get('treasures.bomb');
 
         bomb.draw(ctx, 128, 33);
     }

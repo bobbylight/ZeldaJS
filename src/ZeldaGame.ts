@@ -6,7 +6,6 @@ import { Position } from './Position';
 import { Game, SpriteSheet } from 'gtp';
 import { ItemDropStrategy } from './item/ItemDropStrategy';
 import { GameArgs } from 'gtp/lib/gtp/Game';
-declare let game: ZeldaGame;
 
 type MapMap = Record<string, Map>;
 
@@ -113,8 +112,8 @@ export class ZeldaGame extends Game {
 
     private loadMaps() {
         this.maps = {
-            overworld: new Map('overworld').fromJson(this.assets.get('overworldData')),
-            level1: new Map('level1').fromJson(this.assets.get('level1Data')),
+            overworld: new Map(this, 'overworld').fromJson(this.assets.get('overworldData')),
+            level1: new Map(this, 'level1').fromJson(this.assets.get('level1Data')),
         };
 
         if (this.editMode) {
@@ -140,7 +139,7 @@ export class ZeldaGame extends Game {
         if (!this.editMode) {
             const music: string | null | undefined = this.map.currentScreenMusic;
             if (music && music !== 'none') {
-                game.audio.playMusic(music, true);
+                this.audio.playMusic(music, true);
             }
         }
     }

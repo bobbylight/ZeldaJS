@@ -1,4 +1,5 @@
 import { Position, PositionData } from '@/Position';
+import { ZeldaGame } from '@/ZeldaGame';
 
 let count = 0;
 
@@ -23,7 +24,7 @@ export abstract class Event<T extends EventData> {
         this.animate = animate;
     }
 
-    abstract execute(): boolean;
+    abstract execute(game: ZeldaGame): boolean;
 
     getTile(): Position {
         return this.tile;
@@ -33,7 +34,7 @@ export abstract class Event<T extends EventData> {
         return this.animate;
     }
 
-    abstract shouldOccur(): boolean;
+    abstract shouldOccur(game: ZeldaGame): boolean;
 
     abstract toJson(): T;
 

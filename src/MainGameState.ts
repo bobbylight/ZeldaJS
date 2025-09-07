@@ -4,13 +4,11 @@ import { BaseState } from './BaseState';
 import { Screen } from './Screen';
 import { Map } from './Map';
 import { ZeldaGame } from './ZeldaGame';
-import { BaseStateArgs } from 'gtp';
 import { Hud } from './Hud';
 import { ChangeScreenWarpEvent } from './event/ChangeScreenWarpEvent';
 import { Event, EventData } from './event/Event';
 import { InventoryState } from '@/InventoryState';
 import { InventorySlideState } from '@/InventorySlideState';
-declare let game: ZeldaGame;
 
 const SCREEN_SLIDING_INC = 4;
 
@@ -20,13 +18,13 @@ export class MainGameState extends BaseState {
     private screenSlidingDir: Direction | null;
     private screenSlidingAmount: number;
 
-    constructor(args?: ZeldaGame | BaseStateArgs<ZeldaGame>) {
-        super(args);
-        this.hud = new Hud();
+    constructor(game: ZeldaGame) {
+        super(game);
+        this.hud = new Hud(game);
     }
 
     changeScreenHorizontally(inc: number) {
-        const map: Map = game.map;
+        const map: Map = this.game.map;
         this.lastScreen = map.currentScreen;
         map.changeScreensHorizontally(inc);
 
@@ -35,7 +33,7 @@ export class MainGameState extends BaseState {
     }
 
     changeScreenVertically(inc: number) {
-        const map: Map = game.map;
+        const map: Map = this.game.map;
         const screen: Screen = map.currentScreen;
 
         const changeScreenWarpEvents: Event<EventData>[] = screen.events.filter((e: Event<EventData>) => {
@@ -45,7 +43,7 @@ export class MainGameState extends BaseState {
             if (changeScreenWarpEvents.length > 1) {
                 console.error(`More than one ChangeScreenWarpEvent for screen ${screen.toString()}!`);
             }
-            changeScreenWarpEvents[0].execute();
+            changeScreenWarpEvents[0].execute(this.game);
             return;
         }
 
@@ -58,11 +56,11 @@ export class MainGameState extends BaseState {
 
     override enter(game: ZeldaGame) {
         super.enter(game);
-        // game.inputManager.setResetKeyStateOnPoll(false);
+        // this.game.inputManager.setResetKeyStateOnPoll(false);
 
         const music: string | null | undefined = this.game.map.currentScreenMusic;
         if (music && music !== 'none') {
-            game.audio.playMusic(music, true);
+            this.game.audio.playMusic(music, true);
         }
         this.screenSlidingAmount = 0;
     }
@@ -71,7 +69,8 @@ export class MainGameState extends BaseState {
         ctx.save();
         ctx.translate(0, 64);
 
-        const currentScreen: Screen = game.map.currentScreen;
+        const currentScreen: Screen = this.game.map.currentScreen;
+        const game = this.game;
 
         if (this.screenSlidingDir) {
             switch (this.screenSlidingDir) {
@@ -149,6 +148,7 @@ export class MainGameState extends BaseState {
 
     override update(delta: number) {
         this.handleDefaultKeys();
+        const game = this.game;
 
         // If Link's in his dying animation, don't update anything
         if (game.link.done) {
@@ -162,7 +162,7 @@ export class MainGameState extends BaseState {
 
         // Only update enemies, etc. if Link isn't going down a stairwell
         else if (!game.link.isAnimationRunning()) {
-            game.map.currentScreen.update();
+            game.map.currentScreen.update(game);
             game.updateAnimations();
         }
 
@@ -173,7 +173,7 @@ export class MainGameState extends BaseState {
         }
 
         if (this.game.inputManager.enter(true)) {
-            game.setState(new InventorySlideState(new InventoryState(), this));
+            game.setState(new InventorySlideState(new InventoryState(this.game), this));
         }
         else {
             game.link.update();
@@ -181,6 +181,7 @@ export class MainGameState extends BaseState {
     }
 
     private updateScreenSlidingImpl() {
+        const game = this.game;
         game.link.updateWalkingStep();
         this.screenSlidingAmount += SCREEN_SLIDING_INC;
 
@@ -213,7 +214,7 @@ export class MainGameState extends BaseState {
                 case 'RIGHT':
                     game.link.x = SCREEN_WIDTH - TILE_WIDTH;
                     if (labyrinth) {
-                        game.link.x -= TILE_WIDTH;
+                        this.game.link.x -= TILE_WIDTH;
                     }
                     break;
             }
@@ -230,7 +231,7 @@ export class MainGameState extends BaseState {
                 case 'DOWN':
                     game.link.y = SCREEN_HEIGHT - TILE_HEIGHT;
                     if (labyrinth) {
-                        game.link.y -= TILE_HEIGHT;
+                        this.game.link.y -= TILE_HEIGHT;
                     }
                     break;
             }

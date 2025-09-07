@@ -7,7 +7,6 @@ import { Screen } from '@/Screen';
 import { ZeldaGame } from '@/ZeldaGame';
 import { SpriteSheet } from 'gtp';
 import { AbstractItem } from '@/item/AbstractItem';
-declare let game: ZeldaGame;
 
 const STEP_TIMER_MAX = 10;
 
@@ -41,6 +40,8 @@ export abstract class Enemy extends Character {
         }
 
         if (other instanceof Sword) {
+            const game = this.game;
+
             if (--this.health === 0) {
                 this.done = true;
                 game.audio.playSound('enemyDie');
@@ -104,7 +105,7 @@ export abstract class Enemy extends Character {
         }
 
         const index: number = row * 15 + col;
-        const ss: SpriteSheet = game.assets.get('enemies');
+        const ss: SpriteSheet = this.game.assets.get('enemies');
         ss.drawByIndex(ctx, this.x, this.y, index);
     }
 
@@ -114,8 +115,8 @@ export abstract class Enemy extends Character {
 
     setLocationToSpawnPoint(screen: Screen) {
         while (true) {
-            const x: number = game.randomInt(SCREEN_ROW_COUNT) * 16;
-            const y: number = game.randomInt(SCREEN_COL_COUNT) * 16;
+            const x: number = this.game.randomInt(SCREEN_ROW_COUNT) * 16;
+            const y: number = this.game.randomInt(SCREEN_COL_COUNT) * 16;
             if (screen.isWalkable(this, x, y)) {
                 this.setLocation(x, y);
                 return;

@@ -2,7 +2,6 @@ import { HUD_HEIGHT, SCREEN_HEIGHT, SCREEN_WIDTH, TILE_WIDTH } from './Constants
 import { ZeldaGame } from './ZeldaGame';
 import { State, Delay } from 'gtp';
 import { MainGameState } from './MainGameState';
-declare let game: ZeldaGame;
 
 export class CurtainOpeningState extends State<ZeldaGame> {
     private readonly mainState: MainGameState;
@@ -13,10 +12,11 @@ export class CurtainOpeningState extends State<ZeldaGame> {
      * A transition into the main game state that mimics that in LoZ for the NES.  The screen is revealed
      * as if a curtain is being opened, 1/2 tile width on each side at a time.
      *
+     * @param game The game instance.
      * @param mainState The state to transition to when the animation is complete.
      */
-    constructor(mainState: MainGameState) {
-        super();
+    constructor(game: ZeldaGame, mainState: MainGameState) {
+        super(game);
         this.mainState = mainState;
         this.openAmount = 0;
         this.delay = new Delay({ millis: 70, loop: true, loopCount: 16, callback: this.delayCallback.bind(this) });
@@ -45,7 +45,7 @@ export class CurtainOpeningState extends State<ZeldaGame> {
 
         this.delay.update(delta);
         if (this.delay.isDone()) {
-            game.setState(this.mainState);
+            this.game.setState(this.mainState);
         }
     }
 }
