@@ -24,6 +24,10 @@ export class ZeldaGame extends Game {
         this.editMode = args?.editMode ?? false;
     }
 
+    addAnimation(animation: Animation) {
+        this.animations.push(animation);
+    }
+
     addEnemyDiesAnimation(x: number, y: number) {
         this.animations.push(this.createEnemyDiesAnimation(x, y));
     }

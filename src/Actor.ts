@@ -131,7 +131,7 @@ export abstract class Actor {
      * Renders this actor's hitbox, if enabled.
      * @param ctx The rendering context to use.
      */
-    protected possiblyPaintHitBox(ctx: CanvasRenderingContext2D) {
+    possiblyPaintHitBox(ctx: CanvasRenderingContext2D) {
         if (this.game.getPaintHitBoxes()) {
             ctx.fillStyle = 'pink';
             const hitBox: Rectangle = this.hitBox;

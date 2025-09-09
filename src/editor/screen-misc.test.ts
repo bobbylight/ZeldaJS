@@ -1,4 +1,3 @@
-// src/editor/screen-misc.test.ts
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';

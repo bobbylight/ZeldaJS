@@ -24,7 +24,7 @@ export class BaseState extends State<ZeldaGame> {
         const im: InputManager = this.game.inputManager;
 
         if (time > this.lastConfigKeypressTime + BaseState.INPUT_REPEAT_MILLIS) {
-        // Audio stuff
+            // Audio stuff
             if (im.isKeyDown(Keys.KEY_M, true)) {
                 this.game.toggleMuted();
                 this.lastConfigKeypressTime = time;
