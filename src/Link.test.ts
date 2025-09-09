@@ -10,6 +10,7 @@ import { AnimationListener } from '@/AnimationListener';
 import { SCREEN_COL_COUNT, SCREEN_ROW_COUNT, TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
 import { MainGameState } from '@/MainGameState';
 import { Animation } from '@/Animation';
+import { createAnimation } from '@/test-utils';
 
 const mockPlayMusic = vi.fn();
 const mockPlaySound = vi.fn();
@@ -781,13 +782,7 @@ describe('Link', () => {
         let anim: Animation;
 
         beforeEach(() => {
-            anim = new Animation(game);
-            anim.addFrame({
-                sheet: mockSpriteSheet as unknown as SpriteSheet,
-                index: 0,
-            },
-            0,
-            );
+            anim = createAnimation(game, mockSpriteSheet as unknown as SpriteSheet);
             link.setAnimation(anim);
         });
 

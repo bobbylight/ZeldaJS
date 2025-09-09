@@ -132,7 +132,7 @@ export class MainGameState extends BaseState {
             }
         }
         else {
-        // Not moving between maps
+            // Not moving between maps
             currentScreen.paint(ctx);
             currentScreen.paintActors(ctx);
             game.link.paint(ctx);
@@ -173,7 +173,7 @@ export class MainGameState extends BaseState {
         }
 
         if (this.game.inputManager.enter(true)) {
-            game.setState(new InventorySlideState(new InventoryState(this.game), this));
+            game.setState(new InventorySlideState(this.game, new InventoryState(this.game), this));
         }
         else {
             game.link.update();

@@ -9,7 +9,7 @@ export interface EnemyInfo {
 }
 
 export class EnemyGroup {
-    spawnStyle: string; // TODO: String literal type when gulp-typescript moves up to 1.8
+    spawnStyle: string; // TODO: String literal union type
     enemies: EnemyInfo[];
 
     constructor(spawnStyle = 'random', enemies: EnemyInfo[] = []) {
@@ -68,6 +68,7 @@ export class EnemyGroup {
             this.enemies = json.enemies;
 
             // Old saves won't have 'id' properties
+            // TODO: Can this be removed now?
             this.enemies.forEach((ei: EnemyInfo) => {
                 if (!ei.id) {
                     ei.id = uuidv4();
