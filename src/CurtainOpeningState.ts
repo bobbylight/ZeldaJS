@@ -1,6 +1,6 @@
 import { HUD_HEIGHT, SCREEN_HEIGHT, SCREEN_WIDTH, TILE_WIDTH } from './Constants';
 import { ZeldaGame } from './ZeldaGame';
-import { State, Delay } from 'gtp';
+import { Delay, State } from 'gtp';
 import { MainGameState } from './MainGameState';
 
 export class CurtainOpeningState extends State<ZeldaGame> {

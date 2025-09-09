@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import store from './store';
 import { Screen } from '@/Screen';
 import { ZeldaGame } from '@/ZeldaGame';

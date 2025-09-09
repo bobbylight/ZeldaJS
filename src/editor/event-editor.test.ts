@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { render, RenderResult, screen, within } from '@testing-library/vue';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { RenderResult, render, screen, within } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 import EventEditor from './event-editor.vue';
 import { createVuetify } from 'vuetify';

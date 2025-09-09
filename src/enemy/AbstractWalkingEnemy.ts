@@ -57,7 +57,7 @@ export abstract class AbstractWalkingEnemy extends Enemy {
         const tempX: number = this.x + inc;
         this.hitBox.set(tempX, this.y, this.w, this.h);
 
-        if (this.hitBox.x < 0 || (this.hitBox.x + this.hitBox.w) >= SCREEN_WIDTH &&
+        if (this.hitBox.x < 0 || this.hitBox.x + this.hitBox.w >= SCREEN_WIDTH &&
             !this.slidingDir) {
             this.changeDirection();
         }
@@ -79,7 +79,7 @@ export abstract class AbstractWalkingEnemy extends Enemy {
         const tempY: number = this.y + inc;
         this.hitBox.set(this.x, tempY, this.w, this.h);
 
-        if (this.hitBox.y < 0 || (this.hitBox.y + this.hitBox.h) >= SCREEN_HEIGHT &&
+        if (this.hitBox.y < 0 || this.hitBox.y + this.hitBox.h >= SCREEN_HEIGHT &&
             !this.slidingDir) {
             this.changeDirection();
         }

@@ -153,7 +153,7 @@ export class Animation {
             this.totalTime = 0;
         }
         else {
-            this.totalTime += (curTime - this.lastTime);
+            this.totalTime += curTime - this.lastTime;
         }
         this.lastTime = curTime;
 

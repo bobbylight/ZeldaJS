@@ -1,4 +1,4 @@
-import { createStore, Store } from 'vuex';
+import { Store, createStore } from 'vuex';
 import { EditorState } from '@/editor/editor';
 import { ZeldaGame } from '@/ZeldaGame';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '@/Constants';

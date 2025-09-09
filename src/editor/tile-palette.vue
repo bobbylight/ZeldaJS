@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch, nextTick } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
 import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 import { Tileset } from '@/Tileset';

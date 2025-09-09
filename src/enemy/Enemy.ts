@@ -87,7 +87,7 @@ export abstract class Enemy extends Character {
                     col %= 4;
                     break;
                 case 1:
-                    col = (col % 4) + 4;
+                    col = col % 4 + 4;
                     break;
                 case 2:
                     row += 2;
@@ -95,11 +95,11 @@ export abstract class Enemy extends Character {
                     break;
                 case 3:
                     row += 2;
-                    col = (col % 4) + 4;
+                    col = col % 4 + 4;
                     break;
                 case 4:
                     row += 2;
-                    col = (col % 4) + 8;
+                    col = col % 4 + 8;
                     break;
             }
         }

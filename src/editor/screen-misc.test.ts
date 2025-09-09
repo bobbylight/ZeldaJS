@@ -1,5 +1,5 @@
 // src/editor/screen-misc.test.ts
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 import ScreenMisc from './screen-misc.vue';

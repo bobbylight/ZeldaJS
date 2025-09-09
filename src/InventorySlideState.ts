@@ -1,6 +1,6 @@
 import { CANVAS_HEIGHT } from './Constants';
 import { ZeldaGame } from './ZeldaGame';
-import { State, Delay } from 'gtp';
+import { Delay, State } from 'gtp';
 import { BaseState } from '@/BaseState';
 
 export class InventorySlideState extends State<ZeldaGame> {

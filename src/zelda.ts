@@ -1,9 +1,9 @@
 /*
  * Game bootstrap code.  This can be in an inline <script> tag as well.
  */
-import { ZeldaGame } from './ZeldaGame';
-import { LoadingState } from './LoadingState';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from './Constants';
+import { LoadingState } from './LoadingState';
+import { ZeldaGame } from './ZeldaGame';
 import { CanvasResizer, StretchMode } from 'gtp';
 
 declare global {

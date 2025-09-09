@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, RenderResult, screen } from '@testing-library/vue';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { RenderResult, render, screen } from '@testing-library/vue';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import TilePalette from './tile-palette.vue';
 import { createVuetify } from 'vuetify';

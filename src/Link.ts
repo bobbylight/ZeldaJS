@@ -294,7 +294,7 @@ export class Link extends Character {
         if (hitBox.x < 0) {
             return -1;
         }
-        if ((hitBox.x + hitBox.w) >= TILE_WIDTH * SCREEN_COL_COUNT) {
+        if (hitBox.x + hitBox.w >= TILE_WIDTH * SCREEN_COL_COUNT) {
             return 1;
         }
         return 0;
@@ -304,7 +304,7 @@ export class Link extends Character {
         if (hitBox.y < 0) {
             return -1;
         }
-        if ((hitBox.y + hitBox.h) >= TILE_HEIGHT * SCREEN_ROW_COUNT) {
+        if (hitBox.y + hitBox.h >= TILE_HEIGHT * SCREEN_ROW_COUNT) {
             return 1;
         }
         return 0;

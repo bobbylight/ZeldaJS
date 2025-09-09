@@ -1,5 +1,5 @@
 import { ZeldaGame } from './ZeldaGame';
-import { State, Utils, InputManager, Keys } from 'gtp';
+import { InputManager, Keys, State, Utils } from 'gtp';
 import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 
 export class BaseState extends State<ZeldaGame> {
@@ -23,7 +23,7 @@ export class BaseState extends State<ZeldaGame> {
         const time: number = Utils.timestamp(); // this.game.playTime;
         const im: InputManager = this.game.inputManager;
 
-        if (time > (this.lastConfigKeypressTime + BaseState.INPUT_REPEAT_MILLIS)) {
+        if (time > this.lastConfigKeypressTime + BaseState.INPUT_REPEAT_MILLIS) {
         // Audio stuff
             if (im.isKeyDown(Keys.KEY_M, true)) {
                 this.game.toggleMuted();

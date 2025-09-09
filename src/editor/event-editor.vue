@@ -142,7 +142,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { Event, EventData } from '@/event/Event';
 import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
 import { Position } from '@/Position';
@@ -300,7 +300,7 @@ function refreshRowBeingModified() {
 }
 
 function showAddOrEditModal(newRecord: boolean) {
-    modifiedItemKey.value = newRecord ? null : (selectedItems.value[0])[itemKey.value] as string;
+    modifiedItemKey.value = newRecord ? null : selectedItems.value[0][itemKey.value] as string;
     rowBeingModified.value = (newRecord ? getInitialValue()
         : JSON.parse(JSON.stringify(selectedItems.value[0]))) as Event<EventData>;
     newGenerator.value = generators.find((g: EventGenerator<Event<EventData>>) => {
