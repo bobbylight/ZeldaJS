@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
+import { MockInstance, afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Link } from './Link';
 import { Map } from '@/Map';
 import { Octorok } from '@/enemy/Octorok';
@@ -67,7 +67,7 @@ describe('Link', () => {
     });
 
     describe('collidedWith()', () => {
-        describe ('the other entity is an Enemy', () => {
+        describe('the other entity is an Enemy', () => {
             let enemy: Octorok;
 
             beforeEach(() => {
@@ -144,7 +144,7 @@ describe('Link', () => {
             });
         });
 
-        describe ('the other entity is an Projectile', () => {
+        describe('the other entity is an Projectile', () => {
             let projectile: Projectile;
 
             beforeEach(() => {

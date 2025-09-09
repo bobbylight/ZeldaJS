@@ -2,7 +2,7 @@ import { CurtainOpeningState } from './CurtainOpeningState';
 import { MainGameState } from './MainGameState';
 import { TitleState } from './TitleState';
 import { BaseState } from './BaseState';
-import { Game, Utils, FadeOutInState } from 'gtp';
+import { FadeOutInState, Game, Utils } from 'gtp';
 import { ImageAtlasInfo } from 'gtp/lib/gtp/ImageAtlas';
 
 /**

@@ -139,21 +139,21 @@ export class Screen {
         const tileType: number = this.getTile(row, col);
         const walkability: number = this.parent.getTileTypeWalkability(tileType);
         const x0: number = x % 16;
-        const y0: number = 15 - (y % 16);
+        const y0: number = 15 - y % 16;
 
         if (actor instanceof Link) {
             Screen.printWalkability(walkability, x0, y0);
         }
 
         return walkability === 1 ||
-            (walkability === 2 && y0 > 16 - x0) || // Top "\"
-            (walkability === 3 && y0 > x0) || // Top "/"
-            (walkability === 4 && y0 < x0) || // Bottom "/"
-            (walkability === 5 && y0 < 16 - x0) || // Bottom "\"
-            (walkability === 6 && y0 < 8) || // bottom half of tile
-            (walkability === 7 && y0 >= 8) || // top half of tile
-            (walkability === 8 && x0 < 8) || // left half of tile
-            (walkability === 9 && x0 >= 8); // right half of tile
+            walkability === 2 && y0 > 16 - x0 || // Top "\"
+            walkability === 3 && y0 > x0 || // Top "/"
+            walkability === 4 && y0 < x0 || // Bottom "/"
+            walkability === 5 && y0 < 16 - x0 || // Bottom "\"
+            walkability === 6 && y0 < 8 || // bottom half of tile
+            walkability === 7 && y0 >= 8 || // top half of tile
+            walkability === 8 && x0 < 8 || // left half of tile
+            walkability === 9 && x0 >= 8; // right half of tile
     }
 
     paint(ctx: CanvasRenderingContext2D) {

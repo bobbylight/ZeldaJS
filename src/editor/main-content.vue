@@ -83,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { Store, useStore } from 'vuex';
 import MapEditor from '@/editor/map-editor.vue';
 import { ZeldaGame } from '@/ZeldaGame';

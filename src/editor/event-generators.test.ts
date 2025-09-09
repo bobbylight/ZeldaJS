@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { GoDownStairsEventGenerator, ChangeScreenWarpEventGenerator } from './event-generators';
+import { describe, expect, it } from 'vitest';
+import { ChangeScreenWarpEventGenerator, GoDownStairsEventGenerator } from './event-generators';
 import { Position } from '@/Position';
 
 describe('GoDownStairsEventGenerator', () => {

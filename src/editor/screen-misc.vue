@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { Store, useStore } from 'vuex';
 import { Screen } from '@/Screen';
 import { EditorState } from '@/editor/editor';

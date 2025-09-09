@@ -53,8 +53,8 @@ export class Tektite extends Enemy {
                 this.curJumpXInc * (this.curJumpAscentTime + 3 + this.curJumpDescentTime);
             const afterJumpY: number = this.y - ySpeed * (this.curJumpAscentTime - this.curJumpDescentTime);
 
-            success = afterJumpX >= 0 && afterJumpX < (this.game.getWidth() - thisWidth) &&
-                    afterJumpY >= TOP_MARGIN_ROWS * 16 && afterJumpY < (SCREEN_HEIGHT - thisHeight);
+            success = afterJumpX >= 0 && afterJumpX < this.game.getWidth() - thisWidth &&
+                    afterJumpY >= TOP_MARGIN_ROWS * 16 && afterJumpY < SCREEN_HEIGHT - thisHeight;
             console.log(`... ${afterJumpX}, ${afterJumpY}`);
         }
 

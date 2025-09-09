@@ -114,8 +114,8 @@ export abstract class Actor {
             const x1: number = this.hitBox.x;
             const y1: number = this.hitBox.y + this.hitBox.h - 1;
             const x2: number = this.hitBox.x + this.hitBox.w - 1;
-            return (tileBounds.contains(x1, y1) && !tileBounds.contains(x1, y1 + 1)) ||
-                (tileBounds.contains(x2, y1) && !tileBounds.contains(x2, y1 + 1));
+            return tileBounds.contains(x1, y1) && !tileBounds.contains(x1, y1 + 1) ||
+                tileBounds.contains(x2, y1) && !tileBounds.contains(x2, y1 + 1);
         }
 
         return false;
