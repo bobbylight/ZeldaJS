@@ -32,5 +32,6 @@ export default defineConfig({
             inline: ['vuetify'],
         },
         setupFiles: [ resolve(__dirname, './src/setupTests.ts') ],
+        //disableConsoleIntercept: true,
     },
 });

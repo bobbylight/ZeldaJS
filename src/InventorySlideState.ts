@@ -13,12 +13,13 @@ export class InventorySlideState extends State<ZeldaGame> {
     /**
      * A transition that slides one screen down or up to show another.
      *
+     * @param game The game being played.
      * @param topState The state that should be on "top."
      * @param bottomState The state to transition to when the animation is complete.
      * @param down Whether to slide down vs. up.
      */
-    constructor(topState: BaseState, bottomState: BaseState, down = true) {
-        super();
+    constructor(game: ZeldaGame, topState: BaseState, bottomState: BaseState, down = true) {
+        super(game);
         this.topState = topState;
         this.bottomState = bottomState;
         this.down = down;

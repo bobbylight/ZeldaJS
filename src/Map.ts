@@ -4,7 +4,7 @@ import { EnemyGroup } from './EnemyGroup';
 import { WALKABILITY_LEVEL, WALKABILITY_OVERWORLD } from './Constants';
 import { ZeldaGame } from '@/ZeldaGame';
 
-const HEADER = 'ZeldaMap';
+export const MAP_HEADER = 'ZeldaMap';
 
 export interface MapData {
     header: string;
@@ -17,7 +17,7 @@ export interface MapData {
 }
 
 export class Map {
-    private readonly name: string;
+    private name: string;
     private readonly screens: Screen[][];
     private readonly tileset: Tileset;
     private readonly walkability: number[];
@@ -42,6 +42,7 @@ export class Map {
 
         this.tileset = new Tileset(game);
         this.tileset.load('overworld');
+        this.music = 'overworld';
 
         this.curRow = this.curCol = 0;
     }
@@ -79,7 +80,7 @@ export class Map {
     }
 
     fromJson(json: MapData): this {
-        if (HEADER !== json.header) {
+        if (MAP_HEADER !== json.header) {
             throw new Error(`Invalid map file: bad header: ${json.header}`);
         }
 
@@ -96,6 +97,7 @@ export class Map {
             this.screens.push(screenRow);
         });
 
+        this.name = json.name;
         this.tileset.fromJson(json.tilesetData);
         this.music = json.music;
         this.curRow = json.row;
@@ -169,9 +171,7 @@ export class Map {
     }
 
     setCurrentScreen(row: number, col: number) {
-        if (this.curRow && this.curCol) {
-            this.currentScreen.exit();
-        }
+        this.currentScreen.exit();
 
         if (row < this.rowCount && col < this.colCount) {
             this.curRow = row;
@@ -194,7 +194,7 @@ export class Map {
         });
 
         return {
-            header: HEADER,
+            header: MAP_HEADER,
             name: this.name,
             screenData: screenRows,
             tilesetData: this.tileset.toJson(),
