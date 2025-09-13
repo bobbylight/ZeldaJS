@@ -7,7 +7,7 @@ import Rectangle from 'gtp/lib/gtp/Rectangle';
 
 export type RupeeDenomination = 'yellow' | 'blue' | 'red';
 
-const RUPEE_COUNTS: Record<string, number> = {
+const RUPEE_COUNTS: Record<RupeeDenomination, number> = {
     yellow: 1,
     blue: 5,
     red: 20,
