@@ -1,77 +1,114 @@
 <template>
     <div>
-
         <div class="modifiable-table">
+            <v-data-table
+                v-model="selectedItems"
+                :dense="dense"
+                :headers="headers"
+                :items="getAllItems()"
+                :items-per-page="5"
+                :return-object="true"
+                select-strategy="single"
+                show-select
+                @input="onSelectedItemsChanged"
+            >
+                <template #top>
+                    <v-toolbar
+                        flat
+                        color="white"
+                    >
+                        <span class="title">{{ title }}</span>
 
-                <v-data-table
-                    :dense="dense"
-                    :headers="headers"
-                    :items="getAllItems()"
-                    :items-per-page="5"
-                    :return-object="true"
-                    select-strategy="single"
-                    show-select
-                    v-model="selectedItems"
-                    @input="onSelectedItemsChanged"
-                >
+                        <v-spacer v-if="title || rightAlignButtons" />
 
-                <template v-slot:top>
-
-                    <v-toolbar flat color="white">
-
-                        <span class="title">{{title}}</span>
-
-                        <v-spacer v-if="title || rightAlignButtons"/>
-
-                        <v-btn color="primary" text icon @click="showAddOrEditModal(true)" data-testId="add-event-button">
+                        <v-btn
+                            color="primary"
+                            text
+                            icon
+                            data-testId="add-event-button"
+                            @click="showAddOrEditModal(true)"
+                        >
                             <v-icon>mdi-plus</v-icon>
                         </v-btn>
-                        <v-btn color="primary" text icon @click="showAddOrEditModal(false)" data-testId="edit-event-button" :disabled="selectedItems.length === 0">
+                        <v-btn
+                            color="primary"
+                            text
+                            icon
+                            data-testId="edit-event-button"
+                            :disabled="selectedItems.length === 0"
+                            @click="showAddOrEditModal(false)"
+                        >
                             <v-icon>mdi-pencil</v-icon>
                         </v-btn>
-                        <v-btn color="primary" text icon @click="deleteDialog = true" data-testId="delete-event-button" :disabled="selectedItems.length === 0">
+                        <v-btn
+                            color="primary"
+                            text
+                            icon
+                            data-testId="delete-event-button"
+                            :disabled="selectedItems.length === 0"
+                            @click="deleteDialog = true"
+                        >
                             <v-icon>mdi-trash-can</v-icon>
                         </v-btn>
                     </v-toolbar>
                 </template>
 
-                <template v-slot:item.type="{ value }">
-                    {{typeColumnRenderer(value)}}
+                <!-- v-data-table uses "item.field" slot notation which breaks eslint-plugin-vue -->
+                <!-- eslint-disable-next-line vue/valid-v-slot -->
+                <template #item.type="{ value }">
+                    {{ typeColumnRenderer(value) }}
                 </template>
 
-                <template v-slot:item.desc="{ item }">
-                    {{descColumnRenderer(item)}}
+                <!-- eslint-disable-next-line vue/valid-v-slot -->
+                <template #item.desc="{ item }">
+                    {{ descColumnRenderer(item) }}
                 </template>
             </v-data-table>
 
-            <v-dialog v-model="showModifyRowDialog" max-width="500px" @click:outside="onCancel"
-                      @keydown.esc="onCancel">
-
+            <v-dialog
+                v-model="showModifyRowDialog"
+                max-width="500px"
+                @click:outside="onCancel"
+                @keydown.esc="onCancel"
+            >
                 <v-card data-testId="edit-event-modal">
                     <v-card-title>
-                        <span class="headline">{{dialogTitle}}</span>
+                        <span class="headline">{{ dialogTitle }}</span>
                     </v-card-title>
 
                     <v-card-text>
                         <v-container v-if="rowBeingModified">
-
                             <v-row>
-                                <v-select label="Event Type" :items="generatorSelectItems" v-model="newGenerator"/>
+                                <v-select
+                                    v-model="newGenerator"
+                                    label="Event Type"
+                                    :items="generatorSelectItems"
+                                />
                             </v-row>
 
                             <v-row v-if="newGenerator.type === 'goDownStairs'/*GoDownStairsEvent.EVENT_TYPE*/">
                                 <v-col class="xs6">
-                                    <v-select label="Source Row" :items="screenRows"
-                                            v-model="rowBeingModified.tile.row"/>
+                                    <v-select
+                                        v-model="rowBeingModified.tile.row"
+                                        label="Source Row"
+                                        :items="screenRows"
+                                    />
                                 </v-col>
                                 <v-col class="xs6">
-                                    <v-select label="Source Column" :items="screenCols"
-                                              v-model="rowBeingModified.tile.col"/>
+                                    <v-select
+                                        v-model="rowBeingModified.tile.col"
+                                        label="Source Column"
+                                        :items="screenCols"
+                                    />
                                 </v-col>
                             </v-row>
 
                             <v-row>
-                                <v-select label="Destination Map" :items="maps" v-model="rowBeingModified.destMap"/>
+                                <v-select
+                                    v-model="rowBeingModified.destMap"
+                                    label="Destination Map"
+                                    :items="maps"
+                                />
                             </v-row>
 
                             <v-row>
@@ -79,10 +116,18 @@
                             </v-row>
                             <v-row>
                                 <v-col class="xs6">
-                                    <v-select label="Row" :items="rows" v-model="rowBeingModified.destScreen.row"/>
+                                    <v-select
+                                        v-model="rowBeingModified.destScreen.row"
+                                        label="Row"
+                                        :items="rows"
+                                    />
                                 </v-col>
                                 <v-col class="xs6">
-                                    <v-select label="Column" :items="cols" v-model="rowBeingModified.destScreen.col"/>
+                                    <v-select
+                                        v-model="rowBeingModified.destScreen.col"
+                                        label="Column"
+                                        :items="cols"
+                                    />
                                 </v-col>
                             </v-row>
 
@@ -91,36 +136,62 @@
                             </v-row>
                             <v-row>
                                 <v-col class="xs6">
-                                    <v-select label="Row" :items="screenRows" v-model="rowBeingModified.destPos.row"/>
+                                    <v-select
+                                        v-model="rowBeingModified.destPos.row"
+                                        label="Row"
+                                        :items="screenRows"
+                                    />
                                 </v-col>
                                 <v-col class="xs6">
-                                    <v-select label="Column" :items="screenCols" v-model="rowBeingModified.destPos.col"/>
+                                    <v-select
+                                        v-model="rowBeingModified.destPos.col"
+                                        label="Column"
+                                        :items="screenCols"
+                                    />
                                 </v-col>
                             </v-row>
                         </v-container>
                     </v-card-text>
 
                     <v-card-actions>
-                        <v-spacer/>
-                        <v-btn color="blue darken-1" text :disabled="saveDisabled" @click="onSave">Save</v-btn>
-                        <v-btn color="blue darken-1" text @click="onCancel">Cancel</v-btn>
+                        <v-spacer />
+                        <v-btn
+                            color="blue darken-1"
+                            text
+                            :disabled="saveDisabled"
+                            @click="onSave"
+                        >
+                            Save
+                        </v-btn>
+                        <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="onCancel"
+                        >
+                            Cancel
+                        </v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
 
-            <v-dialog v-model="deleteDialog" max-width="500px">
-
+            <v-dialog
+                v-model="deleteDialog"
+                max-width="500px"
+            >
                 <v-card>
                     <v-card-title>
-                        <span class="headline">{{deleteDialogTitle}}</span>
+                        <span class="headline">{{ deleteDialogTitle }}</span>
                     </v-card-title>
 
                     <v-card-text>
                         <v-container>
                             <v-row>
-                                <slot name="deleteDialogContent" :selected-item="rowBeingModified">
+                                <slot
+                                    name="deleteDialogContent"
+                                    :selected-item="rowBeingModified"
+                                >
                                     <div v-if="rowBeingModified != null">
-                                        Are you sure you want to delete the selected {{itemName}}?
+                                        Are you sure you want to delete the selected {{ itemName }}?
                                     </div>
                                     <div v-else>
                                         Nothing is selected to delete.
@@ -131,9 +202,21 @@
                     </v-card-text>
 
                     <v-card-actions>
-                        <v-spacer/>
-                        <v-btn color="blue darken-1" text @click="onDeleteItem">Yes</v-btn>
-                        <v-btn color="blue darken-1" text @click="onCancelDelete">No</v-btn>
+                        <v-spacer />
+                        <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="onDeleteItem"
+                        >
+                            Yes
+                        </v-btn>
+                        <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="onCancelDelete"
+                        >
+                            No
+                        </v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>

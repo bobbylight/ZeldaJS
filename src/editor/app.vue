@@ -1,10 +1,9 @@
 <template>
     <v-app>
-
-        <nav-bar/>
+        <nav-bar />
 
         <v-main>
-            <main-content/>
+            <main-content />
         </v-main>
     </v-app>
 </template>

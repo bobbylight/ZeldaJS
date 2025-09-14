@@ -1,13 +1,21 @@
 <template>
-
     <div class="col-md-12 code-viewer">
-
         <div style="margin-bottom: 1rem;">
-            <v-btn color="primary" @click="refresh">Refresh</v-btn>
-            <v-btn @click="copy">Copy</v-btn>
+            <v-btn
+                color="primary"
+                @click="refresh"
+            >
+                Refresh
+            </v-btn>
+            <v-btn @click="copy">
+                Copy
+            </v-btn>
         </div>
 
-        <pre ref="codeDiv" data-testId="code"/>
+        <pre
+            ref="codeDiv"
+            data-testId="code"
+        />
     </div>
 </template>
 
@@ -19,12 +27,9 @@ import JsonParser from 'jshighlight/lib/parsers/json-parser';
 import '../../node_modules/jshighlight/src/styles/jshl-default.css';
 import { ZeldaGame } from '@/ZeldaGame';
 
-const props = defineProps({
-    game: {
-        type: ZeldaGame,
-        required: false,
-    },
-});
+const props = defineProps<{
+    game: ZeldaGame | undefined,
+}>();
 
 const codeDiv = ref<HTMLPreElement | null>(null);
 

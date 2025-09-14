@@ -5,7 +5,7 @@
         color="primary"
         dark
     >
-        <template v-slot:prepend>
+        <template #prepend>
             <v-img
                 alt="Map Creator Logo"
                 class="shrink mr-2"
@@ -20,13 +20,20 @@
             Zelda Map Creator
         </v-app-bar-title>
 
-        <template v-slot:append>
-            <v-select ref="select" :items="maps" style="max-width: 8rem;" hide-details
-                      v-model="selectedMap" @update:modelValue="onSelectedMapChanged"/>
+        <template #append>
+            <v-select
+                ref="select"
+                v-model="selectedMap"
+                :items="maps"
+                style="max-width: 8rem;"
+                hide-details
+                @update:model-value="onSelectedMapChanged"
+            />
 
             <v-btn
                 href="https://github.com/vuetifyjs/vuetify/releases/latest"
-                target="_blank">
+                target="_blank"
+            >
                 <span class="mr-2">About</span>
             </v-btn>
         </template>

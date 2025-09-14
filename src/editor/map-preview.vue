@@ -1,10 +1,14 @@
 <template>
-    <canvas :width="canvasStyleWidth" :height="canvasStyleHeight"
-            aria-label="A preview of the map"
-            class="map-preview-canvas" ref="canvas"
-            @mousemove="updateArmedScreen"
-            @mouseleave="clearArmedScreen"
-            @click="updateSelectedScreen"/>
+    <canvas
+        ref="canvas"
+        :width="canvasStyleWidth"
+        :height="canvasStyleHeight"
+        aria-label="A preview of the map"
+        class="map-preview-canvas"
+        @mousemove="updateArmedScreen"
+        @mouseleave="clearArmedScreen"
+        @click="updateSelectedScreen"
+    />
 </template>
 
 <script setup lang="ts">

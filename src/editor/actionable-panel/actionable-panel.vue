@@ -1,13 +1,17 @@
 <template>
-
-    <v-card class="actionable-panel control-group-bottom-margin" outlined>
-
+    <v-card
+        class="actionable-panel control-group-bottom-margin"
+        outlined
+    >
         <v-card-title class="bg-primary actionable-panel-title">
-            {{title}}
+            {{ title }}
         </v-card-title>
 
-        <v-card-text class="actionable-panel-content" :class="{ 'actionable-panel-not-padded': !padded }">
-            <slot/>
+        <v-card-text
+            class="actionable-panel-content"
+            :class="{ 'actionable-panel-not-padded': !padded }"
+        >
+            <slot />
         </v-card-text>
     </v-card>
 </template>
@@ -15,7 +19,7 @@
 <script setup lang="ts">
 const { padded = true } = defineProps<{
     padded?: boolean,
-    title?: string,
+    title: string,
 }>();
 </script>
 

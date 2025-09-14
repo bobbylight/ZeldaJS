@@ -24,7 +24,6 @@
 
     "target": "es6",
     "module": "es2020",
-    //"strict": true,
     "strictNullChecks": true,
     "moduleResolution": "node",
     "skipLibCheck": true,

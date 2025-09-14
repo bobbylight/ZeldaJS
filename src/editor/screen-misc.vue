@@ -1,7 +1,12 @@
 <template>
     <div>
         <div>
-            <v-select label="Music" :items="songs" v-model="music" @update:modelValue="onMusicChanged"/>
+            <v-select
+                v-model="music"
+                label="Music"
+                :items="songs"
+                @update:model-value="onMusicChanged"
+            />
         </div>
     </div>
 </template>
@@ -20,11 +25,6 @@ const songs = [
     { title: 'Overworld', value: 'overworldMusic' },
     { title: 'Labyrinth', value: 'labyrinthMusic' },
 ];
-
-defineProps<{
-    screen: Screen,
-}>();
-
 
 const music = ref<string | null>(null);
 
