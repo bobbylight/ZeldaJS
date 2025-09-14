@@ -94,17 +94,5 @@ export default [
             // Needed for v-data-table "item.colName" renderer slots
             "vue/valid-v-slot": [ "error", { allowModifiers: true } ]
         },
-
-        // overrides: [
-        //     {
-        //         files: [
-        //             "**/__tests__/*.{j,t}s?(x)",
-        //             "**/tests/unit/**/*.spec.{j,t}s?(x)"
-        //         ],
-        //         env: {
-        //             jest: true
-        //         }
-        //     }
-        // ]
     },
 ];
