@@ -1,10 +1,13 @@
 <template>
     <div class="map-editor">
-
         <!-- 256x176 + 16-pixel buffer on all sides -->
-        <canvas class="screen-canvas" width="288" height="208"
-                aria-label="The current screen editor"
-                ref="canvas"/>
+        <canvas
+            ref="canvas"
+            class="screen-canvas"
+            width="288"
+            height="208"
+            aria-label="The current screen editor"
+        />
     </div>
 </template>
 

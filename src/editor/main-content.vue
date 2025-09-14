@@ -1,81 +1,130 @@
 <template>
     <v-container>
-
         <v-layout>
             <v-col class="xs8">
                 <actionable-panel :title="title">
                     <div v-if="game">
-                        <map-editor :game="game" :selected-tile-index="selectedTileIndex"/>
+                        <map-editor
+                            :game="game"
+                            :selected-tile-index="selectedTileIndex"
+                        />
                     </div>
                 </actionable-panel>
 
                 <actionable-panel title="Map Preview">
                     <div v-if="game">
-                        <map-preview :game="game" :map="game.map" :last-modified="store.state.lastModified"/>
+                        <map-preview
+                            :game="game"
+                            :map="game.map"
+                            :last-modified="store.state.lastModified"
+                        />
                     </div>
                 </actionable-panel>
             </v-col>
 
-            <v-col class="xs4" v-if="game && store.state.currentScreen">
-
-                <v-card class="control-group-bottom-margin tabbed-pane-styles" outlined>
-
-                    <v-tabs v-model="selectedTab" bg-color="primary">
-
-                        <v-tab class="editor-tab" value="tab-1">
+            <v-col
+                v-if="game && store.state.currentScreen"
+                class="xs4"
+            >
+                <v-card
+                    class="control-group-bottom-margin tabbed-pane-styles"
+                    outlined
+                >
+                    <v-tabs
+                        v-model="selectedTab"
+                        bg-color="primary"
+                    >
+                        <v-tab
+                            class="editor-tab"
+                            value="tab-1"
+                        >
                             Tile Palette
                         </v-tab>
 
-                        <v-tab class="editor-tab" value="tab-2">
+                        <v-tab
+                            class="editor-tab"
+                            value="tab-2"
+                        >
                             Events
                         </v-tab>
 
-                        <v-tab class="editor-tab" value="tab-3">
+                        <v-tab
+                            class="editor-tab"
+                            value="tab-3"
+                        >
                             Misc
                         </v-tab>
                     </v-tabs>
 
                     <v-tabs-window v-model="selectedTab">
-
-                        <v-tabs-window-item key="tilePalette" value="tab-1">
-                            <v-card flat outlined>
+                        <v-tabs-window-item
+                            key="tilePalette"
+                            value="tab-1"
+                        >
+                            <v-card
+                                flat
+                                outlined
+                            >
                                 <v-card-text v-if="game">
-                                    <tile-palette :game="game" :tileset="game.map.getTileset()"
-                                                  :selected-tile-index="selectedTileIndex"
-                                                  @tileSelected="onTileSelected"/>
+                                    <tile-palette
+                                        :game="game"
+                                        :tileset="game.map.getTileset()"
+                                        :selected-tile-index="selectedTileIndex"
+                                        @tile-selected="onTileSelected"
+                                    />
                                 </v-card-text>
                             </v-card>
                         </v-tabs-window-item>
 
-                        <v-tabs-window-item key="eventEditor" value="tab-2">
-                            <v-card flat outlined>
+                        <v-tabs-window-item
+                            key="eventEditor"
+                            value="tab-2"
+                        >
+                            <v-card
+                                flat
+                                outlined
+                            >
                                 <v-card-text style="padding: 0">
-                                    <event-editor :game="game" v-model="store.state.currentScreen.events"/>
+                                    <event-editor
+                                        v-model="store.state.currentScreen.events"
+                                        :game="game"
+                                    />
                                 </v-card-text>
                             </v-card>
                         </v-tabs-window-item>
 
-                        <v-tabs-window-item key="screenMisc" value="tab-3">
-                            <v-card flat outlined>
+                        <v-tabs-window-item
+                            key="screenMisc"
+                            value="tab-3"
+                        >
+                            <v-card
+                                flat
+                                outlined
+                            >
                                 <v-card-text v-if="game">
-                                    <screen-misc :screen="game.map.currentScreen"/>
+                                    <screen-misc />
                                 </v-card-text>
                             </v-card>
                         </v-tabs-window-item>
                     </v-tabs-window>
                 </v-card>
 
-                <actionable-panel title="Enemies" :padded="false">
-                    <enemy-selector :game="game" v-model="store.state.currentScreen.enemyGroup"/>
+                <actionable-panel
+                    title="Enemies"
+                    :padded="false"
+                >
+                    <enemy-selector
+                        v-model="store.state.currentScreen.enemyGroup"
+                        :game="game"
+                    />
                 </actionable-panel>
             </v-col>
         </v-layout>
 
         <v-layout>
             <v-col class="xs12">
-
                 <actionable-panel title="Map JSON">
-                    <code-viewer :game="game"/>
+                    <code-viewer :game="game" />
                 </actionable-panel>
             </v-col>
         </v-layout>

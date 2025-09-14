@@ -6,18 +6,21 @@ import { createVuetify } from 'vuetify';
 import { Screen } from '@/Screen';
 import { nextTick } from 'vue';
 
-const createMockScreen = (music: string): Screen => ({
-    music,
-} as unknown as Screen);
 const mocks = vi.hoisted(() => {
     const mockCommit = vi.fn();
+    const createMockScreen = (music: string): Screen => ({
+        music,
+    } as unknown as Screen);
+
+    const mockState = {
+        state: {
+            currentScreen: createMockScreen('overworldMusic'),
+        },
+        commit: mockCommit,
+    };
     return {
-        useStore: () => ({
-            state: {
-                currentScreen: createMockScreen('overworldMusic'),
-            },
-            commit: mockCommit,
-        }),
+        createMockScreen,
+        useStore: () => mockState,
     };
 });
 
@@ -36,9 +39,6 @@ describe('ScreenMisc', () => {
 
     it('sets initial music value from screen', async() => {
         render(ScreenMisc, {
-            props: {
-                screen: createMockScreen('overworldMusic'),
-            },
             global: {
                 plugins: [ vuetify ],
             },
@@ -51,9 +51,6 @@ describe('ScreenMisc', () => {
 
     it('commits setCurrentScreenMusic when music changes', async() => {
         render(ScreenMisc, {
-            props: {
-                screen: createMockScreen('labyrinthMusic'),
-            },
             global: {
                 plugins: [ vuetify ],
             },
@@ -66,13 +63,10 @@ describe('ScreenMisc', () => {
         expect(mocks.useStore().commit).toHaveBeenCalledWith('setCurrentScreenMusic', 'labyrinthMusic');
     });
 
-    // TODO: Enable this when this component removes the computed/prop double-up of screen
+    // TODO: Figure out why this functionality works but this test fails
     /* eslint-disable  @typescript-eslint/unbound-method */
     it.skip('updates music when currentScreen changes', async() => {
         const { rerender } = render(ScreenMisc, {
-            props: {
-                screen: createMockScreen('overworldMusic'),
-            },
             global: {
                 plugins: [ vuetify ],
             },
@@ -80,11 +74,8 @@ describe('ScreenMisc', () => {
 
 
         // Simulate screen change
-        const newScreen: Screen = { music: 'labyrinthMusic' } as unknown as Screen;
-
-        await rerender({
-            screen: newScreen,
-        });
+        mocks.useStore().state.currentScreen = mocks.createMockScreen('labyrinthMusic');
+        await rerender({});
 
         await waitFor(() => {
             const select: HTMLSelectElement = screen.getByLabelText('Music');

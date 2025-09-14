@@ -3,14 +3,13 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
 import vueEslintParser from 'vue-eslint-parser';
+import pluginVue from 'eslint-plugin-vue';
 
 export default [
     js.configs.recommended,
     ...tseslint.configs.strictTypeChecked,
     ...tseslint.configs.stylisticTypeChecked,
-    // "plugin:vue/essential",
-    // "@vue/standard",
-    // "@vue/typescript/recommended"
+    ...pluginVue.configs["flat/recommended"],
 
     {
         languageOptions: {
@@ -91,6 +90,9 @@ export default [
             semi: "off",
             //"sort-imports": "error",
             "space-before-function-paren": ["error", "never"],
+            "vue/html-indent": ["error", 4],
+            // Needed for v-data-table "item.colName" renderer slots
+            "vue/valid-v-slot": [ "error", { allowModifiers: true } ]
         },
 
         // overrides: [

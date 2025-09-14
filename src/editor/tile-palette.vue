@@ -1,8 +1,12 @@
 <template>
     <div class="tile-palette">
-        <canvas :style="canvasStyle" :width="width" :height="height"
-                aria-label="Tile palette"
-                ref="canvas"/>
+        <canvas
+            ref="canvas"
+            :style="canvasStyle"
+            :width="width"
+            :height="height"
+            aria-label="Tile palette"
+        />
     </div>
 </template>
 

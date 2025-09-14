@@ -1,78 +1,117 @@
 <template>
     <div class="modifiable-table">
-
         <v-data-table
-                :dense="dense"
-                :headers="headers"
-                :items="allItems"
-                :item-key="itemKey"
-                :items-per-page="5"
-                :single-select="true"
-                show-select
-                v-model="selectedItems"
-                @input="onSelectedItemsChanged"
-                class="elevation-1"
+            v-model="selectedItems"
+            :dense="dense"
+            :headers="headers"
+            :items="allItems"
+            :item-key="itemKey"
+            :items-per-page="5"
+            :single-select="true"
+            show-select
+            class="elevation-1"
+            @input="onSelectedItemsChanged"
         >
+            <template #top>
+                <v-toolbar
+                    flat
+                    color="white"
+                >
+                    <span class="title">{{ title }}</span>
 
-            <template v-slot:top>
+                    <v-spacer v-if="title || rightAlignButtons" />
 
-                <v-toolbar flat color="white">
-
-                    <span class="title">{{title}}</span>
-
-                    <v-spacer v-if="title || rightAlignButtons"/>
-
-                    <v-btn color="primary" text icon @click="showAddOrEditModal(true)">
+                    <v-btn
+                        color="primary"
+                        text
+                        icon
+                        @click="showAddOrEditModal(true)"
+                    >
                         <v-icon>mdi-plus</v-icon>
                     </v-btn>
-                    <v-btn color="primary" text icon @click="showAddOrEditModal(false)" :disabled="selectedItems.length === 0">
+                    <v-btn
+                        color="primary"
+                        text
+                        icon
+                        :disabled="selectedItems.length === 0"
+                        @click="showAddOrEditModal(false)"
+                    >
                         <v-icon>mdi-pencil</v-icon>
                     </v-btn>
-                    <v-btn color="primary" text icon @click="deleteDialog = true" :disabled="selectedItems.length === 0">
+                    <v-btn
+                        color="primary"
+                        text
+                        icon
+                        :disabled="selectedItems.length === 0"
+                        @click="deleteDialog = true"
+                    >
                         <v-icon>mdi-trash-can</v-icon>
                     </v-btn>
                 </v-toolbar>
             </template>
-
         </v-data-table>
 
-        <v-dialog v-model="showModifyRowDialog" max-width="500px" @click:outside="onCancel"
-                  @keydown.esc="onCancel">
-
+        <v-dialog
+            v-model="showModifyRowDialog"
+            max-width="500px"
+            @click:outside="onCancel"
+            @keydown.esc="onCancel"
+        >
             <v-card>
                 <v-card-title>
-                    <span class="headline">{{dialogTitle}}</span>
+                    <span class="headline">{{ dialogTitle }}</span>
                 </v-card-title>
 
                 <v-card-text>
                     <v-container>
-                        <slot name="dialogContent" :selected-item="rowBeingModified">
-                            Selected item: {{rowBeingModified}}
+                        <slot
+                            name="dialogContent"
+                            :selected-item="rowBeingModified"
+                        >
+                            Selected item: {{ rowBeingModified }}
                         </slot>
                     </v-container>
                 </v-card-text>
 
                 <v-card-actions>
-                    <v-spacer/>
-                    <v-btn color="blue darken-1" text :disabled="saveDisabled" @click="onSave">Save</v-btn>
-                    <v-btn color="blue darken-1" text @click="onCancel">Cancel</v-btn>
+                    <v-spacer />
+                    <v-btn
+                        color="blue darken-1"
+                        text
+                        :disabled="saveDisabled"
+                        @click="onSave"
+                    >
+                        Save
+                    </v-btn>
+                    <v-btn
+                        color="blue darken-1"
+                        text
+                        @click="onCancel"
+                    >
+                        Cancel
+                    </v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
 
-        <v-dialog v-model="deleteDialog" max-width="500px">
-
+        <v-dialog
+            v-model="deleteDialog"
+            max-width="500px"
+        >
             <v-card>
                 <v-card-title>
-                    <span class="headline">{{deleteDialogTitle}}</span>
+                    <span class="headline">{{ deleteDialogTitle }}</span>
                 </v-card-title>
 
                 <v-card-text>
                     <v-container>
                         <v-row>
-                            <slot name="deleteDialogContent" :selected-item="rowBeingModified">
+                            <slot
+                                name="deleteDialogContent"
+                                :selected-item="rowBeingModified"
+                            >
                                 <div v-if="rowBeingModified != null">
-                                    Are you sure you want to delete the selected {{itemName}}?
+                                    Are you sure you want to delete the selected {{ itemName }}?
                                 </div>
                                 <div v-else>
                                     Nothing is selected to delete.
@@ -83,9 +122,21 @@
                 </v-card-text>
 
                 <v-card-actions>
-                    <v-spacer/>
-                    <v-btn color="blue darken-1" text @click="onDeleteItem">Yes</v-btn>
-                    <v-btn color="blue darken-1" text @click="onCancelDelete">No</v-btn>
+                    <v-spacer />
+                    <v-btn
+                        color="blue darken-1"
+                        text
+                        @click="onDeleteItem"
+                    >
+                        Yes
+                    </v-btn>
+                    <v-btn
+                        color="blue darken-1"
+                        text
+                        @click="onCancelDelete"
+                    >
+                        No
+                    </v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
