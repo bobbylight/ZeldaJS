@@ -37,6 +37,7 @@ npm run build          # Builds for production in dist/
 npm run serve          # Serves the production build locally
 npm run test           # Runs unit tests and generates coverage
 npm run lint           # Lints files
+npm run lint:fix       # Lints files and fixes errors
 npm run tsc            # Runs type check via tsc
 npm run doc            # Generates documentation
 ```
