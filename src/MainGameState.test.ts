@@ -6,7 +6,7 @@ import { Map } from './Map';
 import { Screen } from './Screen';
 import { ZeldaGame } from './ZeldaGame';
 import { Position } from '@/Position';
-import { Image, SpriteSheet } from 'gtp';
+import { Image, Keys, SpriteSheet } from 'gtp';
 
 const mockImage = {
     draw: vi.fn(),
@@ -256,6 +256,15 @@ describe('MainGameState', () => {
             const setStateSpy = vi.spyOn(game, 'setState');
             state.update(16);
             expect(setStateSpy).toHaveBeenCalledOnce();
+        });
+
+        it('warps the player to the starting screen if Shift+S is typed', () => {
+            vi.spyOn(game.inputManager, 'isKeyDown')
+                .mockImplementation((key: Keys) => key === Keys.KEY_SHIFT || key === Keys.KEY_S);
+            const setMapSpy = vi.spyOn(game, 'setMap').mockImplementation(() => {});
+            state.enter(game);
+            state.update(16);
+            expect(setMapSpy).toHaveBeenCalledOnce();
         });
 
         it('calls link.update if not transitioning to the Inventory screen', () => {

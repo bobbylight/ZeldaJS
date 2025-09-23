@@ -9,6 +9,8 @@ import { ChangeScreenWarpEvent } from './event/ChangeScreenWarpEvent';
 import { Event, EventData } from './event/Event';
 import { InventoryState } from '@/InventoryState';
 import { InventorySlideState } from '@/InventorySlideState';
+import { Keys } from 'gtp';
+import { Position } from '@/Position';
 
 const SCREEN_SLIDING_INC = 4;
 
@@ -63,6 +65,15 @@ export class MainGameState extends BaseState {
             this.game.audio.playMusic(music, true);
         }
         this.screenSlidingAmount = 0;
+    }
+
+    private handleCheatKeys() {
+        const im = this.game.inputManager;
+
+        // Warp to the "real" game start screen
+        if (im.isKeyDown(Keys.KEY_S, true)) {
+            this.game.setMap('overworld', new Position(7, 6), new Position(4, 4));
+        }
     }
 
     override render(ctx: CanvasRenderingContext2D) {
@@ -174,6 +185,9 @@ export class MainGameState extends BaseState {
 
         if (this.game.inputManager.enter(true)) {
             game.setState(new InventorySlideState(this.game, new InventoryState(this.game), this));
+        }
+        else if (this.game.inputManager.isKeyDown(Keys.KEY_SHIFT)) {
+            this.handleCheatKeys();
         }
         else {
             game.link.update();

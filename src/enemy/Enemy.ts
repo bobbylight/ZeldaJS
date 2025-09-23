@@ -81,6 +81,8 @@ export abstract class Enemy extends Character {
             col += ordinal(this.dir);
         }
 
+        // This doesn't match the actual game. This cycles through all 5 "colors" of the
+        // enemy, in order of the sprite sheet. e.g. red => blue => damage1 => damage2 => damage3.
         if (this.slideTick > 0) {
             switch (this.slideTick % 5) {
                 case 0:
