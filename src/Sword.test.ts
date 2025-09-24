@@ -50,7 +50,7 @@ describe('Sword', () => {
         game.link.x = 10;
         game.link.y = 15;
         const sword = new Sword(game);
-        expect(sword.x).toBe(game.link.x - 10);
+        expect(sword.x).toBe(game.link.x - 12);
         expect(sword.y).toBe(game.link.y);
     });
 
@@ -68,7 +68,7 @@ describe('Sword', () => {
         game.link.x = 20;
         game.link.y = 30;
         const sword = new Sword(game);
-        expect(sword.x).toBe(game.link.x + 10);
+        expect(sword.x).toBe(game.link.x + 12);
         expect(sword.y).toBe(game.link.y);
     });
 
@@ -89,7 +89,7 @@ describe('Sword', () => {
                 game.link.dir = 'DOWN';
             });
 
-            it('is only rendered for the last 14 frames', () => {
+            it('is only rendered for 11 frames', () => {
                 const sword = new Sword(game);
 
                 for (let i = 0; i < 16; i++) {
@@ -97,7 +97,7 @@ describe('Sword', () => {
                     sword.paint(ctx);
                 }
 
-                expect(mockDrawByIndex).toHaveBeenCalledTimes(14);
+                expect(mockDrawByIndex).toHaveBeenCalledTimes(11);
             });
         });
 
@@ -106,7 +106,7 @@ describe('Sword', () => {
                 game.link.dir = 'RIGHT';
             });
 
-            it('is only rendered for the last 14 frames', () => {
+            it('is only rendered for the 11 frames', () => {
                 const sword = new Sword(game);
 
                 for (let i = 0; i < 16; i++) {
@@ -114,7 +114,41 @@ describe('Sword', () => {
                     sword.paint(ctx);
                 }
 
-                expect(mockDrawByIndex).toHaveBeenCalledTimes(14);
+                expect(mockDrawByIndex).toHaveBeenCalledTimes(11);
+            });
+        });
+
+        describe('when Link is facing LEFT', () => {
+            beforeEach(() => {
+                game.link.dir = 'LEFT';
+            });
+
+            it('is only rendered for the 11 frames', () => {
+                const sword = new Sword(game);
+
+                for (let i = 0; i < 16; i++) {
+                    sword.update();
+                    sword.paint(ctx);
+                }
+
+                expect(mockDrawByIndex).toHaveBeenCalledTimes(11);
+            });
+        });
+
+        describe('when Link is facing UP', () => {
+            beforeEach(() => {
+                game.link.dir = 'UP';
+            });
+
+            it('is only rendered for the 11 frames', () => {
+                const sword = new Sword(game);
+
+                for (let i = 0; i < 16; i++) {
+                    sword.update();
+                    sword.paint(ctx);
+                }
+
+                expect(mockDrawByIndex).toHaveBeenCalledTimes(11);
             });
         });
     });
