@@ -61,7 +61,7 @@ export class MainGameState extends BaseState {
         // this.game.inputManager.setResetKeyStateOnPoll(false);
 
         const music: string | null | undefined = this.game.map.currentScreenMusic;
-        if (music && music !== 'none') {
+        if (music && music !== 'none' && music !== this.game.audio.getCurrentMusic()) {
             this.game.audio.playMusic(music, true);
         }
         this.screenSlidingAmount = 0;
@@ -72,7 +72,11 @@ export class MainGameState extends BaseState {
 
         // Warp to the "real" game start screen
         if (im.isKeyDown(Keys.KEY_S, true)) {
-            this.game.setMap('overworld', new Position(7, 6), new Position(4, 4));
+            this.game.setMap('overworld', new Position(7, 6), new Position(4, 4), false);
+        }
+        // Warp to Level 1 entrance
+        else if (im.isKeyDown(Keys.KEY_1, true)) {
+            this.game.setMap('overworld', new Position(3, 6), new Position(5, 7), false);
         }
     }
 

@@ -267,6 +267,15 @@ describe('MainGameState', () => {
             expect(setMapSpy).toHaveBeenCalledOnce();
         });
 
+        it('warps the player to the Level 1 entrance if Shift+1 is typed', () => {
+            vi.spyOn(game.inputManager, 'isKeyDown')
+                .mockImplementation((key: Keys) => key === Keys.KEY_SHIFT || key === Keys.KEY_1);
+            const setMapSpy = vi.spyOn(game, 'setMap').mockImplementation(() => {});
+            state.enter(game);
+            state.update(16);
+            expect(setMapSpy).toHaveBeenCalledOnce();
+        });
+
         it('calls link.update if not transitioning to the Inventory screen', () => {
             game.inputManager.enter = vi.fn(() => false);
             const linkUpdateSpy = vi.spyOn(game.link, 'update');

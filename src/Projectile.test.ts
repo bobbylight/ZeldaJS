@@ -56,7 +56,7 @@ describe('Projectile', () => {
             const p = new Projectile(game, 1, 2, 5, 6, 'LEFT');
             const ctx = game.getRenderingContext();
             p.paint(ctx);
-            expect(mockDrawByIndex).toHaveBeenCalledWith(ctx, 5, 6, 17);
+            expect(mockDrawByIndex).toHaveBeenCalledWith(ctx, 5, 6, 32);
         });
     });
 

@@ -13,7 +13,7 @@ export class Lynel extends AbstractWalkingEnemy {
     private static readonly PROJECTILE_THROWING_ODDS: number[] = [ 240, 120 ];
 
     constructor(game: ZeldaGame, strength: EnemyStrength = 'red') {
-        super(game, 10, strength, strength === 'blue' ? 4 : 3);
+        super(game, 12, strength, strength === 'blue' ? 4 : 3);
         this.damage = strength === 'blue' ? 4 : 2;
     }
 
