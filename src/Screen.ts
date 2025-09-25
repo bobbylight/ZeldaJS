@@ -20,6 +20,7 @@ export class Screen {
     enemyGroup: EnemyGroup | undefined | null;
     private flattenedEnemyGroup: EnemyGroup; // TODO: Can we flatten iff we know we're in the game, not the editor?
     private firstTimeThrough: boolean;
+    private thrownSwordActorActive: boolean;
     events: Event<EventData>[];
     music?: string | null | undefined;
 
@@ -32,6 +33,7 @@ export class Screen {
         this.actors = [];
         this.setEnemyGroup(enemyGroup);
         this.firstTimeThrough = true;
+        this.thrownSwordActorActive = false;
         this.events = [];
     }
 
@@ -78,7 +80,7 @@ export class Screen {
                 // https://www.gamefaqs.com/boards/563433-the-legend-of-zelda/73732540?jumpto=9
 
                 const count: number = this.actors.length; // Assuming here that "actors" is remaining enemies
-                this.actors = [];
+                this.actors.length = 0;
                 for (let i = 0; i < count; i++) {
                     const enemyInfo: EnemyInfo = this.flattenedEnemyGroup.enemies[i];
                     const enemy: Enemy = InstanceLoader.create(enemyInfo.type, game, enemyInfo.strength);
@@ -94,15 +96,11 @@ export class Screen {
         this.actors = this.actors.filter((actor: Actor): boolean => {
             return !(actor instanceof Projectile);
         });
-        // this._actors = [];
     }
 
     fromJson(json: ScreenData): this {
         this.tiles = json.tiles;
         this.actors.length = 0;
-        // json.actors.forEach((actorData: ActorData) => {
-        //    this._actors.push(new Actor().fromJson(actorData));
-        // });
         this.setEnemyGroup(new EnemyGroup().fromJson(json.enemyGroup));
 
         if (json.events) {
@@ -122,6 +120,10 @@ export class Screen {
     private static isOffScreen(row: number, col: number): boolean {
         return row < 0 || row >= SCREEN_ROW_COUNT ||
             col < 0 || col >= SCREEN_COL_COUNT;
+    }
+
+    isThrownSwordActorActive(): boolean {
+        return this.thrownSwordActorActive;
     }
 
     private isUnpopulated(): boolean {
@@ -310,6 +312,10 @@ export class Screen {
         this.flattenedEnemyGroup = this.enemyGroup.clone(true);
     }
 
+    setThrownSwordActorActive(active: boolean) {
+        this.thrownSwordActorActive = active;
+    }
+
     setTile(row: number, col: number, tile: number) {
         this.tiles[row][col] = tile;
     }
@@ -389,6 +395,7 @@ export class Screen {
             actor.update();
             if (actor.done) {
                 this.actors.splice(i, 1);
+                actor.removedFromScreen(this);
                 i--;
             }
         }

@@ -81,6 +81,7 @@ describe('LoadingState', () => {
                 expect(addJsonSpy).toHaveBeenCalledWith('overworldData', 'res/data/overworld.json');
                 expect(addJsonSpy).toHaveBeenCalledWith('level1Data', 'res/data/level1.json');
                 expect(addSoundSpy).toHaveBeenCalledWith('sword', 'res/sounds/sword.wav');
+                expect(addSoundSpy).toHaveBeenCalledWith('swordShoot', 'res/sounds/LOZ_Sword_Shoot.wav');
                 expect(addSoundSpy).toHaveBeenCalledWith('enemyDie', 'res/sounds/kill.wav');
                 expect(addSoundSpy).toHaveBeenCalledWith('enemyHit', 'res/sounds/LOZ_Hit.wav');
                 expect(addSoundSpy).toHaveBeenCalledWith('stairs', 'res/sounds/LOZ_Stairs.wav');

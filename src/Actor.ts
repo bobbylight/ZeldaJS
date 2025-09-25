@@ -3,8 +3,11 @@ import { TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { ZeldaGame } from './ZeldaGame';
 import { Position } from './Position';
 import { Rectangle } from 'gtp';
+import { Screen } from '@/Screen';
 
 export const MOVE_AMT = 1;
+
+export type ActorRemoveCallback = (screen: Screen) => void;
 
 /**
  * A base class for entities with state - Link, enemies, etc.
@@ -19,6 +22,7 @@ export abstract class Actor {
     frozen: boolean;
     takingDamage: boolean; // Not used by all actors
     done: boolean;
+    private onRemove?: ActorRemoveCallback | null;
 
     constructor(readonly game: ZeldaGame) {
         this.dir = 'DOWN';
@@ -161,6 +165,16 @@ export abstract class Actor {
     }
 
     /**
+     * Called when the actor is removed from the screen. This allows the actor
+     * to do any cleanup, replace itself, etc.
+     *
+     * @param screen The screen.
+     */
+    removedFromScreen(screen: Screen) {
+        this.onRemove?.(screen);
+    }
+
+    /**
      * Sets the location of this actor.
      * @param x The x-offset.
      * @param y The y-offset.
@@ -168,6 +182,10 @@ export abstract class Actor {
     setLocation(x: number, y: number) {
         this.x = x;
         this.y = y;
+    }
+
+    setOnRemove(onRemove: ActorRemoveCallback | null | undefined) {
+        this.onRemove = onRemove;
     }
 
     /**

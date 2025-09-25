@@ -49,6 +49,7 @@ describe('Link', () => {
         game.map = mockMap as unknown as Map;
         game.audio = mockAudio as unknown as AudioSystem;
         game.assets.set('enemyDies', mockSpriteSheet);
+        game.assets.set('enemies', mockSpriteSheet);
         game.assets.set('link', mockSpriteSheet);
         game.state = mockMainGameState as unknown as MainGameState;
         link = new Link(game);
@@ -149,7 +150,7 @@ describe('Link', () => {
             let projectile: Projectile;
 
             beforeEach(() => {
-                projectile = new Projectile(game, 0, 0, 0, 0, 'DOWN');
+                projectile = Projectile.create(game, null, 'enemies', 0, 0, 0, 0, 'DOWN');
             });
 
             it('returns false and does nothing if Link is taking damage', () => {
@@ -279,6 +280,22 @@ describe('Link', () => {
             expect(link.anim).toBeFalsy();
             link.exitCave(listener);
             expect(link.anim).toBeDefined();
+        });
+    });
+
+    describe('sword throwing decisioning', () => {
+        it('works for "maxHearts', () => {
+            link.setSwordThrowingStrategy('maxHearts');
+            expect(link.getShouldThrowSword()).toEqual(true);
+            link.incHealth(-1);
+            expect(link.getShouldThrowSword()).toEqual(false);
+        });
+
+        it('works for "always"', () => {
+            link.setSwordThrowingStrategy('always');
+            expect(link.getShouldThrowSword()).toEqual(true);
+            link.incHealth(-1);
+            expect(link.getShouldThrowSword()).toEqual(true);
         });
     });
 
@@ -800,6 +817,14 @@ describe('Link', () => {
             vi.spyOn(game, 'playTime', 'get').mockReturnValue(1020);
             anim.update();
             expect(link.frozen).toEqual(false);
+        });
+    });
+
+    describe('toggleSwordThrowingStrategy()', () => {
+        it('works', () => {
+            expect(link.toggleSwordThrowingStrategy()).toEqual('always');
+            expect(link.toggleSwordThrowingStrategy()).toEqual('maxHearts');
+            expect(link.toggleSwordThrowingStrategy()).toEqual('always');
         });
     });
 

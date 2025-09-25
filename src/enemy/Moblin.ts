@@ -22,7 +22,7 @@ export class Moblin extends AbstractWalkingEnemy {
     protected override createProjectile(): Projectile {
         const row: number = isVertical(this.dir) ? 5 : 4;
         const col: number = this.dir === 'LEFT' || this.dir === 'UP' ? 12 : 13;
-        return new Projectile(this.game, row, col, this.x, this.y, this.dir);
+        return Projectile.create(this.game, this, 'enemies', row, col, this.x, this.y, this.dir);
     }
 
     protected getChangeDirTimerMax(): number {

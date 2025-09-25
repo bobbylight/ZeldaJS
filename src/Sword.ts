@@ -3,6 +3,8 @@ import { ordinal } from './Direction';
 import { Actor } from './Actor';
 import { ZeldaGame } from './ZeldaGame';
 import { Rectangle, SpriteSheet } from 'gtp';
+import { AnimationProjectileRenderInfo, Projectile } from '@/Projectile';
+import { Animation } from '@/Animation';
 
 /**
  * Initial frames, the sword isn't rendered as swinging.
@@ -64,6 +66,109 @@ export class Sword extends Actor {
         return false;
     }
 
+    private addSwordBeamEndAnimations(source: Actor) {
+        const linkSheet: SpriteSheet = this.game.assets.get('link');
+        const frameTime = 16;
+        const step = 1.5;
+
+        const topLeftAnim = new Animation(this.game, source.x - step, source.y - step);
+        for (let i = 0; i < 4; i++) {
+            topLeftAnim.addFrame({ sheet: linkSheet, index: 45 + 4 }, frameTime);
+            topLeftAnim.addFrame({ sheet: linkSheet, index: 60 + 4 }, frameTime);
+            topLeftAnim.addFrame({ sheet: linkSheet, index: 75 + 4 }, frameTime);
+            topLeftAnim.addFrame({ sheet: linkSheet, index: 90 + 4 }, frameTime);
+        }
+        topLeftAnim.addListener({
+            animationFrameUpdate: () => {
+                topLeftAnim.setX(topLeftAnim.getX() - step);
+                topLeftAnim.setY(topLeftAnim.getY() - step);
+            },
+            animationCompleted(anim: Animation) {
+                // Do nothing
+            },
+        });
+        this.game.addAnimation(topLeftAnim);
+
+        const topRightAnim = new Animation(this.game, source.x + step, source.y - step);
+        for (let i = 0; i < 4; i++) {
+            topRightAnim.addFrame({ sheet: linkSheet, index: 45 + 5 }, frameTime);
+            topRightAnim.addFrame({ sheet: linkSheet, index: 60 + 5 }, frameTime);
+            topRightAnim.addFrame({ sheet: linkSheet, index: 75 + 5 }, frameTime);
+            topRightAnim.addFrame({ sheet: linkSheet, index: 90 + 5 }, frameTime);
+        }
+        topLeftAnim.addListener({
+            animationFrameUpdate: () => {
+                topRightAnim.setX(topRightAnim.getX() + step);
+                topRightAnim.setY(topRightAnim.getY() - step);
+            },
+            animationCompleted(anim: Animation) {
+                // Do nothing
+            },
+        });
+        this.game.addAnimation(topRightAnim);
+
+        const bottomRightAnimation = new Animation(this.game, source.x + step, source.y + step);
+        for (let i = 0; i < 4; i++) {
+            bottomRightAnimation.addFrame({ sheet: linkSheet, index: 45 + 7 }, frameTime);
+            bottomRightAnimation.addFrame({ sheet: linkSheet, index: 60 + 7 }, frameTime);
+            bottomRightAnimation.addFrame({ sheet: linkSheet, index: 75 + 7 }, frameTime);
+            bottomRightAnimation.addFrame({ sheet: linkSheet, index: 90 + 7 }, frameTime);
+        }
+        topLeftAnim.addListener({
+            animationFrameUpdate: () => {
+                bottomRightAnimation.setX(bottomRightAnimation.getX() + step);
+                bottomRightAnimation.setY(bottomRightAnimation.getY() + step);
+            },
+            animationCompleted(anim: Animation) {
+                // Do nothing
+            },
+        });
+        this.game.addAnimation(bottomRightAnimation);
+
+        const bottomLeftAnimation = new Animation(this.game, source.x - step, source.y + step);
+        for (let i = 0; i < 4; i++) {
+            bottomLeftAnimation.addFrame({ sheet: linkSheet, index: 45 + 6 }, frameTime);
+            bottomLeftAnimation.addFrame({ sheet: linkSheet, index: 60 + 6 }, frameTime);
+            bottomLeftAnimation.addFrame({ sheet: linkSheet, index: 75 + 6 }, frameTime);
+            bottomLeftAnimation.addFrame({ sheet: linkSheet, index: 90 + 6 }, frameTime);
+        }
+        topLeftAnim.addListener({
+            animationFrameUpdate: () => {
+                bottomLeftAnimation.setX(bottomLeftAnimation.getX() - step);
+                bottomLeftAnimation.setY(bottomLeftAnimation.getY() + step);
+            },
+            animationCompleted(anim: Animation) {
+                // Do nothing
+            },
+        });
+        this.game.addAnimation(bottomLeftAnimation);
+    }
+
+    private createSwordProjectile(): Projectile {
+        const col = ordinal(this.dir);
+        const linkSheet: SpriteSheet = this.game.assets.get('link');
+        const animation = new Animation(this.game, this.x, this.y);
+        animation.looping = true;
+        const frameMillis = 30;
+        animation.addFrame({ sheet: linkSheet, index: 45 + col }, frameMillis);
+        animation.addFrame({ sheet: linkSheet, index: 60 + col }, frameMillis);
+        animation.addFrame({ sheet: linkSheet, index: 75 + col }, frameMillis);
+        animation.addFrame({ sheet: linkSheet, index: 90 + col }, frameMillis);
+
+        const animInfo: AnimationProjectileRenderInfo = {
+            type: 'animation',
+            animation,
+        };
+        const projectile = new Projectile(this.game, animInfo, this.x, this.y, this.dir);
+        projectile.setTarget('enemy');
+        projectile.setGoingOffScreenBehavior('onEdgeTile');
+        projectile.setOnRemove((screen) => {
+            this.addSwordBeamEndAnimations(projectile);
+            screen.setThrownSwordActorActive(false);
+        })
+        return projectile;
+    }
+
     override getHitBoxStyle(): string {
         return 'blue';
     }
@@ -78,6 +183,17 @@ export class Sword extends Actor {
             const col: number = ordinal(this.dir);
             const index: number = row * 15 + col;
             ss.drawByIndex(ctx, this.x, this.y, index);
+        }
+    }
+
+    private possiblyThrowSword() {
+        if (this.game.link.getShouldThrowSword()) {
+            const screen = this.game.map.currentScreen;
+            if (!screen.isThrownSwordActorActive()) {
+                screen.addActor(this.createSwordProjectile());
+                screen.setThrownSwordActorActive(true);
+                this.game.audio.playSound('swordShoot');
+            }
         }
     }
 
@@ -116,6 +232,10 @@ export class Sword extends Actor {
                     break;
             }
             this.hitBox.set(hx, hy, hw, hh);
+
+            if (this.frame === 12 * slowdownFactor - 1) {
+                this.possiblyThrowSword();
+            }
         }
 
         // The next frame, the sword is slightly retracted

@@ -1,8 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Actor, ActorData } from './Actor';
 import { ZeldaGame } from './ZeldaGame';
-import { Rectangle } from 'gtp';
+import { Rectangle, SpriteSheet } from 'gtp';
 import { Position } from './Position';
+import { Map } from '@/Map';
 
 class TestActor extends Actor {
     override collidedWith(other: Actor): boolean {
@@ -12,12 +13,21 @@ class TestActor extends Actor {
     override update(): void {}
 }
 
+const mockSpriteSheet = {
+    colCount: 8,
+    rowCount: 4,
+    size: 32,
+    drawByIndex: vi.fn(),
+} as unknown as SpriteSheet;
+
+
 describe('Actor', () => {
     let game: ZeldaGame;
     let actor: TestActor;
 
     beforeEach(() => {
         game = new ZeldaGame();
+        game.assets.set('overworld', mockSpriteSheet);
         actor = new TestActor(game);
         actor.hitBox = new Rectangle(0, 0, 16, 16);
         actor.frozen = false;
@@ -138,6 +148,25 @@ describe('Actor', () => {
             const fillRectSpy = vi.spyOn(ctx, 'fillRect');
             actor.possiblyPaintHitBox(ctx);
             expect(fillRectSpy).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('removedFromScreen()', () => {
+        it('does not throw an error if there is no removal callback', () => {
+            game.map = new Map(game, 'overworld', 2, 2);
+            const screen = game.map.currentScreen;
+            expect(() => {
+                actor.removedFromScreen(screen);
+            }).not.toThrowError();
+        });
+
+        it('calls the removal callback if specified', () => {
+            const onRemove = vi.fn();
+            actor.setOnRemove(onRemove);
+            game.map = new Map(game, 'overworld', 2, 2);
+            const screen = game.map.currentScreen;
+            actor.removedFromScreen(screen);
+            expect(onRemove).toHaveBeenCalledExactlyOnceWith(screen);
         });
     });
 

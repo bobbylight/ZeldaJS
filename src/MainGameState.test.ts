@@ -183,6 +183,12 @@ describe('MainGameState', () => {
     });
 
     describe('update()', () => {
+        let setStatusMessageSpy: MockInstance<ZeldaGame['setStatusMessage']>;
+
+        beforeEach(() => {
+            setStatusMessageSpy = vi.spyOn(game, 'setStatusMessage');
+        });
+
         it('updates only Link if link.done', () => {
             game.link.done = true;
             const linkUpdateSpy = vi.spyOn(game.link, 'update');
@@ -265,6 +271,7 @@ describe('MainGameState', () => {
             state.enter(game);
             state.update(16);
             expect(setMapSpy).toHaveBeenCalledOnce();
+            expect(setStatusMessageSpy).toHaveBeenCalledExactlyOnceWith('Warped to: start screen');
         });
 
         it('warps the player to the Level 1 entrance if Shift+1 is typed', () => {
@@ -274,6 +281,17 @@ describe('MainGameState', () => {
             state.enter(game);
             state.update(16);
             expect(setMapSpy).toHaveBeenCalledOnce();
+            expect(setStatusMessageSpy).toHaveBeenCalledExactlyOnceWith('Warped to: Level 1');
+        });
+
+        it('toggles sword shooting strategy if Shift+W is typed', () => {
+            vi.spyOn(game.inputManager, 'isKeyDown')
+                .mockImplementation((key: Keys) => key === Keys.KEY_SHIFT || key === Keys.KEY_W);
+            const spy = vi.spyOn(game.link, 'toggleSwordThrowingStrategy');
+            state.enter(game);
+            state.update(16);
+            expect(spy).toHaveBeenCalledOnce();
+            expect(setStatusMessageSpy).toHaveBeenCalledExactlyOnceWith('Set sword throwing strategy to always');
         });
 
         it('calls link.update if not transitioning to the Inventory screen', () => {

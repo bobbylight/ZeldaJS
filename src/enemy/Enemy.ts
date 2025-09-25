@@ -7,6 +7,7 @@ import { Screen } from '@/Screen';
 import { ZeldaGame } from '@/ZeldaGame';
 import { SpriteSheet } from 'gtp';
 import { AbstractItem } from '@/item/AbstractItem';
+import { Projectile } from '@/Projectile';
 
 const STEP_TIMER_MAX = 10;
 
@@ -39,7 +40,7 @@ export abstract class Enemy extends Character {
             return false;
         }
 
-        if (other instanceof Sword) {
+        if (this.takesDamageFrom(other)) {
             const game = this.game;
 
             if (--this.health === 0) {
@@ -124,6 +125,11 @@ export abstract class Enemy extends Character {
                 return;
             }
         }
+    }
+
+    private takesDamageFrom(other: Actor): boolean {
+        return other instanceof Sword ||
+            other instanceof Projectile && other.getSource() !== this && other.targets('enemy');
     }
 
     protected touchStepTimer() {
