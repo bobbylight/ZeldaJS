@@ -13,6 +13,13 @@ import FadeOutInState from 'gtp/lib/gtp/FadeOutInState';
 import { TitleState } from './TitleState';
 import { Projectile } from './Projectile';
 import { Bomb } from './Bomb';
+import {
+    alwaysSwordThrowingStrategy,
+    LinkSwordThrowingStrategy,
+    maxHeartsSwordThrowingStrategy,
+    swordThrowingStrategyForName,
+    SwordThrowingStrategyName,
+} from '@/LinkSwordThrowingStrategy';
 
 const STEP_TIMER_MAX = 8;
 
@@ -33,6 +40,7 @@ export class Link extends Character {
     step: number;
     stepTimer: number;
     adjustToGridCounter: number;
+    private swordThrowingStrategy: LinkSwordThrowingStrategy;
 
     static readonly FRAME_STILL: number = 0;
     static readonly FRAME_STEP: number = 1;
@@ -51,6 +59,7 @@ export class Link extends Character {
         this.adjustToGridCounter = 0;
         this.maxHealth = 6;
         this.health = 6;
+        this.swordThrowingStrategy = maxHeartsSwordThrowingStrategy;
     }
 
     collidedWith(other: Actor): boolean {
@@ -213,6 +222,10 @@ export class Link extends Character {
 
     getMaxHealth(): number {
         return this.maxHealth;
+    }
+
+    getShouldThrowSword(): boolean {
+        return this.swordThrowingStrategy(this);
     }
 
     handleInput(input: InputManager): boolean {
@@ -440,6 +453,10 @@ export class Link extends Character {
         this.bombCount = this.maxBombCount = count;
     }
 
+    setSwordThrowingStrategy(strategyName: SwordThrowingStrategyName) {
+        this.swordThrowingStrategy = swordThrowingStrategyForName(strategyName);
+    }
+
     private swingSword() {
         this.game.audio.playSound('sword');
 
@@ -447,6 +464,15 @@ export class Link extends Character {
         this.game.map.currentScreen.addActor(sword);
         this.frozen = true;
         this.step = Link.FRAME_ACTION;
+    }
+
+    toggleSwordThrowingStrategy(): SwordThrowingStrategyName {
+        if (this.swordThrowingStrategy === alwaysSwordThrowingStrategy) {
+            this.swordThrowingStrategy = maxHeartsSwordThrowingStrategy;
+            return 'maxHearts';
+        }
+        this.swordThrowingStrategy = alwaysSwordThrowingStrategy;
+        return 'always';
     }
 
     private touchStepTimer() {

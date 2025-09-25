@@ -13,7 +13,7 @@ export const TILE_WIDTH = 16;
 
 export const HUD_HEIGHT = 64;
 
-export const SCREEN_HEIGHT: number = SCREEN_ROW_COUNT * TILE_WIDTH;
+export const SCREEN_HEIGHT: number = SCREEN_ROW_COUNT * TILE_HEIGHT;
 
 export const SCREEN_HEIGHT_WITH_HUD: number = SCREEN_HEIGHT + HUD_HEIGHT;
 

@@ -50,6 +50,7 @@ export class LoadingState extends BaseState {
                 game.assets.addJson('overworldData', 'res/data/overworld.json');
                 game.assets.addJson('level1Data', 'res/data/level1.json');
                 game.assets.addSound('sword', 'res/sounds/sword.wav');
+                game.assets.addSound('swordShoot', 'res/sounds/LOZ_Sword_Shoot.wav');
                 game.assets.addSound('enemyDie', 'res/sounds/kill.wav');
                 game.assets.addSound('enemyHit', 'res/sounds/LOZ_Hit.wav');
                 game.assets.addSound('stairs', 'res/sounds/LOZ_Stairs.wav');

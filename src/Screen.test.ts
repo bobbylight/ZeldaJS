@@ -67,6 +67,14 @@ describe('Screen', () => {
         });
     });
 
+    describe('isThrownSwordActorActive()/setThrownSwordActorActive()', () => {
+        it('works', () => {
+            expect(screen.isThrownSwordActorActive()).toEqual(false);
+            screen.setThrownSwordActorActive(true);
+            expect(screen.isThrownSwordActorActive()).toEqual(true);
+        });
+    });
+
     describe('isWalkable()', () => {
         it('returns false if off screen', () => {
             expect(screen.isWalkable(new Octorok(game), -1, -1)).toEqual(false);

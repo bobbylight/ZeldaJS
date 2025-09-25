@@ -1,23 +1,53 @@
-import { SCREEN_HEIGHT_WITH_HUD, SCREEN_WIDTH } from './Constants';
+import { SCREEN_HEIGHT, SCREEN_WIDTH, TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { Direction } from './Direction';
 import { Actor } from './Actor';
 import { ZeldaGame } from './ZeldaGame';
-import { Rectangle, SpriteSheet } from 'gtp';
+import { Rectangle } from 'gtp';
 import { Link } from './Link';
+import { SpriteSheetSpriteLocation } from '@/SpriteSheetSpriteLocation';
+import { Animation } from '@/Animation';
+import { Enemy } from '@/enemy/Enemy';
+
+export interface SpriteSheetProjectileRenderInfo {
+    type: 'spriteSheet',
+    sheetLocation: SpriteSheetSpriteLocation,
+}
+export interface AnimationProjectileRenderInfo {
+    type: 'animation',
+    animation: Animation,
+}
 
 /**
- * A projectile thrown by an enemy, such as a rock or arrow.
+ * How the projectile should render itself each frame. If this is an animation,
+ * the animation should loop to ensure it renders until it hits the edge of the
+ * screen.
+ */
+export type ProjectileRenderInfo = SpriteSheetProjectileRenderInfo | AnimationProjectileRenderInfo;
+
+/**
+ * What the projectile should be able to hit. The default is 'link'. Note even if 'any'
+ * is selected, a projectile can never hit its source actor.
+ */
+export type ProjectileTarget = 'link' | 'enemy' | 'any';
+
+export type GoingOffScreenBehavior = 'completelyOffScreen' | 'onEdgeTile';
+
+/**
+ * A projectile thrown by an enemy or Link, such as a sword, rock or arrow.
  */
 export class Projectile extends Actor {
-    private readonly ssRow: number;
-    private readonly ssCol: number;
+    private readonly renderInfo: ProjectileRenderInfo;
+    private source: Actor | null;
     private damage: number;
+    private target: ProjectileTarget;
+    private goingOffScreenBehavior: GoingOffScreenBehavior;
 
-    constructor(game: ZeldaGame, ssRow: number, ssCol: number, x: number, y: number, dir: Direction) {
+    constructor(game: ZeldaGame, renderInfo: ProjectileRenderInfo, x: number, y: number, dir: Direction) {
         super(game);
-        this.ssRow = ssRow;
-        this.ssCol = ssCol;
+        this.renderInfo = renderInfo;
         this.damage = 1;
+        this.target = 'link';
+        this.goingOffScreenBehavior = 'completelyOffScreen';
 
         // In the actual game, rocks start by completely overlapping the enemy who shoots them.  Honest!
         this.x = x;
@@ -28,7 +58,11 @@ export class Projectile extends Actor {
     }
 
     collidedWith(other: Actor): boolean {
-        if (other instanceof Link) {
+        if (this.target !== 'enemy' && other instanceof Link) {
+            this.done = true;
+            return true;
+        }
+        else if (this.target !== 'link' && other instanceof Enemy) {
             this.done = true;
             return true;
         }
@@ -36,49 +70,121 @@ export class Projectile extends Actor {
         return false;
     }
 
+    static create(game: ZeldaGame, source: Actor | null, sheetName: string, row: number, col: number, x: number,
+        y: number, dir: Direction): Projectile {
+        const sheetInfo: SpriteSheetProjectileRenderInfo = {
+            type: 'spriteSheet',
+            sheetLocation: {
+                sheet: game.assets.get(sheetName),
+                row,
+                col,
+            },
+        };
+        const projectile = new Projectile(game, sheetInfo, x, y, dir);
+        projectile.setSource(source);
+        return projectile;
+    }
+
     getDamage(): number {
         return this.damage;
+    }
+
+    getSource(): Actor | null {
+        return this.source;
     }
 
     paint(ctx: CanvasRenderingContext2D) {
         this.possiblyPaintHitBox(ctx);
 
-        const ss: SpriteSheet = this.game.assets.get('enemies');
-        const index: number = this.ssRow * 30 + this.ssCol;
-        ss.drawByIndex(ctx, this.x, this.y, index);
+        if (this.renderInfo.type === 'animation') {
+            this.renderInfo.animation.setX(this.x);
+            this.renderInfo.animation.setY(this.y);
+            this.renderInfo.animation.paint(ctx);
+        }
+        else {
+            const ss = this.renderInfo.sheetLocation.sheet;
+            const row = this.renderInfo.sheetLocation.row;
+            const col = this.renderInfo.sheetLocation.col;
+            const index = row * 30 + col;
+            ss.drawByIndex(ctx, this.x, this.y, index);
+        }
     }
 
     setDamage(damage: number) {
         this.damage = damage;
     }
 
+    setSource(source: Actor | null) {
+        this.source = source;
+    }
+
+    setTarget(target: ProjectileTarget) {
+        this.target = target;
+    }
+
+    setGoingOffScreenBehavior(behavior: GoingOffScreenBehavior) {
+        this.goingOffScreenBehavior = behavior;
+    }
+
+    targets(type: ProjectileTarget): boolean {
+        return this.target === type || this.target === 'any';
+    }
+
+    private isOffScreenDown(): boolean {
+        let edge = SCREEN_HEIGHT;
+        if (this.goingOffScreenBehavior === 'onEdgeTile') {
+            edge -= TILE_HEIGHT;
+        }
+        return this.y > edge;
+    }
+
+    private isOffScreenLeft(): boolean {
+        let edge = -this.w;
+        if (this.goingOffScreenBehavior === 'onEdgeTile') {
+            edge += TILE_WIDTH;
+        }
+        return this.x < edge;
+    }
+
+    private isOffScreenRight(): boolean {
+        let edge = SCREEN_WIDTH;
+        if (this.goingOffScreenBehavior === 'onEdgeTile') {
+            edge -= TILE_WIDTH;
+        }
+        return this.x > edge;
+    }
+
+    private isOffScreenUp(): boolean {
+        let edge = -this.h;
+        if (this.goingOffScreenBehavior === 'onEdgeTile') {
+            edge += TILE_HEIGHT;
+        }
+        return this.y < edge;
+    }
+
     update() {
         const SPEED = 2.5;
+
+        if (this.renderInfo.type === 'animation') {
+            this.renderInfo.animation.update();
+        }
 
         switch (this.dir) {
             case 'DOWN':
                 this.y += SPEED;
-                if (this.y > SCREEN_HEIGHT_WITH_HUD + this.h) {
-                    this.done = true;
-                }
+                this.done ||= this.isOffScreenDown();
                 break;
             case 'LEFT':
                 this.x -= SPEED;
-                if (this.x < -this.w) {
-                    this.done = true;
-                }
+                this.done ||= this.isOffScreenLeft();
                 break;
             case 'UP':
                 this.y -= SPEED;
-                if (this.y < -this.h) {
-                    this.done = true;
-                }
+                this.done ||= this.isOffScreenUp();
                 break;
             case 'RIGHT':
                 this.x += SPEED;
-                if (this.x > SCREEN_WIDTH + this.w) {
-                    this.done = true;
-                }
+                this.done ||= this.isOffScreenRight();
                 break;
         }
 

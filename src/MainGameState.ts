@@ -1,5 +1,5 @@
 import { Direction, isHorizontal, isVertical } from './Direction';
-import { SCREEN_HEIGHT, SCREEN_WIDTH, TILE_HEIGHT, TILE_WIDTH } from './Constants';
+import { HUD_HEIGHT, SCREEN_HEIGHT, SCREEN_WIDTH, TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { BaseState } from './BaseState';
 import { Screen } from './Screen';
 import { Map } from './Map';
@@ -73,16 +73,23 @@ export class MainGameState extends BaseState {
         // Warp to the "real" game start screen
         if (im.isKeyDown(Keys.KEY_S, true)) {
             this.game.setMap('overworld', new Position(7, 6), new Position(4, 4), false);
+            this.game.setStatusMessage('Warped to: start screen');
         }
         // Warp to Level 1 entrance
         else if (im.isKeyDown(Keys.KEY_1, true)) {
             this.game.setMap('overworld', new Position(3, 6), new Position(5, 7), false);
+            this.game.setStatusMessage('Warped to: Level 1');
+        }
+        // Always shoot swords
+        else if (im.isKeyDown(Keys.KEY_W, true)) {
+            const newStrategy = this.game.link.toggleSwordThrowingStrategy();
+            this.game.setStatusMessage(`Set sword throwing strategy to ${newStrategy}`);
         }
     }
 
     override render(ctx: CanvasRenderingContext2D) {
         ctx.save();
-        ctx.translate(0, 64);
+        ctx.translate(0, HUD_HEIGHT);
 
         const currentScreen: Screen = this.game.map.currentScreen;
         const game = this.game;
