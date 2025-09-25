@@ -16,12 +16,14 @@ export class ZeldaGame extends Game {
     itemDropStrategy: ItemDropStrategy;
     private animations: Animation[];
     private readonly editMode: boolean;
+    private paintHitBoxes: boolean;
 
     constructor(args?: GameArgs & { editMode?: boolean }) {
         super(args);
         this.itemDropStrategy = new ItemDropStrategy();
         this.animations = [];
         this.editMode = args?.editMode ?? false;
+        this.paintHitBoxes = false;
     }
 
     addAnimation(animation: Animation) {
@@ -128,7 +130,7 @@ export class ZeldaGame extends Game {
     }
 
     getPaintHitBoxes(): boolean {
-        return false;
+        return this.paintHitBoxes;
     }
 
     getRenderingContext(): CanvasRenderingContext2D {
@@ -166,6 +168,10 @@ export class ZeldaGame extends Game {
             this.link = new Link(this);
             this.link.setLocation(100, 100);
         }
+    }
+
+    togglePaintHitBoxes(): boolean {
+        return this.paintHitBoxes = !this.paintHitBoxes;
     }
 
     updateAnimations() {

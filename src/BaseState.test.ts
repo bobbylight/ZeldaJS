@@ -96,6 +96,16 @@ describe('BaseState', () => {
                     expect(game.canvas.style.width).toEqual(`${origWidth + 1}px`);
                     expect(game.canvas.style.height).toEqual(`${origHeight + 1}px`);
                 });
+
+                it('toggles hitboxes when H is pressed', () => {
+                    const orig = game.getPaintHitBoxes();
+                    game.inputManager.isKeyDown = vi.fn((key: Keys, clear: boolean) => {
+                        return key === Keys.KEY_SHIFT || key === Keys.KEY_H && clear;
+                    });
+                    state.handleDefaultKeys();
+                    expect(game.getPaintHitBoxes()).toEqual(!orig);
+                    expect(setStatusMessageSpy).toHaveBeenCalledExactlyOnceWith('Hit boxes are now on');
+                });
             });
         });
 

@@ -64,6 +64,10 @@ export class Sword extends Actor {
         return false;
     }
 
+    override getHitBoxStyle(): string {
+        return 'blue';
+    }
+
     paint(ctx: CanvasRenderingContext2D) {
         this.possiblyPaintHitBox(ctx);
 

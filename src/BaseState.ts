@@ -65,6 +65,12 @@ export class BaseState extends State<ZeldaGame> {
                     this.game.setStatusMessage(`Canvas size now: (${canvasStyle.width}, ${canvasStyle.height})`);
                     this.lastConfigKeypressTime = time;
                 }
+
+                else if (im.isKeyDown(Keys.KEY_H, true)) {
+                    const newValue = this.game.togglePaintHitBoxes();
+                    this.game.setStatusMessage(`Hit boxes are now ${newValue ? 'on' : 'off'}`);
+                    this.lastConfigKeypressTime = time;
+                }
             }
         }
     }

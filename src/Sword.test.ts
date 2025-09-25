@@ -77,6 +77,13 @@ describe('Sword', () => {
         expect(sword.collidedWith(new Octorok(game))).toBe(false);
     });
 
+    describe('getHitBoxStyle()', () => {
+        it('returns blue', () => {
+            const sword = new Sword(game);
+            expect(sword.getHitBoxStyle()).toEqual('blue');
+        });
+    });
+
     describe('paint()', () => {
         let ctx: CanvasRenderingContext2D;
 
