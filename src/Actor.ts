@@ -55,6 +55,15 @@ export abstract class Actor {
     }
 
     /**
+     * Returns the stroke style to use when rendering hitboxes.
+     *
+     * @return The style to use.
+     */
+    getHitBoxStyle(): string {
+        return 'red';
+    }
+
+    /**
      * Returns whether this actor intersects another.
      *
      * @param other The other actor.
@@ -133,9 +142,21 @@ export abstract class Actor {
      */
     possiblyPaintHitBox(ctx: CanvasRenderingContext2D) {
         if (this.game.getPaintHitBoxes()) {
-            ctx.fillStyle = 'pink';
             const hitBox: Rectangle = this.hitBox;
-            ctx.fillRect(hitBox.x, hitBox.y, hitBox.w, hitBox.h);
+
+            // Commonly used to make actors temporarily non-hittable
+            if (hitBox.w > 0 && hitBox.y > 0) {
+                const x = hitBox.x;
+                const y = hitBox.y;
+
+                // Since lineWidth === 1, use half-pixels to avoid bleeding into 2 pixels per edge
+                ctx.strokeStyle = this.getHitBoxStyle();
+                ctx.strokeRect(x + 0.5, y + 0.5, hitBox.w, hitBox.h);
+
+                ctx.fillStyle = 'white';
+                ctx.fillRect(x, y, 1, 1);
+                ctx.fillRect(x + hitBox.w / 2, y + hitBox.h / 2, 1, 1);
+            }
         }
     }
 

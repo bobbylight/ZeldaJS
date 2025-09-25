@@ -50,6 +50,12 @@ describe('Actor', () => {
         });
     });
 
+    describe('getHitBoxStyle()', () => {
+        it('returns red', () => {
+            expect(actor.getHitBoxStyle()).toEqual('red');
+        });
+    });
+
     describe('intersects()', () => {
         it('returns true if hitboxes intersect', () => {
             const other = new TestActor(game);
@@ -107,10 +113,23 @@ describe('Actor', () => {
         it('paints hitbox if getPaintHitBoxes returns true', () => {
             vi.spyOn(game, 'getPaintHitBoxes').mockReturnValue(true);
             const ctx = game.getRenderingContext();
+            const strokeRectSpy = vi.spyOn(ctx, 'strokeRect');
             const fillRectSpy = vi.spyOn(ctx, 'fillRect');
             actor.hitBox = new Rectangle(1, 2, 3, 4);
             actor.possiblyPaintHitBox(ctx);
-            expect(fillRectSpy).toHaveBeenCalledOnce();
+            expect(strokeRectSpy).toHaveBeenCalledOnce();
+            expect(fillRectSpy).toHaveBeenCalledTimes(2);
+        });
+
+        it('does not paint the hitbox if it is 0 width and height', () => {
+            vi.spyOn(game, 'getPaintHitBoxes').mockReturnValue(true);
+            const ctx = game.getRenderingContext();
+            const strokeRectSpy = vi.spyOn(ctx, 'strokeRect');
+            const fillRectSpy = vi.spyOn(ctx, 'fillRect');
+            actor.hitBox = new Rectangle();
+            actor.possiblyPaintHitBox(ctx);
+            expect(strokeRectSpy).not.toHaveBeenCalled();
+            expect(fillRectSpy).not.toHaveBeenCalled();
         });
 
         it('does not paint hitbox if getPaintHitBoxes returns false', () => {
