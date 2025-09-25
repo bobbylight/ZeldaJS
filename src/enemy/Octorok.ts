@@ -16,7 +16,7 @@ export class Octorok extends AbstractWalkingEnemy {
     }
 
     protected override createProjectile(): Projectile {
-        return new Projectile(this.game, 0, 12, this.x, this.y, this.dir);
+        return Projectile.create(this.game, this, 'enemies',0, 12, this.x, this.y, this.dir);
     }
 
     protected getChangeDirTimerMax(): number {

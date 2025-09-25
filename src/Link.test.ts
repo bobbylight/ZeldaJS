@@ -49,6 +49,7 @@ describe('Link', () => {
         game.map = mockMap as unknown as Map;
         game.audio = mockAudio as unknown as AudioSystem;
         game.assets.set('enemyDies', mockSpriteSheet);
+        game.assets.set('enemies', mockSpriteSheet);
         game.assets.set('link', mockSpriteSheet);
         game.state = mockMainGameState as unknown as MainGameState;
         link = new Link(game);
@@ -149,7 +150,7 @@ describe('Link', () => {
             let projectile: Projectile;
 
             beforeEach(() => {
-                projectile = new Projectile(game, 0, 0, 0, 0, 'DOWN');
+                projectile = Projectile.create(game, null, 'enemies', 0, 0, 0, 0, 'DOWN');
             });
 
             it('returns false and does nothing if Link is taking damage', () => {
@@ -279,6 +280,14 @@ describe('Link', () => {
             expect(link.anim).toBeFalsy();
             link.exitCave(listener);
             expect(link.anim).toBeDefined();
+        });
+    });
+
+    describe('get/setShouldThrowSword()', () => {
+        it('works', () => {
+            expect(link.getShouldThrowSword()).toEqual(true);
+            link.setShouldThrowSword(false);
+            expect(link.getShouldThrowSword()).toEqual(false);
         });
     });
 
