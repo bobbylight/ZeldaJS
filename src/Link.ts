@@ -33,6 +33,7 @@ export class Link extends Character {
     step: number;
     stepTimer: number;
     adjustToGridCounter: number;
+    private shouldThrowSword: boolean;
 
     static readonly FRAME_STILL: number = 0;
     static readonly FRAME_STEP: number = 1;
@@ -51,6 +52,7 @@ export class Link extends Character {
         this.adjustToGridCounter = 0;
         this.maxHealth = 6;
         this.health = 6;
+        this.shouldThrowSword = true;
     }
 
     collidedWith(other: Actor): boolean {
@@ -213,6 +215,10 @@ export class Link extends Character {
 
     getMaxHealth(): number {
         return this.maxHealth;
+    }
+
+    getShouldThrowSword(): boolean {
+        return this.shouldThrowSword;
     }
 
     handleInput(input: InputManager): boolean {
@@ -438,6 +444,10 @@ export class Link extends Character {
     setMaxBombCount(count: number) {
         // Link's bombs are always refilled when the max bomb count is increased.
         this.bombCount = this.maxBombCount = count;
+    }
+
+    setShouldThrowSword(shouldThrowSword: boolean) {
+        this.shouldThrowSword = shouldThrowSword;
     }
 
     private swingSword() {

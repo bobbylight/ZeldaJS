@@ -3,6 +3,8 @@ import { ordinal } from './Direction';
 import { Actor } from './Actor';
 import { ZeldaGame } from './ZeldaGame';
 import { Rectangle, SpriteSheet } from 'gtp';
+import { AnimationProjectileRenderInfo, Projectile } from '@/Projectile';
+import { Animation } from '@/Animation';
 
 /**
  * Initial frames, the sword isn't rendered as swinging.
@@ -64,6 +66,26 @@ export class Sword extends Actor {
         return false;
     }
 
+    private createSwordProjectile(): Projectile {
+        const col = ordinal(this.dir);
+        const linkSheet: SpriteSheet = this.game.assets.get('link');
+        const animation = new Animation(this.game, this.x, this.y);
+        animation.looping = true;
+        const frameMillis = 30;
+        animation.addFrame({ sheet: linkSheet, index: 45 + col }, frameMillis);
+        animation.addFrame({ sheet: linkSheet, index: 60 + col }, frameMillis);
+        animation.addFrame({ sheet: linkSheet, index: 75 + col }, frameMillis);
+        animation.addFrame({ sheet: linkSheet, index: 90 + col }, frameMillis);
+
+        const animInfo: AnimationProjectileRenderInfo = {
+            type: 'animation',
+            animation,
+        };
+        const projectile = new Projectile(this.game, animInfo, this.x, this.y, this.dir);
+        projectile.setTarget('enemy');
+        return projectile;
+    }
+
     override getHitBoxStyle(): string {
         return 'blue';
     }
@@ -116,6 +138,12 @@ export class Sword extends Actor {
                     break;
             }
             this.hitBox.set(hx, hy, hw, hh);
+
+            if (this.frame === 12 * slowdownFactor - 1) {
+                if (link.getShouldThrowSword()) {
+                    this.game.map.currentScreen.addActor(this.createSwordProjectile());
+                }
+            }
         }
 
         // The next frame, the sword is slightly retracted

@@ -23,7 +23,7 @@ export class Lynel extends AbstractWalkingEnemy {
     protected override createProjectile(): Projectile {
         const row: number = isVertical(this.dir) ? 5 : 4;
         const col: number = this.dir === 'LEFT' || this.dir === 'UP' ? 12 : 13;
-        const projectile: Projectile = new Projectile(this.game, row, col, this.x, this.y, this.dir);
+        const projectile = Projectile.create(this.game, this, 'enemies', row, col, this.x, this.y, this.dir);
         projectile.setDamage(2);
         return projectile;
     }
