@@ -156,6 +156,15 @@ describe('ZeldaGame', () => {
         });
     });
 
+    describe('incRupees() / updateRupees()', () => {
+        it('works', () => {
+            expect(game.link.getRupeeCount()).toEqual(0);
+            game.incRupees(1);
+            game.updateRupees(16);
+            expect(game.link.getRupeeCount()).toEqual(1);
+        });
+    });
+
     describe('resumeMusic()', () => {
         describe('when not in edit mode', () => {
             it('resumes music if music is set', () => {
