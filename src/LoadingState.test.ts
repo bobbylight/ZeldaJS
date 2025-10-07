@@ -96,6 +96,9 @@ describe('LoadingState', () => {
                 expect(addSoundSpy).toHaveBeenCalledWith('bombDrop', 'res/sounds/LOZ_Bomb_Drop.wav');
                 expect(addSoundSpy).toHaveBeenCalledWith('bombBlow', 'res/sounds/LOZ_Bomb_Blow.wav');
                 expect(addSoundSpy).toHaveBeenCalledWith('getItem', 'res/sounds/LOZ_Get_Item.wav');
+                expect(addSoundSpy).toHaveBeenCalledWith('refilling', 'res/sounds/rupees-changing-22050.wav');
+                expect(addSoundSpy).toHaveBeenCalledWith('rupeesDecreasingEnd',
+                    'res/sounds/rupees-decreasing-end-22050.wav');
             });
 
             [ 'true', 'anyValue', '' ].forEach((skipTitleParam) => {

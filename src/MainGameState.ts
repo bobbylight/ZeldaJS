@@ -186,6 +186,7 @@ export class MainGameState extends BaseState {
         else if (!game.link.isAnimationRunning()) {
             game.map.currentScreen.update(game);
             game.updateAnimations();
+            game.updateRupees(delta);
         }
 
         super.update(delta);

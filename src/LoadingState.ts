@@ -65,6 +65,9 @@ export class LoadingState extends BaseState {
                 game.assets.addSound('bombDrop', 'res/sounds/LOZ_Bomb_Drop.wav');
                 game.assets.addSound('bombBlow', 'res/sounds/LOZ_Bomb_Blow.wav');
                 game.assets.addSound('getItem', 'res/sounds/LOZ_Get_Item.wav');
+                // Used for both rupees and hearts? TBD? If it doesn't work for hearts, LOZ_Refill_Loop.wav will
+                game.assets.addSound('refilling', 'res/sounds/rupees-changing-22050.wav');
+                game.assets.addSound('rupeesDecreasingEnd', 'res/sounds/rupees-decreasing-end-22050.wav');
                 game.assets.onLoad(() => {
                     const skipTitle: string | null = Utils.getRequestParam('skipTitle');
                     if (skipTitle !== null) { // Allow empty strings

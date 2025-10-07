@@ -608,11 +608,6 @@ describe('Link', () => {
     });
 
     describe('incRupeeCount()', () => {
-        it('plays a sound', () => {
-            link.incRupeeCount(1);
-            expect(mockPlaySound).toHaveBeenCalledExactlyOnceWith('rupee');
-        });
-
         it('increments rupee count', () => {
             link.incRupeeCount(5);
             expect(link.getRupeeCount()).toEqual(5);

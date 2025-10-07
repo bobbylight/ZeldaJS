@@ -232,13 +232,15 @@ describe('MainGameState', () => {
             expect(game.link.y).toBeLessThan(initialY);
         });
 
-        it('updates current screen and animations if not sliding and Link is not animating', () => {
+        it('updates current screen, animations and rupees if not sliding and Link is not animating', () => {
             vi.spyOn(game.link, 'isAnimationRunning').mockReturnValue(false);
             const screenUpdateSpy = vi.spyOn(game.map.currentScreen, 'update');
             const updateAnimationsSpy = vi.spyOn(game, 'updateAnimations');
+            const updateRupeesSpy = vi.spyOn(game, 'updateRupees');
             state.update(16);
             expect(screenUpdateSpy).toHaveBeenCalledExactlyOnceWith(game);
             expect(updateAnimationsSpy).toHaveBeenCalledOnce();
+            expect(updateRupeesSpy).toHaveBeenCalledOnce();
         });
 
         it('does not update current screen and animations Link is animating', () => {

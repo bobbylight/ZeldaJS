@@ -36,7 +36,7 @@ export class Rupee extends AbstractItem {
     collidedWith(other: Actor): boolean {
         if (other instanceof Link) {
             this.done = true;
-            this.game.link.incRupeeCount(this.rupeeCount);
+            this.game.incRupees(this.rupeeCount);
             return true;
         }
 
