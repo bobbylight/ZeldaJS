@@ -6,6 +6,7 @@ import { Position } from './Position';
 import { Game, SpriteSheet } from 'gtp';
 import { ItemDropStrategy } from './item/ItemDropStrategy';
 import { GameArgs } from 'gtp/lib/gtp/Game';
+import { RupeeIncrementor } from '@/RupeeIncrementor';
 
 type MapMap = Record<string, Map>;
 
@@ -17,6 +18,7 @@ export class ZeldaGame extends Game {
     private animations: Animation[];
     private readonly editMode: boolean;
     private paintHitBoxes: boolean;
+    private readonly rupeeIncrementor: RupeeIncrementor;
 
     constructor(args?: GameArgs & { editMode?: boolean }) {
         super(args);
@@ -24,6 +26,7 @@ export class ZeldaGame extends Game {
         this.animations = [];
         this.editMode = args?.editMode ?? false;
         this.paintHitBoxes = false;
+        this.rupeeIncrementor = new RupeeIncrementor();
     }
 
     addAnimation(animation: Animation) {
@@ -141,6 +144,10 @@ export class ZeldaGame extends Game {
         return ctx;
     }
 
+    incRupees(rupeeCount: number) {
+        this.rupeeIncrementor.increment(this, rupeeCount);
+    }
+
     resumeMusic() {
         if (!this.editMode) {
             const music: string | null | undefined = this.map.currentScreenMusic;
@@ -185,5 +192,9 @@ export class ZeldaGame extends Game {
             });
             this.animations = newAnimations;
         }
+    }
+
+    updateRupees(delta: number) {
+        this.rupeeIncrementor.updateRupees(this, delta);
     }
 }

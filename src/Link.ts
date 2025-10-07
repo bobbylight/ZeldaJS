@@ -296,7 +296,6 @@ export class Link extends Character {
 
     incRupeeCount(count: number) {
         this.rupeeCount += count;
-        this.game.audio.playSound('rupee');
     }
 
     isAnimationRunning(): boolean {
