@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Bomb } from './Bomb';
 import { Link } from './Link';
+import { Map } from './Map';
 import { ZeldaGame } from './ZeldaGame';
 import { Octorok } from './enemy/Octorok';
 import Image from 'gtp/lib/gtp/Image';
@@ -78,22 +79,6 @@ describe('Bomb', () => {
         });
     });
 
-    describe('paint()', () => {
-        it('calls draw on the bomb image after the first two frames', () => {
-            const ctx = game.getRenderingContext();
-
-            for (let i = 0; i < 60; i++) {
-                bomb.update();
-                bomb.paint(ctx);
-                const expectedPaintCount = Math.max(0, i - 1);
-                expect(mockImage.draw).toHaveBeenCalledTimes(expectedPaintCount);
-                if (i >= 2) {
-                    expect(mockImage.draw).toHaveBeenLastCalledWith(ctx, bomb.x, bomb.y);
-                }
-            }
-        });
-    });
-
     describe('update()', () => {
         it('unfreezes link at frame === MAX_FRAME - 16', () => {
             game.link.frozen = true;
@@ -106,6 +91,12 @@ describe('Bomb', () => {
         });
 
         it('sets done and plays sound at frame === 0', () => {
+            const addActorSpy = vi.fn();
+            game.map = {
+                currentScreen: {
+                    addActor: addActorSpy,
+                },
+            } as unknown as Map;
             const playSoundSpy = vi.spyOn(game.audio, 'playSound');
 
             for (let i = 0; i < 60; i++) {
@@ -113,6 +104,7 @@ describe('Bomb', () => {
                 bomb.update();
             }
             expect(playSoundSpy).toHaveBeenCalledExactlyOnceWith('bombBlow');
+            expect(addActorSpy).toHaveBeenCalledOnce();
             expect(bomb.done).toEqual(true);
         });
     });

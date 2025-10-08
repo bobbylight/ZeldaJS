@@ -9,8 +9,6 @@ import { Sword } from './Sword';
 import { MainGameState } from './MainGameState';
 import { ZeldaGame } from './ZeldaGame';
 import { InputManager, Keys, Rectangle, SpriteSheet } from 'gtp';
-import FadeOutInState from 'gtp/lib/gtp/FadeOutInState';
-import { TitleState } from './TitleState';
 import { Projectile } from './Projectile';
 import { Bomb } from './Bomb';
 import {
@@ -20,6 +18,7 @@ import {
     swordThrowingStrategyForName,
     SwordThrowingStrategyName,
 } from '@/LinkSwordThrowingStrategy';
+import { createLinkDyingAnimation, createStairsDownAnimation, createStairsUpAnimation } from '@/Animations';
 
 const STEP_TIMER_MAX = 8;
 
@@ -86,7 +85,7 @@ export class Link extends Character {
             if (this.health === 0) {
                 this.game.audio.playSound('linkHurt');
                 this.done = true;
-                this.setAnimation(this.createDyingAnimation());
+                this.setAnimation(createLinkDyingAnimation(this.game, this.x, this.y));
                 this.game.linkDied();
             }
             else {
@@ -103,101 +102,11 @@ export class Link extends Character {
         return false;
     }
 
-    private createDyingAnimation(): Animation {
-        const sheet: SpriteSheet = this.game.assets.get('link');
-        const anim: Animation = new Animation(this.game, this.x, this.y);
-
-        const SPIN_FRAME_TIME = 90;
-        let preChirpPlayFrames = 0;
-
-        let spinTime = 1500;
-        while (spinTime > 0) {
-            anim.addFrame({ sheet: sheet, index: 0 }, SPIN_FRAME_TIME);
-            anim.addFrame({ sheet: sheet, index: 1 }, SPIN_FRAME_TIME);
-            anim.addFrame({ sheet: sheet, index: 2 }, SPIN_FRAME_TIME);
-            anim.addFrame({ sheet: sheet, index: 3 }, SPIN_FRAME_TIME);
-            spinTime -= 4 * SPIN_FRAME_TIME;
-            preChirpPlayFrames += 4;
-        }
-
-        anim.addFrame({ sheet: sheet, index: 0 }, 1000);
-        preChirpPlayFrames++;
-
-        // TODO: Share with ZeldaGame.createEnemyDiesAnimation()
-        const enemyDiesSheet: SpriteSheet = this.game.assets.get('enemyDies');
-        anim.addFrame({ sheet: enemyDiesSheet, index: 0 }, 30);
-        anim.addFrame({ sheet: enemyDiesSheet, index: 1 }, 30);
-        anim.addFrame({ sheet: enemyDiesSheet, index: 2 }, 30);
-        anim.addFrame({ sheet: enemyDiesSheet, index: 3 }, 30);
-        anim.addFrame({ sheet: enemyDiesSheet, index: 16 }, 30);
-        anim.addFrame({ sheet: enemyDiesSheet, index: 17 }, 30);
-        anim.addFrame({ sheet: enemyDiesSheet, index: 18 }, 30);
-        anim.addFrame({ sheet: enemyDiesSheet, index: 19 }, 30);
-        anim.addFrame({ sheet: enemyDiesSheet, index: 0 }, 30);
-        anim.addFrame({ sheet: enemyDiesSheet, index: 1 }, 30);
-        anim.addFrame({ sheet: enemyDiesSheet, index: 2 }, 30);
-        anim.addFrame({ sheet: enemyDiesSheet, index: 3 }, 30);
-
-        let dieChirpPlayed = false;
-
-        anim.addListener({
-
-            animationFrameUpdate: (anim: Animation) => {
-                if (anim.frame >= preChirpPlayFrames && !dieChirpPlayed) {
-                    this.game.audio.playSound('text');
-                    dieChirpPlayed = true;
-                }
-            },
-
-            animationCompleted: (anim: Animation) => {
-                this.game.setState(new FadeOutInState(this.game.state, new TitleState(this.game)));
-            },
-        });
-
-        return anim;
-    }
-
-    private createStairsDownAnimation(completedCallback: AnimationListener): Animation {
-        const animation: Animation = new Animation(this.game, this.x, this.y);
-        const linkSheet: SpriteSheet = this.game.assets.get('link');
-        const frameMillis = 120;
-
-        animation.addFrame({ sheet: linkSheet, index: 17 }, frameMillis);
-        animation.addFrame({ sheet: linkSheet, index: 4 }, frameMillis);
-        animation.addFrame({ sheet: linkSheet, index: 5 }, frameMillis);
-        animation.addFrame({ sheet: linkSheet, index: 6 }, frameMillis);
-        animation.addFrame({ sheet: linkSheet, index: 7 }, frameMillis);
-        animation.addFrame({ sheet: linkSheet, index: 8 }, frameMillis);
-        animation.addFrame({ sheet: linkSheet, index: 9 }, frameMillis);
-        animation.addFrame({ sheet: linkSheet, index: 10 }, frameMillis);
-
-        animation.addListener(completedCallback);
-        return animation;
-    }
-
-    private createStairsUpAnimation(completedCallback: AnimationListener): Animation {
-        const animation: Animation = new Animation(this.game, this.x, this.y);
-        const linkSheet: SpriteSheet = this.game.assets.get('link');
-        const frameMillis = 120;
-
-        animation.addFrame({ sheet: linkSheet, index: 19 }, frameMillis);
-        animation.addFrame({ sheet: linkSheet, index: 20 }, frameMillis);
-        animation.addFrame({ sheet: linkSheet, index: 21 }, frameMillis);
-        animation.addFrame({ sheet: linkSheet, index: 22 }, frameMillis);
-        animation.addFrame({ sheet: linkSheet, index: 23 }, frameMillis);
-        animation.addFrame({ sheet: linkSheet, index: 24 }, frameMillis);
-        animation.addFrame({ sheet: linkSheet, index: 25 }, frameMillis);
-        animation.addFrame({ sheet: linkSheet, index: 15 }, frameMillis);
-
-        animation.addListener(completedCallback);
-        return animation;
-    }
-
     enterCave(completedCallback: AnimationListener) {
         this.game.audio.playSound('stairs', false, () => {
             console.log('sound done');
         });
-        this.setAnimation(this.createStairsDownAnimation(completedCallback));
+        this.setAnimation(createStairsDownAnimation(this.game, this.x, this.y, completedCallback));
     }
 
     exitCave(completedCallback: AnimationListener) {
@@ -205,7 +114,7 @@ export class Link extends Character {
             console.log('sound done');
             this.game.resumeMusic();
         });
-        this.setAnimation(this.createStairsUpAnimation(completedCallback));
+        this.setAnimation(createStairsUpAnimation(this.game, this.x, this.y, completedCallback));
     }
 
     getBombCount(): number {
