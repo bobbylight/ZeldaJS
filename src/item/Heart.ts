@@ -27,12 +27,9 @@ export class Heart extends AbstractItem {
         return false;
     }
 
-    paint(ctx: CanvasRenderingContext2D) {
-        const imageName: string = this.game.playTime % 1000 < 500 ? 'fullHeart' : 'blueHeart';
+    override paintImpl(ctx: CanvasRenderingContext2D) {
+        const imageName: string = this.visibleFrameCount % 16 >= 8 ? 'fullHeart' : 'blueHeart';
         const image: Image = this.game.assets.get(`treasures.${imageName}`);
         image.draw(ctx, this.x, this.y);
-    }
-
-    update() {
     }
 }

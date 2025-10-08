@@ -1,8 +1,8 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
 import { Heart } from './Heart';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Link } from '@/Link';
-import { Image } from 'gtp';
+import { AssetLoader, Image } from 'gtp';
 import { TILE_HEIGHT } from '@/Constants';
 import { Octorok } from '@/enemy/Octorok';
 
@@ -61,18 +61,41 @@ describe('Heart', () => {
     });
 
     describe('paint()', () => {
-        it('in the first half of a play second, draws the red heart sprite', () => {
-            vi.spyOn(game, 'playTime', 'get').mockReturnValue(100);
-            const ctx = game.getRenderingContext();
-            heart.paint(ctx);
-            expect(mockFullImageDraw).toHaveBeenCalled();
+        let ctx: CanvasRenderingContext2D;
+        let getSpy: MockInstance<AssetLoader['get']>;
+
+        beforeEach(() => {
+            ctx = game.getRenderingContext();
+            getSpy = vi.spyOn(game.assets, 'get');
         });
 
-        it('in the second half of a play second, draws the blue heart sprite', () => {
-            vi.spyOn(game, 'playTime', 'get').mockReturnValue(600);
-            const ctx = game.getRenderingContext();
+        it('blinks when first rendered', () => {
+            for (let i = 0; i < 3; i++) {
+                heart.update();
+                heart.paint(ctx);
+            }
+            expect(getSpy).toHaveBeenCalledTimes(3);
+
+            // Not rendered the 4th frame
+            heart.update();
             heart.paint(ctx);
-            expect(mockBlueImageDraw).toHaveBeenCalled();
+            expect(getSpy).toHaveBeenCalledTimes(3);
+        });
+
+        it('after blinking, draws the red heart sprite first', () => {
+            for (let i = 0; i < 75; i++) {
+                heart.update();
+            }
+            heart.paint(ctx);
+            expect(getSpy).toHaveBeenCalledExactlyOnceWith('treasures.fullHeart');
+        });
+
+        it('after blinking, draws the blue heart sprite second', () => {
+            for (let i = 0; i < 75 + 8; i++) {
+                heart.update();
+            }
+            heart.paint(ctx);
+            expect(getSpy).toHaveBeenCalledExactlyOnceWith('treasures.blueHeart');
         });
     });
 
