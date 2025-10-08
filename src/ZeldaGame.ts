@@ -7,6 +7,7 @@ import { Game, SpriteSheet } from 'gtp';
 import { ItemDropStrategy } from './item/ItemDropStrategy';
 import { GameArgs } from 'gtp/lib/gtp/Game';
 import { RupeeIncrementor } from '@/RupeeIncrementor';
+import { createEnemyDiesAnimation } from '@/Animations';
 
 type MapMap = Record<string, Map>;
 
@@ -34,31 +35,13 @@ export class ZeldaGame extends Game {
     }
 
     addEnemyDiesAnimation(x: number, y: number) {
-        this.animations.push(this.createEnemyDiesAnimation(x, y));
+        this.animations.push(createEnemyDiesAnimation(this, x, y));
     }
 
     paintAnimations(ctx: CanvasRenderingContext2D) {
         this.animations.forEach((anim: Animation) => {
             anim.paint(ctx);
         });
-    }
-
-    private createEnemyDiesAnimation(x: number, y: number): Animation {
-        const sheet: SpriteSheet = this.assets.get('enemyDies');
-        const anim: Animation = new Animation(this, x, y);
-        anim.addFrame({ sheet: sheet, index: 0 }, 30);
-        anim.addFrame({ sheet: sheet, index: 1 }, 30);
-        anim.addFrame({ sheet: sheet, index: 2 }, 30);
-        anim.addFrame({ sheet: sheet, index: 3 }, 30);
-        anim.addFrame({ sheet: sheet, index: 16 }, 30);
-        anim.addFrame({ sheet: sheet, index: 17 }, 30);
-        anim.addFrame({ sheet: sheet, index: 18 }, 30);
-        anim.addFrame({ sheet: sheet, index: 19 }, 30);
-        anim.addFrame({ sheet: sheet, index: 0 }, 30);
-        anim.addFrame({ sheet: sheet, index: 1 }, 30);
-        anim.addFrame({ sheet: sheet, index: 2 }, 30);
-        anim.addFrame({ sheet: sheet, index: 3 }, 30);
-        return anim;
     }
 
     // TODO: Convert to a gtp BitmapFont

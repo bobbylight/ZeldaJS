@@ -3,6 +3,7 @@ import { ZeldaGame } from './ZeldaGame';
 import { Link } from './Link';
 import Rectangle from 'gtp/lib/gtp/Rectangle';
 import Image from 'gtp/lib/gtp/Image';
+import { BombSmoke } from '@/BombSmoke';
 
 /**
  * A bomb Link has dropped, waiting to explode.
@@ -49,6 +50,14 @@ export class Bomb extends Actor {
         return false;
     }
 
+    private explode() {
+        const game = this.game;
+        game.audio.playSound('bombBlow');
+
+        game.map.currentScreen.addActor(new BombSmoke(this.game, this.dir, this.x, this.y));
+        // TODO: Damage enemies somehow
+    }
+
     paint(ctx: CanvasRenderingContext2D) {
         this.possiblyPaintHitBox(ctx);
 
@@ -69,7 +78,7 @@ export class Bomb extends Actor {
             link.step = Link.FRAME_STILL;
         }
         else if (this.frame === 0) {
-            this.game.audio.playSound('bombBlow');
+            this.explode();
             this.done = true;
         }
     }
