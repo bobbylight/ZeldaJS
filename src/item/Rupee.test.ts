@@ -1,8 +1,8 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
 import { Rupee } from './Rupee';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Link } from '@/Link';
-import { Image } from 'gtp';
+import { AssetLoader, Image } from 'gtp';
 import { Octorok } from '@/enemy/Octorok';
 
 const mockImageDraw = vi.fn();
@@ -56,10 +56,59 @@ describe('Rupee', () => {
     });
 
     describe('paint()', () => {
-        it('draws the rupee sprite', () => {
-            const ctx = game.getRenderingContext();
+        let ctx: CanvasRenderingContext2D;
+        let getSpy: MockInstance<AssetLoader['get']>;
+
+        beforeEach(() => {
+            ctx = game.getRenderingContext();
+            getSpy = vi.spyOn(game.assets, 'get');
+        });
+
+        it('blinks when first rendered', () => {
+            for (let i = 0; i < 3; i++) {
+                rupee.update();
+                rupee.paint(ctx);
+            }
+            expect(mockImageDraw).toHaveBeenCalledTimes(3);
+
+            // Not rendered the 4th frame
+            rupee.update();
             rupee.paint(ctx);
-            expect(mockImageDraw).toHaveBeenCalledExactlyOnceWith(ctx, rupee.x, rupee.y);
+            expect(mockImageDraw).toHaveBeenCalledTimes(3);
+        });
+
+        describe('for the blue rupee', () => {
+            beforeEach(() => {
+                rupee = new Rupee(game, 10, 20, 'blue');
+            });
+
+            it('after blinking, draws the rupee sprite', () => {
+                for (let i = 0; i < 75; i++) {
+                    rupee.update();
+                }
+                rupee.paint(ctx);
+                expect(mockImageDraw).toHaveBeenCalledExactlyOnceWith(ctx, rupee.x, rupee.y);
+            });
+        });
+
+        describe('for the yellow rupee', () => {
+            it('after blinking, draws the blue rupee first', () => {
+                for (let i = 0; i < 75; i++) {
+                    rupee.update();
+                }
+                rupee.paint(ctx);
+                expect(getSpy).toHaveBeenCalledExactlyOnceWith('treasures.blueRupee');
+                expect(mockImageDraw).toHaveBeenCalledExactlyOnceWith(ctx, rupee.x, rupee.y);
+            });
+
+            it('after blinking, draws the yellow rupee second', () => {
+                for (let i = 0; i < 75 + 8; i++) {
+                    rupee.update();
+                }
+                rupee.paint(ctx);
+                expect(getSpy).not.toHaveBeenCalledOnce();
+                expect(mockImageDraw).toHaveBeenCalledExactlyOnceWith(ctx, rupee.x, rupee.y);
+            });
         });
     });
 

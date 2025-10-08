@@ -47,10 +47,14 @@ export class Rupee extends AbstractItem {
         return this.rupeeCount;
     }
 
-    paint(ctx: CanvasRenderingContext2D): void {
-        this.image.draw(ctx, this.x, this.y);
-    }
+    override paintImpl(ctx: CanvasRenderingContext2D): void {
+        let image = this.image;
 
-    update(): void {
+        // Only the yellow rupee blinks
+        if (this.type === 'yellow' && this.visibleFrameCount % 16 >= 8) {
+            image = this.game.assets.get('treasures.blueRupee');
+        }
+
+        image.draw(ctx, this.x, this.y);
     }
 }
