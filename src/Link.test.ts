@@ -7,7 +7,7 @@ import { AudioSystem, InputManager, Keys, SpriteSheet } from 'gtp';
 import { Projectile } from '@/Projectile';
 import { opposite } from '@/Direction';
 import { AnimationListener } from '@/AnimationListener';
-import { SCREEN_COL_COUNT, SCREEN_ROW_COUNT, TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
+import { HERO_HITBOX_STYLE, SCREEN_COL_COUNT, SCREEN_ROW_COUNT, TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
 import { MainGameState } from '@/MainGameState';
 import { Animation } from '@/Animation';
 import { createAnimation } from '@/test-utils';
@@ -296,6 +296,12 @@ describe('Link', () => {
             expect(link.getShouldThrowSword()).toEqual(true);
             link.incHealth(-1);
             expect(link.getShouldThrowSword()).toEqual(true);
+        });
+    });
+
+    describe('getHitBoxStyle()', () => {
+        it('returns the expected string', () => {
+            expect(link.getHitBoxStyle()).toEqual(HERO_HITBOX_STYLE);
         });
     });
 

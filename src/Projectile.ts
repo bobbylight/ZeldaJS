@@ -1,4 +1,4 @@
-import { SCREEN_HEIGHT, SCREEN_WIDTH, TILE_HEIGHT, TILE_WIDTH } from './Constants';
+import { HERO_HITBOX_STYLE, SCREEN_HEIGHT, SCREEN_WIDTH, TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { Direction } from './Direction';
 import { Actor } from './Actor';
 import { ZeldaGame } from './ZeldaGame';
@@ -87,6 +87,13 @@ export class Projectile extends Actor {
 
     getDamage(): number {
         return this.damage;
+    }
+
+    override getHitBoxStyle(): string {
+        if (this.target === 'enemy') {
+            return HERO_HITBOX_STYLE;
+        }
+        return super.getHitBoxStyle();
     }
 
     getSource(): Actor | null {

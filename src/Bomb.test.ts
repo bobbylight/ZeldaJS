@@ -5,6 +5,7 @@ import { Map } from './Map';
 import { ZeldaGame } from './ZeldaGame';
 import { Octorok } from './enemy/Octorok';
 import Image from 'gtp/lib/gtp/Image';
+import { HERO_HITBOX_STYLE } from '@/Constants';
 
 const mockImage = {
     draw: vi.fn(),
@@ -76,6 +77,12 @@ describe('Bomb', () => {
         it('always returns false', () => {
             const other = new Octorok(game);
             expect(bomb.collidedWith(other)).toEqual(false);
+        });
+    });
+
+    describe('getHitBoxStyle()', () => {
+        it('returns the expected string', () => {
+            expect(bomb.getHitBoxStyle()).toEqual(HERO_HITBOX_STYLE);
         });
     });
 

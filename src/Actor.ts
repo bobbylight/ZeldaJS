@@ -1,5 +1,5 @@
 import { Direction } from './Direction';
-import { TILE_HEIGHT, TILE_WIDTH } from './Constants';
+import { ENEMY_HITBOX_STYLE, TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { ZeldaGame } from './ZeldaGame';
 import { Position } from './Position';
 import { Rectangle } from 'gtp';
@@ -64,7 +64,7 @@ export abstract class Actor {
      * @return The style to use.
      */
     getHitBoxStyle(): string {
-        return 'red';
+        return ENEMY_HITBOX_STYLE;
     }
 
     /**
