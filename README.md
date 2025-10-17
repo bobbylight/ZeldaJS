@@ -46,8 +46,8 @@ The source code lives in `src/`, and is built into `dist/`.
 `index.html` is the game itself, while `editor.html` is a simple map editor.
 
 ## Desktop Build
-*Note:* These steps currently don't work.  Need to be fixed after the conversion
-to vue-cli broke them.
+**Note: These steps currently don't work. Need to be fixed after the conversion
+to vue-cli broke them!**
 
 A desktop build can be created:
 
@@ -56,8 +56,6 @@ npm run build-electron # Builds desktop resources into build/electron
 npm run pack           # Creates unpacked game in dist/
 npm run dist           # Creates unpacked game and installer in dist/
 ```
-
-This is still a little rough around the edges, but works, at least on windows.
 
 ## Roadmap
 I'm going to try to use the [issue tracker](https://github.com/bobbylight/ZeldaJS/issues) to track the work on this project.
@@ -71,7 +69,7 @@ I'm going to try to use the [issue tracker](https://github.com/bobbylight/ZeldaJ
   - Moving between screens, smooth screen transitions (though only a portion of the map is implemented)
   - Entering and exiting caves
   - Use of sword (Z key)
-  - Drop bombs, though they do nothing (X key)
+  - Drop bombs, though they don't yet work on walls (X key)
   - Basic enemies that can die
   - Link takes damage from enemies and projectiles, and can die
   - Enemies drop rupees and hearts
