@@ -4,6 +4,7 @@ import { Link } from './Link';
 import Rectangle from 'gtp/lib/gtp/Rectangle';
 import Image from 'gtp/lib/gtp/Image';
 import { BombSmoke } from '@/BombSmoke';
+import { HERO_HITBOX_STYLE } from '@/Constants';
 
 /**
  * A bomb Link has dropped, waiting to explode.
@@ -55,7 +56,10 @@ export class Bomb extends Actor {
         game.audio.playSound('bombBlow');
 
         game.map.currentScreen.addActor(new BombSmoke(this.game, this.dir, this.x, this.y));
-        // TODO: Damage enemies somehow
+    }
+
+    override getHitBoxStyle(): string {
+        return HERO_HITBOX_STYLE;
     }
 
     paint(ctx: CanvasRenderingContext2D) {

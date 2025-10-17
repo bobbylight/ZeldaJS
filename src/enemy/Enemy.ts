@@ -8,6 +8,7 @@ import { ZeldaGame } from '@/ZeldaGame';
 import { SpriteSheet } from 'gtp';
 import { AbstractItem } from '@/item/AbstractItem';
 import { Projectile } from '@/Projectile';
+import { BombSmoke } from '@/BombSmoke';
 
 const STEP_TIMER_MAX = 10;
 
@@ -129,6 +130,7 @@ export abstract class Enemy extends Character {
 
     private takesDamageFrom(other: Actor): boolean {
         return other instanceof Sword ||
+            other instanceof BombSmoke && other.canDamageEnemies() ||
             other instanceof Projectile && other.getSource() !== this && other.targets('enemy');
     }
 

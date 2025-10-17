@@ -49,3 +49,6 @@ export const WALKABILITY_OVERWORLD: number[] = [
     1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
     1, 1, 0, 0, 0, 0, 1, 0, 0, 0,
 ];
+
+export const ENEMY_HITBOX_STYLE = 'red';
+export const HERO_HITBOX_STYLE = 'blue';

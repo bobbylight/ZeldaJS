@@ -2,6 +2,7 @@ import { Actor } from '@/Actor';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Direction } from '@/Direction';
 import { Rectangle, SpriteSheet } from 'gtp';
+import { HERO_HITBOX_STYLE, TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
 
 interface FrameInfo {
     dir: Direction;
@@ -95,6 +96,8 @@ dirToFrameInfos.set('DOWN', leftFrameInfos);
 dirToFrameInfos.set('RIGHT', rightFrameInfos);
 dirToFrameInfos.set('UP', rightFrameInfos);
 
+const MAX_DAMAGING_FRAME = 30;
+
 /**
  * An actor that can't collide with any other actors. It's essentially just a
  * visual effect that's a collection of animations.
@@ -106,11 +109,19 @@ export class BombSmoke extends Actor {
         super(game);
         this.dir = dir;
         this.frame = 0;
-        this.hitBox = new Rectangle();
+        this.hitBox = new Rectangle(x, y, TILE_WIDTH, TILE_HEIGHT);
+    }
+
+    canDamageEnemies(): boolean {
+        return this.frame <= MAX_DAMAGING_FRAME;
     }
 
     override collidedWith(other: Actor): boolean {
         return false;
+    }
+
+    override getHitBoxStyle(): string {
+        return HERO_HITBOX_STYLE;
     }
 
     override paint(ctx: CanvasRenderingContext2D) {
@@ -125,6 +136,8 @@ export class BombSmoke extends Actor {
                 this.paintSmokeRightOrientation(ctx, frameInfo.index);
             }
         }
+
+        this.possiblyPaintHitBox(ctx);
     }
 
     private paintSmokeLeftOrientation(ctx: CanvasRenderingContext2D, index: number) {

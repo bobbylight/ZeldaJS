@@ -4,7 +4,7 @@ import { Animation } from './Animation';
 import { Enemy } from './enemy/Enemy';
 import { AnimationListener } from './AnimationListener';
 import { opposite, ordinal } from './Direction';
-import { SCREEN_COL_COUNT, SCREEN_ROW_COUNT, TILE_HEIGHT, TILE_WIDTH } from './Constants';
+import { HERO_HITBOX_STYLE, SCREEN_COL_COUNT, SCREEN_ROW_COUNT, TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { Sword } from './Sword';
 import { MainGameState } from './MainGameState';
 import { ZeldaGame } from './ZeldaGame';
@@ -127,6 +127,10 @@ export class Link extends Character {
 
     getHealth(): number {
         return this.health;
+    }
+
+    override getHitBoxStyle(): string {
+        return HERO_HITBOX_STYLE;
     }
 
     getMaxHealth(): number {

@@ -6,6 +6,7 @@ import { ZeldaGame } from './ZeldaGame';
 import { Octorok } from '@/enemy/Octorok';
 import { Animation } from '@/Animation';
 import { createAnimation } from '@/test-utils';
+import { ENEMY_HITBOX_STYLE, HERO_HITBOX_STYLE } from '@/Constants';
 
 const mockDrawByIndex = vi.fn();
 
@@ -100,6 +101,19 @@ describe('Projectile', () => {
             expect(p.getDamage()).toEqual(1);
             p.setDamage(5);
             expect(p.getDamage()).toEqual(5);
+        });
+    });
+
+    describe('getHitBoxStyle()', () => {
+        it('defaults to red', () => {
+            const p = Projectile.create(game, null, 'enemies', 0, 0, 0, 0, 'LEFT');
+            expect(p.getHitBoxStyle()).toEqual(ENEMY_HITBOX_STYLE);
+        });
+
+        it('returns blue if targeting enemies', () => {
+            const p = Projectile.create(game, null, 'enemies', 0, 0, 0, 0, 'LEFT');
+            p.setTarget('enemy');
+            expect(p.getHitBoxStyle()).toEqual(HERO_HITBOX_STYLE);
         });
     });
 
