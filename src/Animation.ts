@@ -1,15 +1,6 @@
 import { AnimationListener } from './AnimationListener';
 import { ZeldaGame } from './ZeldaGame';
-import { SpriteSheet } from 'gtp';
-
-/**
- * Structure representing a single frame in an <code>Animation</code>.
- */
-export interface SpriteSheetAndIndex {
-
-    sheet: SpriteSheet;
-    index: number;
-}
+import { SpriteSheetAndIndex } from '@/SpriteSheetAndIndex';
 
 /**
  * A frame in an animation.
@@ -61,6 +52,10 @@ export class Animation {
                 listener.animationFrameUpdate.call(listener.scope ?? listener, this);
             }
         });
+    }
+
+    getCurrentFrameImage(): SpriteSheetAndIndex {
+        return this.frames[this.curFrame].sheetAndIndex;
     }
 
     get frame(): number {

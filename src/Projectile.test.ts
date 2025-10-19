@@ -14,7 +14,7 @@ const mockSpriteSheet = {
     colCount: 8,
     rowCount: 4,
     size: 32,
-    drawByIndex: vi.fn(),
+    drawByIndex: mockDrawByIndex,
 } as unknown as SpriteSheet;
 
 describe('Projectile', () => {
@@ -22,7 +22,7 @@ describe('Projectile', () => {
 
     beforeEach(() => {
         game = new ZeldaGame();
-        game.assets.set('enemies', { drawByIndex: mockDrawByIndex } as unknown as SpriteSheet);
+        game.assets.set('enemies', mockSpriteSheet);
     });
 
     afterEach(() => {
@@ -91,6 +91,28 @@ describe('Projectile', () => {
             it('returns true and sets done if colliding with non-Link', () => {
                 expect(p.collidedWith(new Octorok(game))).toEqual(true);
                 expect(p.done).toEqual(true);
+            });
+        });
+    });
+
+    describe('getBlockedImageSheetAndIndex()', () => {
+        it('returns the expected value for sheet-based projectiles', () => {
+            const p = Projectile.create(game, null, 'enemies', 0, 0, 0, 0, 'LEFT');
+            expect(p.getBlockedImageSheetAndIndex()).toEqual({
+                sheet: mockSpriteSheet,
+                index: 0,
+            });
+        });
+
+        it('returns the expected value for animation-based projectiles', () => {
+            const animRenderInfo: AnimationProjectileRenderInfo = {
+                type: 'animation',
+                animation: createAnimation(game, mockSpriteSheet),
+            };
+            const p = new Projectile(game, animRenderInfo, 0, 0, 'LEFT');
+            expect(p.getBlockedImageSheetAndIndex()).toEqual({
+                sheet: mockSpriteSheet,
+                index: 0,
             });
         });
     });

@@ -2,11 +2,12 @@ import { HERO_HITBOX_STYLE, SCREEN_HEIGHT, SCREEN_WIDTH, TILE_HEIGHT, TILE_WIDTH
 import { Direction } from './Direction';
 import { Actor } from './Actor';
 import { ZeldaGame } from './ZeldaGame';
-import { Rectangle } from 'gtp';
+import { Rectangle, SpriteSheet } from 'gtp';
 import { Link } from './Link';
 import { SpriteSheetSpriteLocation } from '@/SpriteSheetSpriteLocation';
 import { Animation } from '@/Animation';
 import { Enemy } from '@/enemy/Enemy';
+import { SpriteSheetAndIndex } from '@/SpriteSheetAndIndex';
 
 export interface SpriteSheetProjectileRenderInfo {
     type: 'spriteSheet',
@@ -72,10 +73,11 @@ export class Projectile extends Actor {
 
     static create(game: ZeldaGame, source: Actor | null, sheetName: string, row: number, col: number, x: number,
         y: number, dir: Direction): Projectile {
+        const sheet: SpriteSheet = game.assets.get(sheetName);
         const sheetInfo: SpriteSheetProjectileRenderInfo = {
             type: 'spriteSheet',
             sheetLocation: {
-                sheet: game.assets.get(sheetName),
+                sheet,
                 row,
                 col,
             },
@@ -83,6 +85,27 @@ export class Projectile extends Actor {
         const projectile = new Projectile(game, sheetInfo, x, y, dir);
         projectile.setSource(source);
         return projectile;
+    }
+
+    /**
+     * If Link's shield can defend against this projectile, this image will "bounce" off of
+     * his shield.
+     */
+    getBlockedImageSheetAndIndex(): SpriteSheetAndIndex {
+        if (this.renderInfo.type === 'animation') {
+            const ssi = this.renderInfo.animation.getCurrentFrameImage();
+            return {
+                sheet: ssi.sheet,
+                index: ssi.index,
+            };
+        }
+
+        // this.renderInfo.type === 'spriteSheet'
+        const sheet = this.renderInfo.sheetLocation.sheet;
+        return {
+            sheet,
+            index: this.renderInfo.sheetLocation.row * sheet.colCount + this.renderInfo.sheetLocation.col,
+        };
     }
 
     getDamage(): number {

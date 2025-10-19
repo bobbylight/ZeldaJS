@@ -47,7 +47,7 @@ export abstract class Enemy extends Character {
             if (--this.health === 0) {
                 this.done = true;
                 game.audio.playSound('enemyDie');
-                game.addEnemyDiesAnimation(this.x, this.y);
+                game.addEnemyDiesAnimation(this);
                 const item: AbstractItem | null = game.itemDropStrategy.itemDropped(this);
                 if (item) {
                     game.map.currentScreen.addActor(item);
