@@ -8,6 +8,7 @@ import { ItemDropStrategy } from './item/ItemDropStrategy';
 import { GameArgs } from 'gtp/lib/gtp/Game';
 import { RupeeIncrementor } from '@/RupeeIncrementor';
 import { createEnemyDiesAnimation } from '@/Animations';
+import { Enemy } from '@/enemy/Enemy';
 
 type MapMap = Record<string, Map>;
 
@@ -30,12 +31,14 @@ export class ZeldaGame extends Game {
         this.rupeeIncrementor = new RupeeIncrementor();
     }
 
-    addAnimation(animation: Animation) {
-        this.animations.push(animation);
+    addAnimation(animation: Animation | undefined) {
+        if (animation) {
+            this.animations.push(animation);
+        }
     }
 
-    addEnemyDiesAnimation(x: number, y: number) {
-        this.animations.push(createEnemyDiesAnimation(this, x, y));
+    addEnemyDiesAnimation(source: Enemy) {
+        this.animations.push(createEnemyDiesAnimation(this, source, source.x, source.y));
     }
 
     paintAnimations(ctx: CanvasRenderingContext2D) {

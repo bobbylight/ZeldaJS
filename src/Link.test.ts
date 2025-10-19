@@ -146,7 +146,7 @@ describe('Link', () => {
             });
         });
 
-        describe('the other entity is an Projectile', () => {
+        describe('the other entity is a Projectile', () => {
             let projectile: Projectile;
 
             beforeEach(() => {
@@ -181,6 +181,12 @@ describe('Link', () => {
                 it('plays the shield sound effect', () => {
                     link.collidedWith(projectile);
                     expect(mockPlaySound).toHaveBeenCalledExactlyOnceWith('shield');
+                });
+
+                it('adds an animation of the reflected projectile', () => {
+                    const addAnimationSpy = vi.spyOn(game, 'addAnimation').mockImplementation(() => {})
+                    link.collidedWith(projectile);
+                    expect(addAnimationSpy).toHaveBeenCalledOnce();
                 });
 
                 it('does not damage Link', () => {

@@ -4,10 +4,15 @@ import { SpriteSheet } from 'gtp';
 import FadeOutInState from 'gtp/lib/gtp/FadeOutInState';
 import { TitleState } from '@/TitleState';
 import { AnimationListener } from '@/AnimationListener';
+import { Actor } from '@/Actor';
+import { Enemy } from '@/enemy/Enemy';
+import { Link } from '@/Link';
+import { Projectile } from '@/Projectile';
 
-export type AnimationGenerator = (game: ZeldaGame, x: number, y: number, completedCallback?: AnimationListener) => Animation;
+export type AnimationGenerator<S extends Actor> = (game: ZeldaGame, source: S,
+    x: number, y: number, completedCallback?: AnimationListener) => Animation;
 
-const createEnemyDiesAnimation: AnimationGenerator = (game, x: number, y: number, completedCallback): Animation => {
+const createEnemyDiesAnimation: AnimationGenerator<Enemy> = (game,enemy, x, y, completedCallback): Animation => {
     const sheet: SpriteSheet = game.assets.get('enemyDies');
     const anim: Animation = new Animation(game, x, y);
 
@@ -30,7 +35,7 @@ const createEnemyDiesAnimation: AnimationGenerator = (game, x: number, y: number
     return anim;
 }
 
-const createLinkDyingAnimation: AnimationGenerator = (game, x, y, completedCallback): Animation => {
+const createLinkDyingAnimation: AnimationGenerator<Link> = (game, link, x, y, completedCallback): Animation => {
     const sheet: SpriteSheet = game.assets.get('link');
     const anim: Animation = new Animation(game, x, y);
 
@@ -68,7 +73,6 @@ const createLinkDyingAnimation: AnimationGenerator = (game, x, y, completedCallb
     let dieChirpPlayed = false;
 
     anim.addListener({
-
         animationFrameUpdate: (anim: Animation) => {
             if (anim.frame >= preChirpPlayFrames && !dieChirpPlayed) {
                 game.audio.playSound('text');
@@ -87,7 +91,52 @@ const createLinkDyingAnimation: AnimationGenerator = (game, x, y, completedCallb
     return anim;
 }
 
-const createStairsDownAnimation: AnimationGenerator = (game, x, y, completedCallback): Animation => {
+const createReflectedProjectileAnimation: AnimationGenerator<Projectile> = (game, projectile, x, y,
+    completedCallback): Animation => {
+    const sheetAndIndex = projectile.getBlockedImageSheetAndIndex();
+
+    const anim = new Animation(game, x, y);
+    const frameCount = 15;
+    for (let i = 0; i < frameCount; i++) {
+        anim.addFrame(sheetAndIndex, 30);
+    }
+
+    let dx = 0;
+    let dy = 0;
+    switch (projectile.dir) {
+        case 'UP':
+            dx = 1;
+            dy = 2;
+            break;
+        case 'RIGHT':
+            dx = -2;
+            dy = -1;
+            break;
+        case 'DOWN':
+            dx = 1;
+            dy = -2;
+            break;
+        case 'LEFT':
+            dx = 2;
+            dy = -1;
+            break;
+    }
+
+    anim.addListener({
+        animationFrameUpdate(anim) {
+            anim.setX(anim.getX() + dx);
+            anim.setY(anim.getY() + dy);
+        },
+        animationCompleted() {},
+    });
+
+    if (completedCallback) {
+        anim.addListener(completedCallback);
+    }
+    return anim;
+};
+
+const createStairsDownAnimation: AnimationGenerator<Link> = (game, link, x, y, completedCallback): Animation => {
     const animation: Animation = new Animation(game, x, y);
     const linkSheet: SpriteSheet = game.assets.get('link');
     const frameMillis = 120;
@@ -107,7 +156,7 @@ const createStairsDownAnimation: AnimationGenerator = (game, x, y, completedCall
     return animation;
 };
 
-const createStairsUpAnimation: AnimationGenerator = (game, x, y, completedCallback): Animation => {
+const createStairsUpAnimation: AnimationGenerator<Link> = (game, link, x, y, completedCallback): Animation => {
     const animation: Animation = new Animation(game, x, y);
     const linkSheet: SpriteSheet = game.assets.get('link');
     const frameMillis = 120;
@@ -127,4 +176,10 @@ const createStairsUpAnimation: AnimationGenerator = (game, x, y, completedCallba
     return animation;
 }
 
-export { createEnemyDiesAnimation, createLinkDyingAnimation, createStairsDownAnimation, createStairsUpAnimation };
+export {
+    createEnemyDiesAnimation,
+    createLinkDyingAnimation,
+    createReflectedProjectileAnimation,
+    createStairsDownAnimation,
+    createStairsUpAnimation,
+};

@@ -18,7 +18,12 @@ import {
     swordThrowingStrategyForName,
     SwordThrowingStrategyName,
 } from '@/LinkSwordThrowingStrategy';
-import { createLinkDyingAnimation, createStairsDownAnimation, createStairsUpAnimation } from '@/Animations';
+import {
+    createLinkDyingAnimation,
+    createReflectedProjectileAnimation,
+    createStairsDownAnimation,
+    createStairsUpAnimation,
+} from '@/Animations';
 
 const STEP_TIMER_MAX = 8;
 
@@ -70,7 +75,7 @@ export class Link extends Character {
             // Projectiles reflect off of Link's shield
             if (!this.frozen && other instanceof Projectile) {
                 if (opposite(other.dir) === this.dir) {
-                    this.game.audio.playSound('shield');
+                    this.knockbackProjectile(other);
                     return false;
                 }
             }
@@ -85,7 +90,7 @@ export class Link extends Character {
             if (this.health === 0) {
                 this.game.audio.playSound('linkHurt');
                 this.done = true;
-                this.setAnimation(createLinkDyingAnimation(this.game, this.x, this.y));
+                this.setAnimation(createLinkDyingAnimation(this.game, this, this.x, this.y));
                 this.game.linkDied();
             }
             else {
@@ -106,7 +111,7 @@ export class Link extends Character {
         this.game.audio.playSound('stairs', false, () => {
             console.log('sound done');
         });
-        this.setAnimation(createStairsDownAnimation(this.game, this.x, this.y, completedCallback));
+        this.setAnimation(createStairsDownAnimation(this.game, this, this.x, this.y, completedCallback));
     }
 
     exitCave(completedCallback: AnimationListener) {
@@ -114,7 +119,7 @@ export class Link extends Character {
             console.log('sound done');
             this.game.resumeMusic();
         });
-        this.setAnimation(createStairsUpAnimation(this.game, this.x, this.y, completedCallback));
+        this.setAnimation(createStairsUpAnimation(this.game, this, this.x, this.y, completedCallback));
     }
 
     getBombCount(): number {
@@ -235,6 +240,11 @@ export class Link extends Character {
         return 0;
     }
 
+    private knockbackProjectile(projectile: Projectile) {
+        this.game.audio.playSound('shield');
+        this.game.addAnimation(createReflectedProjectileAnimation(this.game, projectile, projectile.x, projectile.y));
+    }
+
     moveX(inc: number) {
         const tempX: number = this.x + inc;
         this.hitBox.set(tempX + 2, this.y + 8, this.w - 2 * 2, 8);
@@ -339,20 +349,22 @@ export class Link extends Character {
         this.hitBox.set(this.x + 2, this.y + 8, this.w - 2 * 2, 8);
     }
 
-    setAnimation(anim: Animation) {
-        this.anim = anim;
-        this.frozen = true;
-        this.anim.addListener({
-            scope: this,
-            animationFrameUpdate(animation: Animation) {
-            },
-            animationCompleted(animation: Animation) {
-                // @ts-expect-error - scope is defined in "scope" arg
-                this.anim = null;
-                // @ts-expect-error - scope is defined in "scope" arg
-                this.frozen = false;
-            },
-        });
+    setAnimation(anim: Animation | undefined) {
+        if (anim) {
+            this.anim = anim;
+            this.frozen = true;
+            this.anim.addListener({
+                scope: this,
+                animationFrameUpdate(animation: Animation) {
+                },
+                animationCompleted(animation: Animation) {
+                    // @ts-expect-error - scope is defined in "scope" arg
+                    this.anim = null;
+                    // @ts-expect-error - scope is defined in "scope" arg
+                    this.frozen = false;
+                },
+            });
+        }
     }
 
     override setLocation(x: number, y: number) {

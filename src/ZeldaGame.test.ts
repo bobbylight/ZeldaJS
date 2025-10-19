@@ -72,8 +72,9 @@ describe('ZeldaGame', () => {
 
     describe('addEnemyDiesAnimation()', () => {
         it('adds an Animation to the animations list', () => {
+            const enemy = new Octorok(game);
             expect(() => {
-                game.addEnemyDiesAnimation(10, 20);
+                game.addEnemyDiesAnimation(enemy);
             }).not.toThrow();
         });
     });
@@ -231,6 +232,29 @@ describe('ZeldaGame', () => {
         it('does not initialize link if initLink is false', () => {
             game.startNewGame(false);
             expect(game.link).toBeDefined();
+        });
+
+        describe('when in editMode', () => {
+            beforeEach(() => {
+                game = new ZeldaGame({
+                    editMode: true,
+                    height: 100,
+                    width: 100,
+                });
+                game.assets.set('overworld', mockSpriteSheet);
+                game.assets.set('overworldData', createMapData({ name: 'overworld' }));
+                game.assets.set('level1Data', createMapData({ name: 'level1' }));
+                game.maps = {
+                    overworld: mockMap,
+                    level1: mockMap,
+                };
+                game.map = mockMap;
+            });
+
+            it('highlights tiles that contain events', () => {
+                game.startNewGame();
+                expect(game.map.showEvents).toEqual(true);
+            })
         });
     });
 

@@ -79,6 +79,18 @@ describe('Animation', () => {
         });
     });
 
+    describe('getCurrentFrameImage()', () => {
+        it('returns the current frame image', () => {
+            animation.update(); // First call initializes
+
+            vi.spyOn(game, 'playTime', 'get').mockReturnValue(0);
+            expect(animation.getCurrentFrameImage().index).toEqual(0);
+            vi.spyOn(game, 'playTime', 'get').mockReturnValue(101);
+            animation.update();
+            expect(animation.getCurrentFrameImage().index).toEqual(1);
+        });
+    });
+
     describe('height and width', () => {
         it('returns correct cell size when not done', () => {
             expect(animation.height).toEqual(mockSpriteSheet.cellH);
