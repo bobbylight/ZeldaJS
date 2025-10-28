@@ -4,7 +4,6 @@ import { BaseState } from './BaseState';
 import { Screen } from './Screen';
 import { Map } from './Map';
 import { ZeldaGame } from './ZeldaGame';
-import { Hud } from './Hud';
 import { ChangeScreenWarpEvent } from './event/ChangeScreenWarpEvent';
 import { Event, EventData } from './event/Event';
 import { InventoryState } from '@/InventoryState';
@@ -15,15 +14,9 @@ import { Position } from '@/Position';
 const SCREEN_SLIDING_INC = 4;
 
 export class MainGameState extends BaseState {
-    private readonly hud: Hud;
     private lastScreen: Screen | undefined | null;
     private screenSlidingDir: Direction | null;
     private screenSlidingAmount: number;
-
-    constructor(game: ZeldaGame) {
-        super(game);
-        this.hud = new Hud(game);
-    }
 
     changeScreenHorizontally(inc: number) {
         const map: Map = this.game.map;
@@ -165,7 +158,7 @@ export class MainGameState extends BaseState {
 
         ctx.restore();
 
-        this.hud.render(ctx);
+        game.getHud().render(ctx);
     }
 
     override update(delta: number) {

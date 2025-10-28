@@ -2,8 +2,9 @@ import { CurtainOpeningState } from './CurtainOpeningState';
 import { MainGameState } from './MainGameState';
 import { TitleState } from './TitleState';
 import { BaseState } from './BaseState';
-import { FadeOutInState, Game, Utils } from 'gtp';
+import { FadeOutInState, Game, SpriteSheet, Utils } from 'gtp';
 import { ImageAtlasInfo } from 'gtp/lib/gtp/ImageAtlas';
+import { createRecoloredSpriteSheet } from '@/Utils';
 
 /**
  * State that renders while resources are loading.
@@ -69,6 +70,12 @@ export class LoadingState extends BaseState {
                 game.assets.addSound('refilling', 'res/sounds/rupees-changing-22050.wav');
                 game.assets.addSound('rupeesDecreasingEnd', 'res/sounds/rupees-decreasing-end-22050.wav');
                 game.assets.onLoad(() => {
+                    // Generate a red version of the font
+                    const ss: SpriteSheet = game.assets.get('font');
+                    game.assets.set('fontRed', createRecoloredSpriteSheet(ss, {
+                        fromR: 0xf8, fromG: 0xf8, fromB: 0xf8, toR: 0xa2, toG: 0x3a, toB: 0x2a,
+                    }));
+
                     const skipTitle: string | null = Utils.getRequestParam('skipTitle');
                     if (skipTitle !== null) { // Allow empty strings
                         this.game.startNewGame();
