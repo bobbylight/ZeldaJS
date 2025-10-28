@@ -1,4 +1,4 @@
-import { CANVAS_HEIGHT } from './Constants';
+import { SCREEN_HEIGHT } from './Constants';
 import { ZeldaGame } from './ZeldaGame';
 import { Delay, State } from 'gtp';
 import { BaseState } from '@/BaseState';
@@ -34,11 +34,13 @@ export class InventorySlideState extends State<ZeldaGame> {
     override render(ctx: CanvasRenderingContext2D) {
         const dir: number = this.down ? -1 : 1;
 
-        const displayedPixelCount: number = this.downAmount * (CANVAS_HEIGHT / 10);
-        ctx.translate(0, (CANVAS_HEIGHT - displayedPixelCount) * dir);
+        const displayedPixelCount: number = this.downAmount * (SCREEN_HEIGHT / 10);
+        ctx.translate(0, (SCREEN_HEIGHT - displayedPixelCount) * dir);
         this.topState.render(ctx);
 
-        ctx.translate(0, -CANVAS_HEIGHT * dir);
+        // Note: This code overlaps the screen's by HUD_HEIGHT intentionally,
+        // since both screens will render it the same way
+        ctx.translate(0, -SCREEN_HEIGHT * dir);
         this.bottomState.render(ctx);
 
         ctx.resetTransform();

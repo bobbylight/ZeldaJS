@@ -9,6 +9,7 @@ import { GameArgs } from 'gtp/lib/gtp/Game';
 import { RupeeIncrementor } from '@/RupeeIncrementor';
 import { createEnemyDiesAnimation } from '@/Animations';
 import { Enemy } from '@/enemy/Enemy';
+import { Hud } from '@/Hud';
 
 type MapMap = Record<string, Map>;
 
@@ -21,6 +22,7 @@ export class ZeldaGame extends Game {
     private readonly editMode: boolean;
     private paintHitBoxes: boolean;
     private readonly rupeeIncrementor: RupeeIncrementor;
+    private readonly hud: Hud;
 
     constructor(args?: GameArgs & { editMode?: boolean }) {
         super(args);
@@ -29,6 +31,7 @@ export class ZeldaGame extends Game {
         this.editMode = args?.editMode ?? false;
         this.paintHitBoxes = false;
         this.rupeeIncrementor = new RupeeIncrementor();
+        this.hud = new Hud(this);
     }
 
     addAnimation(animation: Animation | undefined) {
@@ -47,14 +50,25 @@ export class ZeldaGame extends Game {
         });
     }
 
-    // TODO: Convert to a gtp BitmapFont
+    drawStringRed(x: number, y: number, text: string | number,
+        ctx?: CanvasRenderingContext2D ) {
+        this.drawStringImpl(x, y, text, ctx, 'fontRed');
+    }
+
     drawString(x: number, y: number, text: string | number,
-        ctx: CanvasRenderingContext2D = this.getRenderingContext()) {
+        ctx?: CanvasRenderingContext2D ) {
+        this.drawStringImpl(x, y, text, ctx, 'font');
+    }
+
+    // TODO: Convert to a gtp BitmapFont
+    drawStringImpl(x: number, y: number, text: string | number,
+        ctx: CanvasRenderingContext2D = this.getRenderingContext(),
+        fontResource: string) {
         const str: string = text.toString(); // Allow us to pass in stuff like numerics
 
         // Note we have a gtp.SpriteSheet, not a gtp.BitmapFont, so our
         // calculation of what sub-image to draw is a little convoluted
-        const fontImage: SpriteSheet = this.assets.get('font');
+        const fontImage: SpriteSheet = this.assets.get(fontResource);
         const alphaOffs: number = 'A'.charCodeAt(0);
         const numericOffs: number = '0'.charCodeAt(0);
         let index: number;
@@ -91,8 +105,12 @@ export class ZeldaGame extends Game {
                 }
             }
             fontImage.drawByIndex(ctx, x, y, index);
-            x += 9; // CHAR_WIDTH
+            x += 8; // CHAR_WIDTH
         }
+    }
+
+    getHud(): Hud {
+        return this.hud;
     }
 
     isWalkable(actor: Actor, x: number, y: number): boolean {

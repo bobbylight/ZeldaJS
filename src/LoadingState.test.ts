@@ -3,6 +3,15 @@ import { CurtainOpeningState } from './CurtainOpeningState';
 import { LoadingState } from './LoadingState';
 import { ZeldaGame } from './ZeldaGame';
 import { FadeOutInState, Utils } from 'gtp';
+import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
+
+const mockSpriteSheet: SpriteSheet = {
+    gtpImage: {
+        draw: vi.fn(),
+        height: 5,
+        width: 5,
+    },
+} as unknown as SpriteSheet;
 
 describe('LoadingState', () => {
     let game: ZeldaGame;
@@ -58,6 +67,7 @@ describe('LoadingState', () => {
                 addImageAtlasContentsSpy = vi.spyOn(game.assets, 'addImageAtlasContents').mockImplementation(() => {});
                 addJsonSpy = vi.spyOn(game.assets, 'addJson').mockImplementation(() => {});
                 addSoundSpy = vi.spyOn(game.assets, 'addSound').mockImplementation(() => {});
+                vi.spyOn(game.assets, 'get').mockImplementation(() => mockSpriteSheet);
                 /* eslint-disable @typescript-eslint/no-unsafe-call */
                 vi.spyOn(game.assets, 'onLoad').mockImplementation((callback) => {
                     callback();

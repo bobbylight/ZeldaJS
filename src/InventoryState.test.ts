@@ -1,6 +1,18 @@
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
 import { InventoryState } from './InventoryState';
 import { ZeldaGame } from './ZeldaGame';
+import { Image } from 'gtp';
+import { Link } from '@/Link';
+import { Map } from '@/Map';
+
+const mockImage = {
+    draw: vi.fn(),
+} as unknown as Image;
+
+const mockMap = {
+    currentScreenCol: 0,
+    currentScreenRow: 0,
+} as unknown as Map;
 
 describe('InventoryState', () => {
     let game: ZeldaGame;
@@ -9,6 +21,12 @@ describe('InventoryState', () => {
 
     beforeEach(() => {
         game = new ZeldaGame();
+        game.map = mockMap;
+        game.link = new Link(game);
+        game.assets.set('hud', mockImage);
+        game.assets.set('treasures.emptyHeart', mockImage);
+        game.assets.set('treasures.fullHeart', mockImage);
+        game.assets.set('treasures.bomb', mockImage);
         setStateSpy = game.setState = vi.fn();
         state = new InventoryState(game);
     });
@@ -21,11 +39,14 @@ describe('InventoryState', () => {
 
     describe('render()', () => {
         it('renders inventory to canvas', () => {
-            const drawStringSpy = vi.spyOn(game, 'drawString').mockImplementation(() => {});
+            const drawStringSpy = vi.spyOn(game, 'drawStringImpl').mockImplementation(() => {});
             const ctx = game.getRenderingContext();
             state.render(ctx);
 
-            expect(drawStringSpy).toHaveBeenCalledWith(40, 40, 'INVENTORY GOES HERE', ctx);
+            expect(drawStringSpy).toHaveBeenCalledWith(expect.any(Number), expect.any(Number), 'INVENTORY', ctx, 'fontRed');
+            expect(drawStringSpy).toHaveBeenCalledWith(expect.any(Number), expect.any(Number), 'USE B BUTTON', ctx, 'font');
+            expect(drawStringSpy).toHaveBeenCalledWith(expect.any(Number), expect.any(Number), 'FOR THIS', ctx, 'font');
+            expect(drawStringSpy).toHaveBeenCalledWith(expect.any(Number), expect.any(Number), 'TRIFORCE', ctx, 'fontRed');
         });
     });
 
