@@ -1,6 +1,26 @@
 import { describe, expect, it } from 'vitest';
-import { ChangeScreenWarpEventGenerator, GoDownStairsEventGenerator } from './event-generators';
+import {
+    BombableWallEventGenerator,
+    ChangeScreenWarpEventGenerator,
+    GoDownStairsEventGenerator,
+} from './event-generators';
 import { Position } from '@/Position';
+
+describe('BombableWallEventGenerator', () => {
+    describe('generate()', () => {
+        it('works', () => {
+            const gen = new BombableWallEventGenerator();
+            gen.setTile(new Position(3, 4));
+            gen.setDestination('map', new Position(1, 1), new Position(2, 2));
+            const actual = gen.generate();
+            expect(actual.tile).toEqual(new Position(3, 4));
+            expect(actual.destMap).toEqual('map');
+            expect(actual.destScreen).toEqual(new Position(1, 1));
+            expect(actual.destPos).toEqual(new Position(2, 2));
+            expect(actual.getAnimate()).toEqual(true);
+        });
+    });
+});
 
 describe('GoDownStairsEventGenerator', () => {
     describe('generate()', () => {

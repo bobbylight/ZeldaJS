@@ -3,8 +3,29 @@ import loadEvent from './event-loader';
 import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
 import { ChangeScreenWarpEvent } from '@/event/ChangeScreenWarpEvent';
 import { EventData } from '@/event/Event';
+import { BombableWallEvent } from '@/event/BombableWallEvent';
 
 describe('loadEvent', () => {
+    it('loads a bombableWall event', () => {
+        const data = {
+            animate: true,
+            type: 'bombableWall',
+            tile: { row: 1, col: 2 },
+            destMap: 'level1',
+            destScreen: { row: 3, col: 4 },
+            destPos: { row: 5, col: 6 },
+        };
+        const event = loadEvent(data);
+        expect(event).toBeInstanceOf(BombableWallEvent);
+        expect(event.tile.row).toBe(1);
+        expect(event.tile.col).toBe(2);
+        expect(event.destMap).toBe('level1');
+        expect(event.destScreen.row).toBe(3);
+        expect(event.destScreen.col).toBe(4);
+        expect(event.destPos.row).toBe(5);
+        expect(event.destPos.col).toBe(6);
+    });
+
     it('loads a goDownStairs event', () => {
         const data = {
             animate: true,

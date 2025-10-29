@@ -64,8 +64,10 @@ describe('ChangeScreenWarpEvent', () => {
             expect(exitCaveSpy).toHaveBeenCalledExactlyOnceWith(event);
         });
 
-        it('returns false', () => {
-            expect(event.execute(game)).toEqual(false);
+        it('returns false and no new events', () => {
+            const result = event.execute(game);
+            expect(result.done).toEqual(false);
+            expect(result.replacementEvents).toBeUndefined();
         });
 
         describe('when animate is false', () => {

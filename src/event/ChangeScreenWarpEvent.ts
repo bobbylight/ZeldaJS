@@ -1,4 +1,4 @@
-import { Event, EventData } from './Event';
+import { Event, EventData, EventResult} from './Event';
 import { Position } from '@/Position';
 import { ZeldaGame } from '@/ZeldaGame';
 import { AnimationListener } from '@/AnimationListener';
@@ -26,13 +26,13 @@ export class ChangeScreenWarpEvent extends Event<ChangeScreenWarpData> implement
             this.destPos.clone(), this.animate);
     }
 
-    execute(game: ZeldaGame): boolean {
+    override execute(game: ZeldaGame): EventResult {
         game.setMap(this.destMap, this.destScreen, this.destPos, false);
         if (this.animate) {
             game.audio.stopMusic();
             game.link.exitCave(this);
         }
-        return false;
+        return { done: false };
     }
 
     shouldOccur(): boolean {

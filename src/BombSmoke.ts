@@ -160,7 +160,17 @@ export class BombSmoke extends Actor {
 
     override update() {
         this.frame++;
-        if (this.frame >= (dirToFrameInfos.get(this.dir)?.length ?? 0)) {
+        if (this.frame === 1) {
+            this.game.map.currentScreen.checkForBombableWalls(this.hitBox);
+        }
+        else if (this.frame === MAX_DAMAGING_FRAME / 2) {
+            // Note: I don't know the exact bomb radius or timing. But in the real game, it "feels"
+            // like it's not initially the entire bounding box, but eventually grows to be.
+            // This is just an attempt to mimic that.
+            this.hitBox = new Rectangle(this.x - TILE_WIDTH, this.y - TILE_HEIGHT, 3 * TILE_WIDTH, 3 * TILE_HEIGHT);
+            this.game.map.currentScreen.checkForBombableWalls(this.hitBox);
+        }
+        else if (this.frame >= (dirToFrameInfos.get(this.dir)?.length ?? 0)) {
             this.done = true;
         }
     }

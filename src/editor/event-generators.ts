@@ -2,6 +2,7 @@ import { Event, EventData } from '@/event/Event';
 import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
 import { Position } from '@/Position';
 import { ChangeScreenWarpEvent } from '@/event/ChangeScreenWarpEvent';
+import { BombableWallEvent } from '@/event/BombableWallEvent';
 
 /**
  * Generates an event of some type.
@@ -28,6 +29,21 @@ export abstract class EventGenerator<E extends Event<EventData>> {
     }
 
     abstract generate(): E;
+}
+
+/**
+ * Generates "bombable wall" events.
+ */
+export class BombableWallEventGenerator extends EventGenerator<BombableWallEvent> {
+    constructor() {
+        super(BombableWallEvent.EVENT_TYPE);
+        this.setTile(new Position());
+        this.setDestination('overworld', new Position(), new Position());
+    }
+
+    generate(): BombableWallEvent {
+        return new BombableWallEvent(this.tile, this.destMap, this.destScreen, this.destPos, true, true);
+    }
 }
 
 /**

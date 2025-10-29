@@ -86,7 +86,7 @@
                                 />
                             </v-row>
 
-                            <v-row v-if="newGenerator.type === 'goDownStairs'/*GoDownStairsEvent.EVENT_TYPE*/">
+                            <v-row v-if="generatorRequiresSourceRow">
                                 <v-col class="xs6">
                                     <v-select
                                         v-model="rowBeingModified.tile.row"
@@ -230,8 +230,14 @@ import { Event, EventData } from '@/event/Event';
 import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
 import { Position } from '@/Position';
 import { ChangeScreenWarpEvent } from '@/event/ChangeScreenWarpEvent';
-import { ChangeScreenWarpEventGenerator, EventGenerator, GoDownStairsEventGenerator } from '@/editor/event-generators';
+import {
+    BombableWallEventGenerator,
+    ChangeScreenWarpEventGenerator,
+    EventGenerator,
+    GoDownStairsEventGenerator,
+} from '@/editor/event-generators';
 import { ZeldaGame } from '@/ZeldaGame';
+import { BombableWallEvent } from '@/event/BombableWallEvent';
 
 const props = defineProps<{
     game: ZeldaGame,
@@ -257,13 +263,15 @@ const headers = [
 const dense = ref(false);
 
 const generators = [
+    new BombableWallEventGenerator(),
     new GoDownStairsEventGenerator(),
     new ChangeScreenWarpEventGenerator(),
 ];
 
 const generatorSelectItems = [
-    { title: 'Go Down Stairs', value: generators[0] },
-    { title: 'Warp on Screen Change', value: generators[1] },
+    { title: 'Bombable Wall', value: generators[0] },
+    { title: 'Go Down Stairs', value: generators[1] },
+    { title: 'Warp on Screen Change', value: generators[2] },
 ];
 
 const maps = [
@@ -284,12 +292,19 @@ function typeColumnRenderer(eventType: string): string {
 }
 
 function descColumnRenderer(cellValue: Event<EventData>): string {
-    if (cellValue instanceof GoDownStairsEvent) {
+    if (cellValue instanceof BombableWallEvent) {
         const sourceTile: Position = cellValue.getTile();
         const map: string = cellValue.destMap;
         const screen: Position = cellValue.destScreen;
         const destPos: Position = cellValue.destPos;
-        return `(${sourceTile.row}, ${sourceTile.col}) to ${map}, screen (${screen.row}, ${screen.col}), pos (${destPos.row}, ${destPos.col})`;
+        return `Bombable (${sourceTile.row}, ${sourceTile.col}) to ${map}, screen (${screen.row}, ${screen.col}), pos (${destPos.row}, ${destPos.col})`;
+    }
+    else if (cellValue instanceof GoDownStairsEvent) {
+        const sourceTile: Position = cellValue.getTile();
+        const map: string = cellValue.destMap;
+        const screen: Position = cellValue.destScreen;
+        const destPos: Position = cellValue.destPos;
+        return `Stairs (${sourceTile.row}, ${sourceTile.col}) to ${map}, screen (${screen.row}, ${screen.col}), pos (${destPos.row}, ${destPos.col})`;
     }
     else if (cellValue instanceof ChangeScreenWarpEvent) {
         const map: string = cellValue.destMap;
@@ -373,7 +388,7 @@ function onSelectedItemsChanged() {
 }
 
 function getInitialValue(): Event<EventData> {
-    return new GoDownStairsEventGenerator().generate();
+    return new BombableWallEventGenerator().generate();
 }
 
 function refreshRowBeingModified() {
@@ -384,8 +399,7 @@ function refreshRowBeingModified() {
 
 function showAddOrEditModal(newRecord: boolean) {
     modifiedItemKey.value = newRecord ? null : selectedItems.value[0][itemKey.value] as string;
-    rowBeingModified.value = (newRecord ? getInitialValue()
-        : JSON.parse(JSON.stringify(selectedItems.value[0]))) as Event<EventData>;
+    rowBeingModified.value = newRecord ? getInitialValue() : selectedItems.value[0];
     newGenerator.value = generators.find((g: EventGenerator<Event<EventData>>) => {
         return g.type === rowBeingModified.value?.type;
     });
@@ -394,6 +408,12 @@ function showAddOrEditModal(newRecord: boolean) {
 
 const deleteDialogTitle = computed(() => `Delete ${itemName.value}`);
 const dialogTitle = computed(() => (selectedItems.value.length ? 'Edit ' : 'New ') + itemName.value);
+const generatorRequiresSourceRow = computed(() => {
+    return newGenerator.value && [
+        BombableWallEvent.EVENT_TYPE,
+        GoDownStairsEvent.EVENT_TYPE,
+    ].includes(newGenerator.value.type);
+});
 
 onMounted(() => {
     for (let i = 0; i <= 15; i += 0.5) {

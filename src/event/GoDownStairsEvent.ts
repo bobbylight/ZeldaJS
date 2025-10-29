@@ -1,7 +1,7 @@
 import { Animation } from '@/Animation';
 import { AnimationListener } from '@/AnimationListener';
 import { Position } from '@/Position';
-import { Event, EventData } from './Event';
+import { Event, EventData, EventResult } from './Event';
 import { ZeldaGame } from '@/ZeldaGame';
 import { CurtainOpeningState } from '@/CurtainOpeningState';
 import { MainGameState } from '@/MainGameState';
@@ -35,12 +35,12 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
             this.destPos.clone(), this.animate, this.curtainOpenNextScreen);
     }
 
-    execute(game: ZeldaGame): boolean {
+    override execute(game: ZeldaGame): EventResult {
         game.audio.stopMusic();
         if (this.animate) {
             game.link.enterCave(this);
         }
-        return false;
+        return { done: false };
     }
 
     shouldOccur(game: ZeldaGame): boolean {
