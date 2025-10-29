@@ -4,7 +4,6 @@ import { Enemy } from './enemy/Enemy';
 import { EnemyGroup, EnemyGroupData, EnemyInfo } from './EnemyGroup';
 import { Map } from './Map';
 import { InstanceLoader } from './InstanceLoader';
-import { Position } from './Position';
 import { Event, EventData } from './event/Event';
 import { Projectile } from './Projectile';
 import { Link } from './Link';
@@ -12,6 +11,8 @@ import { Tileset } from './Tileset';
 import { ZeldaGame } from './ZeldaGame';
 import { Sword } from './Sword';
 import loadEvent from './editor/event-loader';
+import { Rectangle } from 'gtp';
+import { BombableWallEvent } from '@/event/BombableWallEvent';
 
 export class Screen {
     private readonly parent: Map;
@@ -39,6 +40,20 @@ export class Screen {
 
     addActor(actor: Actor) {
         this.actors.push(actor);
+    }
+
+    checkForBombableWalls(area: Rectangle) {
+        this.events.forEach((event: Event<EventData>) => {
+            // TODO: Convert to discriminate types
+            //if (event.type === 'bombableWall') {
+            if (event instanceof BombableWallEvent) {
+                const r1 = new Rectangle(event.tile.col * TILE_WIDTH,
+                    event.tile.row * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
+                if (r1.intersects(area)) {
+                    event.setShouldOccur(true);
+                }
+            }
+        });
     }
 
     private containsNonZeroTile(): boolean {
@@ -175,11 +190,7 @@ export class Screen {
 
         if (this.parent.showEvents) {
             this.events.forEach((event: Event<EventData>) => {
-                const tile: Position = event.getTile();
-                const x: number = tile.col * TILE_WIDTH;
-                const y: number = tile.row * TILE_WIDTH;
-                ctx.strokeStyle = 'red';
-                ctx.strokeRect(x, y, TILE_WIDTH, TILE_HEIGHT);
+                event.paint(ctx);
             });
         }
     }
@@ -361,8 +372,12 @@ export class Screen {
         this.events.forEach((event: Event<EventData>) => {
             event.update();
             if (event.shouldOccur(game)) {
-                if (!event.execute(game)) { // execute() returning true => event is done
+                const result = event.execute(game);
+                if (!result.done) { // execute() returning true => event is done
                     remainingEvents.push(event);
+                }
+                if (result.replacementEvents) {
+                    remainingEvents.push(...result.replacementEvents);
                 }
             }
             else {

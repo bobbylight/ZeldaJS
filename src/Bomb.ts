@@ -12,6 +12,7 @@ import { HERO_HITBOX_STYLE } from '@/Constants';
 export class Bomb extends Actor {
     private frame: number;
 
+    // Bomb is visible for 60 frames == 1 second before exploding
     private static readonly MAX_FRAME: number = 60;
 
     constructor(game: ZeldaGame) {
@@ -24,7 +25,7 @@ export class Bomb extends Actor {
         switch (this.dir) {
             case 'DOWN':
                 this.x = link.x + 4;
-                this.y = link.y + 16 + 6;
+                this.y = link.y + 16;
                 break;
 
             case 'LEFT':
@@ -34,11 +35,11 @@ export class Bomb extends Actor {
 
             case 'UP':
                 this.x = link.x + 4;
-                this.y = link.y - 16 - 6;
+                this.y = link.y - 16;
                 break;
 
             case 'RIGHT':
-                this.x = link.x + 16 + 6;
+                this.x = link.x + 16 + 4;
                 this.y = link.y;
                 break;
         }

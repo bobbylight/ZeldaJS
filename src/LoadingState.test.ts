@@ -109,6 +109,7 @@ describe('LoadingState', () => {
                 expect(addSoundSpy).toHaveBeenCalledWith('refilling', 'res/sounds/rupees-changing-22050.wav');
                 expect(addSoundSpy).toHaveBeenCalledWith('rupeesDecreasingEnd',
                     'res/sounds/rupees-decreasing-end-22050.wav');
+                expect(addSoundSpy).toHaveBeenCalledWith('secret', 'res/sounds/LOZ_Secret.wav');
             });
 
             [ 'true', 'anyValue', '' ].forEach((skipTitleParam) => {

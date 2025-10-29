@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { HERO_HITBOX_STYLE } from '@/Constants';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Link } from '@/Link';
@@ -6,9 +6,20 @@ import Image from 'gtp/lib/gtp/Image';
 import { BombSmoke } from '@/BombSmoke';
 import { Octorok } from '@/enemy/Octorok';
 import { Direction } from '@/Direction';
+import { Map } from '@/Map';
+import { EnemyGroup } from '@/EnemyGroup';
 
 const mockImage = {
     drawByIndex: vi.fn(),
+};
+
+const mockScreen = {
+    checkForBombableWalls: vi.fn(),
+    enemyGroup: new EnemyGroup(),
+    paint: vi.fn(),
+    paintCol: vi.fn(),
+    paintRow: vi.fn(),
+    paintTopLayer: vi.fn(),
 };
 
 describe('BombSmoke', () => {
@@ -17,9 +28,24 @@ describe('BombSmoke', () => {
 
     beforeEach(() => {
         game = new ZeldaGame();
+        game.map = {
+            currentScreen: mockScreen,
+            // currentScreenRow: 1,
+            // currentScreenCol: 1,
+            // rowCount: 10,
+            // colCount: 10,
+            // getScreen: vi.fn(() => mockScreen),
+            // getTileset: () => mockTileset,
+            // tileset: mockTileset,
+        } as unknown as Map;
         game.link = new Link(game);
         game.assets.set('link', mockImage as unknown as Image);
         bombSmoke = new BombSmoke(game, 'UP', 0, 0);
+    });
+
+    afterEach(() => {
+        vi.resetAllMocks();
+        vi.restoreAllMocks();
     });
 
     describe('canDamageEnemies', () => {
@@ -66,6 +92,14 @@ describe('BombSmoke', () => {
     });
 
     describe('update()', () => {
+        it('checks for bombable walls occasionally', () => {
+            for (let frame = 0; frame < 29; frame++) {
+                bombSmoke.update();
+                expect(bombSmoke.done).toEqual(false);
+            }
+            expect(mockScreen.checkForBombableWalls).toHaveBeenCalledTimes(2);
+        });
+
         it('sets the actor to "done" after 30 frames', () => {
             for (let frame = 0; frame < 29; frame++) {
                 bombSmoke.update();

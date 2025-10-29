@@ -69,6 +69,7 @@ export class LoadingState extends BaseState {
                 // Used for both rupees and hearts? TBD? If it doesn't work for hearts, LOZ_Refill_Loop.wav will
                 game.assets.addSound('refilling', 'res/sounds/rupees-changing-22050.wav');
                 game.assets.addSound('rupeesDecreasingEnd', 'res/sounds/rupees-decreasing-end-22050.wav');
+                game.assets.addSound('secret', 'res/sounds/LOZ_Secret.wav');
                 game.assets.onLoad(() => {
                     // Generate a red version of the font
                     const ss: SpriteSheet = game.assets.get('font');

@@ -1,30 +1,46 @@
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
-import { GoDownStairsEvent } from './GoDownStairsEvent';
+import { BombableWallEvent } from './BombableWallEvent';
 import { ZeldaGame } from '@/ZeldaGame';
 import { MainGameState } from '@/MainGameState';
 import { Link } from '@/Link';
 import { Position } from '@/Position';
 import { createAnimation } from '@/test-utils';
 import { SpriteSheet } from 'gtp';
+import { EnemyGroup } from '@/EnemyGroup';
+import { Map } from '@/Map';
+import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
 
 const mockSpriteSheet = {
     drawByIndex: vi.fn(),
 } as unknown as SpriteSheet;
 
-describe('GoDownStairsEvent', () => {
+const mockScreen = {
+    checkForBombableWalls: vi.fn(),
+    enemyGroup: new EnemyGroup(),
+    paint: vi.fn(),
+    paintCol: vi.fn(),
+    paintRow: vi.fn(),
+    paintTopLayer: vi.fn(),
+    setTile: vi.fn(),
+};
+
+describe('BombableWallEvent', () => {
     let game: ZeldaGame;
     let tile: Position;
     let destScreen: Position;
     let destPos: Position;
-    let event: GoDownStairsEvent;
+    let event: BombableWallEvent;
 
     beforeEach(() => {
         game = new ZeldaGame();
+        game.map = {
+            currentScreen: mockScreen,
+        } as unknown as Map;
         game.link = new Link(game);
         tile = new Position(1, 2);
         destScreen = new Position(3, 4);
         destPos = new Position(5, 6);
-        event = new GoDownStairsEvent(tile, 'map1', destScreen, destPos, true, true);
+        event = new BombableWallEvent(tile, 'map1', destScreen, destPos, true, true);
     });
 
     afterEach(() => {
@@ -51,7 +67,7 @@ describe('GoDownStairsEvent', () => {
         });
 
         it('sets map without curtain if curtainOpenNextScreen is false', () => {
-            event = new GoDownStairsEvent(tile, 'map2', destScreen, destPos, true, false);
+            event = new BombableWallEvent(tile, 'map2', destScreen, destPos, true, false);
             const anim = createAnimation(game, mockSpriteSheet);
             event.animationCompleted(anim);
             expect(setMapSpy).toHaveBeenCalledExactlyOnceWith('map2', destScreen, destPos);
@@ -59,9 +75,9 @@ describe('GoDownStairsEvent', () => {
     });
 
     describe('clone()', () => {
-        it('returns a new GoDownStairsEvent with same data', () => {
+        it('returns a new BombableWallEvent with same data', () => {
             const clone = event.clone();
-            expect(clone).toBeInstanceOf(GoDownStairsEvent);
+            expect(clone).toBeInstanceOf(BombableWallEvent);
             expect(clone.type).toEqual(event.type);
             expect(clone.destMap).toEqual(event.destMap);
             expect(clone.destScreen).toEqual(event.destScreen);
@@ -71,53 +87,42 @@ describe('GoDownStairsEvent', () => {
     });
 
     describe('execute()', () => {
-        let enterCaveSpy: MockInstance<Link['enterCave']>;
-
-        beforeEach(() => {
-            enterCaveSpy = vi.spyOn(game.link, 'enterCave').mockImplementation(() => {});
-        });
-
-        it('stops music', () => {
-            const stopMusicSpy = vi.spyOn(game.audio, 'stopMusic').mockImplementation(() => {});
+        it('plays a sound effect', () => {
+            const playSoundSpy = vi.spyOn(game.audio, 'playSound').mockImplementation(() => 1);
             event.execute(game);
-            expect(stopMusicSpy).toHaveBeenCalledOnce();
+            expect(playSoundSpy).toHaveBeenCalledExactlyOnceWith('secret');
         });
 
-        it('makes Link enter the cave if animate is true', () => {
+        it('sets the event tile to a cave opening', () => {
             event.execute(game);
-            expect(enterCaveSpy).toHaveBeenCalledExactlyOnceWith(event);
+            expect(mockScreen.setTile).toHaveBeenCalledExactlyOnceWith(event.tile.row, event.tile.col, 61);
         });
 
-        it('does not make Link enter the cave if animate is false', () => {
-            event = new GoDownStairsEvent(tile, 'map1', destScreen, destPos, false, true);
-            event.execute(game);
-            expect(enterCaveSpy).not.toHaveBeenCalled();
-        });
-
-        it('returns false and no new events', () => {
+        it('returns true with a single replacement event', () => {
             const result = event.execute(game);
-            expect(result.done).toEqual(false);
-            expect(result.replacementEvents).toBeUndefined();
+            expect(result.done).toEqual(true);
+            expect(result.replacementEvents?.length).toEqual(1);
+            expect(result.replacementEvents?.[0]).toBeInstanceOf(GoDownStairsEvent);
+        });
+    });
+
+    describe('paint()', () => {
+        it('does not throw an error', () => {
+            const ctx = game.getRenderingContext();
+            expect(() => {
+                event.paint(ctx)
+            }).not.toThrowError();
         });
     });
 
     describe('shouldOccur()', () => {
-        it('returns true if link is walking up onto tile and dir is UP', () => {
-            game.link.isWalkingUpOnto = vi.fn(() => true);
-            game.link.dir = 'UP';
+        it('defaults to false', () => {
+            expect(event.shouldOccur(game)).toEqual(false);
+        });
+
+        it('toggles with its setter', () => {
+            event.setShouldOccur(true);
             expect(event.shouldOccur(game)).toEqual(true);
-        });
-
-        it('returns false if link is not walking up onto tile', () => {
-            game.link.isWalkingUpOnto = vi.fn(() => false);
-            game.link.dir = 'UP';
-            expect(event.shouldOccur(game)).toEqual(false);
-        });
-
-        it('returns false if link dir is not UP', () => {
-            game.link.isWalkingUpOnto = vi.fn(() => true);
-            game.link.dir = 'DOWN';
-            expect(event.shouldOccur(game)).toEqual(false);
         });
     });
 

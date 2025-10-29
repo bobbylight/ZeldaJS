@@ -8,14 +8,27 @@ import { Screen } from './Screen';
 import { Tileset } from './Tileset';
 import { ZeldaGame } from './ZeldaGame';
 import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
-import { SCREEN_COL_COUNT, SCREEN_ROW_COUNT } from '@/Constants';
+import { SCREEN_COL_COUNT, SCREEN_ROW_COUNT, TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
+import { Rectangle } from 'gtp';
+import { BombableWallEvent } from '@/event/BombableWallEvent';
 
 const mockPaintTile = vi.fn();
 const mockTileset = {
     paintTile: mockPaintTile,
 } as unknown as Tileset;
 
+const mockScreen = {
+    checkForBombableWalls: vi.fn(),
+    enemyGroup: new EnemyGroup(),
+    paint: vi.fn(),
+    paintCol: vi.fn(),
+    paintRow: vi.fn(),
+    paintTopLayer: vi.fn(),
+    setTile: vi.fn(),
+};
+
 const mockMap = {
+    currentScreen: mockScreen,
     getTileset: vi.fn(() => mockTileset),
     getTileTypeWalkability: vi.fn(() => 1),
     isLabyrinth: vi.fn(() => false),
@@ -28,6 +41,7 @@ describe('Screen', () => {
 
     beforeEach(() => {
         game = new ZeldaGame();
+        game.map = mockMap;
         game.link = new Link(game);
         screen = new Screen(mockMap, new EnemyGroup());
     });
@@ -51,6 +65,53 @@ describe('Screen', () => {
                 screen.addActor(actor);
             }).not.toThrow();
         });
+    });
+
+    describe('checkForBombableWalls', () => {
+        let tile: Position;
+        let destMap: string;
+        let destScreen: Position;
+        let destPos: Position;
+
+        beforeEach(() => {
+            tile = new Position(0, 0);
+            destMap = 'test-map';
+            destScreen = new Position(0, 0);
+            destPos = new Position(0, 0);
+        });
+
+        it('does nothing for other event types', () => {
+            const event = new GoDownStairsEvent(tile, destMap, destScreen, destPos, true, true);
+            screen.events.push(event);
+            screen.checkForBombableWalls(new Rectangle(
+                tile.col * TILE_WIDTH, tile.row * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT),
+            );
+            expect(event.shouldOccur(game)).toEqual(false);
+            expect(screen.events.length).toEqual(1);
+        });
+
+        describe('for bombable wall events', () => {
+            let event: BombableWallEvent;
+
+            beforeEach(() => {
+                event = new BombableWallEvent(tile, destMap, destScreen, destPos, true, true);
+                screen.events.push(event);
+            });
+
+            it('does nothing if the bomb explosion does not intersect the proper tile', () => {
+                screen.checkForBombableWalls(new Rectangle(1000, 1000, TILE_WIDTH, TILE_HEIGHT));
+                expect(event.shouldOccur(game)).toEqual(false);
+                expect(screen.events.length).toEqual(1);
+            });
+
+            it('marks the bombable wall event to occur if there is an intersection', () => {
+                screen.checkForBombableWalls(new Rectangle(
+                    tile.col * TILE_WIDTH, tile.row * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT),
+                );
+                expect(event.shouldOccur(game)).toEqual(true);
+                expect(screen.events.length).toEqual(1);
+            });
+        })
     });
 
     describe('getTile()', () => {
@@ -204,10 +265,25 @@ describe('Screen', () => {
                 false,
                 false,
             );
+            const occurrableEvent = new BombableWallEvent(
+                new Position(0, 0),
+                'Testap',
+                new Position(0, 0),
+                new Position(0, 0),
+                false,
+                false,
+            );
+            occurrableEvent.setShouldOccur(true);
             const updateSpy = vi.spyOn(event, 'update').mockImplementation(() => {});
-            screen.events.push(event);
+            const update2Spy = vi.spyOn(occurrableEvent, 'update').mockImplementation(() => {});
+            screen.events.push(event, occurrableEvent);
             screen.update(game);
+
             expect(updateSpy).toHaveBeenCalledOnce();
+            expect(update2Spy).toHaveBeenCalledOnce();
+            expect(screen.events.length).toEqual(2);
+            expect(screen.events[0]).toEqual(event);
+            expect(screen.events[1]).not.toEqual(occurrableEvent); // a GoDownStairsEvent
         });
     });
 });
