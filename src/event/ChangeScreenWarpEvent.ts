@@ -2,7 +2,7 @@ import { Event, EventData, EventResult} from './Event';
 import { ZeldaGame } from '@/ZeldaGame';
 import { AnimationListener } from '@/AnimationListener';
 import { Animation } from '@/Animation';
-import RowColumnPair from '@/RowColumnPair';
+import { RowColumnPair } from '@/RowColumnPair';
 
 /**
  * An event that denotes that Link is going to warp when moving to a new screen.<p>

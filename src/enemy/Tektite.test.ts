@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { SpriteSheet } from 'gtp';
+import { Tektite } from './Tektite';
 import { Link } from '@/Link';
 import { Screen } from '@/Screen';
 import { ZeldaGame } from '@/ZeldaGame';
-import { Tektite } from './Tektite';
-import { SpriteSheet } from 'gtp';
 
 const mockDrawByIndex = vi.fn();
 const mockSpriteSheet = {

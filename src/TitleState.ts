@@ -1,8 +1,8 @@
+import { Image, InputManager } from 'gtp';
 import { BaseState } from './BaseState';
 import { CurtainOpeningState } from './CurtainOpeningState';
 import { MainGameState } from './MainGameState';
 import { ZeldaGame } from './ZeldaGame';
-import { Image, InputManager } from 'gtp';
 
 export class TitleState extends BaseState {
     private lastKeypressTime: number;

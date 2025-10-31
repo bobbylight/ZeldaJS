@@ -1,4 +1,4 @@
-import { describe, it, beforeEach, afterEach, expect, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { EnemyGroup, EnemyInfo } from './EnemyGroup';
 
 describe('EnemyGroup', () => {

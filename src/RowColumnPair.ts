@@ -1,4 +1,4 @@
-export default interface RowColumnPair {
+export interface RowColumnPair {
     row: number;
     col: number;
 }

@@ -2,7 +2,7 @@ import { Store, createStore } from 'vuex';
 import { EditorState } from '@/editor/editor';
 import { ZeldaGame } from '@/ZeldaGame';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '@/Constants';
-import RowColumnPair from '@/RowColumnPair';
+import { RowColumnPair } from '@/RowColumnPair';
 
 // Initialize the game declared in zelda.ts
 const createGame: () => ZeldaGame = () => {
@@ -59,4 +59,4 @@ const store: Store<EditorState> = createStore({
     modules: {},
 });
 
-export default store;
+export { store };

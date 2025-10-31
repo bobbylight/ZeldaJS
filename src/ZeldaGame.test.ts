@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
+import { AudioSystem, SpriteSheet } from 'gtp';
 import { ZeldaGame } from './ZeldaGame';
 import { Link } from './Link';
 import { Map } from './Map';
 import { Octorok } from './enemy/Octorok';
 import { Screen } from './Screen';
-import { AudioSystem, SpriteSheet } from 'gtp';
 import { createAnimation, createMapData } from '@/test-utils';
 
 const mockSpriteSheet = {

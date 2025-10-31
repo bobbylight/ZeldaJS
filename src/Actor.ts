@@ -1,9 +1,9 @@
+import { Rectangle } from 'gtp';
 import { Direction } from './Direction';
 import { ENEMY_HITBOX_STYLE, TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { ZeldaGame } from './ZeldaGame';
-import { Rectangle } from 'gtp';
 import { Screen } from '@/Screen';
-import RowColumnPair from '@/RowColumnPair';
+import { RowColumnPair } from '@/RowColumnPair';
 
 export const MOVE_AMT = 1;
 

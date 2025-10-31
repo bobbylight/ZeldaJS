@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import loadEvent from './event-loader';
+import { loadEvent } from './event-loader';
 import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
 import { ChangeScreenWarpEvent } from '@/event/ChangeScreenWarpEvent';
 import { EventData } from '@/event/Event';

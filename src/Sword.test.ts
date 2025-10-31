@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
+import { AudioSystem } from 'gtp';
 import { Sword } from './Sword';
 import { Link } from './Link';
 import { Map } from './Map';
 import { ZeldaGame } from './ZeldaGame';
 import { Octorok } from '@/enemy/Octorok';
-import { AudioSystem } from 'gtp';
 import { Screen } from '@/Screen';
 
 const mockDrawByIndex = vi.fn();

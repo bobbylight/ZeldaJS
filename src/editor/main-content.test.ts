@@ -1,12 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/vue';
-import MainContent from './main-content.vue';
+import { fireEvent, render, screen } from '@testing-library/vue';
 import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
+import { SpriteSheet } from 'gtp';
+import MainContent from './main-content.vue';
 import { EnemyGroup } from '@/EnemyGroup';
-import { fireEvent } from '@testing-library/vue';
-import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 import { Map } from '@/Map';
 import { ZeldaGame } from '@/ZeldaGame';
 

@@ -1,15 +1,15 @@
+import { Game, SpriteSheet } from 'gtp';
+import { GameArgs } from 'gtp/lib/gtp/Game';
 import { Link } from './Link';
 import { Actor } from './Actor';
 import { Animation } from './Animation';
 import { Map } from './Map';
-import { Game, SpriteSheet } from 'gtp';
 import { ItemDropStrategy } from './item/ItemDropStrategy';
-import { GameArgs } from 'gtp/lib/gtp/Game';
 import { RupeeIncrementor } from '@/RupeeIncrementor';
 import { createEnemyDiesAnimation } from '@/Animations';
 import { Enemy } from '@/enemy/Enemy';
 import { Hud } from '@/Hud';
-import RowColumnPair from '@/RowColumnPair';
+import { RowColumnPair } from '@/RowColumnPair';
 
 type MapMap = Record<string, Map>;
 

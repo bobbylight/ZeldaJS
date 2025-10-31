@@ -1,8 +1,8 @@
+import { Rectangle, SpriteSheet } from 'gtp';
 import { HERO_HITBOX_STYLE, SCREEN_HEIGHT, SCREEN_WIDTH, TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { Direction } from './Direction';
 import { Actor } from './Actor';
 import { ZeldaGame } from './ZeldaGame';
-import { Rectangle, SpriteSheet } from 'gtp';
 import { Link } from './Link';
 import { SpriteSheetSpriteLocation } from '@/SpriteSheetSpriteLocation';
 import { Animation } from '@/Animation';

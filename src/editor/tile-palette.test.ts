@@ -1,11 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { RenderResult, render, screen } from '@testing-library/vue';
 import userEvent, { UserEvent } from '@testing-library/user-event';
-import TilePalette from './tile-palette.vue';
 import { createVuetify } from 'vuetify';
 import { nextTick } from 'vue';
+import { SpriteSheet } from 'gtp';
+import TilePalette from './tile-palette.vue';
 import { ZeldaGame } from '@/ZeldaGame';
-import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 import { Tileset } from '@/Tileset';
 
 const vuetify = createVuetify();

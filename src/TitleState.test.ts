@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
+import { Image, Keys, SpriteSheet } from 'gtp';
 import { TitleState } from './TitleState';
 import { ZeldaGame } from './ZeldaGame';
-import { Image, Keys, SpriteSheet } from 'gtp';
 
 const mockSpriteSheet = {
     drawByIndex: vi.fn(),

@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Map, MAP_HEADER, MapData } from './Map';
+import { SpriteSheet } from 'gtp';
+import { MAP_HEADER, Map, MapData } from './Map';
 import { ZeldaGame } from './ZeldaGame';
 import { createMapData } from '@/test-utils';
-import { SpriteSheet } from 'gtp';
 import { WALKABILITY_OVERWORLD } from '@/Constants';
 
 const mockSpriteSheet = {

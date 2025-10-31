@@ -4,8 +4,8 @@ import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import type { Component, Plugin } from 'vue';
 import { render, screen } from '@testing-library/vue';
-import NavBar from '@/editor/nav-bar.vue';
 import userEvent, { UserEvent } from '@testing-library/user-event';
+import NavBar from '@/editor/nav-bar.vue';
 
 const mocks = vi.hoisted(() => {
     const mockCommit = vi.fn();

@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { SpriteSheet } from 'gtp';
 import { Link } from './Link';
 import { AnimationProjectileRenderInfo, GoingOffScreenBehavior, Projectile } from './Projectile';
-import { SpriteSheet } from 'gtp';
 import { ZeldaGame } from './ZeldaGame';
 import { Octorok } from '@/enemy/Octorok';
 import { Animation } from '@/Animation';

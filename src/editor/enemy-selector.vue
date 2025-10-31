@@ -175,8 +175,8 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { EnemyGroup, EnemyInfo } from '@/EnemyGroup';
 import { v4 as uuidv4 } from 'uuid';
+import { EnemyGroup, EnemyInfo } from '@/EnemyGroup';
 import { ZeldaGame } from '@/ZeldaGame';
 
 const props = defineProps<{

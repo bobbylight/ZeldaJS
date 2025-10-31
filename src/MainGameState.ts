@@ -1,3 +1,4 @@
+import { Keys } from 'gtp';
 import { Direction, isHorizontal, isVertical } from './Direction';
 import { HUD_HEIGHT, SCREEN_HEIGHT, SCREEN_WIDTH, TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { BaseState } from './BaseState';
@@ -8,7 +9,6 @@ import { ChangeScreenWarpEvent } from './event/ChangeScreenWarpEvent';
 import { Event, EventData } from './event/Event';
 import { InventoryState } from '@/InventoryState';
 import { InventorySlideState } from '@/InventorySlideState';
-import { Keys } from 'gtp';
 
 const SCREEN_SLIDING_INC = 4;
 

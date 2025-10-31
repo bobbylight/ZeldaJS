@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { AudioSystem } from 'gtp';
 import {
     createEnemyDiesAnimation,
     createLinkDyingAnimation,
@@ -8,7 +9,6 @@ import {
 import { Link } from '@/Link';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Map } from '@/Map';
-import { AudioSystem } from 'gtp';
 import { Octorok } from '@/enemy/Octorok';
 import { Projectile } from '@/Projectile';
 import { Direction } from '@/Direction';

@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Image } from 'gtp';
 import { Bomb } from './Bomb';
 import { Link } from './Link';
 import { Map } from './Map';
 import { ZeldaGame } from './ZeldaGame';
 import { Octorok } from './enemy/Octorok';
-import Image from 'gtp/lib/gtp/Image';
 import { HERO_HITBOX_STYLE } from '@/Constants';
 
 const mockImage = {

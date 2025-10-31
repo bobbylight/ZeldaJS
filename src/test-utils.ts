@@ -1,5 +1,5 @@
-import { Animation } from '@/Animation';
 import { SpriteSheet } from 'gtp';
+import { Animation } from '@/Animation';
 import { ZeldaGame } from '@/ZeldaGame';
 import { MAP_HEADER, MapData } from '@/Map';
 

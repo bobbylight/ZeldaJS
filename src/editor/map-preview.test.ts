@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import MapPreview from './map-preview.vue';
 import { createVuetify } from 'vuetify';
+import MapPreview from './map-preview.vue';
 
 const vuetify = createVuetify();
 

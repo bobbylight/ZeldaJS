@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { SpriteSheet } from 'gtp';
 import { Animation } from './Animation';
 import { ZeldaGame } from './ZeldaGame';
 import { AnimationListener } from './AnimationListener';
-import { SpriteSheet } from 'gtp';
 
 const mockSpriteSheet = {
     cellW: 8,

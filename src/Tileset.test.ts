@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { SpriteSheet } from 'gtp';
 import { Tileset, TilesetData } from './Tileset';
 import { ZeldaGame } from './ZeldaGame';
-import { SpriteSheet } from 'gtp';
 
 const mockDrawByIndex = vi.fn();
 const mockSpriteSheet = {

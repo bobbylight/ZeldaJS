@@ -1,5 +1,5 @@
+import { Image } from 'gtp';
 import { ZeldaGame } from './ZeldaGame';
-import Image from 'gtp/lib/gtp/Image';
 import { Link } from './Link';
 
 export class Hud {

@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Image } from 'gtp';
 import { HERO_HITBOX_STYLE } from '@/Constants';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Link } from '@/Link';
-import Image from 'gtp/lib/gtp/Image';
 import { BombSmoke } from '@/BombSmoke';
 import { Octorok } from '@/enemy/Octorok';
 import { Direction } from '@/Direction';

@@ -3,8 +3,8 @@ import { createVuetify } from 'vuetify/framework';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import { render, screen } from '@testing-library/vue';
-import ActionablePanel from '@/editor/actionable-panel/actionable-panel.vue';
 import type { Component } from 'vue';
+import ActionablePanel from '@/editor/actionable-panel/actionable-panel.vue';
 
 const vuetify = createVuetify({
     components,

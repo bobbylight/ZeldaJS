@@ -1,8 +1,7 @@
+import { Image, Rectangle } from 'gtp';
 import { Actor } from './Actor';
 import { ZeldaGame } from './ZeldaGame';
 import { Link } from './Link';
-import Rectangle from 'gtp/lib/gtp/Rectangle';
-import Image from 'gtp/lib/gtp/Image';
 import { BombSmoke } from '@/BombSmoke';
 import { HERO_HITBOX_STYLE } from '@/Constants';
 

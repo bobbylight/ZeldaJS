@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'v
 import { ChangeScreenWarpEvent } from './ChangeScreenWarpEvent';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Link } from '@/Link';
-import RowColumnPair from '@/RowColumnPair';
+import { RowColumnPair } from '@/RowColumnPair';
 
 describe('ChangeScreenWarpEvent', () => {
     let game: ZeldaGame;

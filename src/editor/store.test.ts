@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import store from './store';
+import { store } from './store';
 import { Screen } from '@/Screen';
 import { ZeldaGame } from '@/ZeldaGame';
 

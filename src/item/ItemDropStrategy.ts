@@ -1,7 +1,7 @@
-import { Enemy } from '@/enemy/Enemy';
 import { AbstractItem } from './AbstractItem';
 import { Heart } from './Heart';
 import { Rupee } from './Rupee';
+import { Enemy } from '@/enemy/Enemy';
 
 type EnemyClass = 'A' | 'B' | 'C' | 'D' | 'X';
 

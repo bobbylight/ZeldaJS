@@ -1,9 +1,9 @@
-import { Event, EventData } from '@/event/Event';
 import {
     BombableWallEventGenerator,
     ChangeScreenWarpEventGenerator,
     GoDownStairsEventGenerator,
 } from './event-generators';
+import { Event, EventData } from '@/event/Event';
 import { GoDownStairsEvent, GoDownStairsEventData } from '@/event/GoDownStairsEvent';
 import { ChangeScreenWarpData, ChangeScreenWarpEvent } from '@/event/ChangeScreenWarpEvent';
 import { BombableWallData, BombableWallEvent } from '@/event/BombableWallEvent';
@@ -53,4 +53,4 @@ const loadEvent = (data: EventData): Event<EventData> => {
     }
 };
 
-export default loadEvent;
+export { loadEvent };

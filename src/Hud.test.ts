@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Image } from 'gtp';
 import { Hud } from './Hud';
 import { Link } from './Link';
 import { Map } from './Map';
 import { ZeldaGame } from './ZeldaGame';
-import { Image } from 'gtp';
 
 const mockImage = {
     draw: vi.fn(),
