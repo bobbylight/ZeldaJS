@@ -5,7 +5,6 @@ import { Link } from './Link';
 import { Map } from './Map';
 import { Screen } from './Screen';
 import { ZeldaGame } from './ZeldaGame';
-import { Position } from '@/Position';
 import { Image, Keys, SpriteSheet } from 'gtp';
 
 const mockImage = {
@@ -57,10 +56,10 @@ describe('MainGameState', () => {
     describe('changeScreenVertically()', () => {
         it('executes ChangeScreenWarpEvent if present', () => {
             const event = new ChangeScreenWarpEvent(
-                new Position(0, 0),
+                { row: 0, col: 0 },
                 'overworld',
-                new Position(1, 1),
-                new Position(1, 2),
+                { row: 1, col: 1 },
+                { row: 1, col: 2 },
                 false,
             );
             const changeScreensVerticallySpy = vi.spyOn(game.map, 'changeScreensVertically');
@@ -83,17 +82,17 @@ describe('MainGameState', () => {
 
         it('logs error if multiple ChangeScreenWarpEvents', () => {
             const event1 = new ChangeScreenWarpEvent(
-                new Position(0, 0),
+                { row: 0, col: 0 },
                 'overworld',
-                new Position(1, 1),
-                new Position(1, 2),
+                { row: 1, col: 1 },
+                { row: 1, col: 2 },
                 false,
             );
             const event2 = new ChangeScreenWarpEvent(
-                new Position(0, 0),
+                { row: 0, col: 0 },
                 'overworld',
-                new Position(1, 1),
-                new Position(1, 2),
+                { row: 1, col: 1 },
+                { row: 1, col: 2 },
                 false,
             );
             game.map.currentScreen.events.push(event1, event2);

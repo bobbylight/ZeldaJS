@@ -8,16 +8,15 @@ import * as directives from 'vuetify/directives';
 import { Plugin } from 'vue';
 import { UserEvent } from '@testing-library/user-event/index';
 import { Event, EventData } from '@/event/Event';
-import { Position } from '@/Position';
 
 function createEventMock(id: string, type = 'goDownStairs'): Event<EventData> {
     return {
         id,
         type,
-        tile: new Position(1, 2),
+        tile: { row: 1, col: 2 },
         destMap: 'overworld',
-        destScreen: new Position(3, 4),
-        destPos: new Position(5, 6),
+        destScreen: { row: 3, col: 4 },
+        destPos: { row: 5, col: 6 },
     } as unknown as Event<EventData>;
 }
 

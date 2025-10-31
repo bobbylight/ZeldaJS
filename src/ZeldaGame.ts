@@ -2,7 +2,6 @@ import { Link } from './Link';
 import { Actor } from './Actor';
 import { Animation } from './Animation';
 import { Map } from './Map';
-import { Position } from './Position';
 import { Game, SpriteSheet } from 'gtp';
 import { ItemDropStrategy } from './item/ItemDropStrategy';
 import { GameArgs } from 'gtp/lib/gtp/Game';
@@ -10,6 +9,7 @@ import { RupeeIncrementor } from '@/RupeeIncrementor';
 import { createEnemyDiesAnimation } from '@/Animations';
 import { Enemy } from '@/enemy/Enemy';
 import { Hud } from '@/Hud';
+import RowColumnPair from '@/RowColumnPair';
 
 type MapMap = Record<string, Map>;
 
@@ -161,7 +161,7 @@ export class ZeldaGame extends Game {
         }
     }
 
-    setMap(name: string, destScreen: Position, destPos: Position, immediatelyStartMusic = true) {
+    setMap(name: string, destScreen: RowColumnPair, destPos: RowColumnPair, immediatelyStartMusic = true) {
         this.map = this.maps[name];
         this.map.setCurrentScreen(destScreen.row, destScreen.col);
         this.link.setLocation(destPos.col * 16, destPos.row * 16);

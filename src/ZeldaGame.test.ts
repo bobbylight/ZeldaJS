@@ -3,7 +3,6 @@ import { ZeldaGame } from './ZeldaGame';
 import { Link } from './Link';
 import { Map } from './Map';
 import { Octorok } from './enemy/Octorok';
-import { Position } from './Position';
 import { Screen } from './Screen';
 import { AudioSystem, SpriteSheet } from 'gtp';
 import { createAnimation, createMapData } from '@/test-utils';
@@ -202,8 +201,8 @@ describe('ZeldaGame', () => {
 
     describe('setMap()', () => {
         it('sets the map, current screen, and Link location, and starts music', () => {
-            const destScreen = new Position(1, 2);
-            const destPos = new Position(3, 4);
+            const destScreen = { row: 1, col: 2 };
+            const destPos = { row: 3, col: 4 };
             game.setMap('overworld', destScreen, destPos, true);
             expect(game.map).toEqual(mockMap);
             expect(mockSetCurrentScreen).toHaveBeenCalledWith(1, 2);
@@ -213,8 +212,8 @@ describe('ZeldaGame', () => {
         });
 
         it('does not start music if immediatelyStartMusic is false', () => {
-            const destScreen = new Position(1, 2);
-            const destPos = new Position(3, 4);
+            const destScreen = { row: 1, col: 2 };
+            const destPos = { row: 3, col: 4 };
             game.setMap('overworld', destScreen, destPos, false);
             expect(mockPlayMusic).not.toHaveBeenCalled();
         });

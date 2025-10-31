@@ -228,7 +228,6 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import { Event, EventData } from '@/event/Event';
 import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
-import { Position } from '@/Position';
 import { ChangeScreenWarpEvent } from '@/event/ChangeScreenWarpEvent';
 import {
     BombableWallEventGenerator,
@@ -293,23 +292,23 @@ function typeColumnRenderer(eventType: string): string {
 
 function descColumnRenderer(cellValue: Event<EventData>): string {
     if (cellValue instanceof BombableWallEvent) {
-        const sourceTile: Position = cellValue.getTile();
+        const sourceTile = cellValue.tile;
         const map: string = cellValue.destMap;
-        const screen: Position = cellValue.destScreen;
-        const destPos: Position = cellValue.destPos;
+        const screen = cellValue.destScreen;
+        const destPos = cellValue.destPos;
         return `Bombable (${sourceTile.row}, ${sourceTile.col}) to ${map}, screen (${screen.row}, ${screen.col}), pos (${destPos.row}, ${destPos.col})`;
     }
     else if (cellValue instanceof GoDownStairsEvent) {
-        const sourceTile: Position = cellValue.getTile();
+        const sourceTile = cellValue.tile;
         const map: string = cellValue.destMap;
-        const screen: Position = cellValue.destScreen;
-        const destPos: Position = cellValue.destPos;
+        const screen = cellValue.destScreen;
+        const destPos = cellValue.destPos;
         return `Stairs (${sourceTile.row}, ${sourceTile.col}) to ${map}, screen (${screen.row}, ${screen.col}), pos (${destPos.row}, ${destPos.col})`;
     }
     else if (cellValue instanceof ChangeScreenWarpEvent) {
         const map: string = cellValue.destMap;
-        const screen: Position = cellValue.destScreen;
-        const destPos: Position = cellValue.destPos;
+        const screen = cellValue.destScreen;
+        const destPos = cellValue.destPos;
         return `Warp to ${map}, screen (${screen.row}, ${screen.col}), pos (${destPos.row}, ${destPos.col})`;
     }
     return 'Unknown';

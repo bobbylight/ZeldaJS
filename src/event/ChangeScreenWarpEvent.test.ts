@@ -2,21 +2,21 @@ import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'v
 import { ChangeScreenWarpEvent } from './ChangeScreenWarpEvent';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Link } from '@/Link';
-import { Position } from '@/Position';
+import RowColumnPair from '@/RowColumnPair';
 
 describe('ChangeScreenWarpEvent', () => {
     let game: ZeldaGame;
-    let tile: Position;
-    let destScreen: Position;
-    let destPos: Position;
+    let tile: RowColumnPair;
+    let destScreen: RowColumnPair;
+    let destPos: RowColumnPair;
     let event: ChangeScreenWarpEvent;
 
     beforeEach(() => {
         game = new ZeldaGame();
         game.link = new Link(game);
-        tile = new Position(1, 2);
-        destScreen = new Position(3, 4);
-        destPos = new Position(5, 6);
+        tile = { row: 1, col: 2 };
+        destScreen = { row: 3, col: 4 };
+        destPos = { row: 5, col: 6 };
         event = new ChangeScreenWarpEvent(tile, 'map1', destScreen, destPos, true);
     });
 
@@ -24,18 +24,6 @@ describe('ChangeScreenWarpEvent', () => {
         document.body.innerHTML = '';
         vi.resetAllMocks();
         vi.restoreAllMocks();
-    });
-
-    describe('clone()', () => {
-        it('returns a new ChangeScreenWarpEvent with same data', () => {
-            const clone = event.clone();
-            expect(clone).toBeInstanceOf(ChangeScreenWarpEvent);
-            expect(clone.type).toEqual(event.type);
-            expect(clone.destMap).toEqual(event.destMap);
-            expect(clone.destScreen).toEqual(event.destScreen);
-            expect(clone.destPos).toEqual(event.destPos);
-            expect(clone.animate).toEqual(event.animate);
-        });
     });
 
     describe('execute()', () => {

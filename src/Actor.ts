@@ -1,9 +1,9 @@
 import { Direction } from './Direction';
 import { ENEMY_HITBOX_STYLE, TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { ZeldaGame } from './ZeldaGame';
-import { Position } from './Position';
 import { Rectangle } from 'gtp';
 import { Screen } from '@/Screen';
+import RowColumnPair from '@/RowColumnPair';
 
 export const MOVE_AMT = 1;
 
@@ -82,7 +82,7 @@ export abstract class Actor {
      * @param tile The row/column of the tile.
      * @returns Whether this actor is entirely on the tile.
      */
-    isEntirelyOn(tile: Position): boolean {
+    isEntirelyOn(tile: RowColumnPair): boolean {
         const size: number = TILE_WIDTH; // TILE_HEIGHT is the same
         const x: number = tile.col * size;
         const y: number = tile.row * size;
@@ -114,7 +114,7 @@ export abstract class Actor {
      * @param tile The row/column of the tile.
      * @returns Whether this actor is walking onto it, facing upwards.
      */
-    isWalkingUpOnto(tile: Position): boolean {
+    isWalkingUpOnto(tile: RowColumnPair): boolean {
         if (this.dir === 'UP') {
             const size: number = TILE_HEIGHT;
             const x: number = tile.col * size;

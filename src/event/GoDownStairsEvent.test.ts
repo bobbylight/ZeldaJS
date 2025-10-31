@@ -3,9 +3,9 @@ import { GoDownStairsEvent } from './GoDownStairsEvent';
 import { ZeldaGame } from '@/ZeldaGame';
 import { MainGameState } from '@/MainGameState';
 import { Link } from '@/Link';
-import { Position } from '@/Position';
 import { createAnimation } from '@/test-utils';
 import { SpriteSheet } from 'gtp';
+import RowColumnPair from '@/RowColumnPair';
 
 const mockSpriteSheet = {
     drawByIndex: vi.fn(),
@@ -13,17 +13,17 @@ const mockSpriteSheet = {
 
 describe('GoDownStairsEvent', () => {
     let game: ZeldaGame;
-    let tile: Position;
-    let destScreen: Position;
-    let destPos: Position;
+    let tile: RowColumnPair;
+    let destScreen: RowColumnPair;
+    let destPos: RowColumnPair;
     let event: GoDownStairsEvent;
 
     beforeEach(() => {
         game = new ZeldaGame();
         game.link = new Link(game);
-        tile = new Position(1, 2);
-        destScreen = new Position(3, 4);
-        destPos = new Position(5, 6);
+        tile = { row: 1, col: 2 };
+        destScreen = { row: 3, col: 4 };
+        destPos = { row: 5, col: 6 };
         event = new GoDownStairsEvent(tile, 'map1', destScreen, destPos, true, true);
     });
 
@@ -55,18 +55,6 @@ describe('GoDownStairsEvent', () => {
             const anim = createAnimation(game, mockSpriteSheet);
             event.animationCompleted(anim);
             expect(setMapSpy).toHaveBeenCalledExactlyOnceWith('map2', destScreen, destPos);
-        });
-    });
-
-    describe('clone()', () => {
-        it('returns a new GoDownStairsEvent with same data', () => {
-            const clone = event.clone();
-            expect(clone).toBeInstanceOf(GoDownStairsEvent);
-            expect(clone.type).toEqual(event.type);
-            expect(clone.destMap).toEqual(event.destMap);
-            expect(clone.destScreen).toEqual(event.destScreen);
-            expect(clone.destPos).toEqual(event.destPos);
-            expect(clone.animate).toEqual(event.animate);
         });
     });
 

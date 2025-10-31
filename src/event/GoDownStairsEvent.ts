@@ -1,10 +1,10 @@
 import { Animation } from '@/Animation';
 import { AnimationListener } from '@/AnimationListener';
-import { Position } from '@/Position';
 import { Event, EventData, EventResult } from './Event';
 import { ZeldaGame } from '@/ZeldaGame';
 import { CurtainOpeningState } from '@/CurtainOpeningState';
 import { MainGameState } from '@/MainGameState';
+import RowColumnPair from '@/RowColumnPair';
 
 /**
  * Occurs when Link steps on a stairwell or doorway on the overworld map.
@@ -14,7 +14,7 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
 
     private readonly curtainOpenNextScreen: boolean;
 
-    constructor(tile: Position, destMap: string, destScreen: Position, destPos: Position, animate: boolean,
+    constructor(tile: RowColumnPair, destMap: string, destScreen: RowColumnPair, destPos: RowColumnPair, animate: boolean,
         curtainOpenNextScreen: boolean) {
         super(GoDownStairsEvent.EVENT_TYPE, tile, destMap, destScreen, destPos, animate);
         this.curtainOpenNextScreen = curtainOpenNextScreen;
@@ -28,11 +28,6 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
         else {
             anim.game.setMap(this.destMap, this.destScreen, this.destPos);
         }
-    }
-
-    clone(): GoDownStairsEvent {
-        return new GoDownStairsEvent(this.getTile().clone(), this.destMap, this.destScreen.clone(),
-            this.destPos.clone(), this.animate, this.curtainOpenNextScreen);
     }
 
     override execute(game: ZeldaGame): EventResult {
@@ -51,11 +46,11 @@ export class GoDownStairsEvent extends Event<GoDownStairsEventData> implements A
     toJson(): GoDownStairsEventData {
         return {
             type: this.type,
-            tile: this.tile.toJson(),
+            tile: this.tile,
             animate: this.animate,
             destMap: this.destMap,
-            destScreen: this.destScreen.toJson(),
-            destPos: this.destPos.toJson(),
+            destScreen: this.destScreen,
+            destPos: this.destPos,
         };
     }
 
