@@ -1,3 +1,4 @@
+import { InputManager, Keys, Rectangle, SpriteSheet } from 'gtp';
 import { Character } from './Character';
 import { Actor, MOVE_AMT } from './Actor';
 import { Animation } from './Animation';
@@ -8,15 +9,14 @@ import { HERO_HITBOX_STYLE, SCREEN_COL_COUNT, SCREEN_ROW_COUNT, TILE_HEIGHT, TIL
 import { Sword } from './Sword';
 import { MainGameState } from './MainGameState';
 import { ZeldaGame } from './ZeldaGame';
-import { InputManager, Keys, Rectangle, SpriteSheet } from 'gtp';
 import { Projectile } from './Projectile';
 import { Bomb } from './Bomb';
 import {
-    alwaysSwordThrowingStrategy,
     LinkSwordThrowingStrategy,
+    SwordThrowingStrategyName,
+    alwaysSwordThrowingStrategy,
     maxHeartsSwordThrowingStrategy,
     swordThrowingStrategyForName,
-    SwordThrowingStrategyName,
 } from '@/LinkSwordThrowingStrategy';
 import {
     createLinkDyingAnimation,

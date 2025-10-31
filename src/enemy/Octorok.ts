@@ -1,7 +1,7 @@
-import { Projectile } from '@/Projectile';
 import { AbstractWalkingEnemy } from './AbstractWalkingEnemy';
-import { ZeldaGame } from '@/ZeldaGame';
 import { EnemyStrength } from './Enemy';
+import { Projectile } from '@/Projectile';
+import { ZeldaGame } from '@/ZeldaGame';
 
 const CHANGE_DIR_TIMER_MAX = 120; // 2 seconds
 

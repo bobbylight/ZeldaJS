@@ -1,12 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { RenderResult, render, screen, within } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import EventEditor from './event-editor.vue';
 import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import { Plugin } from 'vue';
 import { UserEvent } from '@testing-library/user-event/index';
+import EventEditor from './event-editor.vue';
 import { Event, EventData } from '@/event/Event';
 
 function createEventMock(id: string, type = 'goDownStairs'): Event<EventData> {

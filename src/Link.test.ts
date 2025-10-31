@@ -1,9 +1,9 @@
-import { MockInstance, afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
+import { AudioSystem, InputManager, Keys, SpriteSheet } from 'gtp';
 import { Link } from './Link';
 import { Map } from '@/Map';
 import { Octorok } from '@/enemy/Octorok';
 import { ZeldaGame } from '@/ZeldaGame';
-import { AudioSystem, InputManager, Keys, SpriteSheet } from 'gtp';
 import { Projectile } from '@/Projectile';
 import { opposite } from '@/Direction';
 import { AnimationListener } from '@/AnimationListener';

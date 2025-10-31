@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Link } from '@/Link';
-import { Moblin } from './Moblin';
-import { ZeldaGame } from '@/ZeldaGame';
 import { SpriteSheet } from 'gtp';
+import { Moblin } from './Moblin';
+import { Link } from '@/Link';
+import { ZeldaGame } from '@/ZeldaGame';
 import { Map } from '@/Map';
 
 const mockDrawByIndex = vi.fn();

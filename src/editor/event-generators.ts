@@ -2,7 +2,7 @@ import { Event, EventData } from '@/event/Event';
 import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
 import { ChangeScreenWarpEvent } from '@/event/ChangeScreenWarpEvent';
 import { BombableWallEvent } from '@/event/BombableWallEvent';
-import RowColumnPair from '@/RowColumnPair';
+import { RowColumnPair } from '@/RowColumnPair';
 
 /**
  * Generates an event of some type.

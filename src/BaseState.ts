@@ -1,6 +1,5 @@
+import { InputManager, Keys, SpriteSheet, State, Utils } from 'gtp';
 import { ZeldaGame } from './ZeldaGame';
-import { InputManager, Keys, State, Utils } from 'gtp';
-import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 
 export class BaseState extends State<ZeldaGame> {
     static readonly INPUT_REPEAT_MILLIS: number = 200;

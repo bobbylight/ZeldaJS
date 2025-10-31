@@ -1,9 +1,8 @@
+import { FadeOutInState, Game, ImageAtlasInfo, SpriteSheet, Utils } from 'gtp';
 import { CurtainOpeningState } from './CurtainOpeningState';
 import { MainGameState } from './MainGameState';
 import { TitleState } from './TitleState';
 import { BaseState } from './BaseState';
-import { FadeOutInState, Game, SpriteSheet, Utils } from 'gtp';
-import { ImageAtlasInfo } from 'gtp/lib/gtp/ImageAtlas';
 import { createRecoloredSpriteSheet } from '@/Utils';
 
 /**

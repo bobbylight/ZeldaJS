@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
+import { AssetLoader, Image } from 'gtp';
 import { Rupee } from './Rupee';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Link } from '@/Link';
-import { AssetLoader, Image } from 'gtp';
 import { Octorok } from '@/enemy/Octorok';
 
 const mockImageDraw = vi.fn();

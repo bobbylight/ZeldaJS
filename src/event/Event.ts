@@ -1,6 +1,6 @@
 import { ZeldaGame } from '@/ZeldaGame';
 import { TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
-import RowColumnPair from '@/RowColumnPair';
+import { RowColumnPair } from '@/RowColumnPair';
 
 let count = 0;
 

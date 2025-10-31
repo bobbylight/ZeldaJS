@@ -1,9 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
+import { FadeOutInState, SpriteSheet, Utils } from 'gtp';
 import { CurtainOpeningState } from './CurtainOpeningState';
 import { LoadingState } from './LoadingState';
 import { ZeldaGame } from './ZeldaGame';
-import { FadeOutInState, Utils } from 'gtp';
-import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 
 const mockSpriteSheet: SpriteSheet = {
     gtpImage: {

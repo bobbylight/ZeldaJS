@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import ScreenMisc from './screen-misc.vue';
 import { createVuetify } from 'vuetify';
-import { Screen } from '@/Screen';
 import { nextTick } from 'vue';
+import ScreenMisc from './screen-misc.vue';
+import { Screen } from '@/Screen';
 
 const mocks = vi.hoisted(() => {
     const mockCommit = vi.fn();

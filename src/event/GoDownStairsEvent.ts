@@ -1,10 +1,10 @@
+import { Event, EventData, EventResult } from './Event';
 import { Animation } from '@/Animation';
 import { AnimationListener } from '@/AnimationListener';
-import { Event, EventData, EventResult } from './Event';
 import { ZeldaGame } from '@/ZeldaGame';
 import { CurtainOpeningState } from '@/CurtainOpeningState';
 import { MainGameState } from '@/MainGameState';
-import RowColumnPair from '@/RowColumnPair';
+import { RowColumnPair } from '@/RowColumnPair';
 
 /**
  * Occurs when Link steps on a stairwell or doorway on the overworld map.

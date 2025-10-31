@@ -4,6 +4,7 @@ import tseslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
 import vueEslintParser from 'vue-eslint-parser';
 import pluginVue from 'eslint-plugin-vue';
+import importPlugin from 'eslint-plugin-import';
 
 export default [
     js.configs.recommended,
@@ -35,6 +36,7 @@ export default [
 
         plugins: {
             '@stylistic': stylistic,
+            'import': importPlugin,
         },
 
         files: [
@@ -84,11 +86,14 @@ export default [
                 "allowNullish": true,
                 "allowNumber": true,
             }],
+            "import/no-default-export": "error",
+            "import/no-duplicates": "error",
+            "import/no-relative-packages": "error",
+            "import/order": "error",
             indent: ["error", 4, {"SwitchCase": 1}],
             "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
             "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
             semi: "off",
-            //"sort-imports": "error",
             "space-before-function-paren": ["error", "never"],
             "vue/html-indent": ["error", 4],
             // Needed for v-data-table "item.colName" renderer slots

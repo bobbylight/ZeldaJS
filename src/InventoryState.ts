@@ -1,6 +1,6 @@
+import { InputManager } from 'gtp';
 import { BaseState } from './BaseState';
 import { MainGameState } from './MainGameState';
-import { InputManager } from 'gtp';
 import { InventorySlideState } from '@/InventorySlideState';
 import { CANVAS_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH } from '@/Constants';
 

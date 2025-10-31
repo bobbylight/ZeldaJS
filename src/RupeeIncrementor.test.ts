@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
+import { AudioSystem } from 'gtp';
 import { RupeeIncrementor } from '@/RupeeIncrementor';
 import { ZeldaGame } from '@/ZeldaGame';
-import { AudioSystem } from 'gtp';
 import { Link } from '@/Link';
 
 describe('RupeeIncrementor', () => {

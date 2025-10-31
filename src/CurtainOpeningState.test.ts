@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
+import { SpriteSheet } from 'gtp';
 import { CurtainOpeningState } from './CurtainOpeningState';
 import { MainGameState } from './MainGameState';
 import { ZeldaGame } from './ZeldaGame';
 import { Map } from '@/Map';
-import { SpriteSheet } from 'gtp';
 
 const mockSpriteSheet = {
     drawByIndex: vi.fn(),

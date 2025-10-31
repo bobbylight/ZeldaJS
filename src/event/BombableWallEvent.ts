@@ -5,7 +5,7 @@ import { MainGameState } from '@/MainGameState';
 import { ZeldaGame } from '@/ZeldaGame';
 import { TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
 import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
-import RowColumnPair from '@/RowColumnPair';
+import { RowColumnPair } from '@/RowColumnPair';
 
 /**
  * Event that denotes a bombable wall.

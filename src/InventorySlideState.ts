@@ -1,6 +1,6 @@
+import { Delay, State } from 'gtp';
 import { SCREEN_HEIGHT } from './Constants';
 import { ZeldaGame } from './ZeldaGame';
-import { Delay, State } from 'gtp';
 import { BaseState } from '@/BaseState';
 
 export class InventorySlideState extends State<ZeldaGame> {

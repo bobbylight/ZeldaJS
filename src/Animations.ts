@@ -1,7 +1,6 @@
+import { FadeOutInState, SpriteSheet } from 'gtp';
 import { Animation } from '@/Animation';
 import { ZeldaGame } from '@/ZeldaGame';
-import { SpriteSheet } from 'gtp';
-import FadeOutInState from 'gtp/lib/gtp/FadeOutInState';
 import { TitleState } from '@/TitleState';
 import { AnimationListener } from '@/AnimationListener';
 import { Actor } from '@/Actor';

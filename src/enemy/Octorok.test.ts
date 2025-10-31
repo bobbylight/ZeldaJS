@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
-import { Link } from '@/Link';
-import { Octorok } from './Octorok';
-import { ZeldaGame } from '@/ZeldaGame';
 import { AudioSystem, SpriteSheet } from 'gtp';
+import { Octorok } from './Octorok';
+import { Link } from '@/Link';
+import { ZeldaGame } from '@/ZeldaGame';
 import { Map } from '@/Map';
 import { Sword } from '@/Sword';
 

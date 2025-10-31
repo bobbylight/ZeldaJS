@@ -1,7 +1,7 @@
+import { Rectangle, SpriteSheet } from 'gtp';
 import { Actor } from '@/Actor';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Direction } from '@/Direction';
-import { Rectangle, SpriteSheet } from 'gtp';
 import { HERO_HITBOX_STYLE, TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
 
 interface FrameInfo {

@@ -1,3 +1,4 @@
+import { SpriteSheet } from 'gtp';
 import { Character } from '@/Character';
 import { Actor } from '@/Actor';
 import { SCREEN_COL_COUNT, SCREEN_ROW_COUNT } from '@/Constants';
@@ -5,7 +6,6 @@ import { ordinal } from '@/Direction';
 import { Sword } from '@/Sword';
 import { Screen } from '@/Screen';
 import { ZeldaGame } from '@/ZeldaGame';
-import { SpriteSheet } from 'gtp';
 import { AbstractItem } from '@/item/AbstractItem';
 import { Projectile } from '@/Projectile';
 import { BombSmoke } from '@/BombSmoke';

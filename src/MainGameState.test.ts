@@ -1,11 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
+import { Image, Keys, SpriteSheet } from 'gtp';
 import { MainGameState } from './MainGameState';
 import { ChangeScreenWarpEvent } from './event/ChangeScreenWarpEvent';
 import { Link } from './Link';
 import { Map } from './Map';
 import { Screen } from './Screen';
 import { ZeldaGame } from './ZeldaGame';
-import { Image, Keys, SpriteSheet } from 'gtp';
 
 const mockImage = {
     draw: vi.fn(),

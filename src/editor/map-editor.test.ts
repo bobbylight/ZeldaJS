@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/vue';
 import userEvent, { UserEvent } from '@testing-library/user-event';
-import MapEditor from './map-editor.vue';
 import { createVuetify } from 'vuetify';
+import MapEditor from './map-editor.vue';
 
 const mocks = vi.hoisted(() => {
     const mockCommit = vi.fn();

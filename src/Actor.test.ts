@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Rectangle, SpriteSheet } from 'gtp';
 import { Actor, ActorData } from './Actor';
 import { ZeldaGame } from './ZeldaGame';
-import { Rectangle, SpriteSheet } from 'gtp';
 import { Map } from '@/Map';
 
 class TestActor extends Actor {

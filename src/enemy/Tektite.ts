@@ -1,8 +1,8 @@
-import { SCREEN_COL_COUNT, SCREEN_HEIGHT, SCREEN_ROW_COUNT } from '@/Constants';
+import { Rectangle } from 'gtp';
 import { Enemy, EnemyStrength } from './Enemy';
+import { SCREEN_COL_COUNT, SCREEN_HEIGHT, SCREEN_ROW_COUNT } from '@/Constants';
 import { Screen } from '@/Screen';
 import { ZeldaGame } from '@/ZeldaGame';
-import { Rectangle } from 'gtp';
 
 const TOP_MARGIN_ROWS = 2;
 const MAX_PAUSE_TIME = 60;

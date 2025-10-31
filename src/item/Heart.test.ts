@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
+import { AssetLoader, Image } from 'gtp';
 import { Heart } from './Heart';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Link } from '@/Link';
-import { AssetLoader, Image } from 'gtp';
 import { TILE_HEIGHT } from '@/Constants';
 import { Octorok } from '@/enemy/Octorok';
 

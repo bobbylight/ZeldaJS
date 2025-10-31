@@ -1,3 +1,4 @@
+import { Rectangle } from 'gtp';
 import { Actor, ActorData } from './Actor';
 import { SCREEN_COL_COUNT, SCREEN_ROW_COUNT, TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { Enemy } from './enemy/Enemy';
@@ -10,8 +11,7 @@ import { Link } from './Link';
 import { Tileset } from './Tileset';
 import { ZeldaGame } from './ZeldaGame';
 import { Sword } from './Sword';
-import loadEvent from './editor/event-loader';
-import { Rectangle } from 'gtp';
+import { loadEvent } from './editor/event-loader';
 import { BombableWallEvent } from '@/event/BombableWallEvent';
 
 export class Screen {

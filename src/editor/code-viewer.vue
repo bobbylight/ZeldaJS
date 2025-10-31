@@ -21,10 +21,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { MapData } from '@/Map';
 import highlighter from 'jshighlight/lib/highlighter';
 import JsonParser from 'jshighlight/lib/parsers/json-parser';
-import '../../node_modules/jshighlight/src/styles/jshl-default.css';
+import { MapData } from '@/Map';
+import 'jshighlight/src/styles/jshl-default.css';
 import { ZeldaGame } from '@/ZeldaGame';
 
 const props = defineProps<{

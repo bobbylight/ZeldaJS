@@ -12,8 +12,8 @@
 
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { SpriteSheet } from 'gtp';
 import { TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
-import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 import { Tileset } from '@/Tileset';
 import { ZeldaGame } from '@/ZeldaGame';
 

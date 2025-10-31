@@ -1,8 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
+import { Keys, SpriteSheet, Utils } from 'gtp';
 import { BaseState } from './BaseState';
 import { ZeldaGame } from './ZeldaGame';
-import { Keys, Utils } from 'gtp';
-import SpriteSheet from 'gtp/lib/gtp/SpriteSheet';
 
 const mockSpriteSheet = {
     cellW: 8,

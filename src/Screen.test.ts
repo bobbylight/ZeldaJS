@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Rectangle } from 'gtp';
 import { EnemyGroup } from './EnemyGroup';
 import { Link } from './Link';
 import { Map } from './Map';
@@ -8,9 +9,8 @@ import { Tileset } from './Tileset';
 import { ZeldaGame } from './ZeldaGame';
 import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
 import { SCREEN_COL_COUNT, SCREEN_ROW_COUNT, TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
-import { Rectangle } from 'gtp';
 import { BombableWallEvent } from '@/event/BombableWallEvent';
-import RowColumnPair from '@/RowColumnPair';
+import { RowColumnPair } from '@/RowColumnPair';
 
 const mockPaintTile = vi.fn();
 const mockTileset = {

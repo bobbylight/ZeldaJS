@@ -1,9 +1,9 @@
+import { Rectangle } from 'gtp';
+import { Enemy, EnemyStrength } from './Enemy';
 import { randomDir } from '@/Direction';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/Constants';
 import { Actor } from '@/Actor';
-import { Enemy, EnemyStrength } from './Enemy';
 import { ZeldaGame } from '@/ZeldaGame';
-import { Rectangle } from 'gtp';
 import { Projectile } from '@/Projectile';
 
 /**

@@ -1,14 +1,14 @@
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
+import { SpriteSheet } from 'gtp';
 import { BombableWallEvent } from './BombableWallEvent';
 import { ZeldaGame } from '@/ZeldaGame';
 import { MainGameState } from '@/MainGameState';
 import { Link } from '@/Link';
 import { createAnimation } from '@/test-utils';
-import { SpriteSheet } from 'gtp';
 import { EnemyGroup } from '@/EnemyGroup';
 import { Map } from '@/Map';
 import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
-import RowColumnPair from '@/RowColumnPair';
+import { RowColumnPair } from '@/RowColumnPair';
 
 const mockSpriteSheet = {
     drawByIndex: vi.fn(),
