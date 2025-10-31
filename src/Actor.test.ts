@@ -2,7 +2,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Actor, ActorData } from './Actor';
 import { ZeldaGame } from './ZeldaGame';
 import { Rectangle, SpriteSheet } from 'gtp';
-import { Position } from './Position';
 import { Map } from '@/Map';
 
 class TestActor extends Actor {
@@ -84,13 +83,13 @@ describe('Actor', () => {
 
     describe('isEntirelyOn()', () => {
         it('returns true if actor is entirely on the tile', () => {
-            const tile = new Position();
+            const tile = { row: 0, col: 0 };
             vi.spyOn(Rectangle.prototype, 'containsRect').mockReturnValue(true);
             expect(actor.isEntirelyOn(tile)).toEqual(true);
         });
 
         it('returns false if actor is not entirely on the tile', () => {
-            const tile = new Position();
+            const tile = { row: 0, col: 0 };
             vi.spyOn(Rectangle.prototype, 'containsRect').mockReturnValue(false);
             expect(actor.isEntirelyOn(tile)).toEqual(false);
         });
@@ -100,20 +99,20 @@ describe('Actor', () => {
         it('returns true if actor is moving up and edge is on tile', () => {
             actor.dir = 'UP';
             actor.hitBox = new Rectangle(16, 16, 16, 16);
-            const tile = new Position(1, 1);
+            const tile = { row: 1, col: 1 };
             expect(actor.isWalkingUpOnto(tile)).toEqual(true);
         });
 
         it('returns false if not moving up', () => {
             actor.dir = 'DOWN';
-            const tile = new Position();
+            const tile = { row: 0, col: 0 };
             expect(actor.isWalkingUpOnto(tile)).toEqual(false);
         });
 
         it('returns false if not at tile edge', () => {
             actor.dir = 'UP';
             actor.hitBox = new Rectangle(0, 0, 16, 16);
-            const tile = new Position(1, 1);
+            const tile = { row: 1, col: 1 };
             vi.spyOn(Rectangle.prototype, 'contains').mockReturnValue(false);
             expect(actor.isWalkingUpOnto(tile)).toEqual(false);
         });

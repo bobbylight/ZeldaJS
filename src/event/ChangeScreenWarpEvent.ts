@@ -1,8 +1,8 @@
 import { Event, EventData, EventResult} from './Event';
-import { Position } from '@/Position';
 import { ZeldaGame } from '@/ZeldaGame';
 import { AnimationListener } from '@/AnimationListener';
 import { Animation } from '@/Animation';
+import RowColumnPair from '@/RowColumnPair';
 
 /**
  * An event that denotes that Link is going to warp when moving to a new screen.<p>
@@ -14,16 +14,11 @@ import { Animation } from '@/Animation';
 export class ChangeScreenWarpEvent extends Event<ChangeScreenWarpData> implements AnimationListener {
     static readonly EVENT_TYPE: string = 'changeScreenWarp';
 
-    constructor(tile: Position, destMap: string, destScreen: Position, destPos: Position, animate: boolean) {
+    constructor(tile: RowColumnPair, destMap: string, destScreen: RowColumnPair, destPos: RowColumnPair, animate: boolean) {
         super(ChangeScreenWarpEvent.EVENT_TYPE, tile, destMap, destScreen, destPos, animate);
     }
 
     animationCompleted(anim: Animation) {
-    }
-
-    clone(): ChangeScreenWarpEvent {
-        return new ChangeScreenWarpEvent(this.getTile().clone(), this.destMap, this.destScreen.clone(),
-            this.destPos.clone(), this.animate);
     }
 
     override execute(game: ZeldaGame): EventResult {
@@ -44,11 +39,11 @@ export class ChangeScreenWarpEvent extends Event<ChangeScreenWarpData> implement
     toJson(): ChangeScreenWarpData {
         return {
             type: this.type,
-            tile: this.tile.toJson(),
+            tile: this.tile,
             animate: this.animate,
             destMap: this.destMap,
-            destScreen: this.destScreen.toJson(),
-            destPos: this.destPos.toJson(),
+            destScreen: this.destScreen,
+            destPos: this.destPos,
         };
     }
 

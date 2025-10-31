@@ -9,7 +9,6 @@ import { Event, EventData } from './event/Event';
 import { InventoryState } from '@/InventoryState';
 import { InventorySlideState } from '@/InventorySlideState';
 import { Keys } from 'gtp';
-import { Position } from '@/Position';
 
 const SCREEN_SLIDING_INC = 4;
 
@@ -65,12 +64,12 @@ export class MainGameState extends BaseState {
 
         // Warp to the "real" game start screen
         if (im.isKeyDown(Keys.KEY_S, true)) {
-            this.game.setMap('overworld', new Position(7, 6), new Position(4, 4), false);
+            this.game.setMap('overworld', { row: 7, col: 6 }, { row: 4, col: 4 }, false);
             this.game.setStatusMessage('Warped to: start screen');
         }
         // Warp to Level 1 entrance
         else if (im.isKeyDown(Keys.KEY_1, true)) {
-            this.game.setMap('overworld', new Position(3, 6), new Position(5, 7), false);
+            this.game.setMap('overworld', { row: 3, col: 6 }, { row: 5, col: 7 }, false);
             this.game.setStatusMessage('Warped to: Level 1');
         }
         // Always shoot swords

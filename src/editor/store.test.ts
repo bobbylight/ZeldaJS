@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import store from './store';
 import { Screen } from '@/Screen';
 import { ZeldaGame } from '@/ZeldaGame';
-import { Position } from '@/Position';
 
 const mockScreen = {
     music: 'fakeMusic',
@@ -52,8 +51,8 @@ describe('store', () => {
         store.commit('setMap', 'level1');
         expect(mockGame.setMap).toHaveBeenCalledWith(
             'level1',
-            expect.any(Position),
-            expect.any(Position),
+            expect.objectContaining({ row: -1, col: -1 }),
+            expect.objectContaining({ row: 0, col: 0 }),
         );
     });
 

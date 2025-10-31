@@ -2,7 +2,6 @@ import { Store, createStore } from 'vuex';
 import { EditorState } from '@/editor/editor';
 import { ZeldaGame } from '@/ZeldaGame';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '@/Constants';
-import { Position } from '@/Position';
 import RowColumnPair from '@/RowColumnPair';
 
 // Initialize the game declared in zelda.ts
@@ -40,8 +39,8 @@ const store: Store<EditorState> = createStore({
             }
         },
         setMap(state: EditorState, map: string) {
-            const destScreen: Position = new Position(state.currentScreenRow, state.currentScreenCol);
-            const destPos: Position = new Position(0, 0);
+            const destScreen = { row: state.currentScreenRow, col: state.currentScreenCol };
+            const destPos = { row: 0, col: 0 };
             state.game.setMap(map, destScreen, destPos);
 
             // When moving from a larger map to a smaller one, we may not have been able to preserve

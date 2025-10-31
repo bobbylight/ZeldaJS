@@ -3,7 +3,6 @@ import { EnemyGroup } from './EnemyGroup';
 import { Link } from './Link';
 import { Map } from './Map';
 import { Octorok } from './enemy/Octorok';
-import { Position } from './Position';
 import { Screen } from './Screen';
 import { Tileset } from './Tileset';
 import { ZeldaGame } from './ZeldaGame';
@@ -11,6 +10,7 @@ import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
 import { SCREEN_COL_COUNT, SCREEN_ROW_COUNT, TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
 import { Rectangle } from 'gtp';
 import { BombableWallEvent } from '@/event/BombableWallEvent';
+import RowColumnPair from '@/RowColumnPair';
 
 const mockPaintTile = vi.fn();
 const mockTileset = {
@@ -68,16 +68,16 @@ describe('Screen', () => {
     });
 
     describe('checkForBombableWalls', () => {
-        let tile: Position;
+        let tile: RowColumnPair;
         let destMap: string;
-        let destScreen: Position;
-        let destPos: Position;
+        let destScreen: RowColumnPair;
+        let destPos: RowColumnPair;
 
         beforeEach(() => {
-            tile = new Position(0, 0);
+            tile = { row: 0, col: 0 };
             destMap = 'test-map';
-            destScreen = new Position(0, 0);
-            destPos = new Position(0, 0);
+            destScreen = { row: 0, col: 0 };
+            destPos = { row: 0, col: 0 };
         });
 
         it('does nothing for other event types', () => {
@@ -151,10 +151,10 @@ describe('Screen', () => {
     describe('paint()', () => {
         beforeEach(() => {
             screen.events.push(new GoDownStairsEvent(
-                new Position(0, 0),
+                { row: 0, col: 0 },
                 'TestMap',
-                new Position(0, 0),
-                new Position(0, 0),
+                { row: 0, col: 0 },
+                { row: 0, col: 0 },
                 false,
                 false,
             ));
@@ -258,18 +258,18 @@ describe('Screen', () => {
 
         it('updates actions', () => {
             const event = new GoDownStairsEvent(
-                new Position(0, 0),
+                { row: 0, col: 0 },
                 'TestMap',
-                new Position(0, 0),
-                new Position(0, 0),
+                { row: 0, col: 0 },
+                { row: 0, col: 0 },
                 false,
                 false,
             );
             const occurrableEvent = new BombableWallEvent(
-                new Position(0, 0),
+                { row: 0, col: 0 },
                 'Testap',
-                new Position(0, 0),
-                new Position(0, 0),
+                { row: 0, col: 0 },
+                { row: 0, col: 0 },
                 false,
                 false,
             );
