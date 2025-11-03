@@ -105,6 +105,10 @@ describe('Map', () => {
         });
     });
 
+    it('getGame() works', () => {
+        expect(map.getGame()).toEqual(game);
+    });
+
     describe('getTileset()', () => {
         it('returns the tileset', () => {
             expect(map.getTileset().getName()).toEqual('overworld');

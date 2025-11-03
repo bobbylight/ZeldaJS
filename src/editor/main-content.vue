@@ -116,6 +116,7 @@
                     <enemy-selector
                         v-model="store.state.currentScreen.enemyGroup"
                         :game="game"
+                        @change="handleEnemyGroupChanged"
                     />
                 </actionable-panel>
             </v-col>
@@ -134,6 +135,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { Store, useStore } from 'vuex';
+import { ImageAtlasInfo } from 'gtp';
 import MapEditor from '@/editor/map-editor.vue';
 import { ZeldaGame } from '@/ZeldaGame';
 import ScreenMisc from '@/editor/screen-misc.vue';
@@ -168,6 +170,12 @@ function onTileSelected(index: number) {
 
 function setCurrentScreen(row: number, col: number) {
     store.commit('setCurrentScreen', { row, col });
+}
+
+function handleEnemyGroupChanged() {
+    if (game.value) { // Should always be true
+        store.state.currentScreen?.reload(game.value);
+    }
 }
 
 function installKeyHandlers() {
@@ -217,13 +225,43 @@ function installKeyHandlers() {
 }
 
 onMounted(() => {
+    // TODO: Share resource loading with LoadingState.ts
+    const npcAtlasInfo: ImageAtlasInfo = {
+        prefix: 'npcs.',
+        firstPixelIsTranslucent: true,
+        images: [
+            { id: 'oldMan1', x: 1, y: 11, w: 16, h: 16 },
+            { id: 'oldMan2', x: 18, y: 11, w: 16, h: 16 },
+            { id: 'merchant', x: 126, y: 11, w: 16, h: 16 },
+        ],
+    };
+    const treasureAtlasInfo: ImageAtlasInfo = {
+        prefix: 'treasures.',
+        firstPixelIsTranslucent: true,
+        images: [
+
+            { id: 'fullHeart', x: 0, y: 0, s: 8 },
+            { id: 'halfHeart', x: 8, y: 0, s: 8 },
+            { id: 'emptyHeart', x: 16, y: 0, s: 8 },
+            { id: 'blueHeart', x: 0, y: 8, s: 8 },
+
+            { id: 'yellowRupee', x: 72, y: 0, w: 8, h: 16 },
+            { id: 'blueRupee', x: 72, y: 16, w: 8, h: 16 },
+
+            { id: 'bomb', x: 136, y: 0, w: 8, h: 14 },
+        ],
+    };
+
     const g: ZeldaGame = store.state.game;
 
     g.assets.addImage('title', '/res/title.png');
     g.assets.addSpriteSheet('font', '/res/font.png', 9, 7, 0, 0);
     g.assets.addSpriteSheet('link', 'res/link.png', 16, 16, 1, 1, true);
+    g.assets.addSpriteSheet('enemies', 'res/enemies.png', 16, 16, 1, 1, true);
     g.assets.addSpriteSheet('overworld', 'res/overworld.png', 16, 16);
     g.assets.addSpriteSheet('labyrinths', 'res/level1.png', 16, 16);
+    g.assets.addImageAtlasContents('treaureAtlas', 'res/treasures.png', treasureAtlasInfo);
+    g.assets.addImageAtlasContents('npcAtlas', 'res/npcs.png', npcAtlasInfo);
     g.assets.addImage('hud', 'res/hud.png');
     g.assets.addJson('overworldData', 'res/data/overworld.json');
     g.assets.addJson('level1Data', 'res/data/level1.json');

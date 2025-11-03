@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Rectangle } from 'gtp';
+import { Image, Rectangle } from 'gtp';
 import { EnemyGroup } from './EnemyGroup';
 import { Link } from './Link';
 import { Map } from './Map';
@@ -11,6 +11,12 @@ import { GoDownStairsEvent } from '@/event/GoDownStairsEvent';
 import { SCREEN_COL_COUNT, SCREEN_ROW_COUNT, TILE_HEIGHT, TILE_WIDTH } from '@/Constants';
 import { BombableWallEvent } from '@/event/BombableWallEvent';
 import { RowColumnPair } from '@/RowColumnPair';
+import { ShopScreenInteraction } from '@/ScreenInteraction';
+import { TextTyper } from '@/TextTyper';
+
+const mockImage = {
+    draw: vi.fn(),
+};
 
 const mockPaintTile = vi.fn();
 const mockTileset = {
@@ -41,6 +47,8 @@ describe('Screen', () => {
 
     beforeEach(() => {
         game = new ZeldaGame();
+        game.assets.set('treasures.bomb', mockImage as unknown as Image);
+        game.assets.set('treasures.yellowRupee', mockImage as unknown as Image);
         game.map = mockMap;
         game.link = new Link(game);
         screen = new Screen(mockMap, new EnemyGroup());
@@ -114,6 +122,95 @@ describe('Screen', () => {
         })
     });
 
+    describe('enter()', () => {
+        describe('when there is an enemy group', () => {
+            beforeEach(() => {
+                screen = new Screen(mockMap, new EnemyGroup('random', [
+                    {
+                        type: 'Octorok',
+                        id: '123',
+                    },
+                    {
+                        type: 'Lynel',
+                        id: '456',
+                        count: 3,
+                    },
+                ]));
+            });
+
+            describe('the first time the screen is entered', () => {
+                it('adds an actor for each enemy', () => {
+                    expect(screen.getActorCount()).toEqual(0);
+                    screen.enter(game);
+                    expect(screen.getActorCount()).toEqual(4);
+                });
+            });
+
+            describe('when the screen is entered a second time', () => {
+                it('reloads the enemies', () => {
+                    screen.enter(game);
+                    expect(screen.getActorCount()).toEqual(4);
+                    screen.exit();
+                    screen.enter(game);
+                    expect(screen.getActorCount()).toEqual(4);
+                });
+
+                it.skip('loads the first N enemies in the list if any were killed', () => {
+                    // TODO: Implement me
+                });
+            });
+
+            describe('when there is an interaction', () => {
+                let interaction: ShopScreenInteraction;
+
+                beforeEach(() => {
+                    interaction = {
+                        type: 'shop',
+                        greeting: 'Test greeting',
+                        seller: 'merchant',
+                        items: [
+                            {
+                                type: 'bomb',
+                                price: 10,
+                            },
+                        ],
+                    };
+                    screen.setScreenInteraction(interaction);
+                });
+
+                it('starts typing the greeting', () => {
+                    expect(screen.isGreetingBeingTyped()).toEqual(false);
+                    screen.enter(game);
+                    expect(screen.isGreetingBeingTyped()).toEqual(true);
+                });
+
+                it('adds actors for the seller, the items and the cost indicator', () => {
+                    expect(screen.getActorCount()).toEqual(0);
+                    screen.enter(game);
+                    // 4 enemies and the 3 actors for the shop
+                    expect(screen.getActorCount()).toEqual(4 + 5);
+                });
+            });
+        });
+    });
+
+    describe('getScreenInteraction() / setScreenInteraction()', () => {
+        it('works', () => {
+            expect(screen.getScreenInteraction()).not.toBeDefined();
+            const interaction: ShopScreenInteraction = {
+                type: 'shop',
+                items: [ {
+                    type: 'bomb',
+                    price: 10,
+                } ],
+                seller: 'merchant',
+                greeting: 'Test greeting',
+            };
+            screen.setScreenInteraction(interaction);
+            expect(screen.getScreenInteraction()).toEqual(interaction);
+        });
+    });
+
     describe('getTile()', () => {
         it('returns the correct tile value', () => {
             screen.setTile(0, 0, 42);
@@ -125,6 +222,36 @@ describe('Screen', () => {
         it('sets the tile at the given position', () => {
             screen.setTile(1, 2, 7);
             expect(screen.getTile(1, 2)).toEqual(7);
+        });
+    });
+
+    describe('isGreetingBeingTyped()', () => {
+        const interaction: ShopScreenInteraction = {
+            type: 'shop',
+            items: [ {
+                type: 'bomb',
+                price: 10,
+            } ],
+            seller: 'merchant',
+            greeting: 'Test greeting',
+        };
+
+        it('returns false if not typing', () => {
+            expect(screen.isGreetingBeingTyped()).toEqual(false);
+        });
+
+        it('returns true if typing', () => {
+            screen.setScreenInteraction(interaction);
+            screen.enter(game); // Needed to initialize the interaction
+            expect(screen.isGreetingBeingTyped()).toEqual(true);
+        });
+
+        it('returns false if was typing, but the greeting has completed', () => {
+            vi.spyOn(TextTyper.prototype, 'isDone').mockReturnValue(true);
+
+            screen.setScreenInteraction(interaction);
+            screen.enter(game); // Needed to initialize the interaction
+            expect(screen.isGreetingBeingTyped()).toEqual(false);
         });
     });
 
@@ -226,6 +353,14 @@ describe('Screen', () => {
         });
     });
 
+    describe('reload()', () => {
+        it('does not throw', () => {
+            expect(() => {
+                screen.reload(game);
+            }).not.toThrowError();
+        });
+    });
+
     describe('toJson()', () => {
         it('returns null if unpopulated', () => {
             screen.enemyGroup = undefined;
@@ -252,7 +387,7 @@ describe('Screen', () => {
             const actor = new Octorok(game);
             screen.addActor(actor);
             const spy = vi.spyOn(actor, 'update').mockImplementation(() => {});
-            screen.update(game);
+            screen.update(game, 16);
             expect(spy).toHaveBeenCalledOnce();
         });
 
@@ -277,13 +412,44 @@ describe('Screen', () => {
             const updateSpy = vi.spyOn(event, 'update').mockImplementation(() => {});
             const update2Spy = vi.spyOn(occurrableEvent, 'update').mockImplementation(() => {});
             screen.events.push(event, occurrableEvent);
-            screen.update(game);
+            screen.update(game, 16);
 
             expect(updateSpy).toHaveBeenCalledOnce();
             expect(update2Spy).toHaveBeenCalledOnce();
             expect(screen.events.length).toEqual(2);
             expect(screen.events[0]).toEqual(event);
             expect(screen.events[1]).not.toEqual(occurrableEvent); // a GoDownStairsEvent
+        });
+
+        describe('when text is being typed', () => {
+            const interaction: ShopScreenInteraction = {
+                type: 'shop',
+                greeting: 'Test greeting',
+                seller: 'merchant',
+                items: [
+                    {
+                        type: 'bomb',
+                        price: 10,
+                    },
+                ],
+            };
+
+            beforeEach(() => {
+                screen.setScreenInteraction(interaction);
+                screen.enter(game); // To initialize the interaction
+            });
+
+            it('updates the text typer', () => {
+                const typerUpdateSpy = vi.spyOn(TextTyper.prototype, 'update').mockImplementation(() => false);
+                screen.update(game, 16);
+                expect(typerUpdateSpy).toHaveBeenCalledExactlyOnceWith(16);
+            });
+
+            it('does not update Link', () => {
+                const linkUpdateSpy = vi.spyOn(game.link, 'update').mockImplementation(() => {});
+                screen.update(game, 16);
+                expect(linkUpdateSpy).not.toHaveBeenCalled();
+            });
         });
     });
 });

@@ -62,16 +62,15 @@ export class Bomb extends Actor {
         return HERO_HITBOX_STYLE;
     }
 
-    paint(ctx: CanvasRenderingContext2D) {
-        this.possiblyPaintHitBox(ctx);
-
+    override paintImpl(ctx: CanvasRenderingContext2D) {
         if (this.frame < Bomb.MAX_FRAME - 2) { // First two frames, we aren't painted
             const image: Image = this.game.assets.get('treasures.bomb');
             image.draw(ctx, this.x, this.y);
         }
     }
 
-    update() {
+    override update() {
+        super.update();
         const link: Link = this.game.link;
         this.frame--;
 

@@ -15,6 +15,17 @@ export class LoadingState extends BaseState {
         this.handleDefaultKeys();
 
         if (!this.assetsLoaded) {
+            const npcAtlasInfo: ImageAtlasInfo = {
+                prefix: 'npcs.',
+                firstPixelIsTranslucent: true,
+                images: [
+                    { id: 'oldMan1', x: 1, y: 11, s: 16 },
+                    { id: 'oldMan2', x: 18, y: 11, s: 16 },
+                    { id: 'fire1', x: 51, y: 11, s: 16 },
+                    { id: 'fire2', x: 68, y: 11, s: 16 },
+                    { id: 'merchant', x: 126, y: 11, s: 16 },
+                ],
+            };
             const treasureAtlasInfo: ImageAtlasInfo = {
                 prefix: 'treasures.',
                 firstPixelIsTranslucent: true,
@@ -46,6 +57,7 @@ export class LoadingState extends BaseState {
                 game.assets.addSpriteSheet('overworld', 'res/overworld.png', 16, 16);
                 game.assets.addSpriteSheet('labyrinths', 'res/level1.png', 16, 16);
                 game.assets.addImageAtlasContents('treaureAtlas', 'res/treasures.png', treasureAtlasInfo);
+                game.assets.addImageAtlasContents('npcAtlas', 'res/npcs.png', npcAtlasInfo);
                 game.assets.addImage('hud', 'res/hud.png');
                 game.assets.addJson('overworldData', 'res/data/overworld.json');
                 game.assets.addJson('level1Data', 'res/data/level1.json');

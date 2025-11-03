@@ -86,6 +86,7 @@ describe('LoadingState', () => {
                 expect(addSpriteSheetSpy).toHaveBeenCalledWith('overworld', 'res/overworld.png', 16, 16);
                 expect(addSpriteSheetSpy).toHaveBeenCalledWith('labyrinths', 'res/level1.png', 16, 16);
                 expect(addImageAtlasContentsSpy).toHaveBeenCalledWith('treaureAtlas', 'res/treasures.png', expect.anything());
+                expect(addImageAtlasContentsSpy).toHaveBeenCalledWith('npcAtlas', 'res/npcs.png', expect.anything());
                 expect(addImageSpy).toHaveBeenCalledWith('hud', 'res/hud.png');
                 expect(addJsonSpy).toHaveBeenCalledWith('overworldData', 'res/data/overworld.json');
                 expect(addJsonSpy).toHaveBeenCalledWith('level1Data', 'res/data/level1.json');

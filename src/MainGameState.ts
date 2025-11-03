@@ -176,14 +176,14 @@ export class MainGameState extends BaseState {
 
         // Only update enemies, etc. if Link isn't going down a stairwell
         else if (!game.link.isAnimationRunning()) {
-            game.map.currentScreen.update(game);
+            game.map.currentScreen.update(game, delta);
             game.updateAnimations();
             game.updateRupees(delta);
         }
 
         super.update(delta);
 
-        if (this.screenSlidingAmount === 0) {
+        if (this.screenSlidingAmount === 0 && !game.map.currentScreen.isGreetingBeingTyped()) {
             game.link.handleInput(game.inputManager);
         }
 

@@ -104,10 +104,25 @@ describe('ZeldaGame', () => {
             const ctx = canvas.getContext('2d');
             expect(ctx).toBeDefined();
             if (ctx) {
-                const text = 'HELLO1-.>@! ';
+                const text = 'HELLO1-.>@!\' ';
                 game.drawString(10, 10, text, ctx);
                 expect(mockFontImage.drawByIndex).toHaveBeenCalledTimes(text.length);
             }
+        });
+    });
+
+    describe('isEditMode()', () => {
+        it('defaults to false', () => {
+            expect(game.isEditMode()).toEqual(false);
+        });
+
+        it('can be set to true', () => {
+            const editModeGame = new ZeldaGame({
+                editMode: true,
+                height: 100,
+                width: 100,
+            });
+            expect(editModeGame.isEditMode()).toEqual(true);
         });
     });
 
@@ -158,10 +173,13 @@ describe('ZeldaGame', () => {
 
     describe('incRupees() / updateRupees()', () => {
         it('works', () => {
-            expect(game.link.getRupeeCount()).toEqual(0);
+            expect(game.link.getRupeeCount()).toEqual(255);
             game.incRupees(1);
-            game.updateRupees(16);
-            expect(game.link.getRupeeCount()).toEqual(1);
+            game.updateRupees(48);
+            expect(game.link.getRupeeCount()).toEqual(256);
+            game.incRupees(-1);
+            game.updateRupees(48);
+            expect(game.link.getRupeeCount()).toEqual(255);
         });
     });
 

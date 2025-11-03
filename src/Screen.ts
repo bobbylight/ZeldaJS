@@ -1,6 +1,6 @@
 import { Rectangle } from 'gtp';
 import { Actor, ActorData } from './Actor';
-import { SCREEN_COL_COUNT, SCREEN_ROW_COUNT, TILE_HEIGHT, TILE_WIDTH } from './Constants';
+import { SCREEN_COL_COUNT, SCREEN_ROW_COUNT, SCREEN_WIDTH, TILE_HEIGHT, TILE_WIDTH } from './Constants';
 import { Enemy } from './enemy/Enemy';
 import { EnemyGroup, EnemyGroupData, EnemyInfo } from './EnemyGroup';
 import { Map } from './Map';
@@ -13,6 +13,13 @@ import { ZeldaGame } from './ZeldaGame';
 import { Sword } from './Sword';
 import { loadEvent } from './editor/event-loader';
 import { BombableWallEvent } from '@/event/BombableWallEvent';
+import { ScreenInteraction } from '@/ScreenInteraction';
+import { Npc } from '@/Npc';
+import { ShopItem } from '@/ShopItem';
+import { TextTyper } from '@/TextTyper';
+import { CostIndicator } from '@/CostIndicator';
+import { Fire } from '@/Fire';
+import { AbstractItem } from '@/item/AbstractItem';
 
 export class Screen {
     private readonly parent: Map;
@@ -24,6 +31,8 @@ export class Screen {
     private thrownSwordActorActive: boolean;
     events: Event<EventData>[];
     music?: string | null | undefined;
+    private interaction: ScreenInteraction | undefined;
+    private greetingTyper?: TextTyper | undefined;
 
     constructor(parent: Map, enemyGroup: EnemyGroup = new EnemyGroup(), tiles?: number[][]) {
         this.parent = parent;
@@ -94,7 +103,7 @@ export class Screen {
                 // First N enemies in the enemy list respawn; see:
                 // https://www.gamefaqs.com/boards/563433-the-legend-of-zelda/73732540?jumpto=9
 
-                const count: number = this.actors.length; // Assuming here that "actors" is remaining enemies
+                const count: number = this.actors.filter((a) => a instanceof Enemy).length;
                 this.actors.length = 0;
                 for (let i = 0; i < count; i++) {
                     const enemyInfo: EnemyInfo = this.flattenedEnemyGroup.enemies[i];
@@ -103,6 +112,46 @@ export class Screen {
                     this.actors.push(enemy);
                 }
             }
+        }
+
+        const interaction = this.interaction;
+        if (interaction) {
+            if (interaction.greeting) {
+                this.greetingTyper = new TextTyper(game, interaction.greeting);
+            }
+            if (interaction.type === 'shop') {
+                let x = (SCREEN_WIDTH - TILE_WIDTH) / 2;
+                let y = TILE_HEIGHT * 4;
+                const npc = new Npc(game, interaction.seller, x, y);
+                npc.isPartOfInteraction = true;
+                const fire1 = new Fire(game, x - 48, y);
+                const fire2 = new Fire(game, x + 48, y);
+                this.actors.push(npc, fire1, fire2);
+
+                x = (SCREEN_WIDTH - TILE_WIDTH - TILE_WIDTH * 2 * (interaction.items.length - 1)) / 2;
+                y += TILE_HEIGHT * 1.5;
+                interaction.items.forEach((item) => {
+                    const shopItem = ShopItem.create(game, item.type, item.price, x, y);
+                    const costIndicator = new CostIndicator(game);
+                    this.actors.push(shopItem, costIndicator);
+                    x += TILE_WIDTH * 2;
+                });
+            }
+        }
+    }
+
+    endInteraction(other: AbstractItem) {
+        if (this.interaction) {
+            this.actors.forEach((actor: Actor) => {
+                if (actor === other) {
+                    other.done = true;
+                }
+                else if (actor.isPartOfInteraction) {
+                    actor.fadeOut();
+                }
+            });
+            this.greetingTyper = undefined;
+            // TODO: Link holds up item collected
         }
     }
 
@@ -124,8 +173,21 @@ export class Screen {
             });
         }
 
+        if (json.interaction) {
+            this.interaction = json.interaction;
+        }
+
         this.music = json.music;
         return this;
+    }
+
+    // Only for test purposes
+    getActorCount(): number {
+        return this.actors.length;
+    }
+
+    getScreenInteraction(): ScreenInteraction | undefined {
+        return this.interaction;
     }
 
     getTile(row: number, col: number): number {
@@ -135,6 +197,10 @@ export class Screen {
     private static isOffScreen(row: number, col: number): boolean {
         return row < 0 || row >= SCREEN_ROW_COUNT ||
             col < 0 || col >= SCREEN_COL_COUNT;
+    }
+
+    isGreetingBeingTyped(): boolean {
+        return !!this.greetingTyper && !this.greetingTyper.isDone();
     }
 
     isThrownSwordActorActive(): boolean {
@@ -193,6 +259,8 @@ export class Screen {
                 event.paint(ctx);
             });
         }
+
+        this.greetingTyper?.paint(ctx);
     }
 
     paintActors(ctx: CanvasRenderingContext2D) {
@@ -308,6 +376,19 @@ export class Screen {
         // console.log(`walkability: ${walkabilityStr}`);
     }
 
+    /**
+     * Effectively "re-enters" a screen without leaving it. This is here for the
+     * editor to update screens based on user input, and is not used in the actual
+     * game.
+     * @param game The game being played or edited.
+     */
+    reload(game: ZeldaGame) {
+        this.actors.length = 0;
+        this.thrownSwordActorActive = false;
+        this.firstTimeThrough = true;
+        this.enter(game);
+    }
+
     removeLinksSwordActor() {
         for (let i = 0; i < this.actors.length; i++) {
             const actor: Actor = this.actors[i];
@@ -321,6 +402,10 @@ export class Screen {
     private setEnemyGroup(enemyGroup: EnemyGroup) {
         this.enemyGroup = enemyGroup;
         this.flattenedEnemyGroup = this.enemyGroup.clone(true);
+    }
+
+    setScreenInteraction(interaction?: ScreenInteraction) {
+        this.interaction = interaction;
     }
 
     setThrownSwordActorActive(active: boolean) {
@@ -345,6 +430,8 @@ export class Screen {
             tiles: this.tiles,
             // actors: actorData,
             enemyGroup: this.enemyGroup ? this.enemyGroup.toJson() : null,
+            music: this.music ?? undefined, // Don't add a value if this.music == null
+            interaction: this.interaction,
         };
         if (this.events.length) {
             screenData.events = this.events.map((e: Event<EventData>) => {
@@ -352,7 +439,6 @@ export class Screen {
             });
         }
 
-        screenData.music = this.music ?? undefined; // Don't add a value if this.music === null
         return screenData;
     }
 
@@ -360,9 +446,10 @@ export class Screen {
         return `[Screen: enemyGroup=${this.enemyGroup}music=${this.music}]`;
     }
 
-    update(game: ZeldaGame) {
-        this.updateActors(game);
+    update(game: ZeldaGame, delta: number) {
         this.updateActions(game);
+        this.updateActors(game);
+        this.greetingTyper?.update(delta);
     }
 
     private updateActions(game: ZeldaGame) {
@@ -390,7 +477,9 @@ export class Screen {
 
     private updateActors(game: ZeldaGame) {
         const actors: Actor[] = this.actors.slice();
-        actors.push(game.link);
+        if (!this.isGreetingBeingTyped()) {
+            actors.push(game.link);
+        }
 
         // Handle collisions between actors.  This is really crude, but due
         // to the low number of actors per screen, this works
@@ -423,4 +512,5 @@ export interface ScreenData {
     enemyGroup: EnemyGroupData | undefined | null;
     events?: EventData[] | undefined | null;
     music?: string | undefined | null;
+    interaction?: ScreenInteraction | undefined | null;
 }

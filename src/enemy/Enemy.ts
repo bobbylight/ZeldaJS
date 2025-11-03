@@ -75,7 +75,7 @@ export abstract class Enemy extends Character {
         return this.step;
     }
 
-    protected paintImpl(ctx: CanvasRenderingContext2D, row: number, colOffset: number) {
+    protected paintEnemyImpl(ctx: CanvasRenderingContext2D, row: number, colOffset: number) {
         this.possiblyPaintHitBox(ctx);
 
         let col: number = colOffset;

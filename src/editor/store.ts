@@ -28,10 +28,12 @@ const store: Store<EditorState> = createStore({
     },
     mutations: {
         setCurrentScreen(state: EditorState, screen: RowColumnPair) {
+            state.game.map.currentScreen.exit();
             state.game.map.setCurrentScreen(screen.row, screen.col);
             state.currentScreen = state.game.map.currentScreen;
             state.currentScreenRow = screen.row;
             state.currentScreenCol = screen.col;
+            state.currentScreen.enter(state.game);
         },
         setCurrentScreenMusic(state: EditorState, music: string | null) {
             if (state.currentScreen) {

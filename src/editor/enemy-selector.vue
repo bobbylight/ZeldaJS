@@ -184,7 +184,7 @@ const props = defineProps<{
     modelValue: EnemyGroup,
 }>();
 
-const emit = defineEmits<(e: 'update:modelValue', value: EnemyGroup) => void>();
+const emit = defineEmits<(e: 'update:modelValue' | 'change', value: EnemyGroup) => void>();
 
 const title = ref('');
 const rightAlignButtons = ref(false);
@@ -232,6 +232,7 @@ function setAllItems(items: EnemyInfo[]) {
     const newModelValue: EnemyGroup = props.modelValue.clone();
     newModelValue.enemies = items;
     emit('update:modelValue', newModelValue);
+    emit('change', newModelValue);
 }
 
 function onSave() {

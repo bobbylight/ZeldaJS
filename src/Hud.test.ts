@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
 import { Image } from 'gtp';
 import { Hud } from './Hud';
 import { Link } from './Link';
@@ -44,6 +44,29 @@ describe('Hud', () => {
             hud.render(ctx);
             expect(fillRectSpy).toHaveBeenCalled();
             expect(mockImage.draw).toHaveBeenCalledTimes(5);
+        });
+
+        describe('rendering the rupee count', () => {
+            let drawStringSpy: MockInstance<ZeldaGame['drawString']>;
+
+            beforeEach(() => {
+                drawStringSpy = vi.spyOn(game, 'drawString').mockImplementation(() => {});
+            });
+
+            it('renders a leading "X" if < 100', () => {
+                game.link.incRupeeCount(-200);
+                const ctx = game.getRenderingContext();
+                hud.render(ctx);
+                expect(drawStringSpy).toHaveBeenCalledTimes(2);
+                expect(drawStringSpy).toHaveBeenCalledWith(expect.any(Number), expect.any(Number), 'X55');
+            });
+
+            it('renders without a leading "X" if >0 100', () => {
+                const ctx = game.getRenderingContext();
+                hud.render(ctx);
+                expect(drawStringSpy).toHaveBeenCalledTimes(2);
+                expect(drawStringSpy).toHaveBeenCalledWith(expect.any(Number), expect.any(Number), 255);
+            });
         });
     });
 });

@@ -25,8 +25,8 @@ export class Tektite extends Enemy {
         this.pauseOrJumpTime = 0;
     }
 
-    paint(ctx: CanvasRenderingContext2D) {
-        this.paintImpl(ctx, this.getStep() + 8, this.strength === 'blue' ? 4 : 0);
+    override paintImpl(ctx: CanvasRenderingContext2D) {
+        this.paintEnemyImpl(ctx, this.getStep() + 8, this.strength === 'blue' ? 4 : 0);
     }
 
     private calculateJumpParameters() {
@@ -72,7 +72,8 @@ export class Tektite extends Enemy {
         }
     }
 
-    update() {
+    override update() {
+        super.update();
         if (this.slidingDir) {
             if (--this.slideTick === 0) {
                 this.takingDamage = false;

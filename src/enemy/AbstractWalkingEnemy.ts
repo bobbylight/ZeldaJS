@@ -91,8 +91,8 @@ export abstract class AbstractWalkingEnemy extends Enemy {
         }
     }
 
-    paint(ctx: CanvasRenderingContext2D) {
-        this.paintImpl(ctx, this.getStep() + this.ssRowOffset, this.strength === 'blue' ? 4 : 0);
+    override paintImpl(ctx: CanvasRenderingContext2D) {
+        this.paintEnemyImpl(ctx, this.getStep() + this.ssRowOffset, this.strength === 'blue' ? 4 : 0);
     }
 
     /**
@@ -111,7 +111,8 @@ export abstract class AbstractWalkingEnemy extends Enemy {
         }
     }
 
-    update() {
+    override update() {
+        super.update();
         if (this.slidingDir) {
             this.updateSlide();
             return;

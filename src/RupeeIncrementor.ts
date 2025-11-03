@@ -25,11 +25,22 @@ export class RupeeIncrementor {
         return this.rupeesToGive;
     }
 
+    decrement(game: ZeldaGame, rupeeCount: number) {
+        if (rupeeCount <= 0) {
+            return;
+        }
+        this.rupeesToGive -= rupeeCount;
+        this.refillingRupeesSoundId = game.audio.playSound('refilling', true);
+        this.rupeesToGiveDelay = RUPEE_DELAY;
+    }
+
     increment(game: ZeldaGame, rupeeCount: number) {
+        // TODO: Fix this!
         if (rupeeCount <= 0) {
             return;
         }
         this.rupeesToGive += rupeeCount;
+        // TODO: This should probably be moved into callers
         game.audio.playSound('rupee');
         if (this.rupeesToGive === 1) {
             this.rupeesToGive = 0;
@@ -47,10 +58,16 @@ export class RupeeIncrementor {
     updateRupees(game: ZeldaGame, delta: number) {
         this.rupeesToGiveDelay = Math.max(0, this.rupeesToGiveDelay - delta);
 
-        if (this.rupeesToGiveDelay === 0 && this.rupeesToGive > 0) {
-            game.link.incRupeeCount(1);
-            this.rupeesToGive--;
-            if (this.rupeesToGive <= 0) {
+        if (this.rupeesToGiveDelay === 0 && this.rupeesToGive !== 0) {
+            if (this.rupeesToGive > 0) {
+                game.link.incRupeeCount(1);
+                this.rupeesToGive--;
+            }
+            else {
+                game.link.incRupeeCount(-1);
+                this.rupeesToGive++;
+            }
+            if (this.rupeesToGive === 0) {
                 this.extraRefillFrames = 3;
             }
             else {
