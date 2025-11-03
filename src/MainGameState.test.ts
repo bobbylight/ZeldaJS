@@ -237,7 +237,7 @@ describe('MainGameState', () => {
             const updateAnimationsSpy = vi.spyOn(game, 'updateAnimations');
             const updateRupeesSpy = vi.spyOn(game, 'updateRupees');
             state.update(16);
-            expect(screenUpdateSpy).toHaveBeenCalledExactlyOnceWith(game);
+            expect(screenUpdateSpy).toHaveBeenCalledExactlyOnceWith(game, 16);
             expect(updateAnimationsSpy).toHaveBeenCalledOnce();
             expect(updateRupeesSpy).toHaveBeenCalledOnce();
         });
@@ -251,11 +251,19 @@ describe('MainGameState', () => {
             expect(updateAnimationsSpy).not.toHaveBeenCalled();
         });
 
-        it('calls link.handleInput if not sliding', () => {
+        it('calls link.handleInput if not sliding and no greeting is being typed', () => {
             const handleInputSpy = vi.spyOn(game.link, 'handleInput').mockImplementation(() => false);
             state.enter(game);
             state.update(16);
             expect(handleInputSpy).toHaveBeenCalledWith(game.inputManager);
+        });
+
+        it('does not call link.handleInput a greeting is being typed', () => {
+            vi.spyOn(game.map.currentScreen, 'isGreetingBeingTyped').mockReturnValue(true);
+            const handleInputSpy = vi.spyOn(game.link, 'handleInput').mockImplementation(() => false);
+            state.enter(game);
+            state.update(16);
+            expect(handleInputSpy).not.toHaveBeenCalled();
         });
 
         it('starts the transition to show the inventory if the user presses Enter', () => {

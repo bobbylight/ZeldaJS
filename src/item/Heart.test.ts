@@ -3,7 +3,6 @@ import { AssetLoader, Image } from 'gtp';
 import { Heart } from './Heart';
 import { ZeldaGame } from '@/ZeldaGame';
 import { Link } from '@/Link';
-import { TILE_HEIGHT } from '@/Constants';
 import { Octorok } from '@/enemy/Octorok';
 
 const mockFullImageDraw = vi.fn();
@@ -39,7 +38,7 @@ describe('Heart', () => {
             expect(heart.x).toEqual(12);
             expect(heart.y).toEqual(34);
             expect(heart.w).toEqual(8);
-            expect(heart.h).toEqual(TILE_HEIGHT);
+            expect(heart.h).toEqual(8);
         });
     });
 

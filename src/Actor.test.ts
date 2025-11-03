@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from 'vitest';
 import { Rectangle, SpriteSheet } from 'gtp';
 import { Actor, ActorData } from './Actor';
 import { ZeldaGame } from './ZeldaGame';
@@ -8,8 +8,7 @@ class TestActor extends Actor {
     override collidedWith(other: Actor): boolean {
         return false;
     }
-    override paint(ctx: CanvasRenderingContext2D): void {}
-    override update(): void {}
+    override paintImpl(ctx: CanvasRenderingContext2D): void {}
 }
 
 const mockSpriteSheet = {
@@ -55,6 +54,18 @@ describe('Actor', () => {
             expect(actor.y).toEqual(7);
             expect(actor.hitBox).toEqual(json.hitBox);
             expect(actor.frozen).toEqual(true);
+            expect(actor.done).toEqual(true);
+        });
+    });
+
+    describe('fadeOut()', () => {
+        it('marks the actor as done after 60 frames', () => {
+            actor.fadeOut();
+            for (let i = 0; i < 59; i++) {
+                actor.update();
+                expect(actor.done).toEqual(false);
+            }
+            actor.update();
             expect(actor.done).toEqual(true);
         });
     });
@@ -115,6 +126,27 @@ describe('Actor', () => {
             const tile = { row: 1, col: 1 };
             vi.spyOn(Rectangle.prototype, 'contains').mockReturnValue(false);
             expect(actor.isWalkingUpOnto(tile)).toEqual(false);
+        });
+    });
+
+    describe('paint()', () => {
+        let paintImplSpy: MockInstance<Actor['paintImpl']>;
+
+        beforeEach(() => {
+            paintImplSpy = vi.spyOn(actor, 'paintImpl').mockImplementation(() => {});
+            actor.fadeOut();
+        });
+
+        it('paints only half the time when fading out', () => {
+            const ctx = game.getRenderingContext();
+
+            actor.update();
+            actor.paint(ctx);
+            expect(paintImplSpy).not.toHaveBeenCalled();
+
+            actor.update();
+            actor.paint(game.getRenderingContext());
+            expect(paintImplSpy).toHaveBeenCalledExactlyOnceWith(ctx);
         });
     });
 

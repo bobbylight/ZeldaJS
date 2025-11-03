@@ -132,6 +132,11 @@ export class Map {
         return this.curRow;
     }
 
+    // TODO: Remove the need for this
+    getGame(): ZeldaGame {
+        return this.game;
+    }
+
     /**
      * Returns the standard music to play for this map.  This does not take into account per-screen music.
      *

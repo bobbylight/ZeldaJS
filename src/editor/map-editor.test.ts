@@ -21,6 +21,7 @@ const vuetify = createVuetify();
 
 const mockScreen = {
     paint: vi.fn(),
+    paintActors: vi.fn(),
     paintCol: vi.fn(),
     paintRow: vi.fn(),
     paintTopLayer: vi.fn(),
@@ -70,6 +71,8 @@ describe('MapEditor', () => {
 
         // The current screen is painted
         expect(mockScreen.paint).toHaveBeenCalledOnce();
+        expect(mockScreen.paintActors).toHaveBeenCalledOnce();
+        expect(mockScreen.paintTopLayer).toHaveBeenCalledOnce();
 
         // Top, bottom, left and right screens have 1 row/column painted
         expect(mockScreen.paintRow).toHaveBeenCalledTimes(2);

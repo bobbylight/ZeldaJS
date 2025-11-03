@@ -38,7 +38,12 @@ export class Hud {
 
         this.renderItemInBSlot(ctx);
 
-        game.drawString(104, 24, link.getRupeeCount());
+        // Hundreds digit replaces the "x"
+        let rupeeCount: string | number = link.getRupeeCount();
+        if (rupeeCount < 100) {
+            rupeeCount = `X${rupeeCount}`;
+        }
+        game.drawString(96, 24, rupeeCount);
 
         game.drawString(104, 48, link.getBombCount());
 

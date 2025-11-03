@@ -53,6 +53,8 @@ specific to a relevant specific folder listed above:
   calls `vi.spyOn(...)`.
 * When writing multiple tests for the same method, use `describe()` blocks to group them.
 * When import statements import multiple items from the same package, list them in alphabetical order.
+* When including multiple `describe` blocks for multiple methods, ensure they are listed in
+  alphabetical order. One exception to this is test blocks for a constructor should always be the first test block.
 * When a `describe` block is the top level for all tests for a method, its name should be the method name followed by
   parentheses, e.g. `describe('myMethod()', () => { ... });`.
 * If a class has public fields, reference them with dot-notation. Don't reference them via bracket-notation.

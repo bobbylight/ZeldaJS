@@ -54,7 +54,7 @@ export class Link extends Character {
 
     constructor(game: ZeldaGame) {
         super(game);
-        this.rupeeCount = 0;
+        this.rupeeCount = 255;
         this.bombCount = 99;
         this.maxBombCount = 99;
         this.stepTimer = STEP_TIMER_MAX;
@@ -325,13 +325,11 @@ export class Link extends Character {
         this.refreshHitBox();
     }
 
-    paint(ctx: CanvasRenderingContext2D) {
+    override paintImpl(ctx: CanvasRenderingContext2D) {
         // Cheap hack since Game always paints Link, even when he's dead
         if (this.done && !this.anim) {
             return;
         }
-
-        this.possiblyPaintHitBox(ctx);
 
         if (this.anim) {
             this.anim.paint(ctx);
@@ -407,7 +405,8 @@ export class Link extends Character {
         }
     }
 
-    update() {
+    override update() {
+        super.update();
         if (this.takingDamage && --this.takingDamageTick === 0) {
             this.takingDamage = false;
         }

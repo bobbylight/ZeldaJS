@@ -13,6 +13,7 @@ export class Heart extends AbstractItem {
         this.x = x;
         this.y = y;
         this.w = 8;
+        this.h = 8;
         this.hitBox = new Rectangle(this.x, this.y, this.w, this.h);
     }
 

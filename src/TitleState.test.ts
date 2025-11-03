@@ -64,12 +64,9 @@ describe('TitleState', () => {
         });
 
         it('renders the title screen', () => {
-            const ctx = game.canvas.getContext('2d');
-            expect(ctx).toBeDefined();
-            if (ctx) {
-                state.render(ctx);
-                expect(mockImageDraw).toHaveBeenCalledExactlyOnceWith(ctx, 0, 0);
-            }
+            const ctx = game.getRenderingContext();
+            state.render(ctx);
+            expect(mockImageDraw).toHaveBeenCalledExactlyOnceWith(ctx, 0, 0);
         });
 
         describe('if audio is initialized', () => {

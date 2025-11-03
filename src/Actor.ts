@@ -9,6 +9,9 @@ export const MOVE_AMT = 1;
 
 export type ActorRemoveCallback = (screen: Screen) => void;
 
+const NEW_FRAME_COUNT = 75; // 1.25 seconds
+const MAX_FADING_OUT_FRAMES = 60; // 1 second
+
 /**
  * A base class for entities with state - Link, enemies, etc.
  */
@@ -23,10 +26,25 @@ export abstract class Actor {
     takingDamage: boolean; // Not used by all actors
     done: boolean;
     private onRemove?: ActorRemoveCallback | null;
+    private isFadingOut: boolean;
+    private fadingOutFrames: number;
+    // TODO: Convert to millis once millis are passed to update()
+    protected visibleFrameCount: number;
+    blinksWhenNew: boolean;
+
+    /**
+     * If true, this actor should disappear when the interaction ends.
+     */
+    isPartOfInteraction: boolean;
 
     constructor(readonly game: ZeldaGame) {
         this.dir = 'DOWN';
         this.done = false;
+        this.isPartOfInteraction = false;
+        this.isFadingOut = false;
+        this.fadingOutFrames = 0;
+        this.visibleFrameCount = 0;
+        this.blinksWhenNew = false;
 
         // Almost all characters are 1 tile in size; those that aren't can override
         this.x = 0;
@@ -42,6 +60,10 @@ export abstract class Actor {
      * @return Whether this actor should be considered "dead" after the collision.
      */
     abstract collidedWith(other: Actor): boolean;
+
+    fadeOut() {
+        this.isFadingOut = true;
+    }
 
     /**
      * Initializes this actor based on a JSON representation of it.
@@ -65,6 +87,16 @@ export abstract class Actor {
      */
     getHitBoxStyle(): string {
         return ENEMY_HITBOX_STYLE;
+    }
+
+    protected getShouldPaint(): boolean {
+        if (this.isFadingOut && this.visibleFrameCount % 4 < 2) {
+            return false;
+        }
+        else if (this.blinksWhenNew && this.visibleFrameCount < NEW_FRAME_COUNT && this.visibleFrameCount % 8 >= 4) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -138,7 +170,15 @@ export abstract class Actor {
      * Renders this actor.
      * @param ctx The rendering context to use.
      */
-    abstract paint(ctx: CanvasRenderingContext2D): void;
+    paint(ctx: CanvasRenderingContext2D) {
+        if (this.getShouldPaint()) {
+            this.paintImpl(ctx);
+        }
+        this.possiblyPaintHitBox(ctx);
+    }
+
+    abstract paintImpl(ctx: CanvasRenderingContext2D): void;
+
 
     /**
      * Renders this actor's hitbox, if enabled.
@@ -204,10 +244,21 @@ export abstract class Actor {
     }
 
     /**
-     * Called each frame.  Actor implementations should override this method to perform any
-     * per-frame logic.
+     * Called each frame. Actor implementations can override this method to perform any
+     * per-frame logic, but should always call the parent implementation.
      */
-    abstract update(): void;
+    update() {
+        // Anything querying this value only cares about small values anyway so this is fine
+        if (this.visibleFrameCount < Number.MAX_SAFE_INTEGER) {
+            this.visibleFrameCount++;
+        }
+        if (this.isFadingOut) {
+            this.fadingOutFrames++;
+            if (this.fadingOutFrames >= MAX_FADING_OUT_FRAMES) {
+                this.done = true;
+            }
+        }
+    }
 }
 
 /**

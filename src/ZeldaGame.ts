@@ -99,8 +99,11 @@ export class ZeldaGame extends Game {
                     case '!':
                         index = 14;
                         break;
+                    case '\'':
+                        index = 15;
+                        break;
                     default:
-                        index = 15; // whitespace
+                        index = 16; // whitespace
                         break;
                 }
             }
@@ -111,6 +114,10 @@ export class ZeldaGame extends Game {
 
     getHud(): Hud {
         return this.hud;
+    }
+
+    isEditMode(): boolean {
+        return this.editMode;
     }
 
     isWalkable(actor: Actor, x: number, y: number): boolean {
@@ -149,7 +156,13 @@ export class ZeldaGame extends Game {
     }
 
     incRupees(rupeeCount: number) {
-        this.rupeeIncrementor.increment(this, rupeeCount);
+        // TODO: Fix this!
+        if (rupeeCount < 0) {
+            this.rupeeIncrementor.decrement(this, -rupeeCount);
+        }
+        else {
+            this.rupeeIncrementor.increment(this, rupeeCount);
+        }
     }
 
     resumeMusic() {

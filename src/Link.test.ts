@@ -65,7 +65,7 @@ describe('Link', () => {
         expect(link.getHealth()).toStrictEqual(6);
         expect(link.getMaxHealth()).toStrictEqual(6);
         expect(link.getBombCount()).toStrictEqual(99);
-        expect(link.getRupeeCount()).toStrictEqual(0);
+        expect(link.getRupeeCount()).toStrictEqual(255);
     });
 
     describe('collidedWith()', () => {
@@ -622,7 +622,7 @@ describe('Link', () => {
     describe('incRupeeCount()', () => {
         it('increments rupee count', () => {
             link.incRupeeCount(5);
-            expect(link.getRupeeCount()).toEqual(5);
+            expect(link.getRupeeCount()).toEqual(260);
         });
 
         it.skip("won't go over the max rupee count", () => {

@@ -125,6 +125,7 @@ function paintScreen() {
 
         ctx.translate(16, 16);
         map.currentScreen.paint(ctx);
+        map.currentScreen.paintActors(ctx);
         map.currentScreen.paintTopLayer(ctx);
         ctx.translate(-16, -16);
 

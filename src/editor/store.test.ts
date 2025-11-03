@@ -4,6 +4,8 @@ import { Screen } from '@/Screen';
 import { ZeldaGame } from '@/ZeldaGame';
 
 const mockScreen = {
+    enter: vi.fn(),
+    exit: vi.fn(),
     music: 'fakeMusic',
 };
 
@@ -37,8 +39,13 @@ describe('store', () => {
         const pair = { row: 2, col: 3 };
         store.commit('setCurrentScreen', pair);
         expect(mockMap.setCurrentScreen).toHaveBeenCalledExactlyOnceWith(2, 3);
+        expect(mockScreen.exit).toHaveBeenCalledOnce();
         expect(store.state.currentScreenRow).toBe(2);
         expect(store.state.currentScreenCol).toBe(3);
+        if (!store.state.currentScreen) { // Appease tsc
+            expect.fail('store.state.currentScreen is not set');
+        }
+        expect(mockScreen.enter).toHaveBeenCalledOnce();
     });
 
     it('setCurrentScreenMusic sets music on currentScreen', () => {

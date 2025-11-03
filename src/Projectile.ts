@@ -123,7 +123,7 @@ export class Projectile extends Actor {
         return this.source;
     }
 
-    paint(ctx: CanvasRenderingContext2D) {
+    override paintImpl(ctx: CanvasRenderingContext2D) {
         this.possiblyPaintHitBox(ctx);
 
         if (this.renderInfo.type === 'animation') {
@@ -192,7 +192,8 @@ export class Projectile extends Actor {
         return this.y < edge;
     }
 
-    update() {
+    override update() {
+        super.update();
         const SPEED = 2.5;
 
         if (this.renderInfo.type === 'animation') {

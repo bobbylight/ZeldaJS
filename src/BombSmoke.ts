@@ -124,7 +124,7 @@ export class BombSmoke extends Actor {
         return HERO_HITBOX_STYLE;
     }
 
-    override paint(ctx: CanvasRenderingContext2D) {
+    override paintImpl(ctx: CanvasRenderingContext2D) {
         const frameInfos = dirToFrameInfos.get(this.dir);
         if (frameInfos) { // Always true
             const frameInfo = frameInfos[this.frame];
@@ -159,6 +159,7 @@ export class BombSmoke extends Actor {
     }
 
     override update() {
+        super.update();
         this.frame++;
         if (this.frame === 1) {
             this.game.map.currentScreen.checkForBombableWalls(this.hitBox);

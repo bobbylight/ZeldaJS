@@ -166,7 +166,7 @@ export class Sword extends Actor {
         projectile.setOnRemove((screen) => {
             this.addSwordBeamEndAnimations(projectile);
             screen.setThrownSwordActorActive(false);
-        })
+        });
         return projectile;
     }
 
@@ -174,7 +174,7 @@ export class Sword extends Actor {
         return HERO_HITBOX_STYLE;
     }
 
-    paint(ctx: CanvasRenderingContext2D) {
+    override paintImpl(ctx: CanvasRenderingContext2D) {
         this.possiblyPaintHitBox(ctx);
 
         if (this.frame >= SWORD_START_FRAME * slowdownFactor &&
@@ -198,7 +198,8 @@ export class Sword extends Actor {
         }
     }
 
-    update() {
+    override update() {
+        super.update();
         const link: Link = this.game.link;
 
         // The first 4 frames, the sword isn't rendered
