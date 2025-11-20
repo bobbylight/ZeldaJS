@@ -1,5 +1,4 @@
-import { Game, SpriteSheet } from 'gtp';
-import { GameArgs } from 'gtp/lib/gtp/Game';
+import { Game, GameArgs, SpriteSheet } from 'gtp';
 import { Link } from './Link';
 import { Actor } from './Actor';
 import { Animation } from './Animation';
@@ -145,14 +144,6 @@ export class ZeldaGame extends Game {
 
     getPaintHitBoxes(): boolean {
         return this.paintHitBoxes;
-    }
-
-    getRenderingContext(): CanvasRenderingContext2D {
-        const ctx = this.canvas.getContext('2d');
-        if (!ctx) {
-            throw new Error('Failed to get 2D rendering context from canvas.');
-        }
-        return ctx;
     }
 
     incRupees(rupeeCount: number) {

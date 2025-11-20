@@ -3,7 +3,6 @@ import { CurtainOpeningState } from './CurtainOpeningState';
 import { MainGameState } from './MainGameState';
 import { TitleState } from './TitleState';
 import { BaseState } from './BaseState';
-import { createRecoloredSpriteSheet } from '@/Utils';
 
 /**
  * State that renders while resources are loading.
@@ -84,7 +83,7 @@ export class LoadingState extends BaseState {
                 game.assets.onLoad(() => {
                     // Generate a red version of the font
                     const ss: SpriteSheet = game.assets.get('font');
-                    game.assets.set('fontRed', createRecoloredSpriteSheet(ss, {
+                    game.assets.set('fontRed', ss.createRecoloredCopy({
                         fromR: 0xf8, fromG: 0xf8, fromB: 0xf8, toR: 0xa2, toG: 0x3a, toB: 0x2a,
                     }));
 

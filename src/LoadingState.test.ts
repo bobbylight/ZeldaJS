@@ -4,12 +4,17 @@ import { CurtainOpeningState } from './CurtainOpeningState';
 import { LoadingState } from './LoadingState';
 import { ZeldaGame } from './ZeldaGame';
 
+const mockImage = {
+    draw: vi.fn(),
+    height: 5,
+    width: 5,
+};
+
 const mockSpriteSheet: SpriteSheet = {
-    gtpImage: {
-        draw: vi.fn(),
-        height: 5,
-        width: 5,
+    createRecoloredCopy: () => {
+        return mockImage;
     },
+    gtpImage: mockImage,
 } as unknown as SpriteSheet;
 
 describe('LoadingState', () => {
@@ -67,11 +72,9 @@ describe('LoadingState', () => {
                 addJsonSpy = vi.spyOn(game.assets, 'addJson').mockImplementation(() => {});
                 addSoundSpy = vi.spyOn(game.assets, 'addSound').mockImplementation(() => {});
                 vi.spyOn(game.assets, 'get').mockImplementation(() => mockSpriteSheet);
-                /* eslint-disable @typescript-eslint/no-unsafe-call */
                 vi.spyOn(game.assets, 'onLoad').mockImplementation((callback) => {
                     callback();
                 });
-                /* eslint-enable @typescript-eslint/no-unsafe-call */
             });
 
             it('loads all game resources', () => {
