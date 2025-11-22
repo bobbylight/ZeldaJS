@@ -46,7 +46,7 @@ describe('ScreenMisc', () => {
 
         await nextTick();
         const select: HTMLSelectElement = screen.getByLabelText('Music');
-        expect(select.value).toEqual('Overworld');
+        expect(select.value).toEqual('overworldMusic');
     });
 
     it('commits setCurrentScreenMusic when music changes', async() => {
