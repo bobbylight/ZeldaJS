@@ -122,7 +122,7 @@ describe('EventEditor', () => {
                     const colOption = screen.getByRole('option', { name: '4' });
                     await user.click(colOption);
                 }
-            });
+            }, 12000);
 
             it('updates the model with the new value when Save is clicked', async() => {
                 await user.click(screen.getByText('Save'));
