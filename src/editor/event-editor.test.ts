@@ -206,8 +206,8 @@ describe('EventEditor', () => {
 
             it('prepopulates values in the modal with the selected row', () => {
                 const modal = screen.getByTestId('edit-event-modal');
-                expect(within(modal).getByDisplayValue('Go Down Stairs')).toBeInTheDocument();
-                expect(within(modal).getByDisplayValue('Overworld')).toBeInTheDocument();
+                expect(within(modal).getByText('Go Down Stairs')).toBeInTheDocument();
+                expect(within(modal).getByText('Overworld')).toBeInTheDocument();
             });
 
             describe('when values are changed', () => {

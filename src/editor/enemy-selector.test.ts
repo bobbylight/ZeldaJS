@@ -192,8 +192,13 @@ describe('EnemySelector', () => {
 
                 it('prepopulates values in the modal with the selected row', () => {
                     const modal = screen.getByTestId('modify-row-dialog');
-                    expect(within(modal).getByDisplayValue('Moblin')).toBeInTheDocument();
-                    expect(within(modal).getByDisplayValue('Blue (strong)')).toBeInTheDocument();
+                    // As of vuetify 3.10, getByDisplayValue() returns the value, not the display text, for selects.
+                    // So we use getByText() This doesn't match testing-library's docs:
+                    // https://testing-library.com/docs/queries/bydisplayvalue/
+                    expect(within(modal).getByText('Moblin')).toBeInTheDocument();
+                    expect(within(modal).queryByText('Octorok')).not.toBeInTheDocument(); // sanity
+                    expect(within(modal).getByText('Blue (strong)')).toBeInTheDocument();
+                    expect(within(modal).queryByText('Red (weak)')).not.toBeInTheDocument(); // sanity
                     expect(within(modal).getByDisplayValue('2')).toBeInTheDocument();
                 });
 
