@@ -20,7 +20,7 @@ class TestableState extends BaseState {
 describe('BaseState', () => {
     let game: ZeldaGame;
     let state: TestableState;
-    let timestampSpy: ReturnType<typeof vi.spyOn>;
+    let timestampSpy: MockInstance<typeof Utils.timestamp>;
 
     beforeEach(() => {
         timestampSpy = vi.spyOn(Utils, 'timestamp');
