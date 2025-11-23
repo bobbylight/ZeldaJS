@@ -28,8 +28,11 @@ export default defineConfig({
     ],
     test: {
         environment: 'jsdom',
-        deps: {
-            inline: ['vuetify'],
+        globals: true,
+        server: {
+            deps: {
+                inline: ['vuetify'],
+            },
         },
         setupFiles: [ resolve(__dirname, './src/setupTests.ts') ],
         //disableConsoleIntercept: true,
