@@ -263,8 +263,8 @@ onMounted(() => {
     g.assets.addImageAtlasContents('treaureAtlas', 'res/treasures.png', treasureAtlasInfo);
     g.assets.addImageAtlasContents('npcAtlas', 'res/npcs.png', npcAtlasInfo);
     g.assets.addImage('hud', 'res/hud.png');
-    g.assets.addJson('overworldData', 'res/data/overworld.json');
-    g.assets.addJson('level1Data', 'res/data/level1.json');
+    void g.assets.addJson('overworldData', 'res/data/overworld.json');
+    void g.assets.addJson('level1Data', 'res/data/level1.json');
 
     g.assets.onLoad(() => {
         game.value = g;

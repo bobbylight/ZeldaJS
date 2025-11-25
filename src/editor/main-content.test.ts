@@ -60,9 +60,9 @@ describe('MainContent', () => {
         vi.useFakeTimers();
         vi.spyOn(mockGame.assets, 'get').mockReturnValue(mockSpriteSheet);
         vi.spyOn(mockGame.assets, 'addImage').mockImplementation(() => {});
-        vi.spyOn(mockGame.assets, 'addJson').mockImplementation(() => ({}));
+        vi.spyOn(mockGame.assets, 'addJson').mockImplementation(() => Promise.resolve('{}'));
         vi.spyOn(mockGame.assets, 'addSpriteSheet').mockImplementation(() => {});
-        vi.spyOn(mockGame.assets, 'addSound').mockImplementation(() => {});
+        vi.spyOn(mockGame.assets, 'addSound').mockImplementation(() => Promise.resolve({} as unknown as ArrayBuffer));
         /* eslint-disable @typescript-eslint/no-unsafe-function-type, @typescript-eslint/no-unsafe-call */
         vi.spyOn(mockGame.assets, 'onLoad').mockImplementation((callback: Function) => {
             callback();
