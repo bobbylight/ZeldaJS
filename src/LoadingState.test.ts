@@ -69,8 +69,8 @@ describe('LoadingState', () => {
                 addImageSpy = vi.spyOn(game.assets, 'addImage').mockImplementation(() => {});
                 addSpriteSheetSpy = vi.spyOn(game.assets, 'addSpriteSheet').mockImplementation(() => {});
                 addImageAtlasContentsSpy = vi.spyOn(game.assets, 'addImageAtlasContents').mockImplementation(() => {});
-                addJsonSpy = vi.spyOn(game.assets, 'addJson').mockImplementation(() => {});
-                addSoundSpy = vi.spyOn(game.assets, 'addSound').mockImplementation(() => {});
+                addJsonSpy = vi.spyOn(game.assets, 'addJson').mockImplementation(() => Promise.resolve('{}'));
+                addSoundSpy = vi.spyOn(game.assets, 'addSound').mockImplementation(() => Promise.resolve({} as unknown as ArrayBuffer));
                 vi.spyOn(game.assets, 'get').mockImplementation(() => mockSpriteSheet);
                 vi.spyOn(game.assets, 'onLoad').mockImplementation((callback) => {
                     callback();
