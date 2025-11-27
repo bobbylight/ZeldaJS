@@ -71,8 +71,8 @@ describe('RupeeIncrementor', () => {
                         expect(stopSoundSpy).toHaveBeenCalledOnce();
                     }
                 }
-            })
-        })
+            });
+        });
     });
 
     describe('increment()', () => {
@@ -137,7 +137,7 @@ describe('RupeeIncrementor', () => {
                         expect(stopSoundSpy).toHaveBeenCalledOnce();
                     }
                 }
-            })
-        })
+            });
+        });
     });
 });

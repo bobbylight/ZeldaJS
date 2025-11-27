@@ -164,7 +164,7 @@ describe('Projectile', () => {
                 const animRenderInfo: AnimationProjectileRenderInfo = {
                     type: 'animation',
                     animation,
-                }
+                };
                 p = new Projectile(game, animRenderInfo, 0, 0, 'LEFT');
             });
 
@@ -250,7 +250,7 @@ describe('Projectile', () => {
                     expect(p.done).toEqual(true);
                 });
             });
-        })
+        });
 
         it('sets hitBox correctly', () => {
             const p = Projectile.create(game, null, 'enemies', 0, 0, 10, 20, 'DOWN');
@@ -270,7 +270,7 @@ describe('Projectile', () => {
                 const animRenderInfo: AnimationProjectileRenderInfo = {
                     type: 'animation',
                     animation,
-                }
+                };
                 p = new Projectile(game, animRenderInfo, 0, 0, 'LEFT');
             });
 
@@ -279,6 +279,6 @@ describe('Projectile', () => {
                 p.update();
                 expect(animUpdateSpy).toHaveBeenCalledOnce();
             });
-        })
+        });
     });
 });

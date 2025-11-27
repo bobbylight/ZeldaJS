@@ -164,7 +164,7 @@ describe('EventEditor', () => {
                 expect(screen.queryByTestId('edit-event-modal')).not.toBeVisible();
 
                 expect(wrapper.emitted()).not.toHaveProperty('update:modelValue');
-            })
+            });
         });
     });
 

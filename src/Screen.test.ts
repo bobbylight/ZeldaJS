@@ -119,7 +119,7 @@ describe('Screen', () => {
                 expect(event.shouldOccur(game)).toEqual(true);
                 expect(screen.events.length).toEqual(1);
             });
-        })
+        });
     });
 
     describe('enter()', () => {

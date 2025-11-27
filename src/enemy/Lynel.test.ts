@@ -16,7 +16,7 @@ describe('Lynel', () => {
     beforeEach(() => {
         game = new ZeldaGame();
         game.assets.set('enemies', mockSpriteSheet);
-        game.assets.set('overworld', mockSpriteSheet)
+        game.assets.set('overworld', mockSpriteSheet);
         game.map = new Map(game, 'overworld', 2, 2);
         game.link = new Link(game);
     });

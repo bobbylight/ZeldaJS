@@ -98,7 +98,7 @@ describe('BombableWallEvent', () => {
         it('does not throw an error', () => {
             const ctx = game.getRenderingContext();
             expect(() => {
-                event.paint(ctx)
+                event.paint(ctx);
             }).not.toThrowError();
         });
     });

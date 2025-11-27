@@ -107,7 +107,7 @@ describe('EnemySelector', () => {
                 expect(screen.queryByTestId('modify-row-dialog')).not.toBeVisible();
 
                 expect(wrapper.emitted()).not.toHaveProperty('update:modelValue');
-            })
+            });
         });
     });
 
@@ -315,8 +315,8 @@ describe('EnemySelector', () => {
                     it('does not update the model value', () => {
                         expect(wrapper.emitted()).not.toHaveProperty('update:modelValue');
                     });
-                })
-            })
+                });
+            });
         });
     });
 });

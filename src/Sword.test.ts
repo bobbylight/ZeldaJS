@@ -242,6 +242,6 @@ describe('Sword', () => {
                     expect(playSoundSpy).not.toHaveBeenCalled();
                 });
             });
-        })
+        });
     });
 });
