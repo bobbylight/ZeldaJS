@@ -144,7 +144,7 @@ describe('Octorok', () => {
                     octorok.collidedWith(sword);
                     expect(octorok.done).toEqual(false);
                 });
-            })
+            });
         });
     });
 
@@ -188,5 +188,5 @@ describe('Octorok', () => {
                 octorok.update();
             }).not.toThrowError();
         });
-    })
+    });
 });

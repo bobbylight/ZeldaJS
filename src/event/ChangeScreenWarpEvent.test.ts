@@ -71,7 +71,7 @@ describe('ChangeScreenWarpEvent', () => {
             it('does not make Link exit the cave', () => {
                 event.execute(game);
                 expect(exitCaveSpy).not.toHaveBeenCalled();
-            })
+            });
         });
     });
 

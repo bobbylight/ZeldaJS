@@ -30,7 +30,7 @@ describe('TitleState', () => {
             const addEventListenerSpy = vi.spyOn(game.canvas, 'addEventListener');
             state.enter(game);
             expect(addEventListenerSpy).toHaveBeenCalledOnce();
-        })
+        });
     });
 
     describe('leaving()', () => {
@@ -89,7 +89,7 @@ describe('TitleState', () => {
             it('renders the no sound message', () => {
                 expect(drawStringSpy).toHaveBeenCalledTimes(3);
             });
-        })
+        });
     });
 
     describe('update()', () => {

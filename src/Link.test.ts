@@ -184,7 +184,7 @@ describe('Link', () => {
                 });
 
                 it('adds an animation of the reflected projectile', () => {
-                    const addAnimationSpy = vi.spyOn(game, 'addAnimation').mockImplementation(() => {})
+                    const addAnimationSpy = vi.spyOn(game, 'addAnimation').mockImplementation(() => {});
                     link.collidedWith(projectile);
                     expect(addAnimationSpy).toHaveBeenCalledOnce();
                 });
@@ -260,7 +260,7 @@ describe('Link', () => {
 
         it('plays a sound', () => {
             link.enterCave(listener);
-            expect(mockPlaySound).toHaveBeenCalledExactlyOnceWith('stairs', false, expect.anything())
+            expect(mockPlaySound).toHaveBeenCalledExactlyOnceWith('stairs', false, expect.anything());
         });
 
         it('starts an animation', () => {
@@ -279,7 +279,7 @@ describe('Link', () => {
 
         it('plays a sound', () => {
             link.exitCave(listener);
-            expect(mockPlaySound).toHaveBeenCalledExactlyOnceWith('stairs', false, expect.anything())
+            expect(mockPlaySound).toHaveBeenCalledExactlyOnceWith('stairs', false, expect.anything());
         });
 
         it('starts an animation', () => {
@@ -870,7 +870,7 @@ describe('Link', () => {
                 expect(() => {
                     link.updateWalkingStep();
                 }).not.toThrow();
-            })
+            });
         });
     });
 });

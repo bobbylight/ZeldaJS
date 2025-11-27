@@ -21,7 +21,7 @@ export class InventoryState extends BaseState {
 
         ctx.strokeStyle = '#f0cac2';
         ctx.lineWidth = 1.5;
-        y += 0.5
+        y += 0.5;
 
         const ratio1 = 115 / 141.0;
         ctx.beginPath();

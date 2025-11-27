@@ -195,13 +195,13 @@ describe('ZeldaGame', () => {
                 vi.spyOn(game.map, 'currentScreenMusic', 'get').mockReturnValue(null);
                 game.resumeMusic();
                 expect(mockPlayMusic).not.toHaveBeenCalled();
-            })
+            });
 
             it('does not resume music if music is "none"', () => {
                 vi.spyOn(game.map, 'currentScreenMusic', 'get').mockReturnValue('none');
                 game.resumeMusic();
                 expect(mockPlayMusic).not.toHaveBeenCalled();
-            })
+            });
         });
 
         it('does not resume music if in editMode', () => {
@@ -271,7 +271,7 @@ describe('ZeldaGame', () => {
             it('highlights tiles that contain events', () => {
                 game.startNewGame();
                 expect(game.map.showEvents).toEqual(true);
-            })
+            });
         });
     });
 

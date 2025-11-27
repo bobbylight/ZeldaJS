@@ -32,7 +32,7 @@ const createEnemyDiesAnimation: AnimationGenerator<Enemy> = (game,enemy, x, y, c
         anim.addListener(completedCallback);
     }
     return anim;
-}
+};
 
 const createLinkDyingAnimation: AnimationGenerator<Link> = (game, link, x, y, completedCallback): Animation => {
     const sheet: SpriteSheet = game.assets.get('link');
@@ -88,7 +88,7 @@ const createLinkDyingAnimation: AnimationGenerator<Link> = (game, link, x, y, co
         anim.addListener(completedCallback);
     }
     return anim;
-}
+};
 
 const createReflectedProjectileAnimation: AnimationGenerator<Projectile> = (game, projectile, x, y,
     completedCallback): Animation => {
@@ -173,7 +173,7 @@ const createStairsUpAnimation: AnimationGenerator<Link> = (game, link, x, y, com
         animation.addListener(completedCallback);
     }
     return animation;
-}
+};
 
 export {
     createEnemyDiesAnimation,
