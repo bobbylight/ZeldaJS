@@ -64,12 +64,7 @@ describe('RupeeIncrementor', () => {
 
                 for (let frame = 0; frame < 3; frame++) {
                     incrementor.updateRupees(game, 48);
-                    if (frame < 2) {
-                        expect(stopSoundSpy).not.toHaveBeenCalled();
-                    }
-                    else {
-                        expect(stopSoundSpy).toHaveBeenCalledOnce();
-                    }
+                    expect(stopSoundSpy).toHaveBeenCalledTimes(frame < 2 ? 0 : 1);
                 }
             });
         });
@@ -130,12 +125,7 @@ describe('RupeeIncrementor', () => {
 
                 for (let frame = 0; frame < 3; frame++) {
                     incrementor.updateRupees(game, 48);
-                    if (frame < 2) {
-                        expect(stopSoundSpy).not.toHaveBeenCalled();
-                    }
-                    else {
-                        expect(stopSoundSpy).toHaveBeenCalledOnce();
-                    }
+                    expect(stopSoundSpy).toHaveBeenCalledTimes(frame < 2 ? 0 : 1);
                 }
             });
         });

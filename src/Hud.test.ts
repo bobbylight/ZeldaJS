@@ -28,7 +28,6 @@ describe('Hud', () => {
         game.link = new Link(game);
         game.link.incHealth(-3); // Remove 1.5 hearts for coverage
         game.map = mockMap as unknown as Map;
-        game.drawString = vi.fn();
         hud = new Hud(game);
     });
 
@@ -38,6 +37,12 @@ describe('Hud', () => {
     });
 
     describe('render()', () => {
+        let drawStringSpy: MockInstance<ZeldaGame['drawString']>;
+
+        beforeEach(() => {
+            drawStringSpy = vi.spyOn(game, 'drawString').mockImplementation(() => {});
+        });
+
         it('calls drawing methods when visible', () => {
             const ctx = game.getRenderingContext();
             const fillRectSpy = vi.spyOn(ctx, 'fillRect');
@@ -47,12 +52,6 @@ describe('Hud', () => {
         });
 
         describe('rendering the rupee count', () => {
-            let drawStringSpy: MockInstance<ZeldaGame['drawString']>;
-
-            beforeEach(() => {
-                drawStringSpy = vi.spyOn(game, 'drawString').mockImplementation(() => {});
-            });
-
             it('renders a leading "X" if < 100', () => {
                 game.link.incRupeeCount(-200);
                 const ctx = game.getRenderingContext();

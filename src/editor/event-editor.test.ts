@@ -196,7 +196,6 @@ describe('EventEditor', () => {
 
         describe('when the edit button is clicked', () => {
             beforeEach(async() => {
-                expect(screen.queryByTestId('edit-event-modal')).toBeNull();
                 await user.click(screen.getByTestId('edit-event-button'));
             });
 

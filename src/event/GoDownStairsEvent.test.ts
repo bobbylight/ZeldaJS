@@ -91,19 +91,19 @@ describe('GoDownStairsEvent', () => {
 
     describe('shouldOccur()', () => {
         it('returns true if link is walking up onto tile and dir is UP', () => {
-            game.link.isWalkingUpOnto = vi.fn(() => true);
+            vi.spyOn(game.link, 'isWalkingUpOnto').mockReturnValue(true);
             game.link.dir = 'UP';
             expect(event.shouldOccur(game)).toEqual(true);
         });
 
         it('returns false if link is not walking up onto tile', () => {
-            game.link.isWalkingUpOnto = vi.fn(() => false);
+            vi.spyOn(game.link, 'isWalkingUpOnto').mockReturnValue(false);
             game.link.dir = 'UP';
             expect(event.shouldOccur(game)).toEqual(false);
         });
 
         it('returns false if link dir is not UP', () => {
-            game.link.isWalkingUpOnto = vi.fn(() => true);
+            vi.spyOn(game.link, 'isWalkingUpOnto').mockReturnValue(true);
             game.link.dir = 'DOWN';
             expect(event.shouldOccur(game)).toEqual(false);
         });

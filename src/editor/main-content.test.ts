@@ -25,9 +25,9 @@ const mocks = vi.hoisted(() => {
     };
 });
 
-vi.mock('vuex', () => ({
+vi.mock(import('vuex'), () => ({
     useStore: mocks.useStore,
-}));
+} as never));
 
 const mockScreen = {
     enemyGroup: new EnemyGroup(),
@@ -60,9 +60,9 @@ describe('MainContent', () => {
         vi.useFakeTimers();
         vi.spyOn(mockGame.assets, 'get').mockReturnValue(mockSpriteSheet);
         vi.spyOn(mockGame.assets, 'addImage').mockImplementation(() => {});
-        vi.spyOn(mockGame.assets, 'addJson').mockImplementation(() => Promise.resolve('{}'));
+        vi.spyOn(mockGame.assets, 'addJson').mockResolvedValue('{}');
         vi.spyOn(mockGame.assets, 'addSpriteSheet').mockImplementation(() => {});
-        vi.spyOn(mockGame.assets, 'addSound').mockImplementation(() => Promise.resolve({} as unknown as ArrayBuffer));
+        vi.spyOn(mockGame.assets, 'addSound').mockResolvedValue({} as unknown as ArrayBuffer);
         /* eslint-disable @typescript-eslint/no-unsafe-function-type, @typescript-eslint/no-unsafe-call */
         vi.spyOn(mockGame.assets, 'onLoad').mockImplementation((callback: Function) => {
             callback();
@@ -96,25 +96,25 @@ describe('MainContent', () => {
     });
 
     it('renders the map editor', () => {
-        expect(screen.getByText(/Screen \(\d+, \d+\) \/ \(\d+, \d+\)/));
+        expect(screen.getByText(/Screen \(\d+, \d+\) \/ \(\d+, \d+\)/)).toBeDefined();
     });
 
     it('renders tab labels for the Tile Palette/Events/Misc pane', () => {
-        expect(screen.getByText(/Tile Palette/i)).toBeTruthy();
-        expect(screen.getByText(/Events/i)).toBeTruthy();
-        expect(screen.getByText(/Misc/i)).toBeTruthy();
+        expect(screen.getByText(/Tile Palette/i)).toBeDefined();
+        expect(screen.getByText(/Events/i)).toBeDefined();
+        expect(screen.getByText(/Misc/i)).toBeDefined();
     });
 
     it('shows the Tile Palette by default', () => {
-        expect(screen.getByText('Tile Palette'));
+        expect(screen.getByText('Tile Palette')).toBeInTheDocument();
     });
 
     it('renders the map preview', () => {
-        expect(screen.getByText('Map Preview'));
+        expect(screen.getByText('Map Preview')).toBeInTheDocument();
     });
 
     it('renders the code viewer', () => {
-        expect(screen.getByText('Map JSON'));
+        expect(screen.getByText('Map JSON')).toBeInTheDocument();
     });
 
     describe('when the left arrow key is pressed', () => {

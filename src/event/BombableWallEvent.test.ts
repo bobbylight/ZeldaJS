@@ -99,7 +99,7 @@ describe('BombableWallEvent', () => {
             const ctx = game.getRenderingContext();
             expect(() => {
                 event.paint(ctx);
-            }).not.toThrowError();
+            }).not.toThrow();
         });
     });
 

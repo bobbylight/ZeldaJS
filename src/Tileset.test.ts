@@ -58,13 +58,9 @@ describe('Tileset', () => {
     describe('paintTile()', () => {
         it('calls drawByIndex on the SpriteSheet', () => {
             tileset.load('overworld');
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            expect(ctx).toBeDefined();
-            if (ctx) {
-                tileset.paintTile(ctx, 5, 10, 20);
-                expect(mockDrawByIndex).toHaveBeenCalledWith(ctx, 10, 20, 5);
-            }
+            const ctx = game.getRenderingContext();
+            tileset.paintTile(ctx, 5, 10, 20);
+            expect(mockDrawByIndex).toHaveBeenCalledWith(ctx, 10, 20, 5);
         });
     });
 

@@ -16,9 +16,9 @@ const mocks = vi.hoisted(() => {
     };
 });
 
-vi.mock('vuex', () => ({
+vi.mock(import('vuex'), () => ({
     useStore: mocks.useStore,
-}));
+} as never));
 
 describe('NavBar', () => {
     let vuetify: Plugin;

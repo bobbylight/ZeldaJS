@@ -83,13 +83,9 @@ describe('ZeldaGame', () => {
             const anim = createAnimation(game, mockSpriteSheet);
             const mockPaint = vi.spyOn(anim, 'paint');
             game.addAnimation(anim);
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            expect(ctx).toBeDefined();
-            if (ctx) {
-                game.paintAnimations(ctx);
-                expect(mockPaint).toHaveBeenCalledWith(ctx);
-            }
+            const ctx = game.getRenderingContext();
+            game.paintAnimations(ctx);
+            expect(mockPaint).toHaveBeenCalledWith(ctx);
         });
     });
 
@@ -100,14 +96,10 @@ describe('ZeldaGame', () => {
 
         it('draws a string', () => {
             game.assets.set('font', mockFontImage);
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            expect(ctx).toBeDefined();
-            if (ctx) {
-                const text = 'HELLO1-.>@!\' ';
-                game.drawString(10, 10, text, ctx);
-                expect(mockFontImage.drawByIndex).toHaveBeenCalledTimes(text.length);
-            }
+            const ctx = game.getRenderingContext();
+            const text = 'HELLO1-.>@!\' ';
+            game.drawString(10, 10, text, ctx);
+            expect(mockFontImage.drawByIndex).toHaveBeenCalledTimes(text.length);
         });
     });
 

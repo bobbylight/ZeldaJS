@@ -221,22 +221,22 @@ describe('Projectile', () => {
                     expect(p.done).toEqual(true);
                 });
 
-                it('moves projectile UP and sets done if out of bounds', () => {
+                it('moves projectile UP and sets done if appropriate for the behavior', () => {
                     const p = Projectile.create(game, null, 'enemies', 0, 0, 0, 0, 'UP');
                     p.setGoingOffScreenBehavior(behavior);
                     p.h = 8;
                     p.update();
                     expect(p.y).toBeLessThan(0);
-                    if (p.y < -p.h) expect(p.done).toEqual(true);
+                    expect(p.done).toEqual(behavior === 'onEdgeTile');
                 });
 
-                it('moves projectile LEFT and sets done if out of bounds', () => {
+                it('moves projectile LEFT and sets done if appropriate for the behavior', () => {
                     const p = Projectile.create(game, null, 'enemies', 0, 0, 0, 0, 'LEFT');
                     p.setGoingOffScreenBehavior(behavior);
                     p.w = 8;
                     p.update();
                     expect(p.x).toBeLessThan(0);
-                    if (p.x < -p.w) expect(p.done).toEqual(true);
+                    expect(p.done).toEqual(behavior === 'onEdgeTile');
                 });
 
                 it('moves projectile RIGHT and sets done if out of bounds', () => {

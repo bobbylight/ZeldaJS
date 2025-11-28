@@ -41,7 +41,7 @@ describe('Tektite', () => {
             const ctx = game.getRenderingContext();
             expect(() => {
                 tektite.paint(ctx);
-            }).not.toThrowError();
+            }).not.toThrow();
         });
     });
 

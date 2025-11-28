@@ -3,21 +3,21 @@ import { isHorizontal, isVertical, opposite, ordinal, randomDir } from './Direct
 
 describe('Direction', () => {
     it('isHorizontal() should work', () => {
-        expect(isHorizontal('LEFT')).toBeTruthy();
-        expect(isHorizontal('RIGHT')).toBeTruthy();
-        expect(isHorizontal('UP')).toBeFalsy();
-        expect(isHorizontal('DOWN')).toBeFalsy();
-        expect(isHorizontal(null)).toBeFalsy();
-        expect(isHorizontal(undefined)).toBeFalsy();
+        expect(isHorizontal('LEFT')).toEqual(true);
+        expect(isHorizontal('RIGHT')).toEqual(true);
+        expect(isHorizontal('UP')).toEqual(false);
+        expect(isHorizontal('DOWN')).toEqual(false);
+        expect(isHorizontal(null)).toEqual(false);
+        expect(isHorizontal(undefined)).toEqual(false);
     });
 
     it('isVertical() should work', () => {
-        expect(isVertical('LEFT')).toBeFalsy();
-        expect(isVertical('RIGHT')).toBeFalsy();
-        expect(isVertical('UP')).toBeTruthy();
-        expect(isVertical('DOWN')).toBeTruthy();
-        expect(isVertical(null)).toBeFalsy();
-        expect(isVertical(undefined)).toBeFalsy();
+        expect(isVertical('LEFT')).toEqual(false);
+        expect(isVertical('RIGHT')).toEqual(false);
+        expect(isVertical('UP')).toEqual(true);
+        expect(isVertical('DOWN')).toEqual(true);
+        expect(isVertical(null)).toEqual(false);
+        expect(isVertical(undefined)).toEqual(false);
     });
 
     it('opposite() should work', () => {

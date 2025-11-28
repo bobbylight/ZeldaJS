@@ -26,8 +26,6 @@ describe('BaseState', () => {
         timestampSpy = vi.spyOn(Utils, 'timestamp');
 
         game = new ZeldaGame();
-        game.setStatusMessage = vi.fn();
-        game.toggleMuted = vi.fn();
         game.assets.set('font', mockSpriteSheet);
 
         // Set up the state to have started "in the past"
@@ -51,7 +49,10 @@ describe('BaseState', () => {
 
         describe('when enough time has passed', () => {
             it('toggles mute when M is pressed', () => {
-                game.inputManager.isKeyDown = vi.fn((key: Keys, clear: boolean) => key === Keys.KEY_M && clear);
+                vi.spyOn(game.inputManager, 'isKeyDown')
+                    .mockImplementation((key: Keys, clear = false) => {
+                        return key === Keys.KEY_M && clear;
+                    });
                 const mutedSpy = vi.spyOn(game, 'toggleMuted');
                 state.handleDefaultKeys();
                 expect(mutedSpy).toHaveBeenCalledOnce();
@@ -59,9 +60,10 @@ describe('BaseState', () => {
 
             describe('when SHIFT is held', () => {
                 it('increases canvas size when P is pressed', () => {
-                    game.inputManager.isKeyDown = vi.fn((key: Keys, clear: boolean) => {
-                        return key === Keys.KEY_SHIFT || key === Keys.KEY_P && clear;
-                    });
+                    vi.spyOn(game.inputManager, 'isKeyDown')
+                        .mockImplementation((key: Keys, clear = false) => {
+                            return key === Keys.KEY_SHIFT || key === Keys.KEY_P && clear;
+                        });
                     game.canvas.style.width = '256px';
                     game.canvas.style.height = '240px';
                     state.handleDefaultKeys();
@@ -71,10 +73,10 @@ describe('BaseState', () => {
                 });
 
                 it('decreases canvas size when L is pressed', () => {
-                    game.inputManager.isKeyDown = vi.fn((key: Keys, clear: boolean) => {
-                        return key === Keys.KEY_SHIFT || key === Keys.KEY_L && clear;
-
-                    });
+                    vi.spyOn(game.inputManager, 'isKeyDown')
+                        .mockImplementation((key: Keys, clear = false) => {
+                            return key === Keys.KEY_SHIFT || key === Keys.KEY_L && clear;
+                        });
                     game.canvas.style.width = '256px';
                     game.canvas.style.height = '240px';
                     state.handleDefaultKeys();
@@ -88,9 +90,10 @@ describe('BaseState', () => {
                     const origHeight = game.canvas.clientHeight;
                     game.canvas.style.width = '';
                     game.canvas.style.height = '';
-                    game.inputManager.isKeyDown = vi.fn((key: Keys, clear: boolean) => {
-                        return key === Keys.KEY_SHIFT || key === Keys.KEY_P && clear;
-                    });
+                    vi.spyOn(game.inputManager, 'isKeyDown')
+                        .mockImplementation((key: Keys, clear = false) => {
+                            return key === Keys.KEY_SHIFT || key === Keys.KEY_P && clear;
+                        });
                     state.handleDefaultKeys();
                     expect(game.canvas.style.width).toEqual(`${origWidth + 1}px`);
                     expect(game.canvas.style.height).toEqual(`${origHeight + 1}px`);
@@ -98,9 +101,10 @@ describe('BaseState', () => {
 
                 it('toggles hitboxes when H is pressed', () => {
                     const orig = game.getPaintHitBoxes();
-                    game.inputManager.isKeyDown = vi.fn((key: Keys, clear: boolean) => {
-                        return key === Keys.KEY_SHIFT || key === Keys.KEY_H && clear;
-                    });
+                    vi.spyOn(game.inputManager, 'isKeyDown')
+                        .mockImplementation((key: Keys, clear = false) => {
+                            return key === Keys.KEY_SHIFT || key === Keys.KEY_H && clear;
+                        });
                     state.handleDefaultKeys();
                     expect(game.getPaintHitBoxes()).toEqual(!orig);
                     expect(setStatusMessageSpy).toHaveBeenCalledExactlyOnceWith('Hit boxes are now on');

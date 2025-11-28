@@ -27,7 +27,7 @@ describe('InventoryState', () => {
         game.assets.set('treasures.emptyHeart', mockImage);
         game.assets.set('treasures.fullHeart', mockImage);
         game.assets.set('treasures.bomb', mockImage);
-        setStateSpy = game.setState = vi.fn();
+        setStateSpy = vi.spyOn(game, 'setState');
         state = new InventoryState(game);
     });
 
@@ -52,13 +52,13 @@ describe('InventoryState', () => {
 
     describe('update()', () => {
         it('changes state when Enter is pressed', () => {
-            game.inputManager.enter = vi.fn(() => true);
+            vi.spyOn(game.inputManager, 'enter').mockReturnValue(true);
             state.update();
             expect(setStateSpy).toHaveBeenCalledOnce();
         });
 
         it('does not change state if Enter is not pressed', () => {
-            game.inputManager.enter = vi.fn(() => false);
+            vi.spyOn(game.inputManager, 'enter').mockReturnValue(false);
             state.update();
             expect(setStateSpy).not.toHaveBeenCalled();
         });

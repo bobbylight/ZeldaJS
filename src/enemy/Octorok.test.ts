@@ -154,7 +154,7 @@ describe('Octorok', () => {
             const ctx = game.getRenderingContext();
             expect(() => {
                 octorok.paint(ctx);
-            }).not.toThrowError();
+            }).not.toThrow();
         });
     });
 
@@ -178,7 +178,7 @@ describe('Octorok', () => {
             const octorok = new Octorok(game);
             expect(() => {
                 octorok.update();
-            }).not.toThrowError();
+            }).not.toThrow();
         });
 
         it('does not throw when a projectile is not being spawned', () => {
@@ -186,7 +186,7 @@ describe('Octorok', () => {
             const octorok = new Octorok(game);
             expect(() => {
                 octorok.update();
-            }).not.toThrowError();
+            }).not.toThrow();
         });
     });
 });

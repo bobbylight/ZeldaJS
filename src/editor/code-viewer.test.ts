@@ -40,8 +40,8 @@ describe('CodeViewer', () => {
     });
 
     it('renders buttons and code element', () => {
-        expect(screen.getByText('Refresh')).toBeTruthy();
-        expect(screen.getByText('Copy')).toBeTruthy();
+        expect(screen.getByText('Refresh')).toBeInTheDocument();
+        expect(screen.getByText('Copy')).toBeInTheDocument();
         expect(screen.getByTestId('code').textContent).toEqual('');
     });
 

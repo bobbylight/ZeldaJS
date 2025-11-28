@@ -155,7 +155,7 @@ describe('Screen', () => {
                     expect(screen.getActorCount()).toEqual(4);
                 });
 
-                it.skip('loads the first N enemies in the list if any were killed', () => {
+                it.todo('loads the first N enemies in the list if any were killed', () => {
                     // TODO: Implement me
                 });
             });
@@ -357,7 +357,7 @@ describe('Screen', () => {
         it('does not throw', () => {
             expect(() => {
                 screen.reload(game);
-            }).not.toThrowError();
+            }).not.toThrow();
         });
     });
 

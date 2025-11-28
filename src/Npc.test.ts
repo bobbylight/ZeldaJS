@@ -53,7 +53,7 @@ describe('Npc', () => {
             const npc = new Npc(game, 'merchant', 0, 0);
             expect(() => {
                 npc.update();
-            }).not.toThrowError();
+            }).not.toThrow();
         });
     });
 });

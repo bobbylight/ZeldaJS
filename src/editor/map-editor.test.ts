@@ -13,9 +13,9 @@ const mocks = vi.hoisted(() => {
     };
 });
 
-vi.mock('vuex', () => ({
+vi.mock(import('vuex'), () => ({
     useStore: mocks.useStore,
-}));
+} as never));
 
 const vuetify = createVuetify();
 
@@ -150,6 +150,7 @@ describe('MapEditor', () => {
         });
     });
 
+    /* eslint-disable vitest/expect-expect */
     describe('if the mouse moves around in the screen', () => {
         it('rerenders', async() => {
             render(MapEditor, {
@@ -201,4 +202,5 @@ describe('MapEditor', () => {
             });
         });
     });
+    /* eslint-enable vitest/expect-expect */
 });

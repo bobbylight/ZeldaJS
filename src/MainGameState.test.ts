@@ -35,7 +35,7 @@ describe('MainGameState', () => {
             overworld: game.map,
             level1: game.map,
         };
-        game.paintAnimations = vi.fn();
+        //game.paintAnimations = vi.fn();
         state = new MainGameState(game);
     });
 
@@ -267,7 +267,7 @@ describe('MainGameState', () => {
         });
 
         it('starts the transition to show the inventory if the user presses Enter', () => {
-            game.inputManager.enter = vi.fn(() => true);
+            vi.spyOn(game.inputManager, 'enter').mockReturnValue(true);
             const setStateSpy = vi.spyOn(game, 'setState');
             state.update(16);
             expect(setStateSpy).toHaveBeenCalledOnce();
@@ -304,7 +304,7 @@ describe('MainGameState', () => {
         });
 
         it('calls link.update if not transitioning to the Inventory screen', () => {
-            game.inputManager.enter = vi.fn(() => false);
+            vi.spyOn(game.inputManager, 'enter').mockReturnValue(false);
             const linkUpdateSpy = vi.spyOn(game.link, 'update');
             state.update(16);
             expect(linkUpdateSpy).toHaveBeenCalledOnce();
