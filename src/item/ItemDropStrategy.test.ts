@@ -75,9 +75,10 @@ describe('ItemDropStrategy', () => {
             }
             const item = strategy.itemDropped(enemy);
             expect(item).toBeInstanceOf(Rupee);
-            if (item instanceof Rupee) {
-                expect(item.getRupeeCount()).toEqual(5);
+            if (!(item instanceof Rupee)) {
+                throw new Error('Expected an item drop of Rupee');
             }
+            expect(item.getRupeeCount()).toEqual(5);
         });
 
         it('cycles the drop table after 10 calls', () => {

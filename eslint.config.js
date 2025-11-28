@@ -5,6 +5,7 @@ import stylistic from '@stylistic/eslint-plugin';
 import vueEslintParser from 'vue-eslint-parser';
 import pluginVue from 'eslint-plugin-vue';
 import importPlugin from 'eslint-plugin-import';
+import vitest from '@vitest/eslint-plugin';
 
 export default [
     js.configs.recommended,
@@ -29,14 +30,13 @@ export default [
         },
 
         ignores: [
-            ".eslintrc.config.js",
-            "jest.config.js",
             "vite.config.js",
         ],
 
         plugins: {
             '@stylistic': stylistic,
             'import': importPlugin,
+            'vitest': vitest,
         },
 
         files: [
@@ -45,6 +45,7 @@ export default [
         ],
 
         rules: {
+            ...vitest.configs.recommended.rules,
             "no-unused-vars": 0,
             "@stylistic/array-bracket-spacing": ["error", "always"],
             "@stylistic/arrow-parens": ["error", "always"],
@@ -96,9 +97,23 @@ export default [
             "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
             semi: "off",
             "space-before-function-paren": ["error", "never"],
+            // Extra vitest lint rules not in the "recommended" set
+            "vitest/consistent-test-filename": ["error", { "pattern": ".*\\.test\\.ts$"}],
+            "vitest/consistent-test-it": ["error", { "fn": "it", "withinDescribe": "it" }],
+            "vitest/consistent-vitest-vi": "error",
+            "vitest/hoisted-apis-on-top": "error",
+            "vitest/no-alias-methods": "error",
+            "vitest/no-commented-out-tests": "error",
+            "vitest/no-duplicate-hooks": "error",
+            "vitest/no-standalone-expect": "off", // UI tests use expect() in beforeEach() to verify complex setup
+            "vitest/prefer-hooks-on-top": "error",
+            "vitest/prefer-import-in-mock": "error",
+            "vitest/prefer-mock-promise-shorthand": "error",
+            "vitest/prefer-spy-on": "error",
+            "vitest/prefer-strict-boolean-matchers": "error",
             "vue/html-indent": ["error", 4],
             // Needed for v-data-table "item.colName" renderer slots
-            "vue/valid-v-slot": [ "error", { allowModifiers: true } ]
+            "vue/valid-v-slot": [ "error", { allowModifiers: true } ],
         },
     },
 ];

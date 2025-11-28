@@ -45,7 +45,7 @@ describe('Moblin', () => {
             const ctx = game.getRenderingContext();
             expect(() => {
                 moblin.paint(ctx);
-            }).not.toThrowError();
+            }).not.toThrow();
         });
     });
 
@@ -69,7 +69,7 @@ describe('Moblin', () => {
             const moblin = new Moblin(game);
             expect(() => {
                 moblin.update();
-            }).not.toThrowError();
+            }).not.toThrow();
         });
 
         it('does not throw when a projectile is not being spawned', () => {
@@ -77,7 +77,7 @@ describe('Moblin', () => {
             const moblin = new Moblin(game);
             expect(() => {
                 moblin.update();
-            }).not.toThrowError();
+            }).not.toThrow();
         });
     });
 });

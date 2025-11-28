@@ -30,10 +30,10 @@ describe('ActionablePanel', () => {
     });
 
     it('renders the specified title', () => {
-        expect(screen.getByText('Test Title'));
+        expect(screen.getByText('Test Title')).toBeInTheDocument();
     });
 
     it('renders the child content', () => {
-        expect(screen.getByText('Hello world'));
+        expect(screen.getByText('Hello world')).toBeInTheDocument();
     });
 });

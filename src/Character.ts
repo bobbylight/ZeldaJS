@@ -16,4 +16,8 @@ export abstract class Character extends Actor {
         this.slideTick = 0;
         this.slidingDir = null;
     }
+
+    getSlidingDir(): Direction | null {
+        return this.slidingDir;
+    }
 }

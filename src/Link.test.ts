@@ -108,11 +108,11 @@ describe('Link', () => {
                     expect(mockPlaySound).toHaveBeenCalledExactlyOnceWith('linkHurt');
                 });
 
-                // it('makes Link slide in the direction the enemy is moving', () => {
-                //     enemy.dir = 'LEFT';
-                //     link.collidedWith(enemy);
-                //     expect(link.slidingDir).toEqual(enemy.dir);
-                // });
+                it('makes Link slide in the direction the enemy is moving', () => {
+                    enemy.dir = 'LEFT';
+                    link.collidedWith(enemy);
+                    expect(link.getSlidingDir()).toEqual(enemy.dir);
+                });
 
                 it('returns false', () => {
                     expect(link.collidedWith(enemy)).toEqual(false);
@@ -212,11 +212,11 @@ describe('Link', () => {
                     expect(mockPlaySound).toHaveBeenCalledExactlyOnceWith('linkHurt');
                 });
 
-                // it('makes Link slide in the direction the enemy is moving', () => {
-                //     enemy.dir = 'LEFT';
-                //     link.collidedWith(enemy);
-                //     expect(link.slidingDir).toEqual(enemy.dir);
-                // });
+                it('makes Link slide in the direction the projectile is moving', () => {
+                    projectile.dir = 'LEFT';
+                    link.collidedWith(projectile);
+                    expect(link.getSlidingDir()).toEqual(projectile.dir);
+                });
 
                 it('returns false', () => {
                     expect(link.collidedWith(projectile)).toEqual(false);
@@ -264,7 +264,7 @@ describe('Link', () => {
         });
 
         it('starts an animation', () => {
-            expect(link.anim).toBeFalsy();
+            expect(link.anim).toBeUndefined();
             link.enterCave(listener);
             expect(link.anim).toBeDefined();
         });
@@ -283,7 +283,7 @@ describe('Link', () => {
         });
 
         it('starts an animation', () => {
-            expect(link.anim).toBeFalsy();
+            expect(link.anim).toBeUndefined();
             link.exitCave(listener);
             expect(link.anim).toBeDefined();
         });
@@ -625,7 +625,7 @@ describe('Link', () => {
             expect(link.getRupeeCount()).toEqual(260);
         });
 
-        it.skip("won't go over the max rupee count", () => {
+        it.todo("won't go over the max rupee count", () => {
             link.incRupeeCount(1000);
             expect(link.getRupeeCount()).toEqual(999);
         });

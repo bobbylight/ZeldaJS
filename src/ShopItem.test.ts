@@ -73,7 +73,7 @@ describe('ShopItem', () => {
             const item = ShopItem.create(game, 'heart', 20, 0, 0);
             expect(() => {
                 item.update();
-            }).not.toThrowError();
+            }).not.toThrow();
         });
     });
 });

@@ -43,7 +43,7 @@ describe('store', () => {
         expect(store.state.currentScreenRow).toBe(2);
         expect(store.state.currentScreenCol).toBe(3);
         if (!store.state.currentScreen) { // Appease tsc
-            expect.fail('store.state.currentScreen is not set');
+            throw new Error('store.state.currentScreen is not set');
         }
         expect(mockScreen.enter).toHaveBeenCalledOnce();
     });

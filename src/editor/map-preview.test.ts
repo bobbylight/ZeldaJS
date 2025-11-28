@@ -23,9 +23,9 @@ const mocks = vi.hoisted(() => {
     };
 });
 
-vi.mock('vuex', () => ({
+vi.mock(import('vuex'), () => ({
     useStore: mocks.useStore,
-}));
+} as never));
 const mockGame = {
     map: {
         rowCount: 2,

@@ -24,9 +24,9 @@ const mocks = vi.hoisted(() => {
     };
 });
 
-vi.mock('vuex', () => ({
+vi.mock(import('vuex'), () => ({
     useStore: mocks.useStore,
-}));
+} as never));
 
 const vuetify = createVuetify();
 
@@ -65,7 +65,7 @@ describe('ScreenMisc', () => {
 
     // TODO: Figure out why this functionality works but this test fails
     /* eslint-disable  @typescript-eslint/unbound-method */
-    it.skip('updates music when currentScreen changes', async() => {
+    it.todo('updates music when currentScreen changes', async() => {
         const { rerender } = render(ScreenMisc, {
             global: {
                 plugins: [ vuetify ],

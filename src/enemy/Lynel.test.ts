@@ -45,7 +45,7 @@ describe('Lynel', () => {
             const ctx = game.getRenderingContext();
             expect(() => {
                 lynel.paint(ctx);
-            }).not.toThrowError();
+            }).not.toThrow();
         });
     });
 
@@ -69,7 +69,7 @@ describe('Lynel', () => {
             const lynel = new Lynel(game);
             expect(() => {
                 lynel.update();
-            }).not.toThrowError();
+            }).not.toThrow();
         });
 
         it('does not throw when a projectile is not being spawned', () => {
@@ -77,7 +77,7 @@ describe('Lynel', () => {
             const lynel = new Lynel(game);
             expect(() => {
                 lynel.update();
-            }).not.toThrowError();
+            }).not.toThrow();
         });
     });
 });

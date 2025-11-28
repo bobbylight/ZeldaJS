@@ -188,7 +188,7 @@ describe('Actor', () => {
             const screen = game.map.currentScreen;
             expect(() => {
                 actor.removedFromScreen(screen);
-            }).not.toThrowError();
+            }).not.toThrow();
         });
 
         it('calls the removal callback if specified', () => {

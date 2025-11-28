@@ -9,7 +9,7 @@ describe('Secrets', () => {
             defaultValue: true,
         });
 
-        expect(secrets.get('door')).toBeTruthy();
+        expect(secrets.get('door')).toEqual(true);
     });
 
     it('get() one-arg fails if unknown flag specified', () => {
@@ -26,8 +26,8 @@ describe('Secrets', () => {
             defaultValue: true,
         });
 
-        expect(secrets.get('door', false)).toBeTruthy();
-        expect(secrets.get('door')).toBeFalsy();
+        expect(secrets.get('door', false)).toEqual(true);
+        expect(secrets.get('door')).toEqual(false);
     });
 
     it('get() two-arg fails if unknown flag specified', () => {
@@ -51,7 +51,7 @@ describe('Secrets', () => {
         });
 
         secrets.reset();
-        expect(secrets.get('one')).toBeFalsy(); // Secret 'one' transient but not reset
-        expect(secrets.get('two')).toBeTruthy(); // Secret 'true' not transient but was reset
+        expect(secrets.get('one')).toEqual(false); // Secret 'one' transient but not reset
+        expect(secrets.get('two')).toEqual(true); // Secret 'true' not transient but was reset
     });
 });
