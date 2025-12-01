@@ -61,6 +61,7 @@ export default [
             "@stylistic/no-tabs": "error",
             "@stylistic/no-trailing-spaces": "error",
             "@stylistic/semi": ["error", "always"],
+            "@stylistic/space-infix-ops": "error",
             "@typescript-eslint/adjacent-overload-signatures": 0,
             "@typescript-eslint/explicit-module-boundary-types": 0, // We don't want to specify ": void" everywhere
             "@typescript-eslint/naming-convention": [
