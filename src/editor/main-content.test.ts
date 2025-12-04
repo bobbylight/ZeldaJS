@@ -119,19 +119,19 @@ describe('MainContent', () => {
 
     describe('when the left arrow key is pressed', () => {
         beforeEach(async() => {
-            const e = {key: 'ArrowLeft', which: 37, code: 'ArrowLeft'};
+            const e = { key: 'ArrowLeft', which: 37, code: 'ArrowLeft' };
             await fireEvent(document, new KeyboardEvent('keydown', e));
         });
 
         it('moves the current screen one to the left', () => {
             // Initial loading, then from the keypress
-            expect(mocks.useStore().commit).toHaveBeenLastCalledWith('setCurrentScreen', {row: 1, col: 0});
+            expect(mocks.useStore().commit).toHaveBeenLastCalledWith('setCurrentScreen', { row: 1, col: 0 });
         });
     });
 
     describe('when the right arrow key is pressed', () => {
         beforeEach(async() => {
-            const e = {key: 'ArrowRight', which: 39, code: 'ArrowRight'};
+            const e = { key: 'ArrowRight', which: 39, code: 'ArrowRight' };
             await fireEvent(document, new KeyboardEvent('keydown', e));
         });
 
@@ -143,7 +143,7 @@ describe('MainContent', () => {
 
     describe('when the up arrow key is pressed', () => {
         beforeEach(async() => {
-            const e = {key: 'ArrowUp', which: 38, code: 'ArrowUp'};
+            const e = { key: 'ArrowUp', which: 38, code: 'ArrowUp' };
             await fireEvent(document, new KeyboardEvent('keydown', e));
         });
 
@@ -155,7 +155,7 @@ describe('MainContent', () => {
 
     describe('when the down arrow key is pressed', () => {
         beforeEach(async() => {
-            const e = {key: 'ArrowDown', which: 40, code: 'ArrowDown'};
+            const e = { key: 'ArrowDown', which: 40, code: 'ArrowDown' };
             await fireEvent(document, new KeyboardEvent('keydown', e));
         });
 

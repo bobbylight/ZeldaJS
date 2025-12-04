@@ -60,6 +60,7 @@ export default [
             "@stylistic/no-multi-spaces": "error",
             "@stylistic/no-tabs": "error",
             "@stylistic/no-trailing-spaces": "error",
+            "@stylistic/object-curly-spacing": ["error", "always"],
             "@stylistic/semi": ["error", "always"],
             "@stylistic/space-infix-ops": "error",
             "@typescript-eslint/adjacent-overload-signatures": 0,
