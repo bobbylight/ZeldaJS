@@ -40,8 +40,8 @@ describe('EnemySelector', () => {
 
         beforeEach(() => {
             wrapper = render(EnemySelector, {
-                props: {game: mockGame, modelValue},
-                global: {plugins: [ vuetify ]},
+                props: { game: mockGame, modelValue },
+                global: { plugins: [ vuetify ] },
             });
         });
 
@@ -129,8 +129,8 @@ describe('EnemySelector', () => {
 
         beforeEach(() => {
             wrapper = render(EnemySelector, {
-                props: {game: mockGame, modelValue},
-                global: {plugins: [ vuetify ]},
+                props: { game: mockGame, modelValue },
+                global: { plugins: [ vuetify ] },
             });
         });
 

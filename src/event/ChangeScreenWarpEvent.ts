@@ -1,4 +1,4 @@
-import { Event, EventData, EventResult} from './Event';
+import { Event, EventData, EventResult } from './Event';
 import { ZeldaGame } from '@/ZeldaGame';
 import { AnimationListener } from '@/AnimationListener';
 import { Animation } from '@/Animation';
