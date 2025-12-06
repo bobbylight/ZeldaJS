@@ -7,7 +7,7 @@ import { RowColumnPair } from '@/RowColumnPair';
 // Initialize the game declared in zelda.ts
 const createGame: () => ZeldaGame = () => {
     const parent: HTMLDivElement = document.createElement('div');
-    return window.game = new ZeldaGame({
+    return new ZeldaGame({
         assetRoot: undefined,
         height: CANVAS_HEIGHT,
         keyRefreshMillis: 300,
