@@ -37,7 +37,7 @@ describe('LoadingState', () => {
             state.assetsLoaded = false;
             const addImageSpy = vi.spyOn(game.assets, 'addImage');
             const onLoadSpy = vi.spyOn(game.assets, 'onLoad');
-            state.enter(game);
+            state.enter();
             state.update(16);
             expect(state.assetsLoaded).toEqual(true);
             expect(addImageSpy).toHaveBeenCalledWith('loading', 'res/loadingMessage.png');
@@ -47,7 +47,7 @@ describe('LoadingState', () => {
         it('does not reload assets if already loaded', () => {
             state.assetsLoaded = true;
             const addImageSpy = vi.spyOn(game.assets, 'addImage');
-            state.enter(game);
+            state.enter();
             state.update(16);
             expect(addImageSpy).not.toHaveBeenCalled();
         });
@@ -78,7 +78,7 @@ describe('LoadingState', () => {
             });
 
             it('loads all game resources', () => {
-                state.enter(game);
+                state.enter();
                 state.update(16);
 
                 expect(addImageSpy).toHaveBeenCalledWith('title', 'res/title.png');
@@ -122,13 +122,13 @@ describe('LoadingState', () => {
                     });
 
                     it('starts a new game', () => {
-                        state.enter(game);
+                        state.enter();
                         state.update(16);
                         expect(startNewGameSpy).toHaveBeenCalledOnce();
                     });
 
                     it('sets state to CurtainOpeningState with MainGameState', () => {
-                        state.enter(game);
+                        state.enter();
                         state.update(16);
                         expect(setStateSpy).toHaveBeenCalledOnce();
                         const arg = setStateSpy.mock.calls[0][0];
@@ -140,14 +140,14 @@ describe('LoadingState', () => {
             describe('when the query param to skip the title is not present', () => {
                 it('does not start a new game directly', () => {
                     vi.spyOn(Utils, 'getRequestParam').mockReturnValue(null);
-                    state.enter(game);
+                    state.enter();
                     state.update(16);
                     expect(startNewGameSpy).not.toHaveBeenCalled();
                 });
 
                 it('sets state to FadeOutInState', () => {
                     vi.spyOn(Utils, 'getRequestParam').mockReturnValue(null);
-                    state.enter(game);
+                    state.enter();
                     state.update(16);
                     expect(setStateSpy).toHaveBeenCalled();
                     const arg = setStateSpy.mock.calls[0][0];

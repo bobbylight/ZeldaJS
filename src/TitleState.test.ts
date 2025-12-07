@@ -28,7 +28,7 @@ describe('TitleState', () => {
     describe('enter()', () => {
         it('adds a touch listener to the canvas', () => {
             const addEventListenerSpy = vi.spyOn(game.canvas, 'addEventListener');
-            state.enter(game);
+            state.enter();
             expect(addEventListenerSpy).toHaveBeenCalledOnce();
         });
     });
@@ -36,7 +36,7 @@ describe('TitleState', () => {
     describe('leaving()', () => {
         it('removes the touch listener from the canvas', () => {
             const removeEventListenerSpy = vi.spyOn(game.canvas, 'removeEventListener');
-            state.leaving(game);
+            state.leaving();
             expect(removeEventListenerSpy).toHaveBeenCalledOnce();
         });
     });
@@ -108,7 +108,7 @@ describe('TitleState', () => {
 
             it('starts the game', () => {
                 const spy = vi.spyOn(game, 'startNewGame').mockImplementation(() => {});
-                state.enter(game);
+                state.enter();
                 vi.spyOn(game, 'playTime', 'get').mockReturnValue(game.playTime + 1000);
                 state.update(16);
                 expect(spy).toHaveBeenCalledOnce();
