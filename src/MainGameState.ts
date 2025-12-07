@@ -4,7 +4,6 @@ import { HUD_HEIGHT, SCREEN_HEIGHT, SCREEN_WIDTH, TILE_HEIGHT, TILE_WIDTH } from
 import { BaseState } from './BaseState';
 import { Screen } from './Screen';
 import { Map } from './Map';
-import { ZeldaGame } from './ZeldaGame';
 import { ChangeScreenWarpEvent } from './event/ChangeScreenWarpEvent';
 import { Event, EventData } from './event/Event';
 import { InventoryState } from '@/InventoryState';
@@ -48,8 +47,8 @@ export class MainGameState extends BaseState {
         this.screenSlidingAmount = SCREEN_SLIDING_INC;
     }
 
-    override enter(game: ZeldaGame) {
-        super.enter(game);
+    override enter() {
+        super.enter();
         // this.game.inputManager.setResetKeyStateOnPoll(false);
 
         const music: string | null | undefined = this.game.map.currentScreenMusic;

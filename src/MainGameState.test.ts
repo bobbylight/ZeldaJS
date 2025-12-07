@@ -110,20 +110,20 @@ describe('MainGameState', () => {
 
         it('plays the screen music if set and not "none"', () => {
             game.map.currentScreen.music = 'labyrinth';
-            state.enter(game);
+            state.enter();
             expect(mockPlayMusic).toHaveBeenCalledWith('labyrinth', true);
         });
 
         it('does not play music if set to "none"', () => {
             game.map.currentScreen.music = 'none';
-            state.enter(game);
+            state.enter();
             expect(mockPlayMusic).not.toHaveBeenCalled();
         });
 
         [ null, undefined ].forEach((music) => {
             it(`plays the map default music if set to ${music}`, () => {
                 game.map.currentScreen.music = music;
-                state.enter(game);
+                state.enter();
                 expect(mockPlayMusic).toHaveBeenCalledExactlyOnceWith('overworld', true);
             });
         });
@@ -253,7 +253,7 @@ describe('MainGameState', () => {
 
         it('calls link.handleInput if not sliding and no greeting is being typed', () => {
             const handleInputSpy = vi.spyOn(game.link, 'handleInput').mockImplementation(() => false);
-            state.enter(game);
+            state.enter();
             state.update(16);
             expect(handleInputSpy).toHaveBeenCalledWith(game.inputManager);
         });
@@ -261,7 +261,7 @@ describe('MainGameState', () => {
         it('does not call link.handleInput a greeting is being typed', () => {
             vi.spyOn(game.map.currentScreen, 'isGreetingBeingTyped').mockReturnValue(true);
             const handleInputSpy = vi.spyOn(game.link, 'handleInput').mockImplementation(() => false);
-            state.enter(game);
+            state.enter();
             state.update(16);
             expect(handleInputSpy).not.toHaveBeenCalled();
         });
@@ -277,7 +277,7 @@ describe('MainGameState', () => {
             vi.spyOn(game.inputManager, 'isKeyDown')
                 .mockImplementation((key: Keys) => key === Keys.KEY_SHIFT || key === Keys.KEY_S);
             const setMapSpy = vi.spyOn(game, 'setMap').mockImplementation(() => {});
-            state.enter(game);
+            state.enter();
             state.update(16);
             expect(setMapSpy).toHaveBeenCalledOnce();
             expect(setStatusMessageSpy).toHaveBeenCalledExactlyOnceWith('Warped to: start screen');
@@ -287,7 +287,7 @@ describe('MainGameState', () => {
             vi.spyOn(game.inputManager, 'isKeyDown')
                 .mockImplementation((key: Keys) => key === Keys.KEY_SHIFT || key === Keys.KEY_1);
             const setMapSpy = vi.spyOn(game, 'setMap').mockImplementation(() => {});
-            state.enter(game);
+            state.enter();
             state.update(16);
             expect(setMapSpy).toHaveBeenCalledOnce();
             expect(setStatusMessageSpy).toHaveBeenCalledExactlyOnceWith('Warped to: Level 1');
@@ -297,7 +297,7 @@ describe('MainGameState', () => {
             vi.spyOn(game.inputManager, 'isKeyDown')
                 .mockImplementation((key: Keys) => key === Keys.KEY_SHIFT || key === Keys.KEY_W);
             const spy = vi.spyOn(game.link, 'toggleSwordThrowingStrategy');
-            state.enter(game);
+            state.enter();
             state.update(16);
             expect(spy).toHaveBeenCalledOnce();
             expect(setStatusMessageSpy).toHaveBeenCalledExactlyOnceWith('Set sword throwing strategy to always');
